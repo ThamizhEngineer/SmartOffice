@@ -1,0 +1,215 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+                <h4 class="text-themecolor">Job Request</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+                <div class="d-flex justify-content-end align-items-center">
+                        <ol class="breadcrumb">
+                                <li class="breadcrumb-item">Job Request</li>
+                                <li class="breadcrumb-item active">Job Request List</li>
+                        </ol>
+                        <div *ngIf="vacancyReq.id==null">
+                                <button type="button" class="btn btn-info d-none d-lg-block m-l-15"
+                                        (click)="addVacancyRequest()" [disabled]="!myGroup.valid">Save</button>
+                        </div>
+
+                        <div *ngIf="vacancyReq.id!=null && vacancyReq.status=='PENDING-APPROVAL' && view=='HR'">
+                                <button type="button" class="btn btn-warning d-none d-lg-block m-l-15"
+                                        (click)="updateVacancyRequest('update')">Update</button>
+                        </div>
+                        <div *ngIf="vacancyReq.id!=null && vacancyReq.status=='OPEN' && view=='HR'">
+                                <button type="button" class="btn btn-info d-none d-lg-block m-l-15"
+                                        (click)="updateVacancyRequest('freeze')">Freeze</button>
+                        </div>
+                        <div *ngIf="vacancyReq.id!=null && vacancyReq.status!='CLOSED' && view=='HR'">
+                                <button type="button" class="btn btn-danger d-none d-lg-block m-l-15"
+                                        (click)="updateVacancyRequest('close')">Close</button>
+                        </div>
+                        <div *ngIf="vacancyReq.id!=null && vacancyReq.status=='FREEZE' && view=='HR'">
+                                <button type="button" class="btn btn-success d-none d-lg-block m-l-15"
+                                        (click)="updateVacancyRequest('unfreeze')">Open</button>
+                        </div>
+                        <div *ngIf="vacancyReq.id!=null && vacancyReq.status!='OPEN' && view=='DIR'">
+                                <button type="button" class="btn btn-warning d-none d-lg-block m-l-15"
+                                        (click)="updateVacancyRequest('approve')">Approve</button>
+                        </div>
+                        <div *ngIf="view=='HR'">
+                                <button type="button" class="btn btn-info d-none d-lg-block m-l-15"
+                                        [routerLink]="['/recruitment/job-request/']">Back</button>
+                        </div>
+                        <div *ngIf="view=='DIR'">
+                                <button type="button" class="btn btn-info d-none d-lg-block m-l-15"
+                                        [routerLink]="['/director/job-request/']">Back</button>
+                        </div>
+
+                </div>
+        </div>
+</div>
+
+<div class="row">
+        <div class="col-12">
+                                <flag-alert [message]="saveMsg"></flag-alert>
+                <div class="card">
+                        <div class="card-body">
+                                <div class="row">
+                                        <div class="form-group col-3">
+                                                <label>Code</label><br />
+                                                <span class="label label-default">{{vacancyReq.vrCode}} </span>
+                                        </div>
+                                        <div *ngIf="view=='HR'" class="form-group col-3">
+                                                <form [formGroup]="myGroup">
+                                                        <label>Job Description</label>
+                                                        <input style="border: 1px solid grey;" id="typeahead-focus" type="text" class="form-control"
+                                                                [ngbTypeahead]="profileAC" [resultTemplate]="rt1"
+                                                                [inputFormatter]="formatter"
+                                                                placeholder="Job Description"
+                                                                (selectItem)="vacancyDescSelect($event)"
+                                                                [value]="vacancyReq.summary"
+                                                                [focusFirst]=true
+                                                                [showHint]=true
+                                                                formControlName="summary"
+                                                                (focus)="focus$.next($any($event).target.value)"
+                                                                (click)="click$.next($any($event).target.value)"
+                                                                #instance="ngbTypeahead">
+
+                                                        <ng-template #rt1 let-r="result" let-t="term">
+                                                                {{r.summary}}
+                                                        </ng-template>
+                                                </form>
+                                        </div>
+
+
+                                        <div *ngIf="view=='DIR'" class="form-group col-3">
+                                                <label class="textColor">Job Description</label> <br />
+                                                <span class="text">{{vacancyReq.summary}}</span>
+                                        </div>
+
+                                        <div *ngIf="view=='HR'" class="form-group col-3">
+                                                <form [formGroup]="myGroup">
+                                                        <label>Head Count</label>
+                                                        <input type="number" class="form-control form-control-line"
+                                                                [(ngModel)]="vacancyReq.vacancyCount" name="count"
+                                                                formControlName="vacancyCount" placeholder="Head Count">
+                                                </form>
+                                        </div>
+                                        <div *ngIf="view=='DIR'" class="form-group col-3">
+                                                <label class="textColor">Head Count</label> <br />
+                                                <span class="text">{{vacancyReq.vacancyCount}}</span>
+                                        </div>
+                                        <div *ngIf="view=='HR'" class="form-group col-3">
+                                                <form [formGroup]="myGroup">
+                                                        <label>Remarks</label>
+                                                        <input type="text" class="form-control form-control-line"
+                                                                [(ngModel)]="vacancyReq.remarks" name="remarks"
+                                                                formControlName="remarks" placeholder="remarks">
+                                                </form>
+                                        </div>
+
+                                        <div *ngIf="view=='DIR'" class="form-group col-3">
+                                                <label class="textColor">Remarks</label> <br />
+                                                <span class="text">{{vacancyReq.remarks}}</span>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+
+                <div *ngIf="vacancyReq.vdId!=null" class="card">
+                        <div class="card-body">
+                                <h3 class="card-title"> <span class="text">{{vacancyDesc.vrCode}} &nbsp;
+                                                {{vacancyDesc.summary}}</span></h3>
+                                <div class="row">
+                                        <div class="form-group col-3">
+                                                <label class="textColor">Designation</label><br />
+                                                <span class="text">{{vacancyDesc.designation}}</span>
+                                        </div>
+                                        <div *ngIf="view=='HR'" class="form-group col-3">
+                                                <label class="textColor">Years Of Experience</label><br />
+                                                <input type="text" class="form-control form-control-line"
+                                                        [(ngModel)]="vacancyReq.yearsOfExp"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                        placeholder="Year Of Experience">
+                                        </div>
+                                        <div *ngIf="view=='DIR'" class="form-group col-3">
+                                                <label class="textColor">Years Of Experience</label> <br />
+                                                <span class="text">{{vacancyReq.yearsOfExp}}</span>
+                                        </div>
+                                        <div *ngIf="view=='HR'" class="form-group col-3">
+                                                <label class="textColor">Location</label><br />
+                                                <input type="text" class="form-control form-control-line"
+                                                        [(ngModel)]="vacancyReq.location"
+                                                        [ngModelOptions]="{standalone: true}" placeholder="Location">
+                                        </div>
+                                        <div *ngIf="view=='DIR'" class="form-group col-3">
+                                                <label class="textColor">Location</label> <br />
+                                                <span class="text">{{vacancyReq.location}}</span>
+                                        </div>
+                                        <div *ngIf="view=='HR'" class="form-group col-3">
+                                                <label class="textColor">Salary</label><br />
+                                                <input type="text" class="form-control form-control-line"
+                                                        [(ngModel)]="vacancyReq.salary"
+                                                        [ngModelOptions]="{standalone: true}" placeholder="Salary">
+                                        </div>
+                                        <div *ngIf="view=='DIR'" class="form-group col-3">
+                                                <label class="textColor">Salary</label> <br />
+                                                <span class="text">{{vacancyReq.salary}}</span>
+                                        </div>
+                                </div>
+                                <div class="row">
+                                        <div class="form-group col-6">
+                                                <label class="textColor">Roles</label><br />
+                                                <span class="text">{{vacancyDesc.role}}</span>
+                                        </div>
+
+                                        <div class="form-group col-6">
+                                                <label class="textColor">Responsibility</label><br />
+                                                <span class="text">{{vacancyDesc.responsibility}}</span>
+                                        </div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="form-group col-6">
+                                                <label class="textColor">Qualification</label><br />
+                                                <span class="text">{{vacancyDesc.qualification}}</span>
+                                        </div>
+                                        <div class="form-group col-6">
+                                                <label class="textColor">Experience</label><br />
+                                                <span class="text">{{vacancyDesc.experience}}</span>
+                                        </div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="form-group col-6">
+                                                <label class="textColor">Functionality Skills:</label><br />
+                                                <table>
+                                                        <tbody>
+                                                                <tr
+                                                                        *ngFor="let item of getFunctionalSkills; let i=index">
+                                                                        <td>{{item.name}}</td>
+
+                                                                </tr>
+                                                        </tbody>
+                                                </table>
+                                        </div>
+                                        <div class="form-group col-6">
+                                                <label class="textColor">Behavioural Skills:</label><br />
+                                                <table>
+                                                        <tbody>
+                                                                <tr
+                                                                        *ngFor="let item of getBehavioralSkills; let i=index">
+                                                                        <td>{{item.name}}</td>
+
+                                                                </tr>
+                                                        </tbody>
+                                                </table>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+
+<style>
+        .textColor {
+                color: #0000FF;
+        }
+</style>

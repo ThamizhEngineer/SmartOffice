@@ -1,0 +1,38 @@
+package com.ss.smartoffice.soservice.master.abilityservice;
+
+import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Data;
+
+@Entity
+@Table(name="m_service")
+
+@Data
+public class Ability {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	private String serviceCode;
+	private String serviceName;
+	private String serviceDescription;
+	private String isEnabled;
+	private String createdBy;
+	private String modifiedBy;
+	@CreationTimestamp
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime createdDt;
+	@UpdateTimestamp
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime modifiedDt;
+}

@@ -1,0 +1,124 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Fiscal Year</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item active">Fiscal Year </li>
+			</ol>
+			<a href="javascript:void(0);" (click)="newFY();"><button type="button" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i>  Create New</button></a>
+		</div>
+	</div>
+</div>
+    
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+			   <flag-alert [message]="saveMsg"></flag-alert>
+			   
+			   <div class="table-responsive m-t-10">
+					<table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table">
+						<thead>
+							<tr>
+								<th>FY Code</th>
+								<th>From Date</th>
+								<th>To Date</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let fy of rows | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+								<td>{{fy.fiscalCode}}</td>
+								<td>{{fy.fromDt | date : 'dd-MM-yyyy'}}</td>
+								<td>{{fy.toDt | date : 'dd-MM-yyyy'}}</td>
+								<td class="text-nowrap">
+									<a title="Edit" [routerLink]="['/org-settings/fiscal-year/', fy.id]"> <i class="fa fa-pencil m-r-10 text-warning"></i> </a>
+									<a href="javascript:void(0)" title="Delete" (click)="deleteFY(fy);"> <i class="fa fa-close text-danger"></i> </a>
+								</td>
+							</tr>
+					</table>
+				</div>
+				<ngb-pagination 
+				[(page)]="page"
+				[pageSize]="pageSize"
+				[collectionSize]="rows?.length"></ngb-pagination>
+				<pre>Current page: {{page}}</pre>
+			</div>
+		</div>
+	</div>
+</div>
+    
+<ng-template #cdelete let-c="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Are you sure want to Delete?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+ <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="confirmDelete(modalData)">OK</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #cedit let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">{{isEdit? "Update" : "Create"}} Fiscal Year</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="control-label">FY Code</label>
+					<input type="text" class="form-control" [(ngModel)]="modalData.fiscalCode" placeholder="Fiscal Code" readonly/>
+				</div>
+			</div>
+			
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="control-label">FY Prefix</label>
+					<input type="text" class="form-control" [(ngModel)]="modalData.fyPrefix" placeholder="Fiscal Prefix" readonly/>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="control-label">From Date</label>
+					<div class="input-group">
+						<input type="date" class="form-control" (ngModelChange)="checkDates();" [(ngModel)]="modalData.fromDt">
+						<!-- <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="sdate" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="updateDate($event, modalData, 'fromDt');checkDates();">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+						</div>			   -->
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="control-label">To Date</label>
+					<div class="input-group">
+						<input type="date" class="form-control" (ngModelChange)="checkDates();" [(ngModel)]="modalData.toDt">
+						<!-- <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="edate" ngbDatepicker #d1="ngbDatepicker" (ngModelChange)="updateDate($event, modalData, 'toDt');checkDates();">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+						</div>			   -->
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="updateFY(modalData)">{{isEdit? "Update" : "Create"}} Fiscal Year</button>
+		<button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+	</div>
+</ng-template>

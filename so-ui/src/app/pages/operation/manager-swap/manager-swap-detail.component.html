@@ -1,0 +1,126 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Manager Swap</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+				<li class="breadcrumb-item active">Manager Swap</li>
+			</ol>
+			
+		</div>
+	</div>
+</div>
+
+
+<div>
+    			
+        <div class="card">
+
+              
+     <div class="form-group center2">
+         
+        <label>Manager: <autocomplete  [placeholder]="'Manager'"   [value]="empName" (empDetail)="managerInterviewer($event)"> </autocomplete>
+            <!-- <select class="form-control" style="width:300px" [disabled]="isMan" [ngModelOptions]="{standalone: true}" [(ngModel)]="managerSwap.existingId" [ngModelOptions]="{standalone: true}" placeholder="managerId" >
+            <option *ngFor="let item of managerList1" [value]="item.id">{{item.empName}}</option>
+        </select> -->
+    </label>
+        
+    <button type="submit" class="btn btn-info waves-effect waves-light mr-1 padding2" (click)="fetchTeam(managerSwap.existingId)">Fetch Team</button>
+
+    <button type="submit" class="btn btn-outline-dark waves-effect waves-light mr-1 padding2" (click)="reset()">Reset</button>
+
+    <button type="submit" class="btn btn-info waves-effect waves-light mr-1 padding2" (click)="swapEmployee(managerSwap.existingId,managerSwap.m1Id,managerSwap.m2Id)">Swap Role</button>
+        
+
+</div>
+</div>
+
+
+<flag-alert [message]="saveMsg"></flag-alert>
+
+<div class="row">
+
+ 
+<div *ngIf="manager==true" class="card card-body custom-card">
+<div class="row m-t-25 center text-center">
+        <ng-container>
+        <div class="col-5 table-responsive">
+            <h4>N+1&nbsp; <autocomplete  [placeholder]="'managerId'"   [value]="e1Name" (empDetail)="N1Selected($event)"> </autocomplete>
+                <!-- <select class="form-control padding3" style="width:300px" [ngModelOptions]="{standalone: true}" [(ngModel)]="managerSwap.m1Id" [ngModelOptions]="{standalone: true}" placeholder="managerId" >
+                <option *ngFor="let item of managerList2" [value]="item.id">{{item.empName}}</option>
+            </select> -->
+        </h4>
+            
+            <table class="table color-bordered-table theme-bordered-table">
+                    <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>N+1 Change</th>
+                                <th>EmpCode</th>
+                                <th><div class="custom-control custom-checkbox">
+                                    <input type="checkbox"  [(ngModel)]="masterSelected" (change)="checkUncheckAll()"></div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of managerDetail | slice: (page1-1) * pageSize1 : (page1-1) * pageSize1 + pageSize1; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{item.empName}}</td>
+                                <td>{{item.empCode}}</td>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" [(ngModel)]="item.selected" (change)="isAllSelected()" ></div>
+                                    </td> 
+                            </tr>
+                        </tbody>
+            </table>
+            <ngb-pagination 
+            [(page)]="page1"
+            [pageSize]="pageSize1"
+            [collectionSize]="managerDetail.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>
+        </div>
+        </ng-container>
+        <div class="padding"></div>
+        <ng-container *ngIf="manager==true">
+        <div class="col-5 table-responsive">
+            <h4>N+2&nbsp;<autocomplete  [placeholder]="'managerId'"   [value]="e2Name" (empDetail)="N2Selected($event)"> </autocomplete>
+                <!-- <select class="form-control padding3" style="width:300px" [ngModelOptions]="{standalone: true}" [(ngModel)]="managerSwap.m2Id" [ngModelOptions]="{standalone: true}" placeholder="managerId" >
+                <option *ngFor="let item of managerList2" [value]="item.id">{{item.empName}}</option>
+            </select> -->
+        </h4>
+            
+            <table class="table color-bordered-table theme-bordered-table">
+                    <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>N+2 Change</th>
+                                <th>EmpCode</th>
+                                <th><div class="custom-control custom-checkbox"><input type="checkbox" [(ngModel)]="masterSelected2" (change)="checkUncheckAll()"></div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of reviewManagers | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{item.empName}}</td>
+                                <td>{{item.empCode}}</td>
+                                <td><div class="custom-control">
+                                        <input type="checkbox" class="custom-checkbox"  value="{{item.id}}" [(ngModel)]="item.rselected" (change)="isAllSelected()" ></div></td> 
+                            </tr>
+                            
+                        </tbody>
+            </table>
+            <ngb-pagination 
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="reviewManagers.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>
+        </div></ng-container>
+    </div>
+</div>
+    </div>
+</div>
+

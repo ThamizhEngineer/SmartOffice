@@ -1,0 +1,337 @@
+[
+{
+  "name": "Dashboard",
+  "state": "index",
+  "type": "link",
+  "icon": "icon-speedometer",
+  "roles": ["E","SU","PCP","D","N1","N2","ACC1","ACC2","HR1","HR2","C"]
+},
+{
+  "name": "My Space",
+  "state": "my-space",
+  "type": "sub",
+  "icon": "icon-user",
+  "roles": ["E","SU", "PCP","D","N1","N2","ACC1","ACC2","HR1","HR2"],
+  
+  "children": [
+    {"state": "my-profile", "name": "My Profiles", "type":"link", "roles": ["E","SU", "PCP","D","N1","N2","ACC1","ACC2","HR1","HR2"]},
+    {"state": "my-skill", "name": "My Skills", "type":"link", "roles": ["E","SU","D","N1","N2","ACC1","ACC2","HR1","HR2"]},
+		{"state": "calendar", "name": "My Calendar", "type":"link", "roles": ["E","SU","D","N1","N2","ACC1","ACC2","HR1","HR2"]},
+		{"state": "payslips", "name": "My Payslips", "type":"link", "roles": ["E","SU","D","N1","N2","ACC1","ACC2","HR1","HR2"]},
+		{"state": "my-leave", "name": "My Leaves", "type":"link", "roles": ["E","SU","D","N1","N2","ACC1","ACC2","HR1","HR2"]},
+    {"state": "expense-claim", "name": "My Claims", "type":"link", "roles": ["E","SU","D","N1","N2","ACC1","ACC2","HR1","HR2"]},
+    {"state": "my-tar-request", "name": "My Advance Requests", "type":"link", "roles": ["E","SU","D","N1","N2","ACC1","ACC2","HR1","HR2"]},
+    {"state": "appraisal", "subState":"emp" , "name": "My Appraisal", "type":"array", "roles": ["E","SU","D","N1","N2","ACC1","ACC2","HR1","HR2"]},
+    {"state": "appraisal-review","subState":"emp-view", "name": "Appraisal-review", "type":"array", "roles": ["E","SU","D","N1","N2","ACC1","ACC2","HR1","HR2"]},
+    {"state": "training","subState":"view", "name": "My Trainings", "type":"array", "roles": ["E","SU","D","N1","N2","ACC1","ACC2","HR1","HR2"]},
+    {"state": "shift-request","subState":"emp", "name": "My Shift Request", "type":"array", "roles": ["E","SU","D","N1","N2","ACC1","ACC2","HR1","HR2"]}
+    ]
+},
+{
+  "name": "Director",
+  "state": "director",
+  "type": "sub",
+  "icon": " icon-notebook",
+  "roles": ["SU","D"],
+  
+  "children": [
+    {"state": "on-board-profile", "name": "Employee Profile", "type":"link", "roles": ["SU","D"]},    
+    {"state": "tar-list", "name": "Travel Advance", "type":"link", "roles": ["SU","D"]},
+    {"state": "job-request","name": "Job Request-Approval", "type":"link", "roles": ["SU","D"]},
+    {"state": "employee-service-record", "name": "Employee Service Record", "type":"link", "roles":["SU","D"]},
+    {"state": "appraisal","subState":"dir", "name": "Appraisal", "type":"array", "roles": ["SU","D"]},
+    {"state": "appraisal-review","subState":"dir-view", "name": "Appraisal-review", "type":"array", "roles": ["SU","D"]},
+    {"state": "skill-analysis", "name": "Skill Matrix", "type":"link", "roles": ["SU","D"]}
+    ]
+},
+{
+  "name": "My Task",
+  "state": "my-task",
+  "type": "sub",
+  "icon": " icon-notebook",
+  "roles": ["SU","N1","N2"],
+  
+  "children": [
+    {"state": "my-tar-n1", "name": "Travel Advances - Approval", "type":"link", "roles": ["N1"]},
+    {"state": "leave-approvel", "name": "Leaves - Approval", "type":"link", "roles": ["SU","N1","N2"]},
+    {"state": "n1-expense-approval", "name": "Claims - Approval", "type":"link", "roles": ["SU","N1","N2"]},
+    {"state": "my-team-skill", "name": "Team skills - Validation", "type":"link", "roles": ["SU","N1","N2"]},
+    {"state": "appraisal","subState":"n1", "name": "Appraisal", "type":"array", "roles": ["SU","N1","N2"]},
+    {"state": "appraisal-review","subState":"n1-view", "name": "Appraisal-review", "type":"array", "roles": ["SU","N1","N2"]},
+    {"state": "training","subState":"assign", "name": "Assign Trainings", "type":"array", "roles": ["SU","D","N1","N2"]},
+    {"state": "exit-interview","subState":"n1", "name": "Exit Clearance Approval", "type":"array", "roles": ["SU","N1"]},
+    {"state": "shift-request","subState":"manager", "name": "Shift Change Request", "type":"array", "roles": ["SU","N1","N2"]}
+    ]
+},
+{
+  "name": "Jobs",
+  "state": "job",
+  "type": "sub",
+  "icon": "icon-wrench",
+  "roles": ["SU","N1","N2"],
+
+  "children": [
+      {"state":"job-type", "name": "Job Type Master", "type":"link", "roles": ["SU","N1"]},
+      {"state": "service-master", "name": "Service Master", "type":"link", "roles": ["SU","N1"]},
+      {"state": "task-type", "name": "Task Type", "type":"link", "roles": ["SU","N1"]},
+      {"state": "service-bundle", "name": "Service Types for SO", "type":"link", "roles": ["SU","N1"]},
+      {"state": "manufacturer", "name": "Manufacturer", "type":"link", "roles": ["SU","N1"]},
+      {"state": "material-master", "name": "Material Master", "type":"link", "roles": ["SU","N1"]},
+      {"state": "profile-master", "name": "Profile Master", "type":"link","roles": ["SU","N1"]},
+      {"state": "temp-job", "name": "Job Codes", "type":"link","roles": ["SU","N1","N2"]},
+      {"state": "business-units", "name": "Business Units", "type":"link", "roles": ["SU","N1"]}
+
+        ]
+},
+{
+  "name": "Job Management",
+  "state": "job",
+  "type": "sub",
+  "icon": "icon-wrench",
+  "roles": ["SU","N1"],
+
+  "children": [
+      {"state":"job-list", "name": "Job List", "type":"link", "roles": ["SU","N1"]},
+      {"state":"client-po", "name": "Client Purchase Orders", "type":"link", "roles": ["SU","N1"]},
+      {"state":"sale-order", "name": "Sale Order", "type":"link", "roles": ["SU","N1"]},
+      {"state":"project","name": "Project","type":"link","roles": ["SU","N1"]},
+      {"state":"job-plan", "name": "Job Plan", "type":"link", "roles": ["SU"]},
+      {"state":"resource-scheduler","name":"Job Logistics","type":"link", "roles": ["SU"]},
+      {"state":"track-jobs", "name": "Job Tracker", "type":"link", "roles": ["SU"]},
+      {"state": "job-status", "name": "Job Status", "type":"link", "roles": ["SU"]},
+      {"state": "job-report", "name": "Job Report", "type":"link", "roles": ["SU"]},
+      {"state": "job-feedback", "name": "Job Feedback", "type":"link", "roles": ["SU"]},
+      {"state": "site-location", "name": "Site Location", "type":"link", "roles": ["SU","N1"]} 
+
+    ]
+},
+{
+  "name": "Client Management",
+  "state": "client",
+  "type": "sub",
+  "icon": "icon-user",
+  "roles": ["SU","C","HR1","HR2","D","ACC1","ACC2"],
+  "children": [
+    {"state": "my-space-client", "name": "My Space", "type":"link",  "roles": ["SU","C"]},
+    {"state": "client-profile", "name": "Client Profile", "type":"link",  "roles": ["SU","HR1","HR2"]},
+    {"state": "job-feedback", "name": "Job Feedback", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "item-master", "name": "Item Master", "type":"link", "roles": ["SU","HR1","HR2","ACC1","ACC2"]},
+    {"state": "invoice", "name": "Invoice", "type":"link", "roles": ["SU","HR1","HR2","D","ACC1","ACC2"]},
+    {"state": "invoice-payment", "name": "Invoice Payment", "type":"link", "roles": ["SU","HR1","HR2","ACC1","ACC2"]},
+    {"state": "job-feedback", "name": "Job Feedback", "type":"link", "roles": ["SU","HR1","HR2"]}
+
+  ]
+},
+{
+  "name": "Vendor",
+  "state": "vendor",
+  "type": "sub",
+  "icon": "icon-user",
+  "roles": ["SU","HR1","HR2"],
+  "children": [
+    {"state": "vendor-profile", "name": "Vendor Profile", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state":"purchase-order", "name": "Vendor Purchase Order", "type":"link", "roles": ["SU","HR1","HR2"]}
+
+  ]
+},
+{
+  "name": "Organization Setup",
+  "state": "org-settings",
+  "type": "sub",
+  "icon": "icon-settings",
+  "roles": ["SU"],
+
+  "children": [
+		{"state": "fiscal-year", "name": "Fiscal Year", "type":"link", "roles": ["SU"]},
+		{"state": "holidays", "name": "Declare Holidays", "type":"link", "roles": ["SU"]},
+		{"state": "grades", "name": "Grades & Designations", "type":"link", "roles": ["SU"]},
+    {"state": "leave-balance", "name": "Leave Balance", "type":"link", "roles": ["SU"]},
+    {"state": "role-access", "name": "Role Access", "type":"link", "roles": ["SU"]}
+    ]
+},
+{
+  "name": "CTC Setup",
+  "state": "ctc-settings",
+  "type": "sub",
+  "icon": "icon-briefcase",
+  "roles": ["SU"],
+
+  "children": [
+		{"state": "definition", "name": "Definition", "type":"link", "roles": ["SU"]},
+		{"state": "compensation", "name": "Employee Compensation", "type":"link", "roles": ["SU"]}
+    ]
+},
+{
+  "name": "Knowledge Assess.",
+  "state": "knowledge-assessment",
+  "type": "sub",
+  "icon": "icon-compass",
+  "roles": ["SU"],
+  "children":[
+    {"state":"training-tracker","name":"Training Tracker","type":"link","roles": ["SU"]},
+      {"state": "certificate-tracker", "name": "Certificate Tracker", "type":"link", "roles": ["SU"]},
+      {"state": "learning-track", "name": "Learning Track", "type":"link", "roles": ["SU"]},
+      {"state": "learning-track-pdf", "name": "Learning Track PDF", "type":"link", "roles": ["SU"]}
+  ]
+},
+{
+  "name": "Accounts",
+  "state": "account",
+  "type": "sub",
+  "icon": "icon-briefcase",
+  "roles": ["SU","ACC1","ACC2"],
+
+  "children": [
+    {"state": "my-tar-acc2", "name": "Travel Advances - Accounts Approval", "type":"link", "roles": ["SU","ACC2"]},
+    {"state": "acc-expense", "name": "Claims - Settlement", "type":"link", "roles": ["SU","ACC2"]},
+    {"state": "expense-approval", "name": "Claims - Validation", "type":"link", "roles": ["SU","ACC1"]},
+    {"state": "cash-balance", "name": "Cash Balance", "type":"link", "roles": ["SU","ACC1","ACC2"]},
+    {"state": "bank-advise-report", "name": "Bank Advise Report", "type":"link", "roles": ["SU","ACC1","ACC2"]},
+    {"state": "exit-interview","subState":"acc2", "name": "Exit Clearance Approval", "type":"array", "roles": ["SU","ACC2"]}
+    ]
+},
+{
+  "name": "Recruitment",
+  "state": "recruitment",
+  "type": "sub",
+  "icon": "fa fa-users",
+  "roles": ["E","SU","D","N1","N2","ACC1","ACC2","HR1","HR2"],
+
+  "children": [
+    {"state": "job-description", "name": "Job Description", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "job-request","name": "Job Request (HR)", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "job-opening", "name": "Job Opening", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "web-applicants", "name": "Web Site Applications", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "event","subState":"recruitment", "name": "Recruitment Event", "type":"array", "roles": ["SU","HR1","HR2","D"]},
+    {"state": "event","subState":"training", "name": "Training Event", "type":"array", "roles": ["SU","HR1","HR2","D"]},
+    {"state": "interview", "name": "Interview", "type":"link", "roles": ["E","SU","D","N1","N2","ACC1","ACC2","HR1","HR2"]},
+    {"state": "test-category", "name": "Question Bank", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "test-template", "name": "Test Template", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "certificate-tracker", "name": "Certificate Tracker", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "recruitment-master", "name": "Recruitment Master", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "applicant", "name": "Applicant Profile", "type":"link", "roles": ["SU","HR1","HR2"]}
+  ]
+},
+{
+  "name": "HR Operations",
+  "state": "operation",
+  "type": "sub",
+  "icon": "icon-badge",
+  "roles": ["SU","HR1","HR2"],
+
+  "children": [	
+    {"state": "employee", "name": "Employee Profiles", "type":"link", "roles": ["SU","HR1"]},
+    {"state": "appraisal","subState":"hr", "name": "Appraisal Review", "type":"array", "roles": ["SU","HR1","HR2"]},
+    {"state": "user-group-emp", "name": "Assign Responsibility", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "announcement", "name": "Announcement", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "employee-convention", "name": "Employee Convention", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "hr-leave-approval", "name": "Leave Settlement", "type":"link", "roles": ["SU","HR1"]}, 
+    {"state": "shift-request","subState":"hr", "name": "Shift Change Request", "type":"array", "roles": ["SU","HR1","HR2"]},
+    {"state":"exit-interview","name":"Exit Clearance","type":"link","roles": ["SU","HR1","HR2"]},
+    {"state": "exit-interview","subState":"hr2", "name": "Exit Clearance Approval", "type":"array", "roles": ["SU","HR2"]},
+    {"state": "contractor", "name": "Contractor Profile", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "direct-attendance", "name": "Direct Attendance", "type":"link", "roles": ["SU"]},
+    {"state": "attendance-report", "name": "Attendance Report", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "department-master", "name": "Department Master", "type":"link", "roles":["SU","HR1","HR2"]},
+    {"state": "employee-service-record", "name": "Employee Service Record", "type":"link", "roles":["SU","HR1","HR2"]},
+    {"state": "skill-analysis", "name": "Skill Matrix", "type":"link", "roles":["SU","HR1","HR2"]}
+  ]
+},
+{
+  "name": "Attendance",
+  "state": "attendance",
+  "type": "sub",
+  "icon": "fa fa-calendar-check-o",
+  "roles": ["SU","D","HR1","HR2"],
+  
+  "children": [
+    {"state": "attendance-shift", "name": "Attendance Shift", "type":"link", "roles": ["SU","D","HR1","HR2"]}   
+    ]
+},
+{
+  "name": "Back Office",
+  "state": "operation",
+  "type": "sub",
+  "icon": "icon-notebook",
+  "roles": ["SU","HR1","HR2","ADMIN","D"],
+
+  "children": [
+    {"state": "office-master", "name": "Office Master", "type":"link", "roles": ["SU","HR1","HR2","ADMIN"]},
+    {"state": "attendance-shift", "name": "Attendance Shift", "type":"link", "roles": ["SU","HR1","HR2","ADMIN"]},
+    {"state": "admin-profile-list", "name": "Employee Profiles", "type":"link", "roles": ["SU","ADMIN"]},
+    {"state": "manager-swap", "name": "Manager Swap", "type":"link", "roles": ["SU","HR1","HR2","ADMIN"]},
+    {"state": "appraisal-master","name": "Appraisal Master","type": "link","roles": ["SU","HR1","HR2","D","ADMIN"]},
+    {"state": "user-group", "name": "Responsibilities", "type":"link", "roles": ["SU","HR1","HR2","ADMIN"]},
+    {"state": "user-group-emp", "name": "Assign Responsibility", "type":"link", "roles": ["SU","HR1","HR2","ADMIN"]},
+    {"state": "access", "name": "Application Access", "type":"link", "roles": ["SU","HR1","HR2","ADMIN"]},
+    {"state": "leave-balances", "name": "Leave Balance", "type":"link", "roles": ["SU","HR1","HR2","ADMIN"]},
+    {"state": "leave-type", "name": "Leave Type", "type":"link", "roles": ["SU","HR1","HR2","ADMIN"]},
+    {"state": "bank-info","name": "Bank Info","type": "link","roles": ["SU","HR1","HR2","ADMIN"]},  
+    {"state": "day-range","name": "Day Range","type": "link","roles": ["SU","HR1","HR2","ADMIN"]},
+    {"state": "payment-terms","name": "Payment Terms","type": "link","roles": ["SU","HR1","HR2","ADMIN"]},
+    {"state":"document-management", "name":"Document Management","type":"link","roles":["SU","HR1","HR2","ADMIN"]},
+    {"state": "doc-type", "name":"Doc Type","type":"link","roles":["SU","HR1","HR2","ADMIN"]},
+    {"state": "expense-category", "name":"Expense Category","type":"link","roles":["SU","HR1","HR2","ADMIN"]},
+    {"state": "notification-rule", "name":"Notification Rule","type":"link", "roles":["SU","HR1","HR2","ADMIN"]},
+    {"state": "fiscal-year", "name": "Fiscal Year", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "office-calendar", "name": "Office Calendar", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "attendance-update", "name": "Attendance Update", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "function-group", "name": "Function Group", "type":"link", "roles": ["SU","HR1","HR2","ADMIN"]}
+  ]
+},
+{
+  "name": "Pay Roll",
+  "state": "operation",
+  "type": "sub",
+  "icon": "icon-settings",
+  "roles": ["SU","HR1","HR2"],
+
+  "children": [
+    {"state": "employee-payout", "name": "Employee Payslips", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "payout-process", "name": "Salary Process - Logs", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "upload-payslips", "name": "Upload Payslips", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "payout-adjustment", "name": "payout-adjustment", "type":"link", "roles": ["SU","HR1","HR2"]},
+    {"state": "process-salary", "name": "Process Salary", "type":"link", "roles": ["SU","HR1","HR2"]}		
+  ]
+},
+{
+  "name": "Appraisal",
+  "state": "appraisal",
+  "type": "sub",
+  "icon": "fa fa-inr",
+  "roles": ["SU","HR1","HR2","D"],
+  "children": [
+    {"state": "metrics", "name": "Metrics", "type":"link", "roles": ["SU","HR1","HR2","D"]},
+    {"state": "org-goal", "name": "Organisational Goal", "type":"link", "roles": ["SU","HR1","HR2","D"]},
+    {"state": "org-analysis", "name": "Organisational Analysis", "type":"link", "roles": ["SU","HR1","HR2","D"]}
+  ]
+},
+
+{
+  "name": "Report",
+  "state": "reports",
+  "type": "sub",
+  "icon": "fa fa-bar-chart",
+  "roles": ["SU","HR1","HR2","D","ACC1","ACC2"],
+  "children": [
+    {"state": "order-report", "name": "Order report", "type":"link", "roles": ["SU","HR1","HR2","D","ACC1","ACC2"]},
+    {"state": "revenue-report", "name": "Revenue report", "type":"link", "roles": ["SU","HR1","HR2","D","ACC1","ACC2"]},
+    {"state": "attendance-report", "subState":"office","name": "Office base report", "type":"array", "roles": ["SU","HR1","HR2","D","ACC1","ACC2","N1"]},
+    {"state": "attendance-report", "subState":"employee","name": "Employee base report", "type":"array", "roles": ["SU","HR1","HR2","D","ACC1","ACC2","N1"]}
+  ]
+},
+{
+  "name": "FAQ",
+  "state": "faq",
+  "type": "link",
+  "icon": "fa fa-question-circle",
+  "roles": ["E","SU","PCP","D","N1","N2","ACC1","ACC2","HR1","HR2"]
+},
+{
+  "name": "File Manager",
+  "state": "file-manager",
+  "type": "link",
+  "icon": "fa fa-hdd-o",
+  "roles": ["SU","HR1","HR2","D"]
+}
+]

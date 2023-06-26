@@ -1,0 +1,17 @@
+.d-ct{
+	float:left;
+	width:44%;
+	
+	ion-card-content{
+		padding:1.75rem;
+		min-height:135px;
+	}
+	.icon{
+		font-size: 15px; 
+	}
+	.title{
+		font-weight: 500;
+		font-size:0.85rem;
+		margin-top:8px;
+	}
+}

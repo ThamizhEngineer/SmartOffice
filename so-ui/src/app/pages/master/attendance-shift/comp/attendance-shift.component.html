@@ -1,0 +1,151 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Attendance Shift</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Attendance</li>
+                <li class="breadcrumb-item active">Attendance Shift</li>
+            </ol>	
+            <button type="button" class="btn btn-info m-l-15" (click)="createNew();">
+				<i class="fa fa-plus-circle"></i> Create Shift</button>		
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12 card card-body">
+		<flag-alert [message]="saveMsg"></flag-alert>
+		<div class="table-responsive">
+			<table class="table table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>						
+						<th>Shift Code</th>
+						<th>Shift Name</th>
+                        <th>From Time</th>                       
+                        <th>To Time</th>
+						<th>Actions</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let row of shifts | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i=index ">
+						<td>{{i+1}}</td>						
+						<td>{{row.shiftCode}}</td>
+						<td>{{row.shiftName}}</td>
+                        <td>{{row.fromTime | slice:0:5}}</td>
+                        <td>{{row.toTime | slice:0:5}}</td>
+						<td class="text-nowrap">
+							<a href="javascript:void(0)" (click)="showDetail(row.id);">
+								<i class="fa fa-pencil text-inverse m-r-10"></i>
+							</a>
+							<confirm-delete [type]="'icon'" (confirmed)="deleteRow(row.id)"></confirm-delete>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+			<ngb-pagination 
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="shifts.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>
+		</div>
+	</div>
+</div>
+
+<ng-template #vdetail let-c="close">
+	<div class="modal-header">
+        <h3 *ngIf="shift.id==null" class="modal-title">Create Shift</h3>
+        <h3 *ngIf="shift.id!=null" class="modal-title">Edit Shift</h3>
+		<button type="button" class="close" (click)="c()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+
+        <div class="row">
+			<div *ngIf="shift.id==null" class="col-3 form-group" [ngClass]="{'has-danger': code.invalid && (code.dirty || code.touched)}">
+				<label class="control-label">Shift Code</label>
+                <form [formGroup]="form">
+                <input class="form-control"  placeholder="Shift Code" required formControlName="code" [(ngModel)]="shift.shiftCode">
+				<div *ngIf="code.invalid && (code.dirty || code.touched)">						
+						<small class="form-control-feedback" *ngIf="code.errors.required">Required Data.</small>
+                    </div>
+                </form>
+            </div>
+            
+            <div *ngIf="shift.id!=null" class="col-3 form-group">
+                <label class="control-label">Shift Code</label><br/>
+                <span>{{shift.shiftCode}}</span>
+            </div>
+			
+            <div class="col-3 form-group" [ngClass]="{'has-danger': name.invalid && (name.dirty || name.touched)}">
+				<label class="control-label">Shift Name</label>
+                <form [formGroup]="form">
+                <input class="form-control" formControlName="name" placeholder="Shift Name" required  [(ngModel)]="shift.shiftName">
+				<div *ngIf="name.invalid && (name.dirty || name.touched)">						
+						<small class="form-control-feedback" *ngIf="name.errors.required">Required Data.</small>
+                    </div>
+                </form>
+            </div>
+        </div>
+              
+		<div class="row">
+            <div class="col-3 form-group" [ngClass]="{'has-danger': fromTime.invalid && (fromTime.dirty || fromTime.touched)}">
+                <label class="control-label">From Time</label>
+                <form [formGroup]="form">
+				<input type="time" class="form-control" placeholder="fromTime" required formControlName="fromTime" [(ngModel)]="shift.fromTime">
+				<div *ngIf="fromTime.invalid && (fromTime.dirty || fromTime.touched)">					
+						<small class="form-control-feedback" *ngIf="fromTime.errors.required">Required Data.</small>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="col-3 form-group" [ngClass]="{'has-danger': midTime.invalid && (midTime.dirty || midTime.touched)}">
+                <label class="control-label">Mid Time</label>
+                <form [formGroup]="form">
+				<input type="time" class="form-control" placeholder="midTime" required formControlName="midTime" [(ngModel)]="shift.midTime">
+				<div *ngIf="midTime.invalid && (midTime.dirty || midTime.touched)">					
+						<small class="form-control-feedback" *ngIf="midTime.errors.required">Required Data.</small>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="col-3 form-group" [ngClass]="{'has-danger': toTime.invalid && (toTime.dirty || toTime.touched)}">
+                <label class="control-label">To Time</label>
+                <form [formGroup]="form">
+				<input type="time" class="form-control" placeholder="toTime" required formControlName="toTime" [(ngModel)]="shift.toTime">
+				<div *ngIf="toTime.invalid && (toTime.dirty || toTime.touched)">					
+						<small class="form-control-feedback" *ngIf="toTime.errors.required">Required Data.</small>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="col-3 form-group" [ngClass]="{'has-danger': expTime.invalid && (expTime.dirty || expTime.touched)}">
+                <label class="control-label">Expiry Time</label>
+                <form [formGroup]="form">
+				<input type="time" class="form-control" placeholder="expTime" required formControlName="expTime" [(ngModel)]="shift.attendanceExpTime">
+				<div *ngIf="expTime.invalid && (expTime.dirty || expTime.touched)">					
+						<small class="form-control-feedback" *ngIf="expTime.errors.required">Required Data.</small>
+                    </div>
+                </form>
+			</div>
+
+
+        </div>
+	</div>
+
+
+	<div class="modal-footer">
+		<div *ngIf="shift.id==null">
+			<button type="button" class="btn btn-success" [disabled]="!form.valid" (click)="save();">Save</button>
+		</div>
+		<div *ngIf="shift.id!=null">
+			<button type="button" class="btn btn-warning" [disabled]="!form.valid" (click)="update();">Update</button>
+		</div>
+	</div>
+</ng-template>

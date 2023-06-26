@@ -1,0 +1,33 @@
+page-search {
+    ion-list-header{
+        font-weight: bold;
+        font-size: 1.8rem;
+        margin-bottom: 0px !important;
+    }
+
+    ion-list-header ion-label{
+        font-size:2rem;
+        font-weight: bold;
+    }
+    ion-navbar{
+        ion-item{
+            ion-label{
+                margin:0 !important;
+            }
+            p{
+                display: inline-block;
+                color: white !important;
+            }
+            h2{
+                font-size:2rem !important;
+                color: white !important;
+            }
+            
+        }
+    }
+    h2.group{
+        font-weight: 500 !important;
+    }
+
+   
+}

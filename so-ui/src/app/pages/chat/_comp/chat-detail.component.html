@@ -1,0 +1,14 @@
+<ul class="list-group">
+    <div *ngFor="let item of messageRes">
+
+        <li class="list-group-item">From: {{item.fromName}} To: {{item.toName}} Message: {{item.messageContent}}</li>
+    </div>
+</ul>
+
+<div class="input-group mb-3">
+    <input type="text" class="form-control" [(ngModel)]="messageObj.messageContent"
+        placeholder="Type your message here!" aria-label="Type your message here!" aria-describedby="basic-addon2">
+    <div class="input-group-append">
+        <button class="btn btn-outline-secondary" (click)="sendMessage()" type="button">Send</button>
+    </div>
+</div>

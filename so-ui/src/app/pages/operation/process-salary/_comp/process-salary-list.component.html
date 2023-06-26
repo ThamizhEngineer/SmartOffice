@@ -1,0 +1,72 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Process Salary</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a [routerLink]="['/index']">Home</a></li>
+				<li class="breadcrumb-item active">Process Salary</li>
+		
+			</ol>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="#" >
+                    <div class="form-body">
+                        <flag-alert [message]="saveMsg"></flag-alert>  
+                       
+                        <div class="row p-t-20">
+                            <div class="col-md-4">
+
+                                <label>Month/Year</label>
+                             <month-picker [(config)]="mpFromConfig" [(model)]="mpSalModel"
+                            (mpOnModelChange)="this.mpOnModelChange($event)"></month-picker>
+
+                                <!-- <div class="form-group"> -->
+                                        <!-- <label>Salary Month</label> -->
+                                                <!-- <select class="form-control custom-select" data-placeholder="Employee ID" tabindex="1" [(ngModel)]="searchEmployeeId" [disabled]="this.flowType" [ngModelOptions]="{standalone: true}">
+                                                       
+                                                    <option *ngFor="let emp of this.rows" [value]="emp.employeeId" >{{emp.employeeName}}</option>
+                                                    </select> -->
+
+                                                    <!-- <input type="text" id="lastName"  class="form-control" [(ngModel)]="payoutProcess.month" [ngModelOptions]="{standalone: true}" placeholder="Employee "> -->
+                                        
+                                   <!-- </div>  -->
+                            </div>
+                            <!--/span-->
+                            <!-- <div class="col-md-4">
+                                <div class="form-group">
+                                        <label>Salary Year</label>
+                                    <input type="text" id="lastName"  class="form-control" [(ngModel)]="payoutProcess.year" [ngModelOptions]="{standalone: true}" placeholder="Salary Month">
+                                     </div>
+                            </div> -->
+
+                          
+
+                                <div class="col-md-4" align="center">
+                                
+                                        <div class="form-actions">
+                                                <label></label>
+                                                <button type="button" style="width:70%" (click)="search()" class="btn btn-info d-none d-lg-block m-l-15"> Process Salary</button>
+                                               
+                                            </div>
+                               </div>
+                      
+                    
+                    </div>
+                    </div>
+                 
+                </form>
+            </div>
+</div>
+    </div>
+</div>
+
+

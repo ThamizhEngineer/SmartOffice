@@ -1,0 +1,64 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+      <h4 class="text-themecolor">Invoice List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+      <div class="d-flex justify-content-end align-items-center">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item active">Invoice List</li>
+        </ol>
+        <button type="button" [routerLink]="['/client/invoice/new/']" class="btn btn-info d-none d-lg-block m-l-15"> Create New Invoice</button>
+      </div>
+    </div>
+  </div>
+  
+  
+ 
+    <div class="col-12 card card-body">
+      <div  class="row">
+        <div class="col">
+         <div style="float: right;">
+          <label >Upload Invoice CSV</label>
+          <file-upload [fileDetail]="'INVOICE-CSV-UPLOAD'" (change)="fileChanged($event)"></file-upload>
+        </div>               
+        </div>
+      </div>
+
+      <div class="row">
+      
+      <div class="container">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Purchase No</th>
+                <th>Status</th>
+                <th>Client Name</th>        
+                <th>Grand Total</th>
+                <th>Action</th>             
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of invoices | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                <td>{{i+1}}</td>
+                <td>{{row.invoiceDate | date : "dd/MM/yyyy"}}</td>
+                <td>{{row.buyerOrderNo}}</td>
+                <td><span class="label label-{{statuses[row.invoiceStatus]}}">{{row.invoiceStatus}}</span></td>
+                <td>{{row.buyerName}}</td>
+                <td>{{row.finalPayableAmt | number}}</td>                
+                <td>
+                    <a href="javascript:void(0)" [routerLink]="['/client/invoice/view/',row.id]">
+                      <i class="fa fa-pencil text-danger m-r-10"></i>
+                    </a>
+                  </td>
+              </tr>            
+            </tbody>
+          </table>
+          <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="invoices.length"></ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>

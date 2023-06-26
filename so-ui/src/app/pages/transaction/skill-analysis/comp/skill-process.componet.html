@@ -1,0 +1,305 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">{{isType ? "Process Market Gap Analysis" : "Process Engineer Assesment"}}</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Skill Matrix List</li>
+                <li class="breadcrumb-item active">{{isType ? "Process Market Gap Analysis" : "Process Engineer Assesment"}}</li>                
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="type=='gap-analysis'" class="card">
+    <div class="card-body">
+        <p>
+            Based on the research, Sales and Marketing team will provide the markets needs in terms of following <br />
+            <br />
+            1. Skills needed <br />
+            2. Engineers needed for each skill <br />
+            <br />
+            Here we can find <br />
+            a. Existing Engineers within the organisation matching the martket need. <br />
+            b. Engineer-Shortages for each skill needed in market. <br />
+            c. Skill-Shortages - where no engineer has the skills needed in market.<br />
+        </p>
+    </div>
+</div>
+
+<div *ngIf="type=='gap-analysis'" class="card">
+    <button type="button" class="btn btn-outline-primary" (click)="search = !search" [attr.aria-expanded]="!search"
+        aria-controls="searchExample">
+        Start
+    </button>
+    <div id="searchExample" [ngbCollapse]="search" class="card-body">
+        <div class="row">
+            <div class="col-md-9">
+                <h3> <b> Market Needs</b></h3>
+                <table class="table table-striped table-bordered center" style="width:50%;float:left">
+                    <thead>
+                        <tr>
+                            <th class="center" colspan="4">Skills</th>
+                        </tr>
+                        <tr>
+                            <th>Product</th>
+                            <th>Service</th>
+                            <th>Expected Engineers</th>
+                            <th>Action <a href="javascript:void(0)" *ngIf="prodAndService.length==0" (click)="addSkill()" data-toggle="tooltip"
+                                data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let item of prodAndService| slice: (upage-1) * upageSize : (upage-1) * upageSize + upageSize;let i=index">
+                            <td>
+                                <input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                    class="form-control" [ngbTypeahead]="searchProduct"
+                                    [resultTemplate]="productResultTemplate" [inputFormatter]="productFormatter"
+                                    placeholder="Search product" (selectItem)="onProductSelect($event, item)"
+                                    [value]="item.productName" [editable]='false' ngbtypeaheadpopup>
+                                <ng-template #productResultTemplate let-r="result" let-t="term">
+                                    {{r.materialName}}
+                                </ng-template>
+                            </td>
+
+                            <td>
+                                <input [disabled]="item.productId==null" style="border: 1px solid grey;"
+                                    id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="searchSkill"
+                                    [resultTemplate]="skillResultTemplate" [inputFormatter]="skillFormatter"
+                                    placeholder="Search skill" (click)="formService(item.productId)"
+                                    (selectItem)="onSkillSelect($event, item)" [value]="item.serviceName" [editable]='false'
+                                    ngbtypeaheadpopup>
+                                <ng-template #skillResultTemplate let-r="result" let-t="term">
+                                    {{r.abilityName}}
+                                </ng-template>
+                            </td>
+                            <td><input class="form-control form-control-line" [(ngModel)]="item.expectedCount" type="number">
+                            </td>
+                            <td>
+                                <a href="javascript:void(0)" (click)="addSkill()" data-toggle="tooltip"
+                                    data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                                <a href="javascript:void(0)" (click)="deleteRow(i)" data-toggle="tooltip"
+                                    data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3">
+                <h3>Legend</h3>
+                <table class="table table-bordered" style="width:50%;float:left">
+                    <thead>
+                        <tr>
+                            <th>Skill</th>
+                            <th>Symbol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> Expert </td>
+                            <td class="text-success">
+                                <ngb-rating readonly="true" style="font-size: medium;" [rate]="3" max=3></ngb-rating>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Intermediate</td>
+                            <td class="text-success">
+                                <ngb-rating readonly="true" style="font-size: medium;" [rate]="2" max=2></ngb-rating>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Beginner</td>
+                            <td class="text-dark">
+                                <ngb-rating readonly="true" style="font-size: medium;" [rate]="1" max=1></ngb-rating>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> No Skill </td>
+                            <td>Empty</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <ngb-pagination [(page)]="upage" [pageSize]="upageSize" [collectionSize]="prodAndService.length">
+                </ngb-pagination>
+                <pre>Current page: {{upage}}</pre>
+            </div>
+        </div>
+    </div>
+    <div id="searchExample" [ngbCollapse]="search" class="card-footer text-muted text-center">
+        <button type="button" (click)="processInit()" class="btn btn-outline-warning">Process</button>
+    </div>
+</div>
+
+
+
+<div *ngIf="type=='eng-assesment'" class="card">
+    <div class="card-body">
+        <p>
+
+            Engineer Assessement Matrix <br />
+            <br />
+            1. Engineer's skills improvement over time<br />
+            2. Training Needs<br />
+            <br />
+            Here we can find <br />
+            1. Did an engineer show improvement since previous quarter?<br />
+            2. What are the skills they lack in?<br />
+            3. Identify Training Needs based on the gap<br />
+        </p>
+    </div>
+</div>
+
+<div *ngIf="type=='eng-assesment'" class="card">
+    <button type="button" class="btn btn-outline-primary" (click)="search = !search" [attr.aria-expanded]="!search"
+        aria-controls="searchExample">
+        Start
+    </button>
+    <div id="searchExample" [ngbCollapse]="search" class="card-body">
+        <div class="row">
+
+            <div class="col-md-5">
+                <h3><b> Engineers Assessed</b></h3>
+                <table class="table table-striped table-bordered center" style="width:100%;float:left">
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Employee Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let item of empList | slice: (mpage-1) * upageSize : (mpage-1) * mpageSize + mpageSize;let i=index">
+                            <td>{{item.deptName}}
+                                
+                                <!-- <input type="text" class="form-control form-control-line" [ngbTypeahead]="deptAc"
+                                    [resultTemplate]="rt3" [inputFormatter]="depformatter" placeholder="Product Name"
+                                    (selectItem)="deptSelected($event,i)" [value]="item.Dept" name="productName">
+                                <ng-template #rt3 let-r="result" let-t="term">
+                                    {{r.dept}}
+                                </ng-template> -->
+                            </td>
+                            <td>
+                                <autocomplete  [placeholder]="'Employee Name'"   [value]="item.employeeName" (empDetail)="projectSelected($event,item)"> </autocomplete>                               
+                            </td>
+                            <td>
+                                <a href="javascript:void(0)" (click)="addRes()" data-toggle="tooltip"
+                                    data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                                <a href="javascript:void(0)" (click)="deleteRes(i)" data-toggle="tooltip"
+                                    data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-5">
+                <h3> <b> Assessed Skills </b></h3>
+                <table class="table table-striped table-bordered" style="width:100%;float:left">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Service</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let item of prodAndService| slice: (upage-1) * upageSize : (upage-1) * upageSize + upageSize;let i=index">
+                            <td>
+                                <input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                    class="form-control" [ngbTypeahead]="searchProduct"
+                                    [resultTemplate]="productResultTemplate" [inputFormatter]="productFormatter"
+                                    placeholder="Search product" (selectItem)="onProductSelect($event, item)"
+                                    [value]="item.productName" [editable]='false' ngbtypeaheadpopup>
+                                <ng-template #productResultTemplate let-r="result" let-t="term">
+                                    {{r.materialName}}
+                                </ng-template>
+                            </td>
+
+                            <td>
+                                <input [disabled]="item.productId==null" style="border: 1px solid grey;"
+                                    id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="searchSkill"
+                                    [resultTemplate]="skillResultTemplate" [inputFormatter]="skillFormatter"
+                                    placeholder="Search skill" (click)="formService(item.productId)"
+                                    (selectItem)="onSkillSelect($event, item)" [value]="item.serviceName" [editable]='false'
+                                    ngbtypeaheadpopup>
+                                <ng-template #skillResultTemplate let-r="result" let-t="term">
+                                    {{r.abilityName}}
+                                </ng-template>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0)" (click)="addSkill()" data-toggle="tooltip"
+                                    data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                                <a href="javascript:void(0)" (click)="deleteRow(i)" data-toggle="tooltip"
+                                    data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-2 ">
+                <h3>Legend</h3>
+                <table class="table table-bordered" style="width:50%;float:left">
+                    <thead>
+                        <tr>
+                            <th>Skill</th>
+                            <th>Symbol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> Expert </td>
+                            <td class="text-success">
+                                <ngb-rating readonly="true" style="font-size: medium;" [rate]="3" max=3></ngb-rating>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Intermediate</td>
+                            <td class="text-success">
+                                <ngb-rating readonly="true" style="font-size: medium;" [rate]="2" max=2></ngb-rating>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Beginner</td>
+                            <td class="text-dark">
+                                <ngb-rating readonly="true" style="font-size: medium;" [rate]="1" max=1></ngb-rating>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> No Skill </td>
+                            <td>Empty</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-5">
+                <ngb-pagination [(page)]="mpage" [pageSize]="mpageSize" [collectionSize]="empList.length">
+                </ngb-pagination>
+                <pre>Current page: {{mpage}}</pre>
+            </div>
+            <div class="col-md-5">
+                <ngb-pagination [(page)]="upage" [pageSize]="upageSize" [collectionSize]="prodAndService.length">
+                </ngb-pagination>
+                <pre>Current page: {{upage}}</pre>
+            </div>
+          
+        </div>
+
+    </div>
+    <div [ngbCollapse]="search" id="searchExample" class="card-footer text-muted text-center">
+        <button type="button" (click)="processInit()"  class="btn btn-outline-warning">Process</button>        
+    </div>
+</div>

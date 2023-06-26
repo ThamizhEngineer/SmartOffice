@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://www.w3.org/2005/10/profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style>
+@page {
+	size: A4;
+	margin: 5px;
+	padding-top: 1px;
+	font-family: "Times";
+	size: portrait;
+}
+body {
+			font-size: 14px;
+			font-family: "Times";
+			width: 750px;
+		}
+th {
+	background-color: #efefef;
+}
+
+.textLeft {
+	text-align: left;
+}
+
+.textRight {
+	text-align: right;
+}
+table {
+    border-collapse: collapse;
+}
+
+td {
+    padding-top: .5em;
+    padding-bottom: .5em;
+}
+
+</style>
+<title>Export Invoice</title>
+</head>
+<body>
+	<div class="row">
+		<div class="container">
+			<br />
+			<br />
+			<div class="row">
+				<div class="col-md-12">
+				<div style="float:right">
+				<div style="font-size: 200%;">Export Invoice</div>
+				<div style="float:right"><b>#<span th:text="${invoiceCode}"></span></b></div><br/><br/>
+				<div style="font-size: 80%; float:right;"><b>Balance Due</b></div><br/>
+				<div style="float:right"><b><span th:text="${currSymbol}"></span><span th:text="${grossPoAmt}"></span></b></div>
+						</div>
+					<div class="textLeft">
+						<img th:src="'/opt/so/data/images/'+${logo}" height="50px"></img>
+						<br />
+						
+						<b><span th:text="${companyName}"></span></b> 
+						<br /><span style="white-space: pre;" th:utext="${companyAddress}"></span>
+                        <br/>India
+                        <br/>GSTIN <span th:text="${gstin}"></span>
+						
+					</div>
+
+				</div>
+			</div>
+
+			<br /> <br /> 
+
+			
+			<div class="row">
+			
+			<div class="col-md-2">
+                    <div class="table-responsive">
+                    <table style="float:right">
+                            <tbody>
+                                    <tr>
+                                            <th  style="background-color:#ffffff; font-family: Times; align:right; font-size: 14px;">Invoice Date:</th>
+                                            <td align="right"><span	th:text="${#temporals.format(invoiceDate, 'dd-MMMM-yyyy')}"></span></td>
+                                        </tr>
+                                <tr>
+                                    <th  style="background-color:#ffffff; font-family: Times; align:right; font-size: 14px;">Terms:</th>
+                                    <td align="right"><span	th:text="${termsOfPayment}"></span></td>
+                                </tr>
+                                <tr>
+                                    <th  style="background-color:#ffffff; font-family: Times; align:right; font-size: 14px;">Due Date:</th>
+                                    <td align="right"><span	th:text="${#temporals.format(pmtDueDt, 'dd-MMMM-yyyy')}"></span></td>
+                               </tr>
+                               <tr>
+                                    <th  style="background-color:#ffffff; font-family: Times; align:right; font-size: 14px;">Exchange Rate:</th>
+                                    <td align="right"><span	th:text="${exchangeRate}"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+					Bill to
+					<br/>
+					<b><span th:text="${clientName}"></span></b>
+					<address>
+						<span th:text="${buyerAddress}"></span> <br /> <br />
+					</address>
+				</div>
+                </div>
+                <br/><br/>
+                <div>
+                GST Remarks : Supply Meant For Export<br/> under
+				Letter of Undertaking without Payment of IGST
+                </div>
+                
+                <br/>
+			<br />
+			<div class="row">
+				<div class="col-12 card card-body">
+					<div class="table-responsive">
+						<table style="height: 30px; margin-top: 20px; width: 100%;">
+							<thead>
+								<tr>
+									<th  style="background-color:#333333; height: 20px; color:#ffffff; font-size:80%">Item and Description</th>
+									<th  style="background-color:#333333; height: 20px; color:#ffffff; font-size:80%">HSN/SAC</th>
+									<th  style="background-color:#333333; height: 20px;color:#ffffff; font-size:80%">Qty</th>
+									<th  style="background-color:#333333; height: 20px; color:#ffffff; font-size:80%">Rate</th>
+									<th  style="background-color:#333333; height: 20px; color:#ffffff; font-size:80%">Amount</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="poLine : ${poLines}">
+									<td> <b><span th:text="${poLine.itemName}"></span></b><br/> <span th:text="${poLine.itemDescription}"></span></td>
+									<td><span th:text="${poLine.itemHsnOrSac}"></span></td>
+									<td><span th:text="${poLine.itemQty}"></span></td>
+									<td><span th:text="${poLine.itemRate}"></span></td>
+									<td> <span th:text="${poLine.itemTotal}"></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		<br/>
+
+<div class="row">
+			<div class="col-md-15">
+                    <div class="table-responsive">
+                    <table style="float:right">
+                            <tbody>
+                                    <tr>
+                                         <th  style="background-color:#ffffff; align:right;">Sub Total:</th>
+                                            <td align="right"><span th:text="${currSymbol}"></span><span	th:text="${beforeTaxSubTotalAmt}"></span></td>
+                                        </tr>
+                                <tr>
+                                    <th  style="background-color:#ffffff; align:right;">Total:</th>
+                                    <td align="right"><span th:text="${currSymbol}"></span><span	th:text="${grossPoAmt}"></span></td>
+                                </tr>
+                                <tr>
+                                    <th  style="background-color:#e6e6e6; align:right;">Balance Due:</th>
+                                    <td align="right" style="background-color:#e6e6e6;"><span th:text="${currSymbol}"></span> <span th:text="${grossPoAmt}"></span></td>
+                                </tr>
+                                <tr>
+                                   <th  style="background-color:#ffffff; align:right;">Total in words:</th>
+                                    <td align="right"><span	th:text="${grossPoAmtWords}"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/>
+			<div class="row">
+				<div class="col-md-12">
+					<font size="5"> <b>Notes</b>
+					</font> <br /> <br /><span	th:text="${deliveryNote}"></span> <br /> <br /> <br />
+					<b>Authorized Signature______________________________</b> <br />.
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

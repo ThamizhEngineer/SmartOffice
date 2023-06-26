@@ -1,0 +1,180 @@
+<!-- ============================================================== -->
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Employee List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Employees</li>
+            </ol>
+            <button type="button" class="btn btn-info d-none d-lg-block m-l-15"
+                [routerLink]="['/operation/employee/new']"><i class="fa fa-plus-circle"></i> Create New</button>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<!-- .row -->
+
+
+<!-- <div class="card">
+    <button type="button" class="btn btn-primary btn-lg btn-block" (click)="activeOrInActive()">
+        <span> {{isAdvanceSerach === false ? 'Open' : 'Close'}} </span>
+    </button>
+</div> -->
+
+<!-- <div *ngIf="isAdvanceSerach==true"> -->
+      <!-- Row -->
+      <div class="row">
+        <div class="col-md-12">
+            <div class="card border-dark">
+                
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-3 col-md-2">
+                                <label class="control-label">Employee Name</label>
+                                <input type="text" class="form-control form-control-line"
+                                placeholder="Employee Name" [(ngModel)]="searchEmpName" [value]="searchEmpName" name="searchEmpName">
+                        </div>
+                        <div class="form-group col-3 col-md-2">
+                                <label class="control-label">Designation</label>
+                                <input type="text" class="form-control form-control-line"
+                                placeholder="Employee Name" [(ngModel)]="searchDesigName" [value]="searchDesigName" name="searchDesigName">
+                        </div>
+                        <div class="form-group col-3 col-md-2">
+                                <label class="control-label">Status</label>
+                                <input type="text" class="form-control form-control-line"
+                                placeholder="Status" [(ngModel)]="searchEmpStatus" [value]="searchEmpStatus" name="searchEmpStatus">
+                        </div>
+                        <div class="form-group col-3 col-md-2">
+                                <label class="control-label">Office Name</label>
+                                <input type="text" class="form-control form-control-line"
+                                placeholder="Office Name" [(ngModel)]="serachOfficeName" [value]="serachOfficeName" name="serachOfficeName">
+                        </div>
+                        <div class="form-group col-3 col-md-2">
+                                <label class="control-label">Employee Code</label>
+                                <input type="text" class="form-control form-control-line"
+                                placeholder="Employee Code" [(ngModel)]="searchEmpCode" [value]="searchEmpCode" name="searchEmpCode">
+                        </div>
+                        <div class="form-group col-3 col-md-2">
+                                <label class="control-label">Email Id</label>
+                                <input type="text" class="form-control form-control-line"
+                                placeholder="Email Id" [(ngModel)]="searchEmailId" [value]="searchEmailId" name="searchEmailId">
+                        </div>
+
+                        <div lass="col-md-2" style="text-align: center;">
+                            <label ></label><br />
+                            <button type="submit" (click)="getEmployee()" class="btn btn-danger d-none d-lg-block m-l-15"> Search</button>  
+                        </div>  
+                        <div class="col-md-2" style="text-align: center;">
+                            <label ></label><br />
+                            <a class="btn btn-primary" href="assets/CSV/employee_import.csv"><i class="fa fa-list"></i> Employee Template</a>
+                        </div>
+                        <div class="col-md-1" style="text-align: center;">
+                            <label ></label><br />
+                            <file-upload [isNew]="'Y'" [fileDetail]="'EMPLOYEE-CSV-UPLOAD'" [buttonName]="'Import Employee'"   (change)="fileChanged($event)"></file-upload>
+                        </div>                    
+                    </div>
+                </div>              
+                <flag-alert [message]="saveMsg"></flag-alert>
+            </div>           
+        </div>       
+    </div>
+    <!-- End Row -->
+    <!-- Row -->
+<!-- </div> -->
+
+    <div class="row col-md-12">
+        <!-- <div class="col-md-12 col-lg-6 col-xlg-4"> -->
+        <div *ngFor="let employee of finalList;" class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+            <div class="row align-items-center">
+                <div class=" col-lg-3 text-center">
+                    <a href="#"><img [src]="employee.docUrl| secure | async" alt="user"
+                            class="img-circle img-fluid"></a>
+                </div>
+                <div class="col-md-8 col-lg-9">
+                    <h3 class="box-title m-b-0">{{employee.firstName}} {{employee.lastName}}</h3>
+                    <small>
+                        <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                        {{employee.desigName}}
+                    </small>
+                    <address>
+                        <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
+                        {{employee.emailId}}
+                        <br />
+
+                        <i class="fa fa-mobile" aria-hidden="true"></i>
+                        {{employee.contactMobileNo}}
+                        <br />
+
+                        <i class="fa fa-location-arrow" aria-hidden="true"></i>
+                        {{employee.officeName}}
+                        <br />
+                        <span *ngIf="employee.legalPending=='Y'" class="badge badge-warning">Legal Info Pending</span>
+                        <span *ngIf="employee.legalPending=='Y'" class="label label-info">{{employee.legalPending}}</span>
+                        <br *ngIf="employee.legalPending=='Y'"/>
+
+                        <span class="badge badge-dark"> {{employee.empCode}}</span>
+                        <span class="label label-{{statuses[employee.empStatus]}}">{{employee.empStatus}}</span>
+                        <br />
+                        <br />
+
+                        <button type="button" (click)="navigateToDetailPage(employee.id)"
+                            class="btn btn-success btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" (click)="deleteRow(employee.id)" class="btn btn-danger btn-sm"><i
+                                class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </address>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #uploadInfo let-c="close">
+		<div class="modal-header bg-dark">
+				<h2 class="m-b-0 text-white">Import Employee Details</h2>				
+		</div>
+			<div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table color-bordered-table theme-bordered-table">
+                            <thead>
+                                <tr>
+                                    <th>Employee Code</th>
+                                    <th>Employee Name</th>
+                                    <th>Is Valid</th>
+                                    <th>Error Status</th>                                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let emp of uploadEmployee;">
+                                    <td>{{emp.empCode}}</td>
+                                    <td>{{emp.firstName}} {{emp.lastName}}</td>
+                                    <td *ngIf="emp.isValid=='Y'"><span class="label label-success">{{emp.isValid}}</span></td>
+                                    <td *ngIf="emp.isValid=='N'"><span class="label label-danger">{{emp.isValid}}</span></td>
+                                    <td>{{emp.errorStatus}}</td>                                                                        
+                                </tr>                             
+                            </tbody>
+                        </table>
+                    </div>			
+				</div>		
+		<div class="modal-footer">
+			<button type="button" class="btn btn-info waves-effect waves-light" (click)="c()">Close</button>
+			</div>
+	</ng-template>

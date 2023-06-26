@@ -1,0 +1,312 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Vendor Profile</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Vendor Profile</li>
+                </ol>
+                <button type="button" (click)="editVendorProfile()" class="btn btn-info d-block m-l-15"><i class="fa fa-plus-circle"></i> Edit Profile</button>
+                <button type="button" class="btn btn-info d-block m-l-15" [routerLink]="['/vendor/list']">Back</button>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <!-- Row -->
+
+    
+<div class="card">
+    <div class="row">
+       
+        <div class="col-6 box-content right">
+           
+                <div class="card-body">                
+                    <div style="font-size: large;padding-left: 20px;">
+                        <i class="fa fa-building-o" aria-hidden="true"></i> <strong>{{partner.vendorName}}</strong> &nbsp;&nbsp;&nbsp;&nbsp; <strong> <span  class="label label-default"> {{vendorCode}}</span> </strong>
+                    </div>
+                    
+                        
+                   
+                  <div style="padding-left: 20px;">
+                    <i class="fa fa-user" aria-hidden="true"></i> <strong>{{firstName}}</strong> <br>
+                    <i class="fa fa-mobile" aria-hidden="true"></i> <strong>{{partner.mobileNo}}</strong> <br>
+                    <i class="fa fa-envelope" aria-hidden="true"></i> <strong>{{emailId}}</strong> <br>                
+                    <i class="fa fa-address-card" aria-hidden="true"></i><strong>{{partner.addressLine1}},{{partner.city}},{{partner.state}}:{{partner.tinNo}} </strong> <br>
+                    <strong> <b>GST No</b> </strong>:<strong>{{partner.gstNo}}</strong>
+                  </div>
+                </div>
+            
+        </div>
+      
+        <div class="col-3 box-content right">
+                <div class="card-body">
+                    <div style="font-size: large;">
+                        Secondary contact
+                    </div> 
+                    <br>
+                   
+                    <div *ngFor="let item of partner.partnerEmployees">
+                        <i class="fa fa-user" aria-hidden="true"></i> <strong>{{item.firstName}}</strong> &nbsp; <i class="fa fa-mobile" aria-hidden="true"></i> <strong>{{item.mobileNo}}</strong>
+                        <br>
+                    </div>
+    
+                </div>
+        </div>
+        <div class="col-3 box-content right">
+                <div class="card-body">
+                    <strong class="textColor fnL">Outstanding dues</strong> <br> <strong class="fnM">Rs.{{currentAmt | number}}</strong>
+                    <hr>
+                    <strong class="overDue fnL">OVERDUE</strong> <br> <strong class="fnM">Rs.{{overDue | number}}</strong>
+                </div>
+        </div>
+    </div>
+    </div>
+    
+    <style>
+        .textColor {
+            color: #0000ff;
+        }
+    
+        .overDue {
+            color: #ff0000;
+        }
+    
+        .fnL {
+            font-size: large;
+        }
+    
+        .fnM {
+            font-size: medium;
+        }
+    
+        .cardhight {
+            height: 50px;
+        }
+    
+        .textAlign{
+            padding-right: 50%;
+        }
+        .box-content {
+        display: inline-block;
+        width: 200px;
+        padding: 10px;
+    }
+    
+    .bottom {
+        border-bottom: 1px solid #ccc;
+    }
+    
+    .right {
+        border-right: 1px solid #ccc;
+    }
+    
+    </style>
+    
+    <div class="card">
+        <ngb-tabset class="customtab">
+            <ngb-tab title="Purchase order">
+                <ng-template ngbTabContent>
+                    <div class="card-body">
+    
+                        <div class="row">
+                            <div class="form-group col-md-4 col-sm-6">
+                                
+                                <input type="text" class="form-control form-control-line" placeholder="search"
+                                    (input)="PoVendorSideSearch()" [(ngModel)]="searchClientPosString"
+                                    name="searchClientPosString">
+                            </div>
+                            <div class="col-4"></div>
+                            <div class="col-3" >
+                                <ngb-pagination style="float: right;" [(page)]="poPage" [pageSize]="poPageSize"
+                                [collectionSize]="sortPurchaseOrders.length">
+                            </ngb-pagination>
+                            </div>
+                        </div>
+    
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>PO Code</th>
+                                        <th>PO Date</th>
+                                        <th>Gross Po Amount</th>
+                                        <th>Po Paid Amount</th>
+                                        <th>Po Balance Amount</th>
+                                        <th>Document</th>
+    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of sortPurchaseOrders | slice: (poPage-1) * poPageSize : (poPage-1) * poPageSize + poPageSize;let i=index" [routerLink]="['/job/purchase-order/purchase-order-view', item.id]">
+                                        <td><a href="javascript:void(0)"> {{i+1}}</a></td>
+                                        <td><a href="javascript:void(0)"> {{item.poCode}}</a></td>
+                                        <td><a href="javascript:void(0)"> {{item.poDt | date:'dd-MM-yyyy'}}</a></td>
+                                        <td><a href="javascript:void(0)"> {{item.grossPoAmt | number}}</a></td>
+                                        <td><a href="javascript:void(0)"> {{item.totalPaidAmt | number}}</a></td>
+                                        <td><a href="javascript:void(0)"> {{item.totalDueAmt | number}}</a></td>
+                                        <td>
+                                            <a href="javascript:void(0)" *ngIf="item.docId!=null"
+                                            (click)="download(item.docId,item.poCode);">
+                                            <font color="Green">Download</font>
+                                        </a>
+                                        </td>
+                                    </tr>
+                                  
+                                </tbody>
+                            </table>
+                           
+    
+                        </div>
+    
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Payment">
+                <ng-template ngbTabContent>
+                    <div class="card-body">
+    
+                        <div class="row">
+                            <div class="form-group col-md-4 col-sm-6">
+                                
+                                <input type="text" class="form-control form-control-line" placeholder="search"
+                                    (input)="paymetSideSerach()" [(ngModel)]="searchPaymet"
+                                    name="searchSoString">
+                            </div>
+                            <div class="col-4"></div>
+                            <div class="col-3">
+                                <ngb-pagination style="float: right;" [(page)]="payPage" [pageSize]="payPageSize"
+                                [collectionSize]="purchaseOrderPayout.length">
+                            </ngb-pagination>
+                            </div>
+                        </div>
+    
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>payment Ref Number</th>
+                                        <th>payment Date</th>
+                                        <th>Payment Method</th>
+                                        <th>Paid Amount</th>
+                                        <th>Download</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let item of sortPurchaseOrderPayout | slice: (payPage-1) * payPageSize : (payPage-1) * payPageSize + payPageSize;let i=index">
+                                    <td>{{i+1}}</td>  
+                                    <td>{{item.payoutRef}}</td>
+                                    <td>{{item.payoutDate | date:'dd-MM-yyyy'}}</td>
+                                    <td>{{item.payoutMethod}}</td>
+                                    <td>{{item.payoutAmount}}</td>
+                                    <td>
+                                        <a href="javascript:void(0)" *ngIf="item.docId!=null"
+                                        (click)="download(item.docId,item.payoutRef);">
+                                        <font color="Green">Download</font>
+                                        </a>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                            </table>
+                           
+                        </div>
+    
+                    </div>
+                </ng-template>
+            </ngb-tab>      
+            
+            <ngb-tab title="Users">
+                    <ng-template ngbTabContent>
+                        <div class="card-body">
+        
+                            <div class="row">
+                                <div class="form-group col-md-4 col-sm-6">
+                                    
+                                    <input type="text" class="form-control form-control-line" placeholder="search"
+                                        (input)="VendorFilterForUsers()" [(ngModel)]="searchUserString"
+                                        name="searchUserString">
+                                </div>
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                        <!-- <button type="button" style="float: right;" (click)="Create()" class="btn btn-info d-block m-l-15"><i
+                                            class="fa fa-plus-circle"></i>Create New</button> -->
+                                    <ngb-pagination style="float: right;" [(page)]="Page" [pageSize]="PageSize"
+                                    [collectionSize]="sortVendor.length">
+                                </ngb-pagination>
+                                </div>
+                            </div>
+        
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped table-bordered">
+                                    <thead>
+                                            <tr>
+                                                    <th>#</th>
+                                                    <th>userName</th>
+                                                    <th>emailId</th>
+                                                    <th>loginAccess</th>
+                                                </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr *ngFor="let item of sortVendor | slice: (Page-1) * PageSize : (Page-1) * PageSize + PageSize;let i=index">
+                                            <td>{{i+1}}</td>  
+                                            <td>{{item.userName}}</td>
+                                            <td>{{item.emailId}}</td>
+                                            <td>{{item.loginAccess}}</td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                               
+                            </div>
+        
+                        </div>
+                    </ng-template>
+                </ngb-tab> 
+        </ngb-tabset>
+    </div>
+
+    <ng-template #vendors let-c="close">
+            <div class="modal-header">
+                <h4 class="modal-title"> Users </h4>
+                <button type="button" class="close" aria-label="Close" (click)="c()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">    
+                    <div class="form-group col-md-4 col-sm-6">
+                            <label class="control-label">Category Name<font color="red">*</font></label>
+                            <input type="text" class="form-control form-control-line" [(ngModel)]="partner.vendorName" placeholder="clientName"  name="clientName"> 
+                        </div>   
+                        <div class="form-group col-md-4 col-sm-6">
+                                <label class="control-label">Email Id<font color="red">*</font></label>
+                                <input type="text" class="form-control form-control-line" [(ngModel)]="partner.emailId" placeholder="emailId"  name="emailId"> 
+                            </div>     
+                            <div class="form-group col-md-4 col-sm-6">
+                                    <label class="control-label">First Name<font color="red">*</font></label>
+                                    <input type="text" class="form-control form-control-line" [(ngModel)]="partner.priFirstName" placeholder="First Name"  name="priFirstName"> 
+                                </div> 
+                                <div class="form-group col-md-4 col-sm-6">
+                                        <label class="control-label">Last Name<font color="red">*</font></label>
+                                        <input type="text" class="form-control form-control-line" [(ngModel)]="partner.priLastName" placeholder="Last Name"  name="priLastName"> 
+                                    </div>
+                                    <div class="form-group col-md-4 col-sm-6">
+                                            <label class="control-label">Mobile Number<font color="red">*</font></label>
+                                            <input type="text" class="form-control form-control-line" [(ngModel)]="partner.mobileNo" placeholder="mobileNo"  name="mobileNo"> 
+                                        </div>
+    
+                    </div>            
+            </div>
+            <div class="modal-footer align-self-center">
+                    <div>
+                            <button type="button"  class="btn btn-info">Save</button>
+                    </div>
+                </div>
+        </ng-template>

@@ -1,0 +1,91 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor"> FAQ Category </h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active"> FAQ Category </li>
+            </ol>
+            <ng-container *ngIf="isHr1 || isDir || isAdmin">
+                <button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="createFaqCategory('new')"><i
+                    class="fa fa-plus-circle"></i> Create New</button>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+
+<div class="row col-md-12">
+    <div *ngFor="let faq of faqCategories;" class="col-md-2">
+        <div class="card">
+            <div class="card-body">
+                <div [routerLink]="['/faq/',faq.id]" class="row text-center">
+                    <div class="col-md-10 col-lg-12">
+                        <h3 class="box-title m-b-0">{{faq.name}}</h3>
+                        <small>
+                            {{faq.tfaqCount}} article(s)
+                        </small>
+                        <address>
+                            {{faq.description}}
+                            <br />
+                        </address>
+                    </div>
+                </div>
+                <div class="row text-center" *ngIf="isHr1 || isDir || isAdmin">
+                    <div class="col-md-10 col-lg-12">
+                        <button type="button" (click)="createFaqCategory(faq.id)" class="btn btn-success btn-sm"><i
+                                class="fa fa-pencil" aria-hidden="true"></i>
+                        </button>
+                        <button  type="button" (click)="deleteRow(faq.id)" class="btn btn-danger btn-sm">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #create let-c="close">
+    <div class="modal-header">
+        <h4 *ngIf="faqCategory.id==null" class="modal-title">Create FAQ Category</h4>
+        <h4 *ngIf="faqCategory.id!=null" class="modal-title">Edit FAQ Category</h4>
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="form-group col-md-5">
+                <label>Code</label>
+                <input type="text" class="form-control form-control-line" placeholder="FAQ Code"
+                    [(ngModel)]="faqCategory.code" name="code">
+            </div>
+            <div class="form-group col-md-5">
+                <label>Name</label>
+                <input type="text" (change)="checkDuplicateName()" class="form-control form-control-line" placeholder="FAQ Name"
+                    [(ngModel)]="faqCategory.name" name="name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-10">
+                <label>Description</label>
+                <textarea name="description" placeholder="FAQ Description" [(ngModel)]="faqCategory.description"
+                    class="form-control form-control-line" id="description" cols="8" rows="6"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <ng-container *ngIf="faqCategory.id==null">
+            <button type="button" [disabled]="faqCategory.name==null || faqCategory.name=='' " (click)="createFaq()"
+                class="btn btn-outline-success">Create</button>
+        </ng-container>
+        <ng-container *ngIf="faqCategory.id!=null">
+            <button type="button" [disabled]="faqCategory.name==null || faqCategory.name==''" (click)="updateFaq()"
+                class="btn btn-outline-warning">Update</button>
+        </ng-container>
+
+    </div>
+</ng-template>

@@ -1,0 +1,104 @@
+CREATE DEFINER=`so_user`@`%` PROCEDURE `smart_office`.`processEmpPayout`(employeeId VARCHAR(25),compPayCycleId VARCHAR(25))
+BEGIN
+	
+DECLARE done INT DEFAULT FALSE;
+DECLARE PayoutId VARCHAR(25);
+DECLARE employeeId VARCHAR(30);
+DECLARE employeeCode VARCHAR(30);
+DECLARE payDate VARCHAR(30);
+DECLARE toDate VARCHAR(30);
+DECLARE fromDate VARCHAR(30);
+DECLARE pfNo VARCHAR(30);
+DECLARE accountNumber VARCHAR(30);
+DECLARE designationName VARCHAR(30);
+DECLARE esiNumber VARCHAR(30);
+DECLARE panNumber VARCHAR(30);
+DECLARE emailId VARCHAR(30);
+DECLARE compPayCycle VARCHAR(30);
+DECLARE dateOfBirth VARCHAR(30);
+DECLARE email VARCHAR(30);
+DECLARE compPayCycleId VARCHAR(30);
+DECLARE gradeName VARCHAR(30);
+DECLARE bankName VARCHAR(30);
+-- declare uid VARCHAR(30);
+-- declare handler to determine the end stage
+
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+set PayoutId = LAST_INSERT_ID();
+-- getting from employee
+-- 
+--  select * into v_emp from m_employee where id= employeeId;getting from employee
+-- 
+-- select v_emp.em...into v_payout.employee ... from dual
+
+set employeeId=1;
+set compPayCycleId=1;
+-- -- 
+SELECT  id, emp_code,epf_no,esi_no,pan_no,dob,email_id into employeeId,employeeCode,pfNo,esiNumber,panNumber,dateOfBirth,email from m_employee where id= employeeId;
+
+SELECT acc_no into accountNumber FROM m_emp_bank_details where is_default='Y';
+
+SELECT desig_name INTO designationName FROM s_designation where is_default='Y';
+
+SELECT grade_name INTO gradeName FROM s_grade WHERE is_default='Y';
+
+SELECT bank_name INTO bankName from m_emp_bank_details WHERE is_default='Y';
+
+
+select from_dt,to_dt,pay_dt,m_comp_pay_cycle_id into fromDate,toDate,payDate,compPayCycleId FROM m_comp_pay_cycle_line where id=compPayCycleId;
+
+
+
+
+
+INSERT INTO t_emp_payout(employee_id,employee_code,from_dt,to_dt,pay_dt,d_pf_no,d_account_number,d_designation,d_esi_number,d_pan_number,dob,d_email,comp_pay_cycle_id,d_grade,d_bank_name) VALUES(employeeId,employeeCode,fromDate,toDate,payDate,pfNo,accountNumber,designationName,esiNumber,panNumber,dateOfBirth,email,compPayCycleId,gradeName,bankName);
+
+
+
+-- 
+-- 
+-- into employeeId,employeeCode,isActive,compPayCycleId,totalAllowanceAmt,totalDeducationAmt
+-- ,paydate,todate,fromdate,netPayAmt,remarks,isEnabled,createdBy,modifiedBy,createdDt
+-- ,modifiedDt,pfNo,gradeNo,accountNumber,designationPlace,dateOfBirth,paymentMode
+-- ,lossOfPay,dayss,salaryForMonth,salaryForYear,salaryPaidMonth,salaryPaidYear
+-- ,esiNumber,panNumber,emails,bankNames from t_emp_payout WHERE uid LIKE compPayCycleId;
+
+
+
+-- INSERT INTO t_emp_payout VALUES (employee_id,employee_code,is_active,comp_pay_cycle_id
+-- ,total_allowance_amt,total_deducation_amt,pay_dt,to_dt
+-- ,from_dt,net_pay_amt,remarks,is_enabled,created_by,modified_by
+-- ,created_dt,modified_dt,d_pf_no,d_grade,d_account_number,d_designation
+-- ,dob,d_payment_mode,d_lop,d_days,d_salary_for_month,d_salary_for_year
+-- ,d_salary_paid_month,d_salary_paid_year,d_esi_number,d_pan_number,d_email ,d_bank_name);
+
+
+
+-- cursor open
+
+-- OPEN EmpCtcId;
+-- -- loop starts
+-- 
+-- get_EmpCtcId: LOOP
+-- FETCH NEXT FROM headerid INTO v_loop;
+-- 
+-- -- INSERT INTO smart_office.t_emp_payout_line
+-- -- (m_emp_payout_id, line_order, is_allowance, pay_out_type, ytd_amt, line_amt, is_enabled, created_by, modified_by, created_dt, modified_dt, pay_type_name, payout_name)
+-- -- VALUES('3', 25, 'N', '1', '1', '1', 'Y', 'PF', 'MASTER', '2018-05-02T18:52:16.936', '2018-05-02T18:52:16.936', 'User', 'Provident Fund');
+-- IF done THEN 
+-- LEAVE get_headerid;
+-- END IF;
+-- 
+-- -- loop ends
+--  END LOOP;
+
+
+
+-- closing cursor
+-- CLOSE EmpCtcId;
+
+
+
+
+END

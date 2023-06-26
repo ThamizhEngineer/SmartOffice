@@ -1,0 +1,7 @@
+{
+  "name": "so-mobile-app",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

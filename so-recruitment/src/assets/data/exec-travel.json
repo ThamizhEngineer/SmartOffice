@@ -1,0 +1,24 @@
+{
+"id":"011",
+"customer":"GE",
+"location":"Gujarat",
+"duration":"4days",
+"employee": "Jay Paul",
+"status" : "Approved",
+"tickets" :[{
+"type": "Train",
+"number": "61111",
+"date" : "10/03/2018 10:30",
+"PNR" : "PNR11111",
+"boarding": "Chennai",
+"dropping": "Pune"
+},{
+"type": "Train",
+"number": "63333",
+"date" : "11/03/2018 22:30",
+"PNR" : "PNR12312",
+"boarding": "Pune",
+"dropping": "Ahmedabad"
+}]
+
+}

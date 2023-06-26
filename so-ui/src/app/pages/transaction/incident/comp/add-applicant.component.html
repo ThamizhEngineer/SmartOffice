@@ -1,0 +1,85 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Add Applicant List</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Recruitment</li>
+                    <li class="breadcrumb-item active">Event</li>
+                    <li class="breadcrumb-item active">Add Applicant List </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+                            
+                        <div class="card card-body" >  
+                            <flag-alert [message]="saveMsg"></flag-alert>
+                            <h3><span>{{code}} &nbsp; {{summary}}</span></h3>                       
+                                <div class="table-responsive">
+                                        <table class="table table-sm table-hover table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Email Id</th>
+                                                    <th>Mobile Number</th>
+                                                    <th>Resume</th>
+                                                    <th>Source</th>
+                                                    <th>Reference Name</th>
+                                                    <th>Action</th>								
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let user of vcApplicant;let i=index">
+                                                    <td>
+                                                            <input type="text" class="form-control form-control-line" [(ngModel)]="user.firstName" name="remarks" placeholder="First Name">
+                                                    </td>
+                                                    <td>
+                                                            <input type="text" class="form-control form-control-line" [(ngModel)]="user.lastName" name="remarks" placeholder="Last Name">
+                                                    </td>
+                                                    <td>
+                                                            <input type="email" class="form-control form-control-line" [(ngModel)]="user.email" name="remarks" placeholder="Email">
+                                                    </td>
+                                                    <td>
+                                                            <input type="number" class="form-control form-control-line" [(ngModel)]="user.mobileNumber" name="remarks" placeholder="">
+                                                    </td>
+                                                    <td>
+                                                        <file-upload [fileDetail]="'RESUME-FROM-WEBSITE'" (change)="uploadResume(i,$event,'RESUME-FROM-WEBSITE')"></file-upload>
+                                                        <td>
+                                                        <select class="form-control" name="source" [(ngModel)]="user.source" id="source">
+                                                            <option value="website">Website</option>
+                                                            <option value="campus">Campus</option>
+                                                            <option value="reference">Reference</option>
+                                                            <option value="adhoc">adhoc</option>
+                                                        </select>
+                                                    </td>
+                                                    <td *ngIf="user.source!='reference'" >
+                                                        -
+                                                    </td>
+                                                    <td *ngIf="user.source=='reference'">
+                                                            <input type="text" class="form-control form-control-line" [(ngModel)]="user.referredByEmpName" name="remarks" placeholder="">
+                                                    </td>
+                                                    <td>
+                                                            <a href="javascript:void(0)" (click)="addApplicant()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                                                            <a href="javascript:void(0)" (click)="removeApplicant(i)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a><br/>
+                                                    </td>
+                                                    								
+                                                </tr>						 
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+             <div class="modal-footer">    
+            <div class="form-group">
+                    <button type="button" [routerLink]="['/recruitment/incident/']" class="btn btn-warning d-none d-lg-block m-l-15"> Back</button>
+            </div>
+            <div class="form-group">
+                    <button type="button"  (click)="submit()" class="btn btn-success d-none d-lg-block m-l-15"> Submit</button>
+            </div>
+            </div>    
+                                                                                                                               
+                        </div>
+    
+                        <!-- <input type="text" class="form-control form-control-line" [(ngModel)]="user." name="remarks" placeholder=""> -->

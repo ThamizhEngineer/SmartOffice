@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://www.w3.org/2005/10/profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style>
+@page {
+	size: A4;
+	margin: 1px;
+	padding-top: 1px;
+	font-family: "Times";
+	size: landscape;
+}
+
+body {
+	font-size: 8px;
+	font-family: "Times";
+	width: 1025px;
+}
+
+th {
+	background-color: #efefef;
+}
+</style>
+<title>Salary Slip</title>
+</head>
+<body>
+	<table border="1" cellpadding="2"
+		style="border: 1px solid #CCC; border-collapse: collapse; width: 1025px;">
+		<tr>
+			<td rowspan="2" style="width: 180px;"><div
+					style="background: url('/opt/so/data/images/logo.png'); width: auto; height: 70px; background-size: cover; background-repeat: no-repeat; background-position: center">
+					&nbsp;</div></td>
+			<td
+				style="width: 350px; font-size: 18px; cellpadding: 1px; text-align: center;"><strong>Pothigai
+					Power Solutions Private Limited</strong></td>
+			<td
+				style="text-align: right; width: 100px; font-size: 11px; padding-right: 0px;">
+				Pothigai Bhavan<br />#3C,Gandhi Nagar,<br />Urappakkam-603210
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="font-size: 14px;"><div>
+					<center>Payslip</center>
+				</div></td>
+		</tr>
+	</table>
+
+	<table border="1" cellpadding="2"
+		style="border: 1px solid #CCC; border-collapse: collapse; width: 1025px; margin-top: 3px; text-align: left;">
+		<tr>
+			<th style="width: 150px;">Name of Employee</th>
+			<th colspan="3" style="width: 150px;" th:text="${empName}"></th>
+			<th>Period Days</th>
+			<th>Period Holidays</th>
+			<th>Worked Days</th>
+			<th>LOP / LWOP</th>
+		</tr>
+		<tr>
+			<th>Employee Code</th>
+			<td th:text="${empCode}"></td>
+			<th>DOB</th>
+			<td th:text="${dob}"></td>
+			<td th:text="${periodDays}"></td>
+			<td th:text="${periodHolidays}"></td>
+			<td th:text="${workedDays}"></td>
+			<td th:text="${lopAndlwop}"></td>
+		</tr>
+		<tr>
+			<th>Department</th>
+			<td th:text="${department}"></td>
+			<th>DOJ</th>
+			<td th:text="${doj}"></td>
+			<th>Arrear Days</th>
+			<th>Late Days Deduction</th>
+			<th>Overtime Hours</th>
+			<th>Wage Days</th>
+		</tr>
+		<tr>
+			<th>Designation</th>
+			<td th:text="${designation}"></td>
+			<th>Nature Of Position</th>
+			<td th:text="${natureOfPosition}"></td>
+			<td th:text="${arrearDays}"></td>
+			<td th:text="${lateDaysDeduction}"></td>
+			<td th:text="${overtimeHours}"></td>
+			<td th:text="${wageDays}"></td>
+		</tr>
+		<tr>
+			<th>Grade</th>
+			<td th:text="${grade}"></td>
+			<th>Bank</th>
+			<td th:text="${bank}"></td>
+			<th>Pf No.</th>
+			<td colspan="3" th:text="${pfNo}"></td>
+		</tr>
+		<tr>
+			<th>Special Designation</th>
+			<td th:text="${specialDesignation}"></td>
+			<th>Account #</th>
+			<td th:text="${accountNumber}"></td>
+			<th>EPS No.</th>
+			<td colspan="3" th:text="${epsNo}"></td>
+		</tr>
+		<tr>
+			<th>Skill</th>
+			<td th:text="${skill}"></td>
+			<th>PAN #</th>
+			<td th:text="${accountNumber}"></td>
+			<th>ESI No.</th>
+			<td colspan="3" th:text="${esiNo}"></td>
+		</tr>
+		<tr>
+			<th>Business</th>
+			<td th:text="${business}"></td>
+			<th>Aadhaar #</th>
+			<td th:text="${aadharNo}"></td>
+			<th>UAN #</th>
+			<td colspan="3" th:text="${uanNo}"></td>
+		</tr>
+		<tr>
+			<th th:text="${additionalInfos1}"></th>
+			<td th:text="${additionalInfo1}"></td>
+			<th th:text="${additionalInfos2}"></th>
+			<td th:text="${additionalInfo2}"></td>
+			<th th:text="${additionalInfos3}"></th>
+			<td colspan="3" th:text="${additionalInfo3}"></td>
+		</tr>
+		<tr>
+			<td colspan="8"></td>
+		</tr>
+		<tr>
+			<th colspan="5" style="text-align: center">EARNINGS</th>
+			<th colspan="3" style="text-align: center">DEDUCTIONS</th>
+		</tr>
+		<tr>
+			<th>Pay Heads</th>
+			<th>Earning of the Period</th>
+			<th>Arrears Amount</th>
+			<th>Current Earnings</th>
+			<th>YTD Earnings</th>
+			<th>Deduction Heads</th>
+			<th>Current Deductions</th>
+			<th>YTD Deductions</th>
+		</tr>
+		<tr style="background-color: #efefef">
+			<td colspan="5"><i>A1. Fixed Compensation</i></td>
+			<td colspan="3"><i>Deductions</i></td>
+		</tr>
+		<tr th:each="a1 : ${a1List}">
+			<td th:text="${a1.aPayTypeName}"></td>
+			<td th:text="${a1.aEarningPeriod}"></td>
+			<td th:text="${a1.aArrears}"></td>
+			<td th:text="${a1.aCurrentPeriod}"></td>
+			<td th:text="${a1.aYtdEarnings}"></td>
+			<td th:text="${a1.dPayTypeName}"></td>
+			<td th:text="${a1.dCurrentPeriod}"></td>
+			<td th:text="${a1.dYtdEarnings}"></td>
+		</tr>
+
+		<tr style="font-weight: bold;">
+			<td>Sub Total Fixed Compensation (A1)</td>
+			<td th:text="${totalA1Value}"></td>
+			<td th:text="${totalA1ArrearValue}"></td>
+			<td th:text="${totalA1CurrentValue}"></td>
+			<td th:text="${totalA1YtdValue}"></td>
+			<td><i> Sub Total Deduction D1</i></td>
+			<td th:text="${totalD1Value}"></td>
+			<td th:text="${totalD1ValueYtd}"></td>
+		</tr>
+		<tr style="background-color: #efefef">
+			<td colspan="5"><i>A2. Additional Fixed Compensation</i></td>
+			<th><strong>Net Pay</strong></th>
+			<th colspan="2"><strong>In Words</strong></th>
+		</tr>
+
+		<tr th:each="a2,iter : ${a2List}">
+			<td th:text="${a2.aPayTypeName}"></td>
+			<td th:text="${a2.aCurrentPeriod}"></td>
+			<td th:text="${a2.aArrears}"></td>
+			<td th:text="${a2.aEarningPeriod}"></td>
+			<td th:text="${a2.aYtdEarnings}"></td>
+
+			<td th:if="${iter.index == 0}" th:text="${netSalary}"></td>
+			<td th:if="${iter.index == 0}" colspan="2" th:text="${netPayInWords}"></td>
+
+			<th th:if="${iter.index == 1}" colspan="3"><center>EPF
+					By Employer</center></th>
+
+			<th th:if="${iter.index == 2}">Opening</th>
+			<th th:if="${iter.index == 2}">Current</th>
+			<th th:if="${iter.index == 2}">Closing</th>
+			<td th:if="${iter.index ==3}" th:text="${pfOpeningValue}"></td>
+			<td th:if="${iter.index == 3}" th:text="${pfCurrentValue}"></td>
+			<td th:if="${iter.index ==3}" th:text="${pfBalanceValue}"></td>
+			<td th:if="${iter.index >= 4}" colspan="3">&nbsp;</td>
+			
+
+		</tr>
+		<tr th:each="adfc,iter: ${adfcList}">
+			<td th:text="${adfc.aPayTypeName}"></td>
+			<td th:text="${adfc.aCurrentPeriod}"></td>
+			<td th:text="${adfc.aArrears}"></td>
+			<td th:text="${adfc.aEarningPeriod}"></td>
+			<td th:text="${adfc.aYtdEarnings}"></td>
+			<td th:if="${iter.index ==0}" th:text="${pfOpeningValue}"></td>
+			<td th:if="${iter.index ==0}" th:text="${pfCurrentValue}"></td>
+			<td th:if="${iter.index ==0}" th:text="${pfBalanceValue}"></td>
+			<td th:if="${iter.index == 1}"colspan="3">&nbsp;</td>
+
+		</tr>
+
+		<tr style="font-weight: bold;">
+			<td>Sub Total Addi.Fixed Comp.(A2)</td>
+			<td th:text="${totalA2CurrentValue}"></td>
+			<td th:text="${totalA2ArrearValue}"></td>
+			<td th:text="${totalA2Value}"></td>
+			<td th:text="${totalA2YtdValue}"></td>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+		<tr style="background-color: #efefef">
+			<td colspan="5"><i>B.Variable Compensation</i></td>
+			<th colspan="3"><strong>Remarks</strong></th>
+		</tr>
+
+		<tr th:each="b,iter : ${bList}">
+			<td th:text="${b.aPayTypeName}"></td>
+			<td th:text="${b.aCurrentPeriod}"></td>
+			<td th:text="${b.aArrears}"></td>
+			<td th:text="${b.aEarningPeriod}"></td>
+			<td th:text="${b.aYtdEarnings}"></td>
+			<td rowspan="7" colspan="3" align="left" valign="top"
+				th:if="${iter.index == 0}" th:text="${remarks}"></td>
+		</tr>
+			<tr th:each="avc,iter: ${avcList}">
+			<td th:text="${avc.aPayTypeName}"></td>
+			<td th:text="${avc.aCurrentPeriod}"></td>
+			<td th:text="${avc.aArrears}"></td>
+			<td th:text="${avc.aEarningPeriod}"></td>
+			<td th:text="${avc.aYtdEarnings}"></td>
+			
+		
+		</tr>
+
+		<tr style="font-weight: bold;">
+			<td><i>Sub Total Variable Comp. (B) </i></td>
+			<td th:text="${totalBValue}"></td>
+			<td th:text="${totalBArrearValue}"></td>
+			<td th:text="${totalBCurrentValue}"></td>
+			<td th:text="${totalBYtdValue}"></td>
+		</tr>
+		<tr style="background-color: #efefef">
+			<td><strong>Gross Earnings</strong></td>
+			<th th:text="${grossSalary}"></th>
+			<th th:text="${totalArrearAmt}"></th>
+			<th th:text="${totalCurrentPeriod}"></th>
+			<th th:text="${totalYtd}"></th>
+		</tr>
+
+		<tr>
+			<td colspan="8"></td>
+		</tr>
+		<tr>
+			<th colspan="5">Leave Details</th>
+			<th colspan="4"><strong>Signature</strong></th>
+		</tr>
+
+		<tr>
+			<th>Name</th>
+			<th>Opening</th>
+			<th>Accured</th>
+			<th>Availed</th>
+			<th>Balance</th>
+			<td colspan="3"><strong>&nbsp;</strong></td>
+		</tr>
+		<tr th:each="leave : ${leaveList}">
+			<td th:text="${leave.leaveType}"></td>
+			<td th:text="${leave.openingBalance}"></td>
+			<td th:text="${leave.accured}"></td>
+			<td th:text="${leave.availed}"></td>
+			<td th:text="${leave.balance}"></td>
+			<td colspan="3"><strong>&nbsp;</strong></td>
+		</tr>
+
+		<tr style="font-weight: bold;">
+			<td><i>Total</i></td>
+			<td th:text="${totalLeaveOpening}"></td>
+			<td th:text="${totalAccured}"></td>
+			<td th:text="${totalAvailed}"></td>
+			<td th:text="${totalBalance}"></td>
+			<td colspan="3"><strong>&nbsp;</strong></td>
+		</tr>
+	</table>
+</body>
+</html>

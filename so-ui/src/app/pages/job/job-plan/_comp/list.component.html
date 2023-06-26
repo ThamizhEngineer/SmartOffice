@@ -1,0 +1,184 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Job Planning</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item active">Job Planning</li>
+			</ol>
+			<button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="createJob();"><i class="fa fa-plus-circle"></i> Create Job</button>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12 card card-body">
+		<flag-alert [message]="saveMsg"></flag-alert>
+		<div class="table-responsive">
+			<table class="table table-striped table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>Job Code</th>
+						<th>Job Name</th>
+						<th>Job Type</th>
+						<th>ClientName</th>
+						<th>Start Date</th>
+						<th>Location</th>
+						<!-- <th>Status</th> -->
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let j of jp | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+						<td>{{j.jobCode}}</td>
+						<td>{{j.jobName}}</td>
+						<td>{{j.jobTypeName}}</td>
+						<td>{{j.endClientName}}</td>
+						<td>{{j.startDt | date: 'dd-MMM-yyyy'}}</td>
+						<td>{{j.mapLocationName}}</td>
+						<!-- <td><span *ngIf="!j.jobPlanStatus" class="label label-warning">Not Started</span></td> -->
+						<td>
+							<a href="javascript:void(0)" [routerLink]="['/job/job-plan/detail', j.id]"><i class="fa fa-pencil text-danger m-r-10"></i> </a>
+							<confirm-delete [type]="'icon'" (confirmed)="deleteRow(j.id)"></confirm-delete>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<ngb-pagination 
+                    [(page)]="page"
+                    [pageSize]="pageSize"
+                    [collectionSize]="jp.length"></ngb-pagination>
+	</div>
+</div>
+
+<ng-template #jdetail let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">Create Job</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<flag-alert [message]="validation"></flag-alert>
+		<div class="row">
+			<div class="col-4 form-group">
+				<label>Client <span class="text-danger">*</span></label>
+				<!-- <input type="text" class="form-control"  placeholder="Client" [ngbTypeahead]="clientsAC"
+					 (selectItem)="onClientSelected($event)" [resultTemplate]="rt1" [inputFormatter]="client_formatter" [(ngModel)]="job.endClientName" />
+				<ng-template #rt1 let-r="result" let-t="term">
+				  {{ r.clientName}}
+				</ng-template> -->
+				<input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                            class="form-control" [ngbTypeahead]="clientsAC"
+                                            [resultTemplate]="rt1" [inputFormatter]="client_formatter"
+                                            placeholder="Client" (selectItem)="onClientSelected($event)"
+                                            [value]="job.endClientName" [editable]='false' ngbtypeaheadpopup>
+                                        <ng-template #rt1 let-r="result" let-t="term">
+                                            {{r.clientName}}
+                                        </ng-template>
+			</div>
+			<div class="col-4 form-group">
+				<label>Sale Order<span class="text-danger">*</span></label>
+				<!-- <input type="text" class="form-control"  placeholder="Sale Order" [ngbTypeahead]="saleOrderAC" 
+			(selectItem)="onSaleOrderSelected($event)" [resultTemplate]="rt2" [inputFormatter]="sale_formatter" [(ngModel)]="job.saleOrderCode"/>
+				<ng-template #rt2 let-r="result" let-t="term">
+				  {{ r.saleOrderCode}}
+				</ng-template> -->
+				<input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                            class="form-control" [ngbTypeahead]="saleOrderAC"
+                                            [resultTemplate]="rts" [inputFormatter]="sale_formatter"
+                                            placeholder="Sale Order Code" (selectItem)="onSaleOrderSelected($event)"
+                                            [value]="job.saleOrderCode" [editable]='false' ngbtypeaheadpopup>
+                                        <ng-template #rts let-r="result" let-t="term">
+                                            {{r.saleOrderCode}}
+                                        </ng-template>
+			</div>
+			<div class="col-4 form-group">
+				<label>Project <span class="text-danger">*</span></label>
+				<!-- <input type="text" class="form-control"  placeholder="Project" [ngbTypeahead]="projectAC" 
+				(selectItem)="onProjectSelected($event)" [resultTemplate]="rt3" [inputFormatter]="project_formatter" [(ngModel)]="job.projName"/>
+				<ng-template #rt3 let-r="result" let-t="term">
+				  {{ r.projName}}
+				</ng-template> -->
+				<input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                            class="form-control" [ngbTypeahead]="projectAC"
+                                            [resultTemplate]="rt3" [inputFormatter]="project_formatter"
+                                            placeholder="Project Name" (selectItem)="onProjectSelected($event)"
+                                            [value]="job.projName" [editable]='false' ngbtypeaheadpopup>
+                                        <ng-template #rt3 let-r="result" let-t="term">
+                                            {{r.projName}}
+                                        </ng-template>
+			</div>
+		</div>
+		<div class="row">
+				<div class="col-4 form-group">
+						<label>Job Type <span class="text-danger">*</span></label>
+						<!-- <input type="text" class="form-control"  placeholder="JobType" [ngbTypeahead]="jobTypeAC" (selectItem)="onJobTypeSelected($event)" 
+							[resultTemplate]="rt4" [inputFormatter]="jobType_formatter" [(ngModel)]="job.jobTypeName"/>
+						<ng-template #rt4 let-r="result" let-t="term">
+						  {{ r.jobTypeName}}
+						</ng-template> -->
+						<input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                            class="form-control" [ngbTypeahead]="jobTypeAC"
+                                            [resultTemplate]="rt4" [inputFormatter]="jobType_formatter"
+                                            placeholder="Job Type" (selectItem)="onJobTypeSelected($event)"
+                                            [value]="job.jobTypeName" [editable]='false' ngbtypeaheadpopup>
+                                        <ng-template #rt4 let-r="result" let-t="term">
+                                            {{r.jobTypeName}}
+                                        </ng-template>
+					</div>
+			<div class="col-4 form-group">
+				<label>Job Name <span class="text-danger">*</span></label>
+				<input type="text" class="form-control"  placeholder="Job Name" (keypress)="commonService.isValidName($event)" [(ngModel)]="job.jobName"/>
+			</div>
+			<div class="col-2 col-md-4 form-group">
+					<label>Location <span class="text-danger">*</span></label>
+
+					<map-view [value]="job.mapLocationName" (location)="onLocationSelected($event)" ></map-view>
+
+					<!-- <input type="text" class="form-control"  placeholder="Location" [ngbTypeahead]="locationAC" (selectItem)="onLocationSelected($event)" [resultTemplate]="rt5" [inputFormatter]="location_formatter" [(ngModel)]="job.mapLocationName"/>
+				
+					<ng-template #rt5 let-r="result" let-t="term">
+					  {{ r.locName}}
+					</ng-template> -->
+					
+			</div>
+
+
+			
+
+				
+		
+		</div>
+		
+		
+		<div class="row">
+			<div class="col-4 form-group">
+				<label>Start Date <span class="text-danger">*</span></label>
+				<!-- <so-datepicker [(model)]="cjp.startDt" (change)="cjp.startDt = $event"></so-datepicker> -->
+
+				<input type="date" class="form-control form-control-line" [(ngModel)]="cjp.startDt"  >
+			</div>
+			<div class="col-4 form-group">
+				<label>End Date <span class="text-danger">*</span></label>
+				<!-- <so-datepicker [(model)]="cjp.endDt" (change)="cjp.endDt = $event"></so-datepicker> -->
+				<input type="date" class="form-control form-control-line" [(ngModel)]="cjp.endDt"  >
+			</div>
+
+			<div class="form-group col-sm-6 col-md-4">
+				<label class="control-label">Shift Timing<font color="red">*</font></label>				
+				<select class="form-control" [(ngModel)]="cjp.shiftId">
+					<option *ngFor="let v of shifts" [value]="v.id">{{v.shiftName}}({{v.fromTime  | slice:0:5}}-{{v.toTime  | slice:0:5}})</option>
+				</select>				
+			</div>
+
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" (click)="save()">Start Job</button>
+		<button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+	</div>
+</ng-template>         

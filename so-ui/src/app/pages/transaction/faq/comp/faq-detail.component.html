@@ -1,0 +1,215 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 *ngIf="faq.id==null" class="text-themecolor"> Create FAQ Post </h4>
+        <h4 *ngIf="faq.id!=null" class="text-themecolor"> FAQ Post </h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li *ngIf="faq.id!=null" class="breadcrumb-item active"> {{faq.faqCatName}}</li>
+                <li *ngIf="faq.id==null" class="breadcrumb-item active"> Create FAQ Post</li> 
+                <li *ngIf="faq.id!=null" class="breadcrumb-item active"> FAQ Post</li>
+            </ol>
+            <button type="button" class="btn btn-info d-none d-lg-block m-l-15"
+            [routerLink]="['/faq/']"> Back</button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="viewType=='edit' || viewType=='new'" class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="form-group col-md-5">
+                <label>Title</label>
+                <input type="text" class="form-control form-control-line" placeholder="FAQ Post Title"
+                    [(ngModel)]="faq.header" name="code">
+            </div>
+            <div class="col-md-5"> </div>
+            <div class="col-md-2">
+                <div class="col-md-2">
+                    <label></label>
+                    <ng-container *ngIf="faq.id==null">
+                        <button type="button" class="btn btn-success d-none d-lg-block m-l-15" (click)="save()">
+                            Save</button>
+                    </ng-container>
+                    <ng-container *ngIf="faq.id!=null">
+                        <button type="button" class="btn btn-warning d-none d-lg-block m-l-15" (click)="update()">
+                            Update</button>
+                    </ng-container>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-md-12">
+                <div class="force-to-the-bottom">
+                    <tag-input [ngModel]="faq.faqTags" [editable]='true' (onAdd)="onItemAdded($event)"
+                        (onRemove)="onItemRemoved($event)" [identifyBy]="'mtagId'" [displayBy]="'tagName'">
+                        <tag-input-dropdown 
+                        [autocompleteItems]="tags" 
+                        [showDropdownIfEmpty]="true"
+                        [dynamicUpdate]="false">
+                        </tag-input-dropdown>
+                    </tag-input>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-md-12">
+                <perfect-scrollbar class="scroll">
+                    <ckeditor class="ck-editor__editable" [editor]="editor" [(ngModel)]="data"></ckeditor>
+                </perfect-scrollbar>
+            </div>
+        </div>
+        <div class="row">
+            <div class="table-responsive m-t-40">
+                <perfect-scrollbar class="scroll2">
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered"
+                        cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th data-sort-initial="true" data-toggle="true">#</th>
+                                <th data-sort-initial="true" data-toggle="true">Reference Link Title</th>
+                                <th data-sort-initial="true" data-toggle="true">link</th>
+                                <th data-sort-initial="true" data-toggle="true">Action
+                                    <a *ngIf="faq.faqRefLinks.length == 0" href="javascript:void(0)"
+                                        (click)="addRows()"><i class="fa fa-plus text-danger m-r-10"></i></a>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr *ngFor="let item of faq.faqRefLinks;let i=index">
+                                <td>{{i+1}}</td>
+                                <td><input type="text" class="form-control form-control-line"
+                                        placeholder="Reference Link Title" [(ngModel)]="item.refLinkTitle" name="code">
+                                </td>
+                                <td><input type="text" class="form-control form-control-line"
+                                        placeholder="Reference Link" [(ngModel)]="item.refLink" name="code"></td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="addRows()">
+                                        <i class="fa fa-plus text-danger m-r-10"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" *ngIf="faq.faqRefLinks.length > 1" (click)="delRow(i)">
+                                        <i class="fa fa-close text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </perfect-scrollbar>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- only for view  -->
+
+
+<div *ngIf="viewType=='view'" class="card">
+    <div class="text-center">
+        <h1 class="box-title m-b-0">{{faq.header}}</h1>
+    </div>
+    <div class="card-body">
+
+        <!-- <div class="row">
+            <div class="col-md-12">
+                <div class="force-to-the-bottom">
+                    <tag-input [(ngModel)]="faq.faqTags" [removable]="false" [identifyBy]="'mtagId'"
+                        [displayBy]="'tagName'">
+
+                    </tag-input>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-md-12">
+                <perfect-scrollbar class="scroll">
+                    <div [innerHTML]="data"></div>
+                </perfect-scrollbar>            
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list-group" *ngFor="let item of faq.faqRefLinks;let i=index">
+                    <a href="#" class="link-primary" (click)="goToLink(item.refLink)"  >{{item.refLinkTitle}}</a><br/>
+                </ul>   
+            </div>
+                 
+        </div>
+
+         <br/>
+        <div class="row" *ngIf="isLiked==''">
+            <div class="col-md-1">
+
+                <button type="button" (click)="faqLike('Y')"
+                    class="btn btn-outline-success  d-none d-lg-block m-l-15">{{faq.totalLike}} &nbsp; <i
+                        class="fa fa-thumbs-up" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="col-md-1">
+                <button type="button" (click)="faqLike('N')" class="btn btn-outline-danger  d-none d-lg-block m-l-15">
+                    {{faq.totalDisLike}} &nbsp; <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="isLiked=='N' || isLiked=='Y'">
+            <div class="col-md-1">
+                <button type="button" (click)="faqLike('Y')"
+                    class="btn btn-{{isLiked=='Y'?'success':'outline-success'}}  d-none d-lg-block m-l-15">{{faq.totalLike}}
+                    &nbsp; <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                </button></div>
+            <div class="col-md-1">
+                <button type="button" (click)="faqLike('N')"
+                    class="btn btn-{{isLiked=='N'?'danger':'outline-danger'}}  d-none d-lg-block m-l-15">
+                    {{faq.totalDisLike}} &nbsp; <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                </button></div>
+        </div>
+
+        <br>
+        <h3>Comments</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <textarea [(ngModel)]="faqComment.comment" class="form-control form-control-line" rows="5"></textarea>
+                <div align="right" class="align-self-right">
+                    <button type="button" (click)="postFaqComment()"
+                        class="btn btn-outline-success  d-none d-lg-block m-l-15">Post </button>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <perfect-scrollbar class="scroll2">
+                    <table class="table">
+                        <tbody>
+                            <tr *ngFor="let item of faq.faqComments">
+                                <td>{{item.comment}}
+                                    <div align="right" class="align-self-right">
+                                        <font color="gray">
+                                            <p class="m-t-5"><b>Posted By:</b> <i> {{item.createdByName}} <br>
+                                                    {{item.createdDt | date:'dd-MM-yyyy HH:mm'}}</i></p>
+                                        </font>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </perfect-scrollbar>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .scroll {
+        max-height: 700px;
+    }
+
+    .scroll2 {
+        max-height: 300px;
+    }
+</style>

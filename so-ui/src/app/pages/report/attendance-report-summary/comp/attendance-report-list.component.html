@@ -1,0 +1,102 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+        <h4 *ngIf="view=='office'" class="text-themecolor">Office Based summary</h4>
+        <h4 *ngIf="view=='employee'" class="text-themecolor">Employee Based summary</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+                <li *ngIf="view=='office'"  class="breadcrumb-item active">Office Based summary</li>
+                <li *ngIf="view=='employee'"  class="breadcrumb-item active">Employee Based summary</li>
+			</ol>
+			
+		</div>
+	</div>
+</div>
+
+<div class="row">
+    <div class="col-12 card card-body form-body">
+        <div class="row">
+            <div class="col-4 form-group">
+                <label>Month/Year</label>
+                <month-picker [(config)]="mpFromConfig" [(model)]="mpSalModel"
+                    (mpOnModelChange)="this.mpOnModelChange($event)"></month-picker>
+            </div>
+            <div *ngIf="view=='office'" class="form-group col-md-2">
+                <label>Office</label>
+                <select class="form-control" [(ngModel)]="officeId">
+                    <option *ngFor="let v of offices" [value]="v.id">{{v.officeName}}</option>
+                </select>
+            </div>
+            <div *ngIf="view=='employee'" class="form-group col-md-2">
+                <label>Employee</label>
+                <autocomplete  [placeholder]="'Employee Name'"   [value]="empName" (empDetail)="projectSelected($event)"> </autocomplete>								
+
+            </div>
+            
+        </div>
+        
+        <div class="row">
+            <div *ngIf="view=='office'" class="form-group col-md-1">
+                <label>&nbsp;</label>
+                <button type="button" (click)="search()" class="btn btn-info d-none d-lg-block m-l-15"> Search</button>
+            </div>
+
+            <div *ngIf="view=='employee'" class="form-group col-md-1">
+                <label>&nbsp;</label>
+                <button type="button" (click)="navigateToDetail(empCode)" class="btn btn-info d-none d-lg-block m-l-15"> Searchs</button>
+            </div>
+
+            <div  *ngIf="view=='office'" class="form-group col-md-1">
+                <label>&nbsp;</label>
+                <button type="button" (click)="reset()" class="btn btn-warning d-none d-lg-block m-l-15"> Reset</button>
+            </div>
+            <div  *ngIf="view=='office'" class="form-group col-md-1">
+                <label>&nbsp;</label>
+                <button type="button" (click)="export()" class="btn btn-success d-none d-lg-block m-l-15">
+                    Export</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isSearch==true" class="row">
+    <div class="col-12 card card-body">        
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm color-bordered-table theme-bordered-table">
+                <thead>
+                    <tr>
+                        <th>Employee Code</th>
+                        <th>Employee Name</th>
+                        <th>Total Calendar Days</th>
+                        <th>Total Working Days</th>
+                        <th>Present</th>
+                        <th>Absent</th>
+                        <th>Leave</th>   
+                        <th>Action</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let x of rows| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;">
+                        <td>{{x.empCode}}</td>
+                        <td>{{x.empName}}</td>
+                        <td>{{x.totalCalendarDays}}</td>
+                        <td>{{x.totalWorkingDays}}</td>
+                        <td>{{x.present}}</td>
+                        <td>{{x.absent}}</td>
+                        <td>{{x.leave}}</td>  
+                        <td>
+                            <a href="javascript:void(0)" (click)="navigateToDetail(x.empCode)" > <i
+                                class="fa fa-eye text-inverse m-r-10"></i> </a>
+                        </td>                                     
+                    </tr>
+                </tbody>
+            </table>
+            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="rows.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>
+        </div>
+    </div>
+</div>

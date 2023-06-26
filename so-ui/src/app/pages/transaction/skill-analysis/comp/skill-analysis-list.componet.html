@@ -1,0 +1,56 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Market Gap Analysis List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Market Gap Analysis List</li>                
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row text-center">
+            <div class="col-3">
+                <button type="button" [routerLink]="['/transaction/skill-analysis/process/gap-analysis']" class="btn btn-outline-info">Process Gap Analysis</button>    
+            </div>
+            <div class="col-3">
+                <button type="button"  [routerLink]="['/transaction/skill-analysis/process/eng-assesment']" class="btn btn-outline-warning">Process Engineer Assesment</button>    
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-sm table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Process Type</th>
+                    <th>Trigrred Date</th>
+                    <th>Status</th>  
+                    <th>View</th>    
+                    <th>Pdf</th>                  						              						
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let skill of skillHdrs | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                    <td>{{skill.processType}}</td>
+                    <td>{{skill.trigrredDt | date:'dd-mm-yyyy'}}</td>
+                    <td>{{skill.status}}</td>                                            
+                    <td><i (click)="detailRouting(skill.processType,skill.key)" class="fa fa-eye btn btn-success"></i></td>    
+                    <td><i (click)="downloadPdf(skill)" class="fa fa-download btn btn-warning"></i></td>      
+                </tr>						 
+            </tbody>
+        </table>
+        <ngb-pagination 
+        [(page)]="page"
+        [pageSize]="pageSize"
+        [collectionSize]="skillHdrs.length"></ngb-pagination>
+        <pre>Current page: {{page}}</pre>
+    </div>
+</div>

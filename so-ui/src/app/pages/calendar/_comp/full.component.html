@@ -1,0 +1,86 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Calendar</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item active">Calendar</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+				<div *ngIf="calendarOptions">
+					 <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="handleEvent($event.detail)" ></ng-fullcalendar>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<ng-template #modalContent let-close="close">
+<div class="modal-header">
+	<h5 class="modal-title">Visit Details</h5>
+	<button type="button" class="close" (click)="close()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-4 text-right"><label><b>Visit Code : </b></label></div>
+			<div class="col-md-7">{{modalData?.event?.code}}</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 text-right"><label><b>Start Date : </b></label></div>
+			<div class="col-md-7">{{modalData?.event?.startDate}}</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 text-right"><label><b>End Date : </b></label></div>
+			<div class="col-md-7">{{modalData?.event?.endDate}}</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 text-right"><label><b>Location : </b></label></div>
+			<div class="col-md-7">{{modalData?.event?.location}}</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 text-right"><label><b>Type : </b></label></div>
+			<div class="col-md-7">{{modalData?.event?.type}}</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 text-right"><label><b>Status : </b></label></div>
+			<div class="col-md-7">{{modalData?.event?.status}}</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4"><h5><b>Tasks</b></h5></div>
+		</div>
+		<div class="table-responsive" *ngIf="modalData?.event?.tasks">
+			<table class="table color-bordered-table muted-bordered-table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Task Name</th>
+						<th>Date</th>
+						<th>Status</th>
+						<th>Remarks</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let s of modalData?.event?.tasks">
+						<td>{{s.no}}</td>
+						<td>{{s.name}}</td>
+						<td>{{s.date}}</td>
+						<td>{{s.status}}</td>
+						<td>{{s.remarks}}</td>						
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
+	</div>
+</ng-template>

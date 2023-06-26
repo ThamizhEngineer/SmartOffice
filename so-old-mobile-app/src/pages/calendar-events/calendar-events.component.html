@@ -1,0 +1,32 @@
+
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>My Events</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid *ngFor="let data of calendarData">
+    <ion-row *ngIf="data.checkIn; else leave_content">
+      <ion-row col-2 class="checkin">
+        <ion-col text-center>{{data.attendanceDt | date:'MMM d'}}</ion-col>
+      </ion-row>
+      <ion-card col-9 text-right>
+        <ion-row >
+          <ion-col text-center col-12>Check-In : {{data.checkIn}}</ion-col>
+          <ion-col text-center col-12>Checkout : {{data.checkOut}}</ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-row> 
+    <ng-template #leave_content>
+      <ion-row>
+        <ion-col text-center col-2 class="leave">{{data.attendanceDt | date:'MMM d'}}</ion-col>
+        <ion-card col-9 text-center class="leave-card">
+          <ion-col>{{data.firstSessionCodeDesription}}</ion-col>
+        </ion-card>
+      </ion-row>
+    </ng-template>
+  </ion-grid>
+</ion-content>

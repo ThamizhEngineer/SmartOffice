@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-navbar>
+    <ion-grid>
+      <ion-row *ngIf="!showSearchbar">
+        <ion-col col-2 class="menu-pos">
+          <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col text-left class="dash-title">
+            <ion-title>Dashboard</ion-title>  
+        </ion-col>
+        <ion-col text-right>
+          <button ion-button (click)="hideShowSearch()" class="dash-search">
+              <ion-icon name="search"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="showSearchbar">
+        <ion-col>
+          <ion-searchbar  #searchbar [(ngModel)]="searchInput" 
+                          (ionCancel)="onCancel($event)"
+                          showCancelButton="true"
+                          autocomplete="on">
+          </ion-searchbar>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-navbar>
+</ion-header>
+<ion-content class="card-background-page">
+  <ion-card (click)="attendance()">
+      <ion-card-content>
+          <ion-card-title>
+            Attendance
+          </ion-card-title>
+          <ion-grid *ngIf="!showErrorMsg">
+            <ion-row>
+              <ion-col>
+                Check In Time
+              </ion-col>
+              <ion-col>
+                {{checkInTime | date:'dd/MM/yyyy, hh:mm a'}}
+              </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                  Check In Location
+                </ion-col>
+                <ion-col>
+                  {{checkInLocation}}
+                </ion-col>
+              </ion-row>
+          </ion-grid>
+          <p text-center *ngIf="showErrorMsg">Please check-In to get the Attendance details</p>
+        </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <ion-card-title>Current Job</ion-card-title>
+      <ion-grid>
+        <ion-row>
+          <ion-col>Job Number</ion-col>
+          <ion-col>P-Ind-100</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Location</ion-col>
+          <ion-col>Gurgagon</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Duration</ion-col>
+          <ion-col>10 Days</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Arrived at Site</ion-col>
+          <ion-col *ngIf="!siteArrived"><ion-toggle checked="false" [(ngModel)]="siteArrived" class="toggle toggle-ios"></ion-toggle></ion-col>
+          <ion-col *ngIf="siteArrived" class="custom-opacity"> <ion-datetime disabled displayFormat="hh:mm A on DDD, DD MMM" [(ngModel)]="arrivedDate"></ion-datetime></ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Departed from Site</ion-col>
+          <ion-col *ngIf="!siteDeparted"><ion-toggle checked="false" [(ngModel)]="siteDeparted" class="toggle toggle-ios"></ion-toggle></ion-col>
+          <ion-col *ngIf="siteDeparted" class="custom-opacity"><ion-datetime disabled displayFormat="hh:mm A on DDD, DD MMM" [(ngModel)]="departedDate"></ion-datetime></ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+        <ion-card-title>Upcoming Job</ion-card-title>
+        <ion-grid>
+          <ion-row>
+            <ion-col>Job Number</ion-col>
+            <ion-col>P-Ind-103</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>Location</ion-col>
+            <ion-col>Coimbatore</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>Duration</ion-col>
+            <ion-col>20 Days</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>Start Date</ion-col>
+            <ion-col>11/09/2018</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+  </ion-card>
+</ion-content>
+  

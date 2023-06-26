@@ -1,0 +1,157 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Attendance</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+				<li class="breadcrumb-item active">Attendance</li>
+			</ol>
+			
+		</div>
+	</div>
+</div>
+
+<div class="row">
+    <div class="col-12 card card-body form-body">
+        <div class="row">
+            <div class="col-4 form-group">
+                <label>Month/Year</label>
+                <month-picker [(config)]="mpFromConfig" [(model)]="mpSalModel"
+                    (mpOnModelChange)="this.mpOnModelChange($event)"></month-picker>
+            </div>
+            <div class="form-group col-md-2">
+                <label>Employee</label>
+                <autocomplete  [placeholder]="'Employee Name'"   [value]="empName" (empDetail)="projectSelected($event)"> </autocomplete>								
+
+            </div>
+            
+        </div>
+        
+        <div class="row">
+            <div class="form-group col-md-1">
+                <label>&nbsp;</label>
+                <button type="button" (click)="search()" class="btn btn-info d-none d-lg-block m-l-15"> Search</button>
+            </div>
+            <div class="form-group col-md-1">
+                <label>&nbsp;</label>
+                <button type="button" (click)="reset()" class="btn btn-warning d-none d-lg-block m-l-15"> Reset</button>
+            </div> 
+           
+            <div class="form-group col-md-2">
+                <label >Upload Attendance CSV</label>
+                <file-upload  [fileDetail]="'ATTENDANCE-CSV-UPLOAD'" (change)="fileChanged($event)"></file-upload>
+              </div>    
+              <div class="form-group col-md-1">
+                <label>&nbsp;</label><br>
+                <a class="btn btn-primary" href="assets/CSV/attendance_upload.csv"><i class="fa fa-file-pdf-o"></i> Attendance Template</a>
+            </div>                                                                       
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 card card-body">        
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm color-bordered-table theme-bordered-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Day</th>
+                        <th>Shift Hours</th>
+                        <th>First Session</th>
+                        <th>Second Session</th>   
+                        <th>checkIn Time</th>
+                        <th>checkOut Time</th>  
+                        <th>Action</th>                     
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let x of mainAttendance">
+                        <td>{{x.attendanceDt | date:'dd-MM-yyyy'}}</td>
+                        <td>{{x.day}}</td>
+                        <td>{{x.totalTimeLogged}}</td>
+                        <td>{{x.firstSession}}</td>
+                        <td>{{x.secondSession}}</td>
+                        <td>{{x.checkIn}}</td>  
+                        <td>{{x.checkOut}}</td>     
+                        <td>
+                            <a href="javascript:void(0)" (click)="detailView(x)" > <i
+                                class="fa fa-eye text-inverse m-r-10"></i> </a>
+                        </td>                                
+                    </tr>
+                </tbody>
+            </table>            
+        </div>
+    </div>
+</div>
+
+<ng-template #detail let-c="close">
+    <div class="modal-header">
+        <h4 class="modal-title"><span class="text"><b>{{attendance.empCode}} &nbsp;{{attendance.employeeName}}</b></span></h4>
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">                                           
+            <div class="form-group col-3">
+                <label><font color="blue">CheckIn</font></label><br/>
+                <input type="time" class="form-control form-control-line" placeholder="Current Location" [(ngModel)]="attendance.checkIn" name="cLocation">
+            </div>
+            <div class="form-group col-3">
+                <label><font color="blue">CheckOut</font></label><br/>
+                <input type="time" class="form-control form-control-line" value="00:00:00" placeholder="Current Location" [(ngModel)]="attendance.checkOut" name="cLocation">
+            </div>
+
+            <div class="form-group col-3">
+                <label><font color="blue">Attendance Status</font></label><br/>
+                <select class="form-control" [(ngModel)]="attendance.attendanceStatus">
+                    <option *ngFor="let v of attendStatus" [value]="v.status">{{v.status}}</option>
+                </select>
+            </div>
+            <div class="form-group col-3">
+                <label><font color="blue">In Latitude</font></label><br/>
+                <input type="text" class="form-control" [(ngModel)]="attendance.inLats" placeholder="In Latitude">
+            </div>  
+            <div class="form-group col-3">
+                <label><font color="blue">In Longitude</font></label><br/>
+                <input type="text" class="form-control" [(ngModel)]="attendance.inLongs" placeholder="In Longitude">
+            </div>  
+            <div class="form-group col-3">
+                <label><font color="blue">First Session</font></label><br/>
+                <select class="form-control" [(ngModel)]="attendance.firstSession">
+                    <option *ngFor="let v of attendStatus" [value]="v.status">{{v.status}}</option>
+                </select>
+            </div>
+            <div class="form-group col-3">
+                <label><font color="blue">Secound Session</font></label><br/>
+                <select class="form-control" [(ngModel)]="attendance.secondSession">
+                    <option *ngFor="let v of attendStatus" [value]="v.status">{{v.status}}</option>
+                </select>
+            </div>
+            <div class="form-group col-3">
+                <label><font color="blue">Out Latitude</font></label><br/>
+                <input type="text" class="form-control" [(ngModel)]="attendance.outLats" placeholder="Out Latitude">
+            </div>  
+            <div class="form-group col-3">
+                <label><font color="blue">Out Longitude</font></label><br/>
+                <input type="text" class="form-control" [(ngModel)]="attendance.outLongs" placeholder="Out Longitude">
+            </div>  
+            <div class="form-group col-3">
+                <label><font color="blue">Shift Code</font></label><br/>
+                <select class="form-control" 	[(ngModel)]="attendance.shiftId">
+                    <option *ngFor="let v of shifts" [value]="v.id">{{v.shiftName}}({{v.fromTime  | slice:0:5}}-{{v.toTime  | slice:0:5}})</option>
+                </select>	
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer align-self-center">
+        <button type="button" class="btn btn-info" (click)="save()">Update</button>
+        <button type="button" class="btn btn-outline-dark" (click)="c()">Back</button>
+    </div>
+</ng-template>

@@ -1,0 +1,7 @@
+{
+  "name": "Smart Office",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

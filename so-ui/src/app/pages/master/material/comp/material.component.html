@@ -1,0 +1,686 @@
+<div class="row page-titles">
+  <div class="col-md-5 align-self-center">
+    <h4 class="text-themecolor"> Material</h4>
+  </div>
+  <div class="col-md-7 align-self-center text-right">
+    <div class="d-flex justify-content-end align-items-center">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        <li class="breadcrumb-item active"> Material </li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card  p-20">
+      <ngb-tabset justify="fill">
+
+
+
+        <!--Goods Start Here-->
+
+        <ngb-tab title="Goods">
+          <ng-template ngbTabContent>
+            <div class="sl-item">
+              <div class="card-body" id="printSection">
+
+                <div class="modal-body">
+                  <div class="form-group text-right">
+                    <div class="col-md-3">
+                      <button type="button" (click)="openByCategory('goods',null)" class="btn btn-outline-info">Create
+                        Goods</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-sm table-hover table-striped table-bordered">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Goods Code</th>
+                        <th>Goods Name</th>
+                        <th><i class="fa fa-cog text-inverse m-r-10"></i></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let good of getGoods;let i=index" let i=index>
+                        <td>{{i+1}}</td>
+                        <td>{{good.materialCode}}</td>
+                        <td>{{good.materialName}}</td>
+                        <td><a href="javascript:void(0)" (click)="openByCategory('goods',good)" data-toggle="tooltip"
+                            data-original-title="Edit">
+                            <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                          <confirm-delete (confirmed)="delete(good.id)" [type]="'icon'"></confirm-delete>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+
+        <!-- goods end Here -->
+
+        <!-- Product Start Here -->
+
+        <ngb-tab title="Product">
+          <ng-template ngbTabContent>
+            <div class="sl-item">
+              <div class="card-body" id="printSection">
+
+                <div class="modal-body">
+                  <div class="form-group text-right">
+                    <div class="col-md-3">
+                      <button type="button" (click)="openByCategory('product',null)" class="btn btn-outline-info">Create
+                        Product</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-sm table-hover table-striped table-bordered">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Product Code</th>
+                        <th>Product Name</th>
+                        <th>Manufacture</th>
+                        <th>Product Family</th>
+                        <th>Has Code</th>
+                        <th><i class="fa fa-cog text-inverse m-r-10"></i></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let pro of getProducts;let i=index" let i=index>
+                        <td>{{i+1}}</td>
+                        <td>{{pro.materialCode}}</td>
+                        <td>{{pro.materialName}}</td>
+                        <td>{{pro.manufacturerId}}</td>
+                        <td>{{pro.productFamilyId}}</td>
+                        <td>{{pro.hsnCode}}</td>
+                        <td><a href="javascript:void(0)" (click)="openByCategory('product',pro)" data-toggle="tooltip"
+                            data-original-title="Edit">
+                            <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                          <confirm-delete (confirmed)="delete(pro.id)" [type]="'icon'"></confirm-delete>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+
+        <!-- Product end Here -->
+
+        <!-- Consumables Start Here -->
+
+        <ngb-tab title="Consumables">
+          <ng-template ngbTabContent>
+            <div class="sl-item">
+              <div class="card-body" id="printSection">
+
+                <div class="modal-body">
+                  <div class="form-group text-right">
+                    <div class="col-md-3">
+                      <button type="button" (click)="openByCategory('consumables',null)"
+                        class="btn btn-outline-info">Create Consumables</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-sm table-hover table-striped table-bordered">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Consumables Code</th>
+                        <th>Consumables Name</th>
+                        <th>Unit</th>
+                        <th>Stock Value</th>
+                        <th>Feeder Estimate</th>
+                        <th>Motor Estimate</th>
+                        <th>Generotor Estimate</th>
+                        <th>Line Estimate</th>
+                        <th>Line Diff Estimate</th>
+                        <th>TRAFO Estimate</th>
+                        <th><i class="fa fa-cog text-inverse m-r-10"></i></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let con of getConsumables;let i=index" let i=index>
+                        <td>{{i+1}}</td>
+                        <td>{{con.materialCode}}</td>
+                        <td>{{con.materialName}}</td>
+                        <td>{{con.unitOfMeasure}}</td>
+                        <td>{{con.stockValue}}</td>
+                        <td>{{con.feederEst}}</td>
+                        <td>{{con.motorEst}}</td>
+                        <td>{{con.generatorEst}}</td>
+                        <td>{{con.lineEst}}</td>
+                        <td>{{con.lineDiffEst}}</td>
+                        <td>{{con.trafoEst}}</td>
+                        <td><a href="javascript:void(0)" (click)="openByCategory('consumables',con)"
+                            data-toggle="tooltip" data-original-title="Edit">
+                            <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                          <confirm-delete (confirmed)="delete(con.id)" [type]="'icon'"></confirm-delete>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+
+        <!-- Consumables end Here -->
+        <!-- Asset Start Here -->
+
+        <ngb-tab title="Asset">
+          <ng-template ngbTabContent>
+            <div class="sl-item">
+              <div class="card-body" id="printSection">
+
+                <div class="modal-body">
+                  <div class="form-group text-right">
+                    <div class="col-md-3">
+                      <button type="button" (click)="openByCategory('asset',null)" class="btn btn-outline-info">Create
+                        Asset</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-sm table-hover table-striped table-bordered">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Asset Code</th>
+                        <th>Asset Name</th>
+                        <th>Asset Make</th>
+                        <th>Asset Mode</th>
+                        <th>Asset Owner</th>
+                        <th>HSN Code</th>
+                        <th><i class="fa fa-cog text-inverse m-r-10"></i></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let asset of getAsset;let i=index" let i=index>
+                        <td>{{i+1}}</td>
+                        <td>{{asset.materialCode}}</td>
+                        <td>{{asset.materialName}}</td>
+                        <td>{{asset.assetMake}}</td>
+                        <td>{{asset.assetModel}}</td>
+                        <td>{{asset.assetOwner}}</td>
+                        <td>{{asset.hsnCode}}</td>
+                        <td><a href="javascript:void(0)" (click)="openByCategory('asset',asset)" data-toggle="tooltip"
+                            data-original-title="Edit">
+                            <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                          <confirm-delete (confirmed)="delete(asset.id)" [type]="'icon'"></confirm-delete>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+
+        <!-- Asset end Here -->
+
+      </ngb-tabset>
+    </div>
+  </div>
+</div>
+
+
+<!-- Goods PopUp -->
+
+<ng-template #goods let-c="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Goods</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+
+  <div class="modal-body">
+    <div class="row">
+      <div *ngIf="material.id!=null" class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Goods code</label>
+        <br />
+        <span class="label label-default">{{material.materialCode}}</span>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Goods Name</label>
+        <form [formGroup]="goodsForm">
+          <input type="text" class="form-control form-control-line" formControlName="goodsName"
+            (keypress)="commonService.isValidName($event)" [(ngModel)]="material.materialName" placeholder="Goods Name">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Unit Price</label>
+        <form [formGroup]="goodsForm">
+          <input type="text" class="form-control form-control-line" formControlName="goodsUnitPrice"
+            [(ngModel)]="material.unitPrice" placeholder="Unit Price">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Description</label>
+        <form [formGroup]="goodsForm">
+          <textarea type="text" rows="4" class="form-control form-control-line" formControlName="goodsDesc"
+            (keypress)="commonService.isValidName($event)" [(ngModel)]="material.materialDesc"
+            placeholder="Description"></textarea>
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">HSN Code</label>
+        <form [formGroup]="goodsForm">
+          <input type="text" class="form-control form-control-line" formControlName="goodsHsnCode"
+            [(ngModel)]="material.hsnCode" placeholder="HSN Code">
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal-footer">
+    <div *ngIf="material.id==null">
+      <button type="button" [disabled]="!goodsForm.valid" (click)="save()" class="btn btn-outline-success">Save</button>
+    </div>
+    <div *ngIf="material.id!=null">
+      <button type="button" [disabled]="!goodsForm.valid" (click)="update()"
+        class="btn btn-outline-warning">Update</button>
+    </div>
+    <div>
+      <button type="button" (click)="c()" class="btn btn-outline-danger">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- goods End Here -->
+
+
+<!-- product PopUp -->
+
+<ng-template #product let-c="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Product</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div *ngIf="material.id!=null" class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Product Code</label>
+        <br />
+        <span class="label label-default">{{material.materialCode}}</span>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Product Name</label>
+        <form [formGroup]="productForm">
+          <input type="text" class="form-control form-control-line" formControlName="productName"
+            (keypress)="commonService.isValidName($event)" [(ngModel)]="material.materialName"
+            placeholder="Product Name">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Unit Price</label>
+        <form [formGroup]="productForm">
+          <input type="text" class="form-control form-control-line" formControlName="productUnitPrice"
+            [(ngModel)]="material.unitPrice" placeholder="Unit Price">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Description</label>
+        <form [formGroup]="productForm">
+          <textarea type="text" rows="4" class="form-control form-control-line" formControlName="productDesc"
+            (keypress)="commonService.isValidName($event)" [(ngModel)]="material.materialDesc"
+            placeholder="Description"></textarea>
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Manufacture Name</label>
+        <form [formGroup]="productForm">
+          <input type="text" class="form-control form-control-line" formControlName="productManufacterId"
+            (keypress)="commonService.isValidName($event)" [(ngModel)]="material.manufacturerId"
+            placeholder="Manufacture Name">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Product Family</label>
+        <form [formGroup]="productForm">
+          <input type="text" class="form-control form-control-line" formControlName="productFamilyId"
+            [(ngModel)]="material.productFamilyId" placeholder="Product Family">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">HSN Code</label>
+        <form [formGroup]="productForm">
+          <input type="text" class="form-control form-control-line" formControlName="productHsnCode"
+            [(ngModel)]="material.hsnCode" placeholder="HSN Code">
+        </form>
+      </div>
+    </div>
+
+    <h3>Applicable Services</h3>
+    <div class="table-responsive">
+      <table class="table table-sm table-hover table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Service Code</th>
+            <th>Service Name</th>
+            <th>Action
+              <a href="javascript:void(0)" *ngIf="material.materialServices.length==0" (click)="addService()"
+                data-toggle="tooltip" data-original-title="Edit">
+                <i class="fa fa-plus text-inverse m-r-10"></i></a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of material.materialServices; let i=index">
+            <td>{{i+1}}</td>
+            <td>{{item.abilityCode}}</td>
+            <td>
+              <input style="border: 1px solid grey;" id="typeahead-focus" type="text" class="form-control"
+                [ngbTypeahead]="searchSkill" [resultTemplate]="skillResultTemplate" [inputFormatter]="skillFormatter"
+                placeholder="Search skill" (selectItem)="onServiceSelect($event, i)" [value]="item.abilityName"
+                [editable]='false' ngbtypeaheadpopup>
+              <ng-template #skillResultTemplate let-r="result" let-t="term">
+                {{r.serviceName}}
+              </ng-template>
+              <!-- <input type="text" (keypress)="commonService.isValidName($event)" [(ngModel)]="item.serviceName" class="form-control form-control-line" placeholder="Service Name">               -->
+            </td>
+            <td>
+              <a href="javascript:void(0)" (click)="addService()" data-toggle="tooltip" data-original-title="Edit">
+                <i class="fa fa-plus text-inverse m-r-10"></i></a>
+              <a href="javascript:void(0)" (click)="deleteService(i)" data-toggle="tooltip" data-original-title="Edit">
+                <i class="fa fa-close text-inverse m-r-10"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+
+  </div>
+
+
+  <div class="modal-footer">
+    <div *ngIf="material.id==null">
+      <button type="button" [disabled]="!productForm.valid" (click)="save()"
+        class="btn btn-outline-success">Save</button>
+    </div>
+    <div *ngIf="material.id!=null">
+      <button type="button" [disabled]="!productForm.valid" (click)="update()"
+        class="btn btn-outline-warning">Update</button>
+    </div>
+    <div>
+      <button type="button" (click)="c()" class="btn btn-outline-danger">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- product End Here -->
+
+<!-- consumables PopUp -->
+
+<ng-template #consumables let-c="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Consumables</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div *ngIf="material.id!=null" class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Consumables Code</label>
+        <br />
+        <span class="label label-default">{{material.materialCode}}</span>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Consumables Name</label>
+        <form [formGroup]="consumablesForm">
+          <input type="text" formControlName="conName" class="form-control form-control-line"
+            (keypress)="commonService.isValidName($event)" [(ngModel)]="material.materialName"
+            placeholder="Consumables Name">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Unit Price</label>
+        <form [formGroup]="consumablesForm">
+          <input type="text" formControlName="conUnitPrice" class="form-control form-control-line"
+            [(ngModel)]="material.unitPrice" placeholder="Unit Price">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Description</label>
+        <form [formGroup]="consumablesForm">
+          <textarea type="text" formControlName="conDesc" rows="4" class="form-control form-control-line"
+            (keypress)="commonService.isValidName($event)" [(ngModel)]="material.materialDesc"
+            placeholder="Description"></textarea>
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Unit</label>
+        <form [formGroup]="consumablesForm">
+          <input type="text" formControlName="conUnit" class="form-control form-control-line"
+            [(ngModel)]="material.unitOfMeasure" placeholder="Asset Make">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Stock Value</label>
+        <form [formGroup]="consumablesForm">
+          <input type="text" formControlName="conStockValue" class="form-control form-control-line"
+            [(ngModel)]="material.stockValue" placeholder="Stock Value">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">HSN Code</label>
+        <form [formGroup]="consumablesForm">
+          <input type="text" formControlName="conHsnCode" class="form-control form-control-line"
+            [(ngModel)]="material.hsnCode" placeholder="HSN Code">
+        </form>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-sm table-hover table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Feeder Estimate</th>
+            <th>Motor Estimate</th>
+            <th>Generotor Estimate</th>
+            <th>Line Estimate</th>
+            <th>Line Diff Estimate</th>
+            <th>TRAFO Estimate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <form [formGroup]="consumablesForm">
+                <input type="text" formControlName="conFeeder" [(ngModel)]="material.feederEst"
+                  class="form-control form-control-line" placeholder="Feeder Estimate">
+              </form>
+            </td>
+            <td>
+              <form [formGroup]="consumablesForm">
+                <input type="text" formControlName="conMotor" [(ngModel)]="material.motorEst"
+                  class="form-control form-control-line" placeholder="Motor Estimate">
+              </form>
+            </td>
+            <td>
+              <form [formGroup]="consumablesForm">
+                <input type="text" formControlName="conGenerator" [(ngModel)]="material.generatorEst"
+                  class="form-control form-control-line" placeholder="Generotor Estimate">
+              </form>
+            </td>
+            <td>
+              <form [formGroup]="consumablesForm">
+                <input type="text" formControlName="conLineEstimate" [(ngModel)]="material.lineEst"
+                  class="form-control form-control-line" placeholder="Line Estimate">
+              </form>
+            </td>
+            <td>
+              <form [formGroup]="consumablesForm">
+                <input type="text" formControlName="conDiffLineEstimate" [(ngModel)]="material.lineDiffEst"
+                  class="form-control form-control-line" placeholder="Line Diff Estimate">
+              </form>
+            </td>
+            <td>
+              <form [formGroup]="consumablesForm">
+                <input type="text" formControlName="conTrafo" [(ngModel)]="material.trafoEst"
+                  class="form-control form-control-line" placeholder="TRAFO Estimate">
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+
+  </div>
+
+
+  <div class="modal-footer">
+    <div *ngIf="consumablesForm.id==null">
+      <button type="button" [disabled]="!consumablesForm.valid" (click)="save()"
+        class="btn btn-outline-success">Save</button>
+    </div>
+    <div *ngIf="consumablesForm.id!=null">
+      <button type="button" [disabled]="!consumablesForm.valid" (click)="update()"
+        class="btn btn-outline-warning">Update</button>
+    </div>
+    <div>
+      <button type="button" (click)="c()" class="btn btn-outline-danger">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- consumables End Here -->
+
+<!-- asset PopUp -->
+
+<ng-template #asset let-c="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Asset</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div *ngIf="material.id!=null" class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Asset Code</label>
+        <br />
+        <span class="label label-default">{{material.materialCode}} </span>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Asset Name</label>
+        <form [formGroup]="assetForm">
+          <input type="text" formControlName="assetName" class="form-control form-control-line"
+            (keypress)="commonService.isValidName($event)" [(ngModel)]="material.materialName" placeholder="Asset Name">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Unit Price</label>
+        <form [formGroup]="assetForm">
+          <input type="text" formControlName="assetUnitPrice" class="form-control form-control-line"
+            [(ngModel)]="material.unitPrice" placeholder="Unit Price">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Description</label>
+        <form [formGroup]="assetForm">
+          <textarea type="text" formControlName="assetDesc" rows="4" class="form-control form-control-line"
+            (keypress)="commonService.isValidName($event)" [(ngModel)]="material.materialDesc"
+            placeholder="Description"></textarea>
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Unit</label>
+        <form [formGroup]="assetForm">
+          <input type="text" formControlName="assetUnit" class="form-control form-control-line"
+            [(ngModel)]="material.unitOfMeasure" placeholder="Unit">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Stock Value</label>
+        <form [formGroup]="assetForm">
+          <input type="text" formControlName="assetStockValue" class="form-control form-control-line"
+            [(ngModel)]="material.stockValue" placeholder="Stock Value">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Asset Make</label>
+        <form [formGroup]="assetForm">
+          <input type="text" formControlName="assetMake" class="form-control form-control-line"
+            [(ngModel)]="material.assetMake" placeholder="Asset Make">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Asset Mode</label>
+        <form [formGroup]="assetForm">
+          <input type="text" formControlName="assetModel" class="form-control form-control-line"
+            [(ngModel)]="material.assetModel" placeholder="Asset Mode">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">Asset Owner</label>
+        <form [formGroup]="assetForm">
+          <input type="text" formControlName="assetOwner" class="form-control form-control-line"
+            [(ngModel)]="material.assetOwner" placeholder="Asset Owner">
+        </form>
+      </div>
+      <div class="form-group col-6 col-md-4">
+        <label class="control-label textColor">HSN Code</label>
+        <form [formGroup]="assetForm">
+          <input type="text" formControlName="assetHsnCode" class="form-control form-control-line"
+            [(ngModel)]="material.hsnCode" placeholder="HSN Code">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <div *ngIf="consumablesForm.id==null">
+      <button type="button" [disabled]="!assetForm.valid" (click)="save()" class="btn btn-outline-success">Save</button>
+    </div>
+    <div *ngIf="consumablesForm.id!=null">
+      <button type="button" [disabled]="!assetForm.valid" (click)="update()"
+        class="btn btn-outline-warning">Update</button>
+    </div>
+    <div>
+      <button type="button" (click)="c()" class="btn btn-outline-danger">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- asset End Here -->
+<style>
+  .col-md-3 {
+    margin-left: auto;
+}
+</style>

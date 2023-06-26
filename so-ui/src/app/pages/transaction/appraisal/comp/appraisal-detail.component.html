@@ -1,0 +1,2082 @@
+<div class="row page-titles">
+  <div class="col-md-5 align-self-center">
+    <h4 class="text-themecolor"> Appraisal Detail  &nbsp;<span class="label label-{{statues[appraisalHdr.appraisalTargetStatusCode]}}">{{appraisalHdr.appraisalTargetStatusCode}}</span></h4>
+  </div>
+  <div class="col-md-7 align-self-center text-right">
+    <div class="d-flex justify-content-end align-items-center">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        <li class="breadcrumb-item active"> Appraisal Detail </li>
+        <button type="button" (click)="back()"  class="btn btn-outline-info">Back</button>
+      </ol>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="card">
+  <div class="card-body">
+    <div class="row" style="text-align: center;">
+      <div class=" col-md-3 col-sm-3">
+        <label class="text" style="color: blue;">Name:</label> &nbsp; <label class="text">{{appraisalHdr.empFName}}&nbsp;{{appraisalHdr.empLName}}</label>
+      </div>
+      <div class=" col-md-3 col-sm-3">
+        <label class="text" style="color: blue;">Code:</label> &nbsp; <label class="text">{{appraisalHdr.empCode}}</label>
+      </div>
+      <div class="col-md-3 col-sm-3">
+        <label class="text" style="color: blue;">Year:</label> &nbsp; <label class="text">{{appraisalHdr.fyName}}</label>
+      </div>
+    </div>
+    <div class="modal-footer center" style="text-align: center;">
+      <div *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" class="col-md-3">
+        <button type="button" (click)="viewTimeline('submit')" class="btn btn-outline-success">Submit Ojectives</button>
+      </div>
+      <!-- <div *ngIf="view=='hr' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="col-md-3">
+        <button type="button" (click)="viewTimeline('update')" class="btn btn-outline-success">Update Review</button>
+      </div> -->
+      <div *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL' || view=='n1' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N1-REVIEW' || view=='n2' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N2-REVIEW'" class="col-md-3">
+        <button type="button" (click)="viewTimeline('update')" class="btn btn-outline-info">Save</button>
+      </div>
+      <div *ngIf="view=='n1' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N1-REVIEW'" class="col-md-3">
+        <button type="button" (click)="viewTimeline('n1-review')" class="btn btn-outline-success">Complete Review</button>
+      </div>
+      <div *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-EMP-ACCEPTANCE'" class="col-md-3">
+        <button type="button" (click)="returnReason('emp-reject')" class="btn btn-outline-danger">Need N2 Escalation </button>
+      </div>
+      <div *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-EMP-ACCEPTANCE'" class="col-md-3">
+        <button type="button" (click)="viewTimeline('emp-accept')" class="btn btn-outline-success">Accept The Objective </button>
+      </div>
+      <div *ngIf="view=='n2' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N2-REVIEW'" class="col-md-3">
+        <button type="button" (click)="viewTimeline('n2-review')" class="btn btn-outline-success">Submit Review</button>
+      </div>
+    
+      <div *ngIf="view=='n1' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N1-REVIEW'" class="col-md-3">
+        <button type="button" (click)="returnReason('n1-reject')" class="btn btn-outline-danger">Return To Employee</button>
+      </div>  
+      
+      <div *ngIf="view=='dir' && appraisalHdr.appraisalTargetStatusCode=='EMP-ACCEPTANCE'" class="col-md-3">
+        <button type="button" (click)="viewTimeline('dir-approve')" class="btn btn-outline-success">Approve</button>
+      </div>  
+      
+      <div *ngIf="view=='n1' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N1-REVIEW' || view=='n2' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N2-REVIEW'" class="col-md-3">
+        <button type="button" (click)="priority()" class="btn btn-outline-primary">Change Priority </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="appraisalHdr.appraisalTargetStatusCode=='CREATED'" class="card">
+  <div class="card-body" style="text-align: center;">
+    <p *ngIf="view!='emp'">{{appraisalHdr.empName}} Have Not Start the Apprsial Process</p>
+    <p *ngIf="view=='emp'">Please Start The Apprisal Process</p>
+    <div *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='CREATED'">
+      <button type="button" (click)="start()" class="btn btn-outline-success">Start Apprsial</button>
+    </div>
+  </div>
+</div>
+<flag-alert [message]="Alertmsg"></flag-alert>
+
+<!-- for n1,n2 & emp -->
+
+<div *ngIf="appraisalHdr.appraisalTargetStatusCode!='CREATED' && view!='hr' && view!='dir'" class="row">
+  <div class="col-md-12">
+    <div class="card  p-20">
+      <ngb-tabset justify="fill">
+        <ngb-tab title="Objectives">
+          <ng-template ngbTabContent>
+
+            <br>
+            <br>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <th *ngIf="view=='emp' && empView==true" colspan="6" class="textTableTitle" style="text-align: center;"> Technical and Professional - Key
+                      Requirements and Objectives <i *ngIf="appraisalHdr.n1ReturnComment!=null && view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" [ngbTooltip]="'Manager Remarks:'+appraisalHdr.n1ReturnComment" style="color: #ffff00;" class="fa fa-exclamation-triangle"></i></th>
+                      <th *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && empView==false" colspan="5" class="textTableTitle" style="text-align: center;"> Technical and Professional - Key
+                        Requirements and Objectives 
+                      <i *ngIf="appraisalHdr.n1ReturnComment!=null && view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" [ngbTooltip]="'Manager Remarks:'+appraisalHdr.n1ReturnComment" style="color: #ffff00;" class="fa fa-exclamation-triangle"></i> 
+                      <i *ngIf="appraisalHdr.escalatReason!=null && view=='n2' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N2-REVIEW'" [ngbTooltip]="'Employee Remarks:'+appraisalHdr.escalatReason" style="color: #ffff00;" class="fa fa-exclamation-triangle"></i>
+                    </th>
+                  </tr>
+                  <tr style="background-color:rgb(192, 201, 209);">
+                    <th>Priority</th>
+                    <th>Strategic Objectives</th>
+                    <th>Description of Objectives</th>
+                    <th> Measurement Criteria </th>                    
+                    <th> Periodic Reviews </th>
+                    <th *ngIf="view=='emp' && empView==true" ><i class="fa fa-cog "></i>
+                      <a *ngIf="getFuncitional.length==0" href="javascript:void(0)" (click)="addRow('Y')" data-toggle="tooltip"
+                      data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                    </th>
+                  </tr>
+
+                  <tr *ngFor="let item of funcitionalSort | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                    <td style=" height: 50px;">{{item.priority}}</td>
+                    <td *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="fun[{{i}}]" value="functional" name="Functional[{{i}}]"
+                          [(ngModel)]="item.strategy" class="custom-control-input">
+                        <label class="custom-control-label" for="fun[{{i}}]">Functional</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="nonfun[{{i}}]" value="non-functional" [(ngModel)]="item.strategy"
+                          name="Functional[{{i}}]" class="custom-control-input">
+                        <label class="custom-control-label" for="nonfun[{{i}}]">Non-Functional</label>
+                      </div>
+                     
+                        <span>{{item.isOrgGoalDummy ? 'Organisational Goal' : 'Metric Goal'}}</span><br/>
+                        <label class="toggle "><input type="checkbox" class="col-md-8" [(ngModel)]="item.isOrgGoalDummy" ><span class="handle blocked"></span></label>
+                        
+                        <div *ngIf="findSkillUsed==false && item.id==null">
+                          <button type="button" (click)="SkillGoal(item.dummyid)" class="btn btn-info">Skill Goal</button>
+                        </div>
+                        <div *ngIf="item.isSkillGoal=='Y'">
+                          <button type="button" disabled="true" class="btn btn-info">Skill Goal</button>
+                        </div>
+                      
+                    </td>
+                    <td *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'">
+                      <div>
+                        <label style="text-transform: capitalize;">{{item.strategy}}</label>
+                      </div>
+                      <div>
+                        <span>{{item.isOrgGoalDummy ? 'Organisational Goal' : 'Metric Goal'}}</span>
+                      </div>
+                      <div *ngIf="view=='n2'">
+                        <br/>
+                        <br/>
+                        <label>Employee Decision </label>
+                        <span *ngIf="item.isEmpAccept=='N'" class="label label-danger">Rejected </span>
+                        <span *ngIf="item.isEmpAccept=='Y'" class="label label-success">Accepted </span>
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'">
+                        <textarea name="textName" class="form-control" [(ngModel)]="item.goalDesc" id="textName"
+                          cols="30" rows="10"></textarea>
+                      </div>
+                      <div *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'">                       
+                        {{item.goalDesc}}
+                      </div>
+                    </td>
+
+                    <!-- emp -->
+                    <td *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'">
+                      <h4 *ngIf="item.isSkillGoal!='Y'" style="color: blue;">Employee</h4>
+                      <div *ngIf="item.isSkillGoal!='Y'" class="row">
+                        &nbsp;
+
+                        <div *ngIf="item.isOrgGoalDummy==true" class="col col-sm-4">
+                          <input style="border: 1px solid grey;" id="typeahead-focus" type="text" class="form-control form-control-line" [ngbTypeahead]="orgMetricAC"
+                            [resultTemplate]="orgGoal" [inputFormatter]="formatter" placeholder="MetricName"
+                            (selectItem)="metricSelected(item.dummyid,$event,item.isOrgGoalDummy)" [value]="item.metricName"
+                            [editable]='false' ngbtypeaheadpopup>
+
+                          <ng-template #orgGoal let-r="result" let-t="term">
+                            {{r.metricId}} - {{r.metricName}} ({{r.threshold}}{{r.unitTypeSymbol}})
+                          </ng-template>
+                        </div>
+
+                        <div *ngIf="item.isOrgGoalDummy==false" class="col col-sm-4">
+                          <input style="border: 1px solid grey;" id="typeahead-focus" type="text" class="form-control form-control-line" [ngbTypeahead]="metricAC"
+                            [resultTemplate]="metricName" [inputFormatter]="formatter" placeholder="MetricName"
+                            (selectItem)="metricSelected(item.dummyid,$event,item.isOrgGoalDummy)" [value]="item.metricName"
+                            [editable]='false' ngbtypeaheadpopup>
+
+                          <ng-template #metricName let-r="result" let-t="term">
+                            {{r.id}} - {{ r.metricName}} ({{r.threshold}}{{r.unitTypeSymbol}})
+                          </ng-template>
+                        </div>
+
+                        <i *ngIf="item.isOrgGoalDummy==true" class="fa fa-info-circle text-info"
+                          [ngbTooltip]="item.unitDesc"></i>
+                        <div class="col-sm-2">
+                          <select name="select" [(ngModel)]="item.empOperator" class="form-control" id="select">
+                            <option *ngFor="let item of operator" [value]="item.configDtlValue">{{item.configDtlValue}}</option>
+                          </select>
+                        </div>
+                        <div class="input-group col-sm-3">
+                          <input type="target" [(ngModel)]="item.empTarget" class="form-control">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text"> <small> {{item.unitDisp}}</small></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div *ngIf="item.isSkillGoal=='Y'">
+                        <div>
+                          <h4 style="color: blue;">Employee:&nbsp;</h4>
+                        </div>
+                        <div class="form-group">
+                          <label class="text">{{item.metricName}}&nbsp;{{item.empOperator}}&nbsp;to
+                            &nbsp;{{item.empTarget}}{{item.unitDisp}}  <i *ngIf="item.isOrgGoalDummy==true" class="fa fa-info-circle text-info"
+                            [ngbTooltip]="item.unitDesc"></i></label>
+                           
+                        </div>
+                      </div>
+
+                      <hr>
+                      <h4 style="color: blue;">Manager target</h4>
+                      <div class="form-group">
+                        &nbsp;&nbsp;
+                        <label> Manager Have not Approved yet</label>
+                      </div>
+                    </td>
+                    <!-- hr & Manager -->
+                    <td *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'">
+                      <div class="form-group">
+                        &nbsp;&nbsp;
+                        <div>
+                          <h4 style="color: blue;">Employee:&nbsp;</h4>
+                        </div>
+                        <div class="form-group">
+                          <label class="text">{{item.metricName}}&nbsp;{{item.empOperator}}&nbsp;to
+                            &nbsp;{{item.empTarget}}{{item.unitDisp}}  <i *ngIf="item.isOrgGoalDummy==true" class="fa fa-info-circle text-info"
+                            [ngbTooltip]="item.unitDesc"></i></label>
+                           
+                        </div>
+                      
+                      </div>
+
+                      <hr>
+                      <h4 style="color: blue;">N1 Manager</h4>
+                      <div *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N1-REVIEW' || view!='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N2-REVIEW'" class="form-group row">
+                        &nbsp;&nbsp;
+                        <div class="form-group">
+                          <label class="form-control textNew" style="text-align: center;">{{item.metricName}}</label>
+                        </div>
+                        <div class="form-group col-md-2">
+                          <select name="select" [(ngModel)]="item.n1Operator" class="form-control" id="select">
+                            <option *ngFor="let item of operator" [value]="item.configDtlValue">{{item.configDtlValue}}</option>
+                          </select>
+                        </div>
+                        <div class="form-group input-group col-sm-3">
+                          <input type="newname" [(ngModel)]="item.n1Target" class="form-control">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text"> <small> {{item.unitDisp}}</small></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div *ngIf=" view=='n1' && appraisalHdr.appraisalTargetStatusCode!='PENDING-N1-REVIEW' && appraisalHdr.appraisalTargetStatusCode!='APPROVED' || view=='n2' && appraisalHdr.appraisalTargetStatusCode!='PENDING-N2-REVIEW' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-group">
+                          <label class="text">{{item.metricName}}&nbsp;{{item.n1Operator}}&nbsp;to
+                            &nbsp;{{item.n1Target}}{{item.unitDisp}} </label>
+                        </div>
+                      <div *ngIf="appraisalHdr.appraisalTargetStatusCode=='APPROVED' || appraisalHdr.appraisalTargetStatusCode=='EMP-ACCEPTED' || view=='emp'" class="form-group">
+                        <label class="text">{{item.metricName}}&nbsp;{{item.n1Operator}}&nbsp;to
+                          &nbsp;{{item.n1Target}}{{item.unitDisp}} </label>
+                      </div>
+                      </div>                      
+                    </td>
+
+                    <td>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label> Review Period:</label>
+                        </div>
+                        <div *ngIf="appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="col-sm-5">
+                          <select name="year" id="year" (click)="addChildRow(item.dummyid,item.reviewIntervalType)"
+                            [(ngModel)]="item.reviewIntervalType" class="form-control">
+                            <option value="yearly">Yearly</option>
+                            <option value="half-yearly">Half Yearly</option>
+                            <option value="quarterly">Quarterly</option>
+                          </select>
+                        </div>
+                        <div *ngIf="appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="col-sm-5">
+                          <label style="text-transform: capitalize;"> {{item.reviewIntervalType}}</label>
+                        </div>
+                      </div>
+                      <br>
+                      <div *ngFor="let child of item.reviews">
+                        <div style="text-align: center;" class="col-sm-6 input-group-prepend">
+                          <label class="text input-group-text">{{child.reviewDt | date:'dd-MM-yyyy'}}</label>
+                        </div>
+                      </div>
+                    </td> 
+
+                    <td *ngIf="view=='emp' && empView==true">
+                      <div *ngIf="appraisalHdr.appraisalTargetStatusCode=='PENDING-EMP-ACCEPTANCE'">
+                        
+                        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+                          <label *ngIf="item.isEmpAccept=='Y'" ngbButtonLabel class="btn btn-success waves-effect waves-light">
+                              <input ngbButton type="radio" (click)="item.isEmpAccept='Y'"> Accept
+                            </label>
+                          <label *ngIf="item.isEmpAccept=='N'" ngbButtonLabel class="btn btn-outline-success waves-effect waves-light">
+                            <input ngbButton type="radio" (click)="item.isEmpAccept='Y'"> Accept
+                          </label>
+                          <label *ngIf="item.isEmpAccept=='Y'" ngbButtonLabel class="btn-outline-danger">
+                            <input ngbButton type="radio" (click)="item.isEmpAccept='N'"> Reject
+                          </label>
+                          <label *ngIf="item.isEmpAccept=='N'" ngbButtonLabel class="btn-danger">
+                              <input ngbButton type="radio" (click)="item.isEmpAccept='N'"> Reject
+                          </label>
+                        </div>
+                      </div>
+                      <div *ngIf="appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'">
+                        <a href="javascript:void(0)" (click)="addRow('Y')" data-toggle="tooltip"
+                        data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                      <a href="javascript:void(0)" (click)="deleteRow(item.dummyid,'Y')" data-toggle="tooltip"
+                        data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a><br />
+                      </div>                     
+                    </td>
+                  </tr>
+                  <tr>
+                    <th *ngIf="view=='emp' && empView==true" colspan="6">
+                      <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="getFuncitional.length">
+                      </ngb-pagination>
+
+                      <pre>Current page: {{page}}</pre>
+                    </th>
+                    <th *ngIf="view=='n1' || view=='n2' || view=='n1' ||view=='emp' && empView==false" colspan="5">
+                      <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="getFuncitional.length">
+                      </ngb-pagination>
+
+                      <pre>Current page: {{page}}</pre>
+                    </th>
+                  </tr>
+
+
+
+
+ <!-- getBehavioral -->
+
+
+                  <tr>
+                    <th *ngIf="view=='emp' && empView==true" colspan="6" class="textTableTitle" style="text-align: center;"> Behavioural, Personal and
+                      Managerial - Key Requirements and Objectives 
+                      <i *ngIf="appraisalHdr.n1ReturnComment!=null && view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" [ngbTooltip]="'Manager Remarks:'+appraisalHdr.n1ReturnComment" style="color: #ffff00;" class="fa fa-exclamation-triangle"></i>
+                      <i *ngIf="appraisalHdr.escalatReason!=null && view=='n2' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N2-REVIEW'" [ngbTooltip]="'Employee Remarks:'+appraisalHdr.escalatReason" style="color: #ffff00;" class="fa fa-exclamation-triangle"></i>
+                    </th>
+                      <th *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && empView==false" colspan="5" class="textTableTitle" style="text-align: center;"> Behavioural, Personal and
+                        Managerial - Key Requirements and Objectives 
+                        <i *ngIf="appraisalHdr.n1ReturnComment!=null && view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" [ngbTooltip]="'Manager Remarks:'+appraisalHdr.n1ReturnComment" style="color: #ffff00;" class="fa fa-exclamation-triangle"></i> 
+                        <i *ngIf="appraisalHdr.escalatReason!=null && view=='n2' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N2-REVIEW'" [ngbTooltip]="'Employee Remarks:'+appraisalHdr.escalatReason" style="color: #ffff00;" class="fa fa-exclamation-triangle"></i>
+                      </th>
+                  </tr>
+                  <tr style="background-color:rgb(192, 201, 209);">
+                    <th>Priority</th>
+                    <th>Strategic Objectives</th>
+                    <th>Description of Objectives</th>
+                    <th> Measurement Criteria </th>                    
+                    <th> Periodic Reviews </th>
+                    <th *ngIf="view=='emp' && empView==true" ><i class="fa fa-cog "></i> <a *ngIf="getBehavioral.length==0" href="javascript:void(0)" (click)="addRow('N')" data-toggle="tooltip"
+                      data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a> </th>
+                  </tr>                
+                  <tr *ngFor="let item of behavioralSort | slice: (bpage-1) * bpageSize : (bpage-1) * bpageSize + bpageSize;let i=index">
+                    <td style=" height: 50px;">{{item.priority}}</td>
+                    <td *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="Bfun[{{i}}]" value="functional" name="Bfun[{{i}}]"
+                          [(ngModel)]="item.strategy" class="custom-control-input">
+                        <label class="custom-control-label" for="Bfun[{{i}}]">Functional</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="Bnonfun[{{i}}]" value="non-functional" [(ngModel)]="item.strategy"
+                          name="Bnonfun[{{i}}]" class="custom-control-input">
+                        <label class="custom-control-label" for="Bnonfun[{{i}}]">Non-Functional</label>
+                      </div>
+                      <span>{{item.isOrgGoalDummy ? 'Organisational Goal' : 'Metric Goal'}}</span><br/>
+                      <label class="toggle "><input type="checkbox" class="col-md-8" [(ngModel)]="item.isOrgGoalDummy" ><span class="handle blocked"></span></label>
+                    </td>
+                    <td *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'">
+                      <div>
+                        <label style="text-transform: capitalize;">{{item.strategy}}</label>
+                      </div>
+                      <div>
+                        <span>{{item.isOrgGoalDummy ? 'Organisational Goal' : 'Metric Goal'}}</span>
+                      </div>
+                      <div *ngIf="view=='n2'">
+                        <br/>
+                        <br/>
+                        <label>Employee Decision </label>
+                        <span *ngIf="item.isEmpAccept=='N'" class="label label-danger">Rejected </span>
+                        <span *ngIf="item.isEmpAccept=='Y'" class="label label-success">Accepted </span>
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'">
+                        <textarea name="textName" class="form-control" [(ngModel)]="item.goalDesc" id="textName"
+                          cols="30" rows="10"></textarea>
+                      </div>
+                      <div *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'">                       
+                        {{item.goalDesc}}
+                      </div>
+                    </td>
+
+                    <!-- emp -->
+                    <td *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'">
+                      <h4 style="color: blue;">Employee</h4>
+                      <div class="row">
+                        &nbsp;
+
+
+                        <div *ngIf="item.isOrgGoalDummy==true" class="col col-sm-4">
+                          <input  style="border: 1px solid grey;" id="typeahead-focus"  type="text" class="form-control form-control-line" [ngbTypeahead]="orgMetricAC"
+                            [resultTemplate]="rt1" [inputFormatter]="formatter" placeholder="MetricName"
+                            (selectItem)="metricSelected(item.dummyid,$event,item.isOrgGoalDummy)" [value]="item.metricName"
+                            [editable]='false' ngbtypeaheadpopup>
+
+                          <ng-template #rt1 let-r="result" let-t="term">
+                            {{r.metricId}} - {{ r.metricName}} ({{r.threshold}}{{r.unitTypeSymbol}})
+                          </ng-template>
+                        </div>
+
+                        <div *ngIf="item.isOrgGoalDummy==false" class="col col-sm-4">
+                          <input style="border: 1px solid grey;" id="typeahead-focus" type="text" class="form-control form-control-line" [ngbTypeahead]="metricAC"
+                            [resultTemplate]="rt1" [inputFormatter]="formatter" placeholder="MetricName"
+                            (selectItem)="metricSelected(item.dummyid,$event,item.isOrgGoalDummy)" [value]="item.metricName"
+                            [editable]='false' ngbtypeaheadpopup>
+
+                          <ng-template #rt1 let-r="result" let-t="term">
+                            {{r.id}} - {{ r.metricName}} ({{r.threshold}}{{r.unitTypeSymbol}})
+                          </ng-template>
+                        </div>
+
+                        <i *ngIf="item.isOrgGoalDummy==true" class="fa fa-info-circle text-info"
+                          [ngbTooltip]="item.unitDesc"></i>
+                        <div class="col-sm-2">
+                          <select name="select" [(ngModel)]="item.empOperator" class="form-control" id="select">
+                            <option *ngFor="let item of operator" [value]="item.configDtlValue">{{item.configDtlValue}}</option>
+                          </select>
+                        </div>
+                        <div class="input-group col-sm-3">
+                          <input type="target" [(ngModel)]="item.empTarget" class="form-control">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text"> <small> {{item.unitDisp}}</small></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <hr>
+                      <h4 style="color: blue;">Manager target</h4>
+                      <div class="form-group">
+                        &nbsp;&nbsp;
+                        <label> Manager Have not Approved yet</label>
+                      </div>
+                    </td>
+                    <!-- hr & Manager -->
+                    <td *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'">
+                      <div class="form-group">
+                        &nbsp;&nbsp;
+                        <div>
+                          <h4 style="color: blue;">Employee:&nbsp;</h4>
+                        </div>
+                        <div class="form-group">
+                          <label class="text">{{item.metricName}}&nbsp;{{item.empOperator}}&nbsp;to
+                            &nbsp;{{item.empTarget}}{{item.unitDisp}}  
+                            &nbsp;<i *ngIf="item.isOrgGoalDummy==true" class="fa fa-info-circle text-info"
+                            [ngbTooltip]="item.unitDesc"></i></label>
+                        </div>
+                       
+                      </div>
+
+                      <hr>
+                      <h4 style="color: blue;">N1 Manager</h4>
+                      <div *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N1-REVIEW' || view!='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-N2-REVIEW' " class="form-group row">
+                        &nbsp;&nbsp;
+                        <div class="form-group">
+                          <label class="form-control textNew" style="text-align: center;">{{item.metricName}}</label>
+                        </div>
+                        <div class="form-group col-md-2">
+                          <select name="select" [(ngModel)]="item.n1Operator" class="form-control" id="select">
+                            <option *ngFor="let item of operator" [value]="item.configDtlValue">{{item.configDtlValue}}</option>
+                          </select>
+                        </div>
+                        <div class="form-group input-group col-sm-3">
+                          <input type="newname" [(ngModel)]="item.n1Target" class="form-control">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text"> <small> {{item.unitDisp}}</small></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div *ngIf=" view=='n1' && appraisalHdr.appraisalTargetStatusCode!='PENDING-N1-REVIEW' && appraisalHdr.appraisalTargetStatusCode!='APPROVED' || view=='n2' && appraisalHdr.appraisalTargetStatusCode!='PENDING-N2-REVIEW' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-group">
+                          <label class="text">{{item.metricName}}&nbsp;{{item.n1Operator}}&nbsp;to
+                            &nbsp;{{item.n1Target}}{{item.unitDisp}} </label>
+                        </div>
+                      <div *ngIf="appraisalHdr.appraisalTargetStatusCode=='APPROVED' || view=='emp'" class="form-group">
+                        <label class="text">{{item.metricName}}&nbsp;{{item.n1Operator}}&nbsp;to
+                          &nbsp;{{item.n1Target}}{{item.unitDisp}} </label>
+                      </div>
+                      </div>                    
+                    </td>
+
+                    <td>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label> Review Period:</label>
+                        </div>
+                        <div *ngIf="appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="col-sm-5">
+                          <select name="year" id="year" (click)="addChildRow(item.dummyid,item.reviewIntervalType)"
+                            [(ngModel)]="item.reviewIntervalType" class="form-control">
+                            <option value="yearly">Yearly</option>
+                            <option value="half-yearly">Half Yearly</option>
+                            <option value="quarterly">Quarterly</option>
+                          </select>
+                        </div>
+                        <div *ngIf="appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="col-sm-5">
+                          <label style="text-transform: capitalize;"> {{item.reviewIntervalType}}</label>
+                        </div>
+                      </div>
+                      <br>
+                      <div *ngFor="let child of item.reviews">
+                        <div style="text-align: center;" class="col-sm-6 input-group-prepend">
+                          <label class="text input-group-text">{{child.reviewDt | date:'dd-MM-yyyy'}}</label>
+                        </div>
+                      </div>
+                    </td> 
+                    <td *ngIf="view=='emp' && empView==true">
+                      <div *ngIf="appraisalHdr.appraisalTargetStatusCode=='PENDING-EMP-ACCEPTANCE'">
+                        
+                        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+                          <label *ngIf="item.isEmpAccept=='Y'" ngbButtonLabel class="btn btn-success waves-effect waves-light">
+                              <input ngbButton type="radio" (click)="item.isEmpAccept='Y'"> Accept
+                            </label>
+                          <label *ngIf="item.isEmpAccept=='N'" ngbButtonLabel class="btn btn-outline-success waves-effect waves-light">
+                            <input ngbButton type="radio" (click)="item.isEmpAccept='Y'"> Accept
+                          </label>
+                          <label *ngIf="item.isEmpAccept=='Y'" ngbButtonLabel class="btn-outline-danger">
+                            <input ngbButton type="radio" (click)="item.isEmpAccept='N'"> Reject
+                          </label>
+                          <label *ngIf="item.isEmpAccept=='N'" ngbButtonLabel class="btn-danger">
+                              <input ngbButton type="radio" (click)="item.isEmpAccept='N'"> Reject
+                          </label>
+                        </div>
+                      </div>
+                      <div *ngIf="appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'">
+                        <a href="javascript:void(0)" (click)="addRow('N')" data-toggle="tooltip"
+                        data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                      <a href="javascript:void(0)" (click)="deleteRow(item.dummyid,'N')" data-toggle="tooltip"
+                        data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a><br />
+                      </div>                     
+                    </td>
+                  </tr>
+                  <tr>
+                    <th *ngIf="view=='emp' && empView==true" colspan="6">
+                      <ngb-pagination [(page)]="bpage" [pageSize]="bpageSize" [collectionSize]="getBehavioral.length">
+                      </ngb-pagination>
+
+                      <pre>Current page: {{bpage}}</pre>
+                    </th>
+                    <th *ngIf="view=='n1' || view=='n2' || view=='n1' ||view=='emp' && empView==false" colspan="5">
+                      <ngb-pagination [(page)]="bpage" [pageSize]="bpageSize" [collectionSize]="getBehavioral.length">
+                      </ngb-pagination>
+
+                      <pre>Current page: {{bpage}}</pre>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </ngb-tab>
+
+
+         <!-- Skill Matrix  -->
+
+         <style>
+          .fontStyle{
+            font-family: "Times New Roman", Times, serif;
+font-style: italic;
+font-variant: small-caps;
+text-transform: capitalize;
+font-size: 22px;
+          }
+        </style>
+
+        <ngb-tab *ngIf="findSkillUsed==true" title="Skill Objectives">
+          <ng-template ngbTabContent>
+            <br>
+            <br>
+            
+            <div class="row fontStyle">
+              <div class="col-3">
+                Number Of Skills     : {{appraisalHdr.skillObjectives.length}} 
+              </div>
+              <div class="col-3">
+                Previous Level Total : {{ratingTotal}} 
+              </div>
+              <div class="col-3">
+                Selft Level Total    : {{selfRating}} 
+              </div>
+              <div class="col-3">
+                Manager Level Total  : {{N1Rating}} 
+              </div>
+            </div>                                                                  
+            <br>
+            <br>
+            <div class="row">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Skill</th>
+                      <th>Skill Level</th>
+                      <th>Targate Level </th>
+                      <th>Is Mandatory</th>
+                      <th>Remark</th>
+                      <th>Action
+                        <div *ngIf="appraisalHdr.skillObjectives.length==0">
+                          <a href="javascript:void(0)" (click)="addSkill()" data-toggle="tooltip"
+                          data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>                        
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of appraisalHdr.skillObjectives | slice: (skillPage-1) * skillPageSize : (skillPage-1) * skillPageSize + skillPageSize;let i=index">
+                      <td >{{i+1}}</td>                      
+                      <td >
+                        <div *ngIf="item.isExistingSkill=='Y'">{{item.productName}}-{{item.abilityName}}</div> 
+                        <div class="row" *ngIf="item.isExistingSkill=='N'">
+                          <div class="col-4">
+                          
+                            <input style="border: 1px solid grey;" id="typeahead-focus" type="text" class="form-control form-control-line" [ngbTypeahead]="productAc"
+                            [resultTemplate]="rt4" [inputFormatter]="productFormatter" placeholder="Product Name"
+                            (selectItem)="productSelected(item.dummyId,$event)" [value]="item.productName"
+                            [editable]='false' ngbtypeaheadpopup>
+
+                          <ng-template #rt4 let-r="result" let-t="term">
+                        {{r.materialCode}} - {{r.materialName}}
+                          </ng-template>
+
+                          </div>
+                          <div class="col-4">
+                           
+                            <input [disabled]="item.productId==null" style="border: 1px solid grey;" id="typeahead-focus"  type="text" class="form-control form-control-line" [ngbTypeahead]="abilityAc"
+                            [resultTemplate]="rt5" [inputFormatter]="abilityFormatter" (click)="formService(item.productId)" placeholder="Ability Name"
+                            (selectItem)="abilitySelected(item.dummyId,$event)" [value]="item.abilityName"
+                            [editable]='false' ngbtypeaheadpopup>
+
+                          <ng-template #rt5 let-r="result" let-t="term">
+                        {{r.abilityName}} 
+                          </ng-template>
+
+                          </div>
+                        </div>
+                        
+                      </td>
+                      <td><ngb-rating max="3" style="font-size: medium;"  [readonly]="true" [(rate)]="item.currSkillLevel"></ngb-rating></td>
+                      <td class="center"> 
+                        <div  *ngIf="item.currSkillLevel!=3">
+                          <div>
+                            <label>Self</label><br/>
+                            <ngb-rating class="text-warning" max="3" [readonly]="view!='emp'" [(rate)]="item.skillLevelFromEmp" style="font-size: medium;"  ></ngb-rating>
+                          </div>   <br>                    
+                          <div >
+                            <label>Manager</label><br/>
+                            <ngb-rating class="text-primary" max="3" [readonly]="view!='n1'&&view!='n2'" [(rate)]="item.skillLevelFromN1" style="font-size: medium;"  ></ngb-rating>
+                          </div>
+                        </div>
+                        <div *ngIf="item.currSkillLevel==3"> - </div>
+                      </td>
+                       <td  class="center"> 
+                        <div *ngIf="item.currSkillLevel!=3">
+                          <input  type="checkbox" [(ngModel)]="item.isMandatory" name="remember" id="customCheck1"/>
+                        </div>
+                        <div *ngIf="item.currSkillLevel==3"> - </div>
+                      </td>
+                     
+                      <td > 
+                        <a href="javascript:void(0)" [ngbTooltip]="'Employee:'+item.empRemarks + '\n' + 'Manager:'+item.n1Remarks" (click)="item.textEdit=!item.textEdit" data-toggle="tooltip"
+                        data-original-title="Edit"> <i class="fa fa-pencil-square-o text-inverse m-r-10"></i> </a>
+
+                        <div *ngIf="item.textEdit">
+                          <div *ngIf="view=='emp'">
+                            <div class="col">
+                              <label>Employee Remarks</label>
+                              <textarea class="form-control form-control-line" [(ngModel)]="item.empRemarks" placeholder="Remark" rows="5"></textarea>
+                              <label>Manager Remarks</label><br>
+                              <span>{{item.n1Remarks}}</span>
+                            </div>                           
+                          </div>
+
+                          <div *ngIf="view=='n1'||view=='n2'">
+                            <div class="col">
+                              <label>Employee Remarks</label><br>
+                              <span>{{item.empRemarks}}</span><br><br/>
+                              <label>Manager Remarks</label>
+                              <textarea class="form-control form-control-line" [(ngModel)]="item.n1Remarks" placeholder="Remark" rows="5"></textarea>
+                            </div>                           
+                          </div>
+
+                         
+                        </div>                       
+                      </td>                   
+                      <td >
+                        <div>
+                          <a href="javascript:void(0)" (click)="addSkill()" data-toggle="tooltip"
+                          data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                        <a *ngIf="item.isExistingSkill=='N'" href="javascript:void(0)" (click)="removeSkill(i)" data-toggle="tooltip"
+                          data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div>
+                  <ngb-pagination [(page)]="skillPage" [pageSize]="skillPageSize"
+                  [collectionSize]="appraisalHdr.skillObjectives.length"></ngb-pagination>
+
+                <pre>Current page: {{skillPage}}</pre>
+                </div>
+
+                </div>
+                <div class="form-text small">
+                  <label>*Existing Skill is created can't be deleted </label>
+                </div>
+                </div>
+
+          </ng-template>
+          </ngb-tab>     
+
+                          <!-- Career Path -->
+
+
+        <ngb-tab title="Career Path">
+          <ng-template ngbTabContent>
+            <br>
+            <div class="row">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col">Career Path (Next position and following career moves hypothesis)</th>
+                      <th rowspan="4"></th>
+                      <th scope="col"></th>
+                      <th scope="col">Career Path (Next position and following career moves hypothesis)</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th colspan="2" style="text-align: center;" scope="row">By Employee</th>
+                      <th rowspan="5"></th>
+                      <th style="text-align: center;" colspan="2" scope="row">By Manager</th>
+                    </tr>
+                    <tr>
+                      <td rowspan="2">Next Position</td>
+                      <td>
+                        <label *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'" class="text">{{appraisalHdr.empNxtPos1}}</label>                        
+                        <input *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.empNxtPos1" value="1" type="text">
+                      </td>
+                      <td rowspan="2">Next Position</td>
+                      <td>
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="text">{{appraisalHdr.n1NxtPos1}}</label>
+                        <input *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" [(ngModel)]="appraisalHdr.n1NxtPos1" class="form-control form-control-line" value="1"
+                          type="text">
+                    </tr>
+                    <tr>
+                      <td scope="row">
+                        <label *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'" class="text">{{appraisalHdr.empNxtPos2}}</label>
+                        <input *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.empNxtPos2" type="text">
+                      </td>
+                      <td scope="row">
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="text">{{appraisalHdr.n1NxtPos2}}</label>
+                        <input *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.n1NxtPos2" value="2"
+                          type="text">
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td rowspan="2">Following career moves</td>
+                      <td>
+                        <label *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'" class="text">{{appraisalHdr.empCareerMove1}}</label>
+                        <input *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.empCareerMove1" value="1" type="text">
+                        <!-- <input class="form-control form-control-line" value="1" type="text" readonly> -->
+                      </td>
+                      <td rowspan="2">Following career moves</td>
+                      <td>
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="text">{{appraisalHdr.n1CareerPos1}}</label>
+                        <input *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.n1CareerPos1" value="1"
+                          type="text">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td scope="row">
+                        <label *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'" class="text">{{appraisalHdr.empCareerMove2}}</label>
+                        <input *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.empCareerMove2" value="2" type="text">
+                      </td>
+                      <td scope="row">
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="text">{{appraisalHdr.n1CareerPos2}}</label>
+                        <input *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.n1CareerPos2" value="2"
+                          type="text">
+                      </td>
+                    </tr>
+                    <tr>
+                      <th colspan="2" style="text-align: center;" scope="row"></th>
+                      <td></td>
+                      <th colspan="2" style="text-align: center;" scope="row"></th>
+                    </tr>
+
+                    <tr>
+                      <th colspan="2" style="text-align: center;" scope="row">Mobility (Functional / Geographical /
+                        Sector)</th>
+                      <th rowspan="5"></th>
+                      <th style="text-align: center;" colspan="2" scope="row">Mobility (Functional / Geographical /
+                        Sector)</th>
+                    </tr>
+                    <tr>
+                      <td colspan="2" style="text-align: center;" scope="row">(Expressed by Employee)</td>
+                      <td style="text-align: center;" colspan="2" scope="row">(Expressed by Manager)</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" scope="row">
+                        <label *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'" class="text">{{appraisalHdr.empMobility}}</label>
+                        <textarea *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" cols="30" rows="6" [(ngModel)]="appraisalHdr.empMobility"  class="form-control form-control-line"
+                          type="text"></textarea>
+                      </td>
+                      <td colspan="2" scope="row">
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED' " class="text">{{appraisalHdr.n1Mobility}}</label>
+                        <textarea *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.n1Mobility" name="name"
+                          id="name" cols="30" rows="6"></textarea></td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <br>
+                <br>
+
+                <table class="table table-bordered">
+                  <thead>
+                    <th>Development Actions <br>(To enhance performance and career)</th>
+                    <th> Target Date</th>
+                    <th>
+                      Results achieved<br>(Reviewed and recorded during or at the end of the above review year)
+                    </th>
+                    <th> <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-cog "></i> </a>
+                       <a *ngIf="appraisalHdr.devActions.length==0" href="javascript:void(0)" (click)="addDevActions()" data-toggle="tooltip"
+                      data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a></th>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of appraisalHdr.devActions;let i=index">
+                      <td>
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="text">{{item.devAction}}</label>
+                        <textarea *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-control form-control-line" [(ngModel)]="item.devAction" name="name"
+                          id="name" cols="30" rows="2"></textarea></td>
+                      <td>
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="text">{{item.targetDate | date:'dd-MM-yyyy'}}</label>
+                        <input *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-control form-control-line" [(ngModel)]="item.targetDate" type="date">
+                      </td>
+                      <td>Open At Year End</td>
+                      <td>
+                        <div *ngIf="appraisalHdr.appraisalTargetStatusCode!='APPROVED'">
+                          <a href="javascript:void(0)" (click)="addDevActions()" data-toggle="tooltip"
+                          data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                        <a href="javascript:void(0)" (click)="removeDevActions(i)" data-toggle="tooltip"
+                          data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a><br />
+                        </div> 
+                      </td>
+                    </tr>                                      
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+
+        <!-- Objectives Result -->
+
+
+        <ngb-tab title="Objectives Result">
+          <ng-template ngbTabContent>
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th colspan="7" class="textTableTitle" style="text-align: center;"> Technical and Professional - Key
+                      Requirements and Objectives</th>
+                  </tr>
+                  <tr style="background-color:#97f5f5;">
+                    <th>Priority</th>
+                    <th width="12%">strategy</th>
+                    <th>Objective</th>
+                    <th>Measurment</th>
+                    <th>Actual Result</th>
+                    <th>Score</th>
+                    <th width="35%">Remarks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of getFuncitional | slice: (orpage-1) * orpageSize : (orpage-1) * orpageSize + orpageSize;let i=index">
+                    <td>{{item.priority}}</td>
+                    <td>
+                      <div>
+                        <label style="text-transform: capitalize;">{{item.strategy}}</label>
+                      </div>
+                      <div>
+                        <label class="text">Organisational Goal</label> <i *ngIf="item.isOrgGoal=='Y'"
+                          class="fa fa-check text-success"></i><i *ngIf="item.isOrgGoal=='N'"
+                          class="fa fa-close text-danger"></i>
+                      </div>
+                    </td>
+                    <td> {{item.metricName}}</td>
+                    <td>{{item.metricName}}&nbsp;{{item.empOperator}}&nbsp;to
+                      &nbsp;{{item.empTarget}}{{item.unitDisp}}</td>
+                    <td>
+                      Employee: <div class="input-group">
+                        <input type="newname" [disabled]="view=='n1' || view=='n2' || view=='hr'" [(ngModel)]="item.empTarget"
+                          class="form-control">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text"> <small> {{item.unitDisp}}</small></div>
+                        </div>
+                      </div>
+
+                      N1 Manager: <div class="input-group">
+                        <input type="newname" [disabled]="view=='emp'" [(ngModel)]="item.n1Target"
+                          class="form-control">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text"> <small> {{item.unitDisp}}</small></div>
+                        </div>
+                      </div>                   
+                    </td>
+                    <td>
+                      <div class="row">
+                        <div class="col">
+                          Employee: &nbsp;<ngb-rating max="5" style="font-size: large;" [readonly]="view=='n1' || view=='n2' || view=='hr'"
+                            [(rate)]="item.empScoreCode"></ngb-rating>
+                          <div class="form-text small">
+                            <label>{{msg[item.empScoreCode]}}</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                         N1 Manager: &nbsp; <ngb-rating max="5" style="font-size: large;" [readonly]="view=='emp'" [(rate)]="item.n1ScoreCode">
+                          </ngb-rating>
+                          <div class="form-text small">
+                            <label>{{msg[item.n1ScoreCode]}}</label>
+                          </div>
+                        </div>
+                      </div>                   
+                    </td>
+                    <td>
+                      <div class="row">
+                        <div class="col">
+                          Employee:
+                          <label *ngIf="view=='n1' || view=='n2' || view=='hr'|| view=='dir'">{{item.empAchvmtRemarks}}</label>
+                          <textarea *ngIf="view=='emp'" [(ngModel)]="item.empAchvmtRemarks" name="emp" id="emp" class="form-control" cols="30"
+                            rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                         N1 Manager:
+                          <label *ngIf="view=='emp'">{{item.n1AchvmtRemarks}}</label>
+                          <textarea *ngIf="view=='n1' || view=='n2' || view=='hr'|| view=='dir'" [(ngModel)]="item.n1AchvmtRemarks" name="emp" id="emp" class="form-control" cols="30"
+                            rows="3"></textarea>
+                        </div>
+                      </div>                  
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colspan="7">
+                      <ngb-pagination [(page)]="orpage" [pageSize]="orpageSize"
+                        [collectionSize]="getFuncitional.length"></ngb-pagination>
+
+                      <pre>Current page: {{orpage}}</pre>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th colspan="7" class="textTableTitle" style="text-align: center;"> Behavioural, Personal And
+                      Managerial - Key Requirements And Objectives</th>
+                  </tr>
+
+                  <tr style="background-color:#97f5f5;">
+                    <th>Priority</th>
+                    <th width="12%">strategy</th>
+                    <th>Objective</th>
+                    <th>Measurment</th>
+                    <th>Actual Result</th>
+                    <th>Score</th>
+                    <th width="35%">Remarks</th>
+                  </tr>
+                  <tr *ngFor="let item of getBehavioral | slice: (orBpage-1) * orBpageSize : (orBpage-1) * orBpageSize + orBpageSize;let i=index">
+                    <td>{{item.priority}}</td>
+                    <td>
+                      <div>
+                        <label style="text-transform: capitalize;">{{item.strategy}}</label>
+                      </div>
+                      <div>
+                        <label class="text">Organisational Goal</label> <i *ngIf="item.isOrgGoal=='Y'"
+                          class="fa fa-check text-success"></i><i *ngIf="item.isOrgGoal=='N'"
+                          class="fa fa-close text-danger"></i>
+                      </div>
+                    </td>
+                    <td> {{item.metricName}}</td>
+                    <td>{{item.metricName}}&nbsp;{{item.empOperator}}&nbsp;to
+                      &nbsp;{{item.empTarget}}{{item.unitDisp}}</td>
+                    <td>
+                      Employee: <div class="input-group">
+                        <input type="newname" [disabled]="view=='n1' || view=='n2' || view=='hr'" [(ngModel)]="item.empTarget"
+                          class="form-control">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text"> <small> {{item.unitDisp}}</small></div>
+                        </div>
+                      </div>
+
+                      N1 Manager: <div class="input-group">
+                        <input type="newname" [disabled]="view=='emp'" [(ngModel)]="item.n1Target"
+                          class="form-control">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text"> <small> {{item.unitDisp}}</small></div>
+                        </div>
+                      </div>                     
+                    </td>
+                    <td>
+                      <div class="row">
+                        <div class="col">
+                          Employee: &nbsp;<ngb-rating max="5" style="font-size: large;" [readonly]="view=='n1' || view=='n2' || view=='hr'"
+                            [(rate)]="item.empScoreCode"></ngb-rating>
+                          <div class="form-text small">
+                            <label>{{msg[item.empScoreCode]}}</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                         N1 Manager: &nbsp; <ngb-rating max="5" style="font-size: large;" [readonly]="view=='emp'" [(rate)]="item.n1ScoreCode">
+                          </ngb-rating>
+                          <div class="form-text small">
+                            <label>{{msg[item.n1ScoreCode]}}</label>
+                          </div>
+                        </div>
+                      </div>                    
+                    </td>
+                    <td>
+                      <div class="row">
+                        <div class="col">
+                          Employee:
+                          <label *ngIf="view=='n1' || view=='n2' || view=='hr'|| view=='dir'">{{item.empAchvmtRemarks}}</label>
+                          <textarea *ngIf="view=='emp'" [(ngModel)]="item.empAchvmtRemarks" name="emp" id="emp" class="form-control" cols="30"
+                            rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                         N1 Manager:
+                          <label *ngIf="view=='emp'">{{item.n1AchvmtRemarks}}</label>
+                          <textarea *ngIf="view=='n1' || view=='n2' || view=='hr'|| view=='dir'" [(ngModel)]="item.n1AchvmtRemarks" name="emp" id="emp" class="form-control" cols="30"
+                            rows="3"></textarea>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colspan="7">
+                      <ngb-pagination [(page)]="orBpage" [pageSize]="orBpageSize"
+                        [collectionSize]="getBehavioral.length"></ngb-pagination>
+
+                      <pre>Current page: {{orBpage}}</pre>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </ngb-tab>
+
+        <!-- Appraisal(end of tht year) -->
+
+        <ngb-tab title="Appraisal(end of tht year)" [disabled]="view=='emp'">
+          <ng-template ngbTabContent>
+
+            <br>
+            <h4 style="text-align: center;" class="textTitle">Performance Evaluation (at the End of above review year)
+            </h4>
+
+            <div class="row" style="text-align: center;">
+              <div class="form-group col-md-4 col-sm-3">
+                <label class="control-label textColor"> Technical and Professional </label><br />
+                <ngb-rating max="5" style="font-size: large;" [readonly]="readonly" [(rate)]="appraisalHdr.techScoreCode"></ngb-rating>
+                <div class="form-text small">
+                  <label>{{msg[appraisalHdr.techScoreCode]}}</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4 col-sm-3">
+                <label class="control-label textColor"> Behavioural , Personal and Managerial </label><br />
+                <ngb-rating max="5" style="font-size: large;" [readonly]="readonly" [(rate)]="appraisalHdr.behaveScoreCode">
+                </ngb-rating>
+                <div class="form-text small">
+                  <label>{{msg[appraisalHdr.behaveScoreCode]}}</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4 col-sm-3">
+                <label class="control-label textColor"> Overall Performance Evaluation </label><br />
+                <ngb-rating max="5" style="font-size: large;" [readonly]="readonly" [(rate)]="appraisalHdr.overalScoreCode">
+                </ngb-rating>
+                <div class="form-text small">
+                  <label>{{msg[appraisalHdr.overalScoreCode]}}</label>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <hr>
+
+            <table class="table table-bordered">
+              <thead>
+                <th></th>
+                <th>Areas of strengths</th>
+                <th>Areas for development</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>By Employee</td>
+                  <td> <div *ngIf="view=='n1' || view=='n2' || view=='hr'|| view=='dir'"> {{appraisalHdr.empAreaOfStrength}} </div> 
+                    <textarea *ngIf="view=='emp'" name="data" class="form-control form-control-line" [(ngModel)]="appraisalHdr.empAreaOfStrength" id="data" cols="30" rows="10"></textarea>
+                  </td>
+                  <td><div *ngIf="view=='n1' || view=='n2' || view=='hr'|| view=='dir'">{{appraisalHdr.empAreaOfDev}}</div>
+                    <textarea name="data" *ngIf="view=='emp'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.empAreaOfDev" id="data" cols="30" rows="10"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td>By Manager</td>
+                  <td><div *ngIf="view=='emp'"> {{appraisalHdr.n1AreaOfStrength}}</div>
+                    <textarea *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir'" name="data" class="form-control form-control-line" [(ngModel)]="appraisalHdr.n1AreaOfStrength" id="data" rows="10"></textarea>
+                  </td>
+                  <td><div *ngIf="view=='emp'"> {{appraisalHdr.n1AreaOfDev}}</div>
+                    <textarea *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir'" name="data" class="form-control form-control-line" [(ngModel)]="appraisalHdr.n1AreaOfDev" id="data" rows="10"></textarea></td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <br>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Development Actions <br>(To enhance performance and career)</th>
+                  <th> Target Date</th>
+                  <th>
+                    Results achieved<br>(Reviewed and recorded during or at the end of the above review year)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of appraisalHdr.devActions">                 
+                  <td>{{item.devAction}}</td>
+                  <td>{{item.targetDate | date:'dd-MM-yyyy'}}</td>
+                  <td><textarea class="form-control form-control-line" [(ngModel)]="item.resultsAcheiv" type="text"></textarea></td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+</div>
+
+
+<!-- for HR & DIR -->
+
+
+<div *ngIf="appraisalHdr.appraisalTargetStatusCode!='CREATED' && view=='hr' || view=='dir'" class="row">
+  <div class="col-md-12">
+    <div class="card  p-20">
+      <ngb-tabset justify="fill">
+        <ngb-tab title="Objectives">
+          <ng-template ngbTabContent>
+
+            <br>
+            <br>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                      <th colspan="5" class="textTableTitle" style="text-align: center;"> Technical and Professional - Key
+                        Requirements and Objectives </th>
+                  </tr>
+                  <tr style="background-color:rgb(192, 201, 209);">
+                    <th>Priority</th>
+                    <th>Strategic Objectives</th>
+                    <th>Description of Objectives</th>
+                    <th> Measurement Criteria </th>                    
+                    <th> Periodic Reviews </th>                   
+                  </tr>
+
+                  <tr *ngFor="let item of funcitionalSort | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                    <td style=" height: 50px;">{{item.priority}}</td>                   
+                    <td>
+                      <div>
+                        <label style="text-transform: capitalize;">{{item.strategy}}</label>
+                      </div>
+                      <div>
+                        <label class="text">{{item.isOrgGoalDummy ? 'Organisational Goal' : 'Metric Goal'}}</label> 
+                      </div>
+                    </td>
+                    <td>{{item.goalDesc}} </td>                    
+                    <!-- hr & Manager -->
+                    <td>
+                      <div class="form-group">
+                        &nbsp;&nbsp;
+                        <div>
+                          <h4 style="color: blue;">Employee:&nbsp;</h4>
+                        </div>
+                        <div class="form-group">
+                          <label class="text">{{item.metricName}}&nbsp;{{item.empOperator}}&nbsp;to
+                            &nbsp;{{item.empTarget}}{{item.unitDisp}}  <i *ngIf="item.isOrgGoalDummy==true" class="fa fa-info-circle text-info"
+                            [ngbTooltip]="item.unitDesc"></i></label>                           
+                        </div>                      
+                      </div>
+                      <hr>
+                      <h4 style="color: blue;">N1 Manager</h4>                      
+                                          
+                      <div class="form-group">
+                        <label class="text">{{item.metricName}}&nbsp;{{item.n1Operator}}&nbsp;to
+                          &nbsp;{{item.n1Target}}{{item.unitDisp}} </label>
+                      </div>                                          
+                    </td>
+
+                    <td>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label> Review Period:</label>
+                        </div>
+                       
+                        <div class="col-sm-5">
+                          <label style="text-transform: capitalize;"> {{item.reviewIntervalType}}</label>
+                        </div>
+                      </div>
+                      <br>
+                      <div *ngFor="let child of item.reviews">
+                        <div style="text-align: center;" class="col-sm-6 input-group-prepend">
+                          <label class="text input-group-text">{{child.reviewDt | date:'dd-MM-yyyy'}}</label>
+                        </div>
+                      </div>
+                    </td>                     
+                  </tr>
+                  <tr>                   
+                    <th colspan="5">
+                      <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="getFuncitional.length">
+                      </ngb-pagination>
+
+                      <pre>Current page: {{page}}</pre>
+                    </th>
+                  </tr>
+
+
+
+
+ <!-- getBehavioral -->
+                  <tr>                    
+                      <th colspan="5" class="textTableTitle" style="text-align: center;"> Behavioural, Personal and
+                        Managerial - Key Requirements and Objectives </th>
+                  </tr>
+                  <tr style="background-color:rgb(192, 201, 209);">
+                    <th>Priority</th>
+                    <th>Strategic Objectives</th>
+                    <th>Description of Objectives</th>
+                    <th> Measurement Criteria </th>                    
+                    <th> Periodic Reviews </th>                   
+                  </tr>                
+                  <tr *ngFor="let item of behavioralSort | slice: (bpage-1) * bpageSize : (bpage-1) * bpageSize + bpageSize;let i=index">
+                    <td style=" height: 50px;">{{item.priority}}</td>                   
+                    <td>
+                      <div>
+                        <label style="text-transform: capitalize;">{{item.strategy}}</label>
+                      </div>
+                      <div>
+                        <label class="text">{{item.isOrgGoalDummy ? 'Organisational Goal' : 'Metric Goal'}}</label> 
+                      </div>
+                    </td>
+                    <td>{{item.goalDesc}} </td>                                        
+                    <td>
+                      <div class="form-group">
+                        &nbsp;&nbsp;
+                        <div>
+                          <h4 style="color: blue;">Employee:&nbsp;</h4>
+                        </div>
+                        <div class="form-group">
+                          <label class="text">{{item.metricName}}&nbsp;{{item.empOperator}}&nbsp;to
+                            &nbsp;{{item.empTarget}}{{item.unitDisp}}  <i *ngIf="item.isOrgGoalDummy==true" class="fa fa-info-circle text-info"
+                            [ngbTooltip]="item.unitDesc"></i></label>                           
+                        </div>                      
+                      </div>
+                      <hr>
+                      <h4 style="color: blue;">N1 Manager</h4>                      
+                                          
+                      <div class="form-group">
+                        <label class="text">{{item.metricName}}&nbsp;{{item.n1Operator}}&nbsp;to
+                          &nbsp;{{item.n1Target}}{{item.unitDisp}} </label>
+                      </div>                                          
+                    </td>
+
+                    <td>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label> Review Period:</label>
+                        </div>
+                       
+                        <div class="col-sm-5">
+                          <label style="text-transform: capitalize;"> {{item.reviewIntervalType}}</label>
+                        </div>
+                      </div>
+                      <br>
+                      <div *ngFor="let child of item.reviews">
+                        <div style="text-align: center;" class="col-sm-6 input-group-prepend">
+                          <label class="text input-group-text">{{child.reviewDt | date:'dd-MM-yyyy'}}</label>
+                        </div>
+                      </div>
+                    </td>  
+                  </tr>
+                  <tr>                
+                    <th colspan="5">
+                      <ngb-pagination [(page)]="bpage" [pageSize]="bpageSize" [collectionSize]="getBehavioral.length">
+                      </ngb-pagination>
+
+                      <pre>Current page: {{bpage}}</pre>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </ngb-tab>
+
+
+
+        <!-- Skill objectives -->
+
+        <ngb-tab *ngIf="findSkillUsed==true" title="Skill Objectives">
+          <ng-template ngbTabContent>
+            <br>
+            <br>
+            
+            <div class="row fontStyle">
+              <div class="col-3">
+                Number Of Skills     : {{appraisalHdr.skillObjectives.length}} 
+              </div>
+              <div class="col-3">
+                Previous Level Total : {{ratingTotal}} 
+              </div>
+              <div class="col-3">
+                Selft Level Total    : {{selfRating}} 
+              </div>
+              <div class="col-3">
+                Manager Level Total  : {{N1Rating}} 
+              </div>
+            </div>                                                                  
+            <br>
+            <br>
+            <div class="row">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Skill</th>
+                      <th>Skill Level</th>
+                      <th>Targate Level </th>
+                      <th>Is Mandatory</th>
+                      <th>Remark</th>                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of appraisalHdr.skillObjectives | slice: (skillPage-1) * skillPageSize : (skillPage-1) * skillPageSize + skillPageSize;let i=index">
+                      <td >{{i+1}}</td>                      
+                      <td >
+                        <div>{{item.productName}}-{{item.abilityName}}</div>                                                 
+                      </td>
+                      <td><ngb-rating max="3" style="font-size: medium;"  [readonly]="true" [(rate)]="item.currSkillLevel"></ngb-rating></td>
+                      <td class="center"> 
+                        <div  *ngIf="item.currSkillLevel!=3">
+                          <div >
+                            <label>Self</label><br/>
+                            <ngb-rating class="text-warning" max="3" [readonly]="true" [(rate)]="item.skillLevelFromEmp" style="font-size: medium;"  ></ngb-rating>
+                          </div>                       
+                          <div >
+                            <label>Manager</label><br/>
+                            <ngb-rating class="text-primary" max="3" [readonly]="true" [(rate)]="item.skillLevelFromN1" style="font-size: medium;"  ></ngb-rating>
+                          </div>
+                        </div>
+                        <div *ngIf="item.currSkillLevel==3"> - </div>
+                      </td>
+                       <td  class="center"> 
+                        <div *ngIf="item.currSkillLevel!=3">
+                          <a href="javascript:void(0)" *ngIf="item.isMandatory=='Y'" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-check text-success m-r-10"></i> </a>                         
+                        </div>
+                        <div *ngIf="item.currSkillLevel==3"> - </div>
+                      </td>
+                     
+                      <td > 
+                        <a href="javascript:void(0)" [ngbTooltip]="'Employee:'+item.empRemarks + '\n' + 'Manager:'+item.n1Remarks" (click)="item.textEdit=!item.textEdit" data-toggle="tooltip"
+                        data-original-title="Edit"> <i class="fa fa-pencil-square-o text-inverse m-r-10"></i> </a>
+
+                        <div *ngIf="item.textEdit">
+                          <div >
+                            <div class="col">
+                              <label>Employee Remarks</label>
+                              <span>{{item.empRemarks}}</span><br><br/>
+                              <label>Manager Remarks</label><br>
+                              <span>{{item.n1Remarks}}</span>
+                            </div>                           
+                          </div>                                                 
+                        </div>                       
+                      </td>                                         
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div>
+                  <ngb-pagination [(page)]="skillPage" [pageSize]="skillPageSize"
+                  [collectionSize]="appraisalHdr.skillObjectives.length"></ngb-pagination>
+
+                <pre>Current page: {{skillPage}}</pre>
+                </div>
+
+                </div>
+                <div class="form-text small">
+                  <label>*Existing Skill is created can't be deleted </label>
+                </div>
+                </div>
+
+          </ng-template>
+          </ngb-tab>     
+
+
+                          <!-- Career Path -->
+
+
+        <ngb-tab title="Career Path">
+          <ng-template ngbTabContent>
+            <br>
+            <div class="row">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col">Career Path (Next position and following career moves hypothesis)</th>
+                      <th rowspan="4"></th>
+                      <th scope="col"></th>
+                      <th scope="col">Career Path (Next position and following career moves hypothesis)</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th colspan="2" style="text-align: center;" scope="row">By Employee</th>
+                      <th rowspan="5"></th>
+                      <th style="text-align: center;" colspan="2" scope="row">By Manager</th>
+                    </tr>
+                    <tr>
+                      <td rowspan="2">Next Position</td>
+                      <td>
+                        <label *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'" class="text">{{appraisalHdr.empNxtPos1}}</label>                        
+                        <input *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.empNxtPos1" value="1" type="text">
+                      </td>
+                      <td rowspan="2">Next Position</td>
+                      <td>
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="text">{{appraisalHdr.n1NxtPos1}}</label>
+                        <input *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" [(ngModel)]="appraisalHdr.n1NxtPos1" class="form-control form-control-line" value="1"
+                          type="text">
+                    </tr>
+                    <tr>
+                      <td scope="row">
+                        <label *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'" class="text">{{appraisalHdr.empNxtPos2}}</label>
+                        <input *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.empNxtPos2" type="text">
+                      </td>
+                      <td scope="row">
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="text">{{appraisalHdr.n1NxtPos2}}</label>
+                        <input *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.n1NxtPos2" value="2"
+                          type="text">
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td rowspan="2">Following career moves</td>
+                      <td>
+                        <label *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'" class="text">{{appraisalHdr.empCareerMove1}}</label>
+                        <input *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.empCareerMove1" value="1" type="text">
+                        <!-- <input class="form-control form-control-line" value="1" type="text" readonly> -->
+                      </td>
+                      <td rowspan="2">Following career moves</td>
+                      <td>
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="text">{{appraisalHdr.n1CareerPos1}}</label>
+                        <input *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.n1CareerPos1" value="1"
+                          type="text">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td scope="row">
+                        <label *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'" class="text">{{appraisalHdr.empCareerMove2}}</label>
+                        <input *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.empCareerMove2" value="2" type="text">
+                      </td>
+                      <td scope="row">
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="text">{{appraisalHdr.n1CareerPos2}}</label>
+                        <input *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.n1CareerPos2" value="2"
+                          type="text">
+                      </td>
+                    </tr>
+                    <tr>
+                      <th colspan="2" style="text-align: center;" scope="row"></th>
+                      <td></td>
+                      <th colspan="2" style="text-align: center;" scope="row"></th>
+                    </tr>
+
+                    <tr>
+                      <th colspan="2" style="text-align: center;" scope="row">Mobility (Functional / Geographical /
+                        Sector)</th>
+                      <th rowspan="5"></th>
+                      <th style="text-align: center;" colspan="2" scope="row">Mobility (Functional / Geographical /
+                        Sector)</th>
+                    </tr>
+                    <tr>
+                      <td colspan="2" style="text-align: center;" scope="row">(Expressed by Employee)</td>
+                      <td style="text-align: center;" colspan="2" scope="row">(Expressed by Manager)</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" scope="row">
+                        <label *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir' || view=='emp'  && appraisalHdr.appraisalTargetStatusCode!='PENDING-SELF-APPRAISAL'" class="text">{{appraisalHdr.empMobility}}</label>
+                        <textarea *ngIf="view=='emp' && appraisalHdr.appraisalTargetStatusCode=='PENDING-SELF-APPRAISAL'" cols="30" rows="6" [(ngModel)]="appraisalHdr.empMobility"  class="form-control form-control-line"
+                          type="text"></textarea>
+                      </td>
+                      <td colspan="2" scope="row">
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED' " class="text">{{appraisalHdr.n1Mobility}}</label>
+                        <textarea *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.n1Mobility" name="name"
+                          id="name" cols="30" rows="6"></textarea></td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <br>
+                <br>
+
+                <table class="table table-bordered">
+                  <thead>
+                    <th>Development Actions <br>(To enhance performance and career)</th>
+                    <th> Target Date</th>
+                    <th>
+                      Results achieved<br>(Reviewed and recorded during or at the end of the above review year)
+                    </th>
+                    <th> <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-cog "></i> </a>
+                       <a *ngIf="appraisalHdr.devActions.length==0" href="javascript:void(0)" (click)="addDevActions()" data-toggle="tooltip"
+                      data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a></th>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of appraisalHdr.devActions;let i=index">
+                      <td>
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="text">{{item.devAction}}</label>
+                        <textarea *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-control form-control-line" [(ngModel)]="item.devAction" name="name"
+                          id="name" cols="30" rows="2"></textarea></td>
+                      <td>
+                        <label *ngIf="view=='emp' || appraisalHdr.appraisalTargetStatusCode=='APPROVED'" class="text">{{item.targetDate | date:'dd-MM-yyyy'}}</label>
+                        <input *ngIf="view!='emp' && appraisalHdr.appraisalTargetStatusCode!='APPROVED'" class="form-control form-control-line" [(ngModel)]="item.targetDate" type="date">
+                      </td>
+                      <td>Open At Year End</td>
+                      <td>
+                        <div *ngIf="appraisalHdr.appraisalTargetStatusCode!='APPROVED'">
+                          <a href="javascript:void(0)" (click)="addDevActions()" data-toggle="tooltip"
+                          data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                        <a href="javascript:void(0)" (click)="removeDevActions(i)" data-toggle="tooltip"
+                          data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a><br />
+                        </div> 
+                      </td>
+                    </tr>                                      
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+
+        <!-- Objectives Result -->
+
+
+        <ngb-tab title="Objectives Result">
+          <ng-template ngbTabContent>
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th colspan="7" class="textTableTitle" style="text-align: center;"> Technical and Professional - Key
+                      Requirements and Objectives</th>
+                  </tr>
+                  <tr style="background-color:#97f5f5;">
+                    <th>Priority</th>
+                    <th width="12%">strategy</th>
+                    <th>Objective</th>
+                    <th>Measurment</th>
+                    <th>Actual Result</th>
+                    <th>Score</th>
+                    <th width="35%">Remarks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of getFuncitional | slice: (orpage-1) * orpageSize : (orpage-1) * orpageSize + orpageSize;let i=index">
+                    <td>{{item.priority}}</td>
+                    <td>
+                      <div>
+                        <label style="text-transform: capitalize;">{{item.strategy}}</label>
+                      </div>
+                      <div>
+                        <label class="text">Organisational Goal</label> <i *ngIf="item.isOrgGoal=='Y'"
+                          class="fa fa-check text-success"></i><i *ngIf="item.isOrgGoal=='N'"
+                          class="fa fa-close text-danger"></i>
+                      </div>
+                    </td>
+                    <td> {{item.metricName}}</td>
+                    <td>{{item.metricName}}&nbsp;{{item.empOperator}}&nbsp;to
+                      &nbsp;{{item.empTarget}}{{item.unitDisp}}</td>
+                    <td>
+                      Employee: <div class="input-group">
+                        <input type="newname" [disabled]="view=='n1' || view=='n2' || view=='hr'" [(ngModel)]="item.empTarget"
+                          class="form-control">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text"> <small> {{item.unitDisp}}</small></div>
+                        </div>
+                      </div>
+
+                      N1 Manager: <div class="input-group">
+                        <input type="newname" [disabled]="view=='emp'" [(ngModel)]="item.n1Target"
+                          class="form-control">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text"> <small> {{item.unitDisp}}</small></div>
+                        </div>
+                      </div>                   
+                    </td>
+                    <td>
+                      <div class="row">
+                        <div class="col">
+                          Employee: &nbsp;<ngb-rating max="5" style="font-size: large;" [readonly]="view=='n1' || view=='n2' || view=='hr'"
+                            [(rate)]="item.empScoreCode"></ngb-rating>
+                          <div class="form-text small">
+                            <label>{{msg[item.empScoreCode]}}</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                         N1 Manager: &nbsp; <ngb-rating max="5" style="font-size: large;" [readonly]="view=='emp'" [(rate)]="item.n1ScoreCode">
+                          </ngb-rating>
+                          <div class="form-text small">
+                            <label>{{msg[item.n1ScoreCode]}}</label>
+                          </div>
+                        </div>
+                      </div>                   
+                    </td>
+                    <td>
+                      <div class="row">
+                        <div class="col">
+                          Employee:
+                          <label *ngIf="view=='n1' || view=='n2' || view=='hr'|| view=='dir'">{{item.empAchvmtRemarks}}</label>
+                          <textarea *ngIf="view=='emp'" [(ngModel)]="item.empAchvmtRemarks" name="emp" id="emp" class="form-control" cols="30"
+                            rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                         N1 Manager:
+                          <label *ngIf="view=='emp'">{{item.n1AchvmtRemarks}}</label>
+                          <textarea *ngIf="view=='n1' || view=='n2' || view=='hr'|| view=='dir'" [(ngModel)]="item.n1AchvmtRemarks" name="emp" id="emp" class="form-control" cols="30"
+                            rows="3"></textarea>
+                        </div>
+                      </div>                  
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colspan="7">
+                      <ngb-pagination [(page)]="orpage" [pageSize]="orpageSize"
+                        [collectionSize]="getFuncitional.length"></ngb-pagination>
+
+                      <pre>Current page: {{orpage}}</pre>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th colspan="7" class="textTableTitle" style="text-align: center;"> Behavioural, Personal And
+                      Managerial - Key Requirements And Objectives</th>
+                  </tr>
+
+                  <tr style="background-color:#97f5f5;">
+                    <th>Priority</th>
+                    <th width="12%">strategy</th>
+                    <th>Objective</th>
+                    <th>Measurment</th>
+                    <th>Actual Result</th>
+                    <th>Score</th>
+                    <th width="35%">Remarks</th>
+                  </tr>
+                  <tr *ngFor="let item of getBehavioral | slice: (orBpage-1) * orBpageSize : (orBpage-1) * orBpageSize + orBpageSize;let i=index">
+                    <td>{{item.priority}}</td>
+                    <td>
+                      <div>
+                        <label style="text-transform: capitalize;">{{item.strategy}}</label>
+                      </div>
+                      <div>
+                        <label class="text">Organisational Goal</label> <i *ngIf="item.isOrgGoal=='Y'"
+                          class="fa fa-check text-success"></i><i *ngIf="item.isOrgGoal=='N'"
+                          class="fa fa-close text-danger"></i>
+                      </div>
+                    </td>
+                    <td> {{item.metricName}}</td>
+                    <td>{{item.metricName}}&nbsp;{{item.empOperator}}&nbsp;to
+                      &nbsp;{{item.empTarget}}{{item.unitDisp}}</td>
+                    <td>
+                      Employee: <div class="input-group">
+                        <input type="newname" [disabled]="view=='n1' || view=='n2' || view=='hr'" [(ngModel)]="item.empTarget"
+                          class="form-control">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text"> <small> {{item.unitDisp}}</small></div>
+                        </div>
+                      </div>
+
+                      N1 Manager: <div class="input-group">
+                        <input type="newname" [disabled]="view=='emp'" [(ngModel)]="item.n1Target"
+                          class="form-control">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text"> <small> {{item.unitDisp}}</small></div>
+                        </div>
+                      </div>                     
+                    </td>
+                    <td>
+                      <div class="row">
+                        <div class="col">
+                          Employee: &nbsp;<ngb-rating max="5" style="font-size: large;" [readonly]="view=='n1' || view=='n2' || view=='hr'"
+                            [(rate)]="item.empScoreCode"></ngb-rating>
+                          <div class="form-text small">
+                            <label>{{msg[item.empScoreCode]}}</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                         N1 Manager: &nbsp; <ngb-rating max="5" style="font-size: large;" [readonly]="view=='emp'" [(rate)]="item.n1ScoreCode">
+                          </ngb-rating>
+                          <div class="form-text small">
+                            <label>{{msg[item.n1ScoreCode]}}</label>
+                          </div>
+                        </div>
+                      </div>                    
+                    </td>
+                    <td>
+                      <div class="row">
+                        <div class="col">
+                          Employee:
+                          <label *ngIf="view=='n1' || view=='n2' || view=='hr'|| view=='dir'">{{item.empAchvmtRemarks}}</label>
+                          <textarea *ngIf="view=='emp'" [(ngModel)]="item.empAchvmtRemarks" name="emp" id="emp" class="form-control" cols="30"
+                            rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                         N1 Manager:
+                          <label *ngIf="view=='emp'">{{item.n1AchvmtRemarks}}</label>
+                          <textarea *ngIf="view=='n1' || view=='n2' || view=='hr'|| view=='dir'" [(ngModel)]="item.n1AchvmtRemarks" name="emp" id="emp" class="form-control" cols="30"
+                            rows="3"></textarea>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colspan="7">
+                      <ngb-pagination [(page)]="orBpage" [pageSize]="orBpageSize"
+                        [collectionSize]="getBehavioral.length"></ngb-pagination>
+
+                      <pre>Current page: {{orBpage}}</pre>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </ngb-tab>
+
+        <!-- Appraisal(end of tht year) -->
+
+        <ngb-tab title="Appraisal(end of tht year)" [disabled]="view=='emp'">
+          <ng-template ngbTabContent>
+
+            <br>
+            <h4 style="text-align: center;" class="textTitle">Performance Evaluation (at the End of above review year)
+            </h4>
+
+            <div class="row" style="text-align: center;">
+              <div class="form-group col-md-4 col-sm-3">
+                <label class="control-label textColor"> Technical and Professional </label><br />
+                <ngb-rating max="5" style="font-size: large;" [readonly]="readonly" [(rate)]="appraisalHdr.techScoreCode"></ngb-rating>
+                <div class="form-text small">
+                  <label>{{msg[appraisalHdr.techScoreCode]}}</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4 col-sm-3">
+                <label class="control-label textColor"> Behavioural , Personal and Managerial </label><br />
+                <ngb-rating max="5" style="font-size: large;" [readonly]="readonly" [(rate)]="appraisalHdr.behaveScoreCode">
+                </ngb-rating>
+                <div class="form-text small">
+                  <label>{{msg[appraisalHdr.behaveScoreCode]}}</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4 col-sm-3">
+                <label class="control-label textColor"> Overall Performance Evaluation </label><br />
+                <ngb-rating max="5" style="font-size: large;" [readonly]="readonly" [(rate)]="appraisalHdr.overalScoreCode">
+                </ngb-rating>
+                <div class="form-text small">
+                  <label>{{msg[appraisalHdr.overalScoreCode]}}</label>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <hr>
+
+            <table class="table table-bordered">
+              <thead>
+                <th></th>
+                <th>Areas of strengths</th>
+                <th>Areas for development</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>By Employee</td>
+                  <td> <div *ngIf="view=='n1' || view=='n2' || view=='hr'|| view=='dir'"> {{appraisalHdr.empAreaOfStrength}} </div> 
+                    <textarea *ngIf="view=='emp'" name="data" class="form-control form-control-line" [(ngModel)]="appraisalHdr.empAreaOfStrength" id="data" cols="30" rows="10"></textarea>
+                  </td>
+                  <td><div *ngIf="view=='n1' || view=='n2' || view=='hr'|| view=='dir'">{{appraisalHdr.empAreaOfDev}}</div>
+                    <textarea name="data" *ngIf="view=='emp'" class="form-control form-control-line" [(ngModel)]="appraisalHdr.empAreaOfDev" id="data" cols="30" rows="10"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td>By Manager</td>
+                  <td><div *ngIf="view=='emp'"> {{appraisalHdr.n1AreaOfStrength}}</div>
+                    <textarea *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir'" name="data" class="form-control form-control-line" [(ngModel)]="appraisalHdr.n1AreaOfStrength" id="data" rows="10"></textarea>
+                  </td>
+                  <td><div *ngIf="view=='emp'"> {{appraisalHdr.n1AreaOfDev}}</div>
+                    <textarea *ngIf="view=='n1' || view=='n2' || view=='hr' || view=='dir'" name="data" class="form-control form-control-line" [(ngModel)]="appraisalHdr.n1AreaOfDev" id="data" rows="10"></textarea></td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <br>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Development Actions <br>(To enhance performance and career)</th>
+                  <th> Target Date</th>
+                  <th>
+                    Results achieved<br>(Reviewed and recorded during or at the end of the above review year)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of appraisalHdr.devActions">                 
+                  <td>{{item.devAction}}</td>
+                  <td>{{item.targetDate | date:'dd-MM-yyyy'}}</td>
+                  <td><textarea class="form-control form-control-line" [(ngModel)]="item.resultsAcheiv" type="text"></textarea></td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+</div>
+
+
+  <ng-template #timelines let-c="close">
+    <div class="modal-header">
+      <h4 class="modal-title">PEDP Timeline</h4>
+      <button type="button" class="close" aria-label="Close" (click)="c()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <th>Steps</th>
+            <th>Title</th>
+            <th>Description</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let task of timeline">
+              <td>{{task.id}}</td>
+              <td>{{task.objResult}}</td>             
+              <td>{{task.content}}
+                <div *ngIf="task.note!=null" class="form-text small">
+                  <label><b>Note:</b>{{task.note}}</label>
+                </div>
+               </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>    
+    </div>
+    <div class="modal-footer">
+      <div style="text-align: center;" class="col-md-11">
+        <button type="button" (click)="showWarning()" class="btn btn-outline-success">Submit Objectives</button>
+      </div>
+    </div>
+  </ng-template>
+
+
+  <ng-template #showwarning let-c="close">
+
+    <div class="modal-header">
+      <h4 class="modal-title">Once Submitted Can not be Changed</h4>
+      <button type="button" class="close" aria-label="Close" (click)="c()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-footer">
+      <div style="text-align: center;" class="col-md-11">
+        <button type="button" (click)="update()" class="btn btn-success">Submit</button>
+      </div>
+    </div>
+  </ng-template>
+
+
+  <ng-template #returnRes let-c="close">
+
+    <div class="modal-header">
+      <h4 class="modal-title">Please Fill the Reason</h4>
+      <button type="button" class="close" aria-label="Close" (click)="c()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <textarea *ngIf="view=='n1'" name="n1return" id="n1return" cols="30" class="form-control"  [(ngModel)]="appraisalHdr.n1ReturnComment" rows="10"></textarea>
+      <textarea *ngIf="view=='emp'" name="n1return" id="n1return" cols="30" class="form-control"  [(ngModel)]="appraisalHdr.escalatReason" rows="10"></textarea>
+    </div>
+    <div class="modal-footer">
+      <div style="text-align: center;" class="col-md-11">
+        <button type="button" (click)="update()" [disabled]="appraisalHdr.n1ReturnComment==null && appraisalHdr.escalatReason==null" class="btn btn-success">Submit</button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #empAlert let-c="close">
+
+    <div class="modal-header">
+      <h4 *ngIf="appraisalHdr.appraisalTargetStatusCode!='PENDING-EMP-ACCEPTANCE' && view=='emp'" class="modal-title">N1 Return Reason</h4>
+      <h4 *ngIf="appraisalHdr.appraisalTargetStatusCode=='PENDING-EMP-ACCEPTANCE'" class="modal-title">Alert</h4>
+      <h4 *ngIf="appraisalHdr.appraisalTargetStatusCode=='PENDING-N2-REVIEW'&& view=='n2'" class="modal-title">Employee Escalate Reason</h4>
+      <button type="button" class="close" aria-label="Close" (click)="c()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="appraisalHdr.appraisalTargetStatusCode!='PENDING-EMP-ACCEPTANCE'">
+        <label>{{appraisalHdr.n1ReturnComment}} </label>
+      </div>
+      <div *ngIf="appraisalHdr.appraisalTargetStatusCode=='PENDING-N2-REVIEW'">
+        <label>{{appraisalHdr.escalatReason}} </label>
+      </div>
+      <div *ngIf="appraisalHdr.appraisalTargetStatusCode=='PENDING-EMP-ACCEPTANCE'">
+        <h4>since you have reject some of the objectives you can able to accept it </h4>
+      </div>
+      
+    </div>
+    <div class="modal-footer">
+      <div style="text-align: center;" class="col-md-11">
+        <button type="button" (click)="c()" class="btn btn-success">OK</button>
+      </div>
+    </div>
+  </ng-template>
+
+
+  <ng-template #dragDrop let-c="close">
+    <flag-alert [message]="sortMsg"></flag-alert>
+    <div class="modal-header">     
+      <div class="card-deck">
+        <div class="card">
+          <div class="card-header">Technical And Professional - Key Requirements And Objectives</div>
+        <div class="card-body">
+      <table class="table table-bordered">
+        <thead>         
+          <tr>
+            <th width="40%">Priority</th>
+            <th width="60%">Description</th>            
+          </tr>          
+        </thead>
+        <tbody >
+          <tr *ngFor="let item of funcitionalSort">
+            <td> <input [(ngModel)]="item.dummyPriority" class="form-control form-control-line" min=1 type="number"></td>
+            <td>{{item.goalDesc}}</td>            
+          </tr>
+        </tbody>       
+      </table>
+        </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Behavioural, Personal And Managerial - Key Requirements And Objectives</div>
+        <div class="card-body">
+      <table class="table table-bordered">
+        <thead>         
+          <tr>
+            <th width="40%">Priority</th>
+            <th width="60%">Description</th>           
+          </tr>          
+        </thead>
+        <tbody >
+          <tr *ngFor="let item of behavioralSort">
+            <td> <input [(ngModel)]="item.dummyPriority" class="form-control form-control-line" min=1 type="number"></td>
+            <td>{{item.goalDesc}}</td>            
+          </tr>
+        </tbody>       
+      </table>
+        </div>
+        </div>
+      </div>     
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+      <div  class="col-md-2">
+        <button type="button" (click)="submitSort('')" class="btn btn-success">Sort</button>
+      </div>
+      <div  class="col-md-2">
+        <button type="button" (click)="cancel()" class="btn btn-info">Cancel</button>
+      </div>
+      <div  class="col-md-2">
+        <button type="button" (click)="submitSort('submit')" class="btn btn-success">Submit</button>
+      </div>
+    </div>
+  </ng-template>
+
+
+
+  <style>
+    .textNew {
+      color: #000000;
+      font-weight: normal;
+      text-decoration: none solid rgb(68, 68, 68);
+      font-style: normal;
+    }
+
+    .textTitle {
+      font-family: Georgia, serif;
+      letter-spacing: 1.4px;
+      word-spacing: -1.6px;
+      color: #000000;
+      font-weight: normal;
+      text-decoration: none solid rgb(68, 68, 68);
+      font-style: normal;
+      font-variant: small-caps;
+      text-transform: capitalize;
+    }
+
+    .textTableTitle {
+      font-variant: small-caps;
+      text-transform: capitalize;
+      background: #0e8dbc;
+      font-size: x-large;
+      color: #FFFFFF;
+
+      text-shadow: 0 1px 0 #CCCCCC, 0 6px 1px rgba(0, 0, 0, .1), 0 0 5px rgba(0, 0, 0, .1), 0 1px 3px rgba(0, 0, 0, .3), 0 3px 5px rgba(0, 0, 0, .2), 0 5px 10px rgba(0, 0, 0, .25), 0 20px 20px rgba(0, 0, 0, .15), 2px 2px 2px rgba(206, 89, 55, 0);
+    }
+
+    .textColor {
+      color: rgb(11, 15, 243);
+    }
+  </style>

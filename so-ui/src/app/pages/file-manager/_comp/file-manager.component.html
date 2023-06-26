@@ -1,0 +1,157 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">File Manager</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">File manager</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-3 col-md-4">
+                    <div class="card-body inbox-panel"><a (click)="refresh()"
+                            class="btn btn-danger m-b-20 p-10 btn-block waves-effect waves-light">Refresh</a>
+                        <ul class="list-group list-group-full" *ngFor="let bucket of buckets; index as i">
+                            <li class="{{'list-group-item'+' '+bucket.currentPoint}}"> <a
+                                    (click)="selectFile(bucket,i)"><i class="mdi mdi-gmail"></i>
+                                    {{bucket.name}} </a>
+                                <!-- <span class="badge badge-success ml-auto">4</span> -->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-8 bg-light border-left">
+                    <div class="card-body">
+                        <div>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">My profile</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Proof Submitted</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-t-0">
+                        <div class="form-group">
+                            <label for="file">Choose File</label>
+                            <input type="file" id="file" (change)="chooseFile($event.target.files)">
+                        </div>
+
+                        <div class="button-group">
+                            <button type="button" class="btn waves-effect waves-light btn-primary"
+                                (click)="uploadFile('CUSTOM-UPLOAD')">Upload</button>
+                                <button type="button" class="btn waves-effect waves-light btn-success"
+                                (click)="folderCreationModel(createFolderModel)">Create Folder</button>
+                        </div>
+
+                    </div>
+
+                    <div class="card-body p-t-0">
+                        <div class="card b-all shadow-none">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">
+                                            <a (click)="sortArray('name')">Name
+                                                <i class="fa fa-sort" aria-hidden="true"></i>
+                                            </a>
+                                        </th>
+                                        <th scope="col">Created Date</th>
+                                        <th scope="col">Modified Date</th>
+                                        <th scope="col">
+                                            <a (click)="sortArray('docTypeName')">Document Type
+                                                <i class="fa fa-sort" aria-hidden="true"></i>
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let d of data; index as i">
+                                        <th scope="row">{{ i + 1 }}</th>
+                                        <td> <i class="{{d.iconType}}" ngbTooltip="file" aria-hidden="true"></i></td>
+                                        <td *ngIf="d.editMode=='Y'">
+                                            <a *ngIf="d.iconType!='fa fa-file-video-o fa-2x'" style="cursor: pointer;"
+                                                (click)="selectFolder(d,i,imagePdfViewModel)">{{ d.name }}
+                                            </a>
+                                            <a *ngIf="d.iconType=='fa fa-file-video-o fa-2x'" style="cursor: pointer;"
+                                                (click)="selectFolder(d,i,videoModel)">{{ d.name }}
+                                            </a>
+                                            <div ngbDropdown class="d-inline-block">
+                                                <i id="sortMenu" ngbDropdownToggle>
+                                                </i>
+                                                <div ngbDropdownMenu aria-labelledby="sortMenu"
+                                                    class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" (click)="rename(i)">Rename</a>
+                                                    <a class="dropdown-item"
+                                                        (click)="openModel(deleteModel,d,'delete')">Delete</a>
+                                                    <a class="dropdown-item"
+                                                        (click)="openModel(shareModel,d,'share')">Share</a>
+                                                    <a *ngIf="d.type!='folder'" class="dropdown-item" (click)="downloadFile(d)">Download</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td *ngIf="d.editMode=='N'">
+                                            <div class="input-group input-group-sm mb-3">
+                                                <input type="text" class="form-control" [(ngModel)]="d.name"
+                                                    placeholder="File Name" aria-label="File's Name"
+                                                    aria-describedby="button-addon2">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary" type="button"
+                                                        (click)="cancelRename(i)" id="button-addon2"><i
+                                                            class="fa fa-times" aria-hidden="true"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-secondary" type="button"
+                                                        (click)="saveRename(i)" id="button-addon2"><i
+                                                            class="fa fa-check" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{ d.createdDt }}</td>
+                                        <td>{{ d.modifiedDt}}</td>
+                                        <td>{{ d.docTypeName}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #videoModel let-modal>
+    <div class="video">
+        <video controls (click)="toggleVideo()" #videoPlayer>
+            <source src="{{videoSource}}" type="video/mp4" />
+            Browser not supported
+        </video>
+    </div>
+</ng-template>
+
+<ng-template #createFolderModel let-modal>
+    <div style="background-color: cornflowerblue;" class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Create new folder</h4>
+      </div>
+      <div class="modal-body">
+            <div class="form-group">
+              <input type="name" class="form-control" id="folderName" [(ngModel)]="folderName" aria-describedby="folderName">
+              <small id="folderName" class="form-text text-muted">Special characters not supported</small>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn waves-effect waves-light btn-success" (click)="createFolder()">Create</button>
+      </div>
+</ng-template>

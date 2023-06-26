@@ -1,0 +1,188 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Organisational Goal</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item">Organisational Goal</li>				
+			</ol>
+		</div>
+	</div>
+</div>
+<flag-alert [message]="saveMsg"></flag-alert>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="form-group col-sm-3" >
+                <label class="control-label">Fiscal Year</label>
+                <select class="form-control" [disabled]="isGoal==true" [(ngModel)]="year" placeholder="Operator">                                           
+                    <option *ngFor="let item of fiscalYear"  [value]="item.id">{{item.fiscalCode}}</option>                                                                                 
+                </select>
+            </div>
+
+            <div *ngIf="isGoal==true" class="form-group col-sm-3" >
+                <label class="control-label">Last Modified By</label>									
+                <input type="text" disabled class="form-control form-control-line" [(ngModel)]="orgHeader.empName" placeholder="Employee Name" >                          
+            </div>
+
+            <div class="form-group col-sm-1">
+                <label class="control-label"></label>									
+                <button type="button" (click)="search()" [disabled]="year==null" class="btn btn-outline-success d-none d-lg-block m-l-15">Search</button>
+            </div>
+
+            <div class="form-group col-sm-1">
+                <label class="control-label"></label>									
+                <button type="button" (click)="export()" [disabled]="year==null" class="btn btn-outline-info d-none d-lg-block m-l-15">Export</button>
+            </div>                          
+
+            <div class="form-group col-sm-1">
+                <label class="control-label"></label>	
+                <button type="button" (click)="reset()" class="btn btn-outline-dark d-none d-lg-block m-l-15">Reset</button>
+            </div>
+
+            <div class="form-group col-sm-1" *ngIf="isEdit==false && isGoal==true && isDir==true">
+                <label class="control-label"></label>
+                <button type="button" (click)="save()" class="btn btn-info d-none d-lg-block m-l-15">Save</button>
+            </div>
+            <div class="form-group col-sm-1" *ngIf="isEdit==true && isGoal==true && isDir==true">
+                <label class="control-label"></label>
+                <button type="button" (click)="update()" class="btn btn-warning d-none d-lg-block m-l-15">Update</button>
+            </div>
+
+               
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isGoal==true" class="card-deck">
+    <div class="card">
+        <div class="card-header">Goals</div>
+        <div class="card-body">
+            <flag-alert [message]="saveMsg"></flag-alert>
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th >#</th>
+                        <th width="20%" >Metric</th>
+                        <th>Operator</th>
+                        <th width="11%" >Metric Value</th>  
+                        <th width="15%">Threshold</th>                     
+                        <th>Description</th>
+                        <th *ngIf="isDir==true"> <i class="fa fa-cog text-inverse m-r-10"></i>  
+                            <a href="javascript:void(0)" *ngIf="orgHeader.orgLines.length==0" (click)="addMetric()" data-toggle="tooltip" data-original-title="Edit"> 
+                                <i class="fa fa-plus text-inverse m-r-10"></i> </a>                        
+                        </th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="isDir==true">
+                    <tr *ngFor="let item of orgHeader?.orgLines;let i=index">
+                        <th >{{i+1}}</th>
+                        <td >
+                               
+                                <div class="col-md-12 col-sm-6">
+                                <form [formGroup]="myGroup">
+                                        <input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                        class="form-control" [ngbTypeahead]="metricAC"
+                                        [resultTemplate]="rt1" [inputFormatter]="formatter"
+                                        placeholder="Metric" (selectItem)="metricSelected($event, i)"
+                                        [value]="item.metricId+'-'+item.metricName" [editable]='false' ngbtypeaheadpopup>
+                                    <ng-template #rt1 let-r="result" let-t="term">
+                                        {{r.metricCatCode}}/{{ r.metricCatName}}/{{r.metricName}}
+                                    </ng-template>
+                            <!-- <input type="text" class="form-control" [ngbTypeahead]="metricAC" (selectItem)="metricSelected($event,i)" [value]="item.metricId+'-'+item.metricName" formControlName="metricNames" [resultTemplate]="rt1" [inputFormatter]="formatter" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                            <ng-template #rt1 let-r="result" let-t="term">
+                                {{r.metricCatCode}}/{{ r.metricCatName}}/{{r.metricName}}
+                            </ng-template> -->
+                        </form>
+                        </div>
+                        </td>
+                        <td > 
+                            <select class="form-control" placeholder="Operator" [(ngModel)]="item.operator">                                           
+                                <option *ngFor="let op of operators" [value]="op.configDtlValue">{{op.configDtlValue}}  </option>                                         
+                        </select>
+                </td>
+                        <td> 
+                            <div class="input-group">
+                                    <div class="form-group" [ngClass]="{'has-danger': drive.invalid && (drive.dirty || drive.touched)}">
+                                            <input type="number"  required #drive="ngModel" [(ngModel)]="item.metricValue" class="form-control form-control-line" placeholder="Metric Value">
+                                    
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"> <small> {{item.unitTypeSymbol}}</small></div>
+                              </div>    
+                        </div>                                                    
+                        <div *ngIf="drive.invalid && (drive.dirty || drive.touched)">
+                                <small class="form-control-feedback" *ngIf="drive?.errors.required">Metric Value is required.</small>
+                            </div>
+                        </div>
+                        </td>      
+                        <td>
+                                <div class="form-group col-md-9 col-sm-6" [ngClass]="{'has-danger': Thr.invalid && (Thr.dirty || Thr.touched)}">
+                            <input type="number" class="form-control"  [(ngModel)]="item.threshold" required #Thr="ngModel" name="Threshold" id="Thr" cols="30" rows="4" placeholder="Threshold">
+                            <div *ngIf="Thr.invalid && (Thr.dirty || Thr.touched)">
+                                    <small class="form-control-feedback" *ngIf="Thr?.errors.required">Threshold is required.</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td >
+                                <div class="form-group" [ngClass]="{'has-danger': desp.invalid && (desp.dirty || desp.touched)}">
+                            <textarea class="form-control"  [(ngModel)]="item.descp" required #desp="ngModel" name="descp" id="descp" cols="30" rows="4" placeholder="descp"></textarea>
+                            <div *ngIf="desp.invalid && (desp.dirty || desp.touched)">
+                                    <small class="form-control-feedback" *ngIf="desp?.errors.required">Description is required.</small>
+                                </div>
+                            </div>
+                        </td>
+
+                        
+                        <td *ngIf="isDir==true">
+                            <a href="javascript:void(0)" (click)="addMetric()" data-toggle="tooltip" data-original-title="Edit"> 
+                            <i class="fa fa-plus text-inverse m-r-10"></i> </a>                          
+                                <confirm-delete [type]="'icon'" (confirmed)="removeMetric(item.id,i)"></confirm-delete><br />  
+                        </td >
+                    </tr>
+                </tbody>
+
+                <!-- for HR view -->
+
+                <tbody *ngIf="isDir==false">
+                    <tr *ngFor="let item of orgHeader?.orgLines;let i=index">
+                        <th >{{i+1}}</th>
+                        <td >{{item.metricId+'-'+item.metricName}}</td>
+                        <td >{{item.operator}}</td>
+                        <td> {{item.metricValue}} <span class="label label-default"> {{item.unitTypeSymbol}}</span> </td>      
+                        <td>{{item.threshold}} </td>
+                        <td >{{item.descp}}</td>
+
+                                               
+                    </tr>
+                </tbody>
+                
+            </table>
+
+        </div>
+
+        <flag-alert [message]="msg"></flag-alert>
+
+        <div class="card-footer bg-light" *ngIf="isDir==true">
+            <div class="container">
+                <div *ngIf="isEdit==false">
+                    <button type="button" (click)="save()" class="btn btn-info d-none d-lg-block m-l-15" >Save</button>
+                </div>
+                <div *ngIf="isEdit==true">
+                    <button type="button" (click)="update()" class="btn btn-warning d-none d-lg-block m-l-15" [disabled]="!myGroup.valid">Update</button>
+                </div>
+                    <!-- <div class="row">
+                        <div class="col-sm">
+                            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="metrics.length">
+                            </ngb-pagination>
+                            <pre>Current page: {{mpage}}</pre>
+                        </div>                                                                 
+                    </div> -->
+    
+                </div>
+        </div>
+    </div>  
+
+</div>

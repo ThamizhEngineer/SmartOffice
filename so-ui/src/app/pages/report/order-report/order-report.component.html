@@ -1,0 +1,162 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Order Intake</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a [routerLink]="['/index']">Home</a></li>
+                <li class="breadcrumb-item active">Order Intake</li>
+
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 card card-body form-body">
+        <div class="row">
+            <div class="col-3 form-group">
+                <label>Month/Year</label>
+                <month-picker [(config)]="mpFromConfig" [(model)]="mpSalModel"
+                    (mpOnModelChange)="this.mpOnModelChange($event)"></month-picker>
+            </div>
+            <div class="form-group col-md-2">
+                <label>Sale order Code</label>
+                <input type="text" class="form-control" id="soCode" [(ngModel)]="soCode" placeholder="Sale order code">
+            </div>
+            <div class="form-group col-md-2">
+                <label>Sale order amount</label>
+                <input type="text" class="form-control" id="soOrderAmount" [(ngModel)]="soOrderAmount"
+                    placeholder="Sale order amount">
+            </div>
+            <div class="form-group col-md-2">
+                <label>Virtual PO</label>
+                <select type="text" class="form-control form-control-line" placeholder="Virtual PO"
+                    [(ngModel)]="isVirtualPo" name="isVirtualPo">
+                    <option>Y</option>
+                    <option>N</option>
+                    <option>All</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label>Virtual PO Number</label>
+                <input type="text" class="form-control" id="virtualPoNum" [(ngModel)]="virtualPoNum"
+                    placeholder="Virtual po number">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-2">
+                <label>Has goods</label>
+                <select type="text" class="form-control form-control-line" placeholder="Has goods"
+                    [(ngModel)]="hasGoods" name="hasGoods">
+                    <option>Y</option>
+                    <option>N</option>
+                    <option>All</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label>Has services</label>
+                <select type="text" class="form-control form-control-line" placeholder="Has services"
+                    [(ngModel)]="hasServices" name="hasServices">
+                    <option>Y</option>
+                    <option>N</option>
+                    <option>All</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label>BU name</label>
+                <input type="text" class="form-control" id="buName" [(ngModel)]="buName" placeholder="BU name">
+            </div>
+            <div class="form-group col-md-2">
+                <label>Division name</label>
+                <input type="text" class="form-control" id="divisionName" [(ngModel)]="divisionName"
+                    placeholder="Division name">
+            </div>
+            <div class="form-group col-md-2">
+                <label>Function name</label>
+                <input type="text" class="form-control" id="functionName" [(ngModel)]="functionName"
+                    placeholder="function name">
+            </div>
+            <div class="form-group col-md-2">
+                <label>Client code</label>
+                <input type="text" class="form-control" id="clientCode" [(ngModel)]="clientCode"
+                    placeholder="Client code">
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="form-group col-md-2">
+                <label>Client name</label>
+                <input type="text" class="form-control" id="clientName" [(ngModel)]="clientName"
+                    placeholder="Client name">
+            </div>
+            <div class="form-group col-md-2">
+                <label>Country name</label>
+                <input type="text" class="form-control" id="countryName" [(ngModel)]="countryName"
+                    placeholder="country name">
+            </div>
+            <div class="form-group col-md-2">
+                <label>Job codes</label>
+                <input type="text" class="form-control" id="jobCodes" [(ngModel)]="jobCodes" placeholder="Job codes">
+            </div>
+            <div class="form-group col-md-1">
+                <label>&nbsp;</label>
+                <button type="button" (click)="search()" class="btn btn-info d-none d-lg-block m-l-15"> Search</button>
+            </div>
+            <div class="form-group col-md-1">
+                <label>&nbsp;</label>
+                <button type="button" (click)="reset()" class="btn btn-warning d-none d-lg-block m-l-15"> Reset</button>
+            </div>
+            <div class="form-group col-md-1">
+                <label>&nbsp;</label>
+                <button type="button" (click)="export()" class="btn btn-success d-none d-lg-block m-l-15">
+                    Export</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 card card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm color-bordered-table theme-bordered-table">
+                <thead>
+                    <tr>
+                        <th>Sale order Code</th>
+                        <th>Sale order Amount</th>
+                        <th>Virtual PO</th>
+                        <th>virtual PO Number</th>
+                        <th>Has Goods</th>
+                        <th>Has Services</th>
+                        <th>Bu Name</th>
+                        <th>Division Name</th>
+                        <th>Function Name</th>
+                        <th>Client Code</th>
+                        <th>Client Name</th>
+                        <th>Country Name</th>
+                        <th>Job Codes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let x of rows;">
+                        <td>{{x.soCode}}</td>
+                        <td>{{x.soOrderAmount}}</td>
+                        <td>{{x.isVirtualPo}}</td>
+                        <td>{{x.virtualPoNum}}</td>
+                        <td>{{x.hasGoods}}</td>
+                        <td>{{x.hasServices}}</td>
+                        <td>{{x.buName}}</td>
+                        <td>{{x.divisionName}}</td>
+                        <td>{{x.functionName}}</td>
+                        <td>{{x.clientCode}}</td>
+                        <td>{{x.clientName}}</td>
+                        <td>{{x.countryName}}</td>
+                        <td>{{x.jobCodes}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="rowSize"></ngb-pagination>           
+             <pre>Current page: {{page}}</pre>
+        </div>
+    </div>
+</div>

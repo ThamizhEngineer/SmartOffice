@@ -1,0 +1,103 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Attendance Shift</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+				<li class="breadcrumb-item active">Attendance Shift List </li>
+			</ol>
+			<button type="button" class="btn btn-info m-l-15" (click)="createNew();">
+				<i class="fa fa-plus-circle"></i> Create Attendance Shift </button>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12 card card-body">
+		<flag-alert [message]="saveMsg"></flag-alert>
+		<div class="table-responsive">
+			<table class="table table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Shift Code</th>
+						
+						<th>Shift Name</th>
+                        <th>From Time</th>
+                        <th>Mid Time</th>
+                        <th>To Time</th>
+                        <th>Attendance ExpTime</th>
+						<th>Actions</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let row of rows | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index ">
+						<td>{{i+1}}</td>
+						<td>{{row.shiftCode}}</td>
+						<td>{{row.shiftName}}</td>
+                        <td>{{row.fromTime}}</td>
+                        <td>{{row.midTime}}</td>
+                        <td>{{row.toTime}}</td>
+                        <td>{{row.attendanceExpTime}}</td>
+						<td class="text-nowrap">
+							<a href="javascript:void(0)" (click)="showDetail(row.id);">
+								<i class="fa fa-pencil text-inverse m-r-10"></i>
+							</a>
+							<confirm-delete [type]="'icon'" (confirmed)="deleteRow(row.id)"></confirm-delete>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+			<ngb-pagination 
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="rows.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>
+		</div>
+	</div>
+</div>
+<ng-template #vdetail let-c="close">
+    <div class="modal-header">
+        <h3 class="modal-title">Attendance Shift</h3>
+        <button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-6 form-group">
+                <label class="control-label">Shift Code</label>
+                <input type="text" class="form-control" placeholder="Shift Code" [(ngModel)]="attendanceShfit.shiftCode">                   
+            </div>
+            <div class="col-6 form-group">
+                <label class="control-label">Shift Name</label>
+                <input type="text" class="form-control" placeholder="Shift Name" [(ngModel)]="attendanceShfit.shiftName">                   
+            </div>
+            <div class="col-6 form-group">
+                <label class="control-label">From Time</label>
+                <input type="text" class="form-control" placeholder="From Time" [(ngModel)]="attendanceShfit.fromTime">                   
+            </div>
+            <div class="col-6 form-group">
+                <label class="control-label">Mid Time</label>
+                <input type="text" class="form-control" placeholder="Mid Time" [(ngModel)]="attendanceShfit.midTime">                   
+            </div>
+            <div class="col-6 form-group">
+                <label class="control-label">To Time</label>
+                <input type="text" class="form-control" placeholder="To Time" [(ngModel)]="attendanceShfit.toTime">                   
+            </div>
+            <div class="col-6 form-group">
+                <label class="control-label">Attendance ExpTime</label>
+                <input type="text" class="form-control" placeholder="Attendance ExpTime" [(ngModel)]="attendanceShfit.attendanceExpTime">                   
+            </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning"  (click)="save();">Save</button>
+                <button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+            </div>
+    </ng-template>

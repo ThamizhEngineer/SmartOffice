@@ -1,0 +1,30 @@
+<div class="row" >
+    <div class="col">
+        <input type="text" class="form-control" placeholder="Location"[ngbTypeahead]="locationAC" (selectItem)="onLocationSelected($event)" [resultTemplate]="rt5" [inputFormatter]="location_formatter" [value]="value"/>
+        <ng-template #rt5 let-r="result" let-t="term">
+           {{ r.locName}}
+        </ng-template>
+    </div>    
+    <div class="col">
+        <i class="fa fa-search" (click)="mapPopUp('search')" style="color:#00a2ff" aria-hidden="true"></i>  &nbsp;&nbsp;<i class="fa fa-plus" (click)="mapPopUp('create')" style="color:#ff0015" aria-hidden="true"></i> 
+    </div>
+</div>
+
+ 
+
+
+
+ 
+
+
+<ng-template #addMap let-c="close">
+    <div class="modal-header">
+        <h3>Map Location</h3>
+        <button type="button" class="close" aria-label="Close" (click)="close()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">            
+         <map-location (locationMap)="onLocationSelected($event)" [type]="type" ></map-location>              
+    </div>        
+</ng-template>

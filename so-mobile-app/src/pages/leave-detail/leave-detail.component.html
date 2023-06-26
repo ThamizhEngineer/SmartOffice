@@ -1,0 +1,42 @@
+
+<ion-header>
+    <ion-navbar>
+      <ion-title>
+        Apply Leave
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content>
+ 
+    <ion-item>
+        <ion-label stacked>Leave Type</ion-label>
+        <ion-input type="text" [(ngModel)]="leavesType"></ion-input>
+      </ion-item>
+      <ion-item>
+            <ion-label stacked>From Date</ion-label>
+            <ion-datetime  displayFormat="DD-MMM-YY" pickerFormat="MMM-DD-YY"[(ngModel)]="leave.startDt" ></ion-datetime>
+         
+          </ion-item>
+          
+          <ion-item>
+                <ion-label stacked>To Date</ion-label>
+                <ion-datetime  displayFormat="DD-MMM-YY" pickerFormat="MMM-DD-YY"[(ngModel)]="leave.endDt" ></ion-datetime>
+              </ion-item>
+      <ion-item>
+            
+        <ion-textarea placeholder="Reason"[(ngModel)]="leave.reason"></ion-textarea>
+      </ion-item>
+    
+      <ion-row>
+        <ion-row>
+            <ion-col class="">
+                    <button ion-button color="default"(click)="leaveAppliedToast()"(click)="applyLeave()"(click)="navigateToListPage()">Apply Leave</button>
+                    <button ion-button color="danger">Cancel</button>
+                </ion-col>
+        </ion-row>
+        </ion-row>
+       
+
+  </ion-content>
+  

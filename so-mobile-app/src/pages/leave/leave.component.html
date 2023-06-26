@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      My Leave
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <!-- Real floating action button, fixed. It will not scroll with the content -->
+    <ion-fab top right edge >
+      <button ion-fab mini><ion-icon name="add"></ion-icon></button>
+      <ion-fab-list >
+        
+          <button ion-fab (click)="applyCasualLeave()"(click)="myFunction($event)">
+            <ion-icon name="custom-casual-leave"> </ion-icon>
+             
+              <ion-label>{{leavesType}}  <ion-badge item-end>{{leaveBalance1}}</ion-badge></ion-label>
+            
+            </button>
+       
+        <button ion-fab (click)="applySickLeave()"(click)="mySickLeave($event)">  <ion-icon name="custom-sick-leave"> </ion-icon>
+          <ion-label>{{sickLeave}} <ion-badge item-end>{{leaveBalance2}}</ion-badge></ion-label>
+        </button>
+
+        <button ion-fab (click)="applyPrivelageLeave()"(click)="myPrivelageLeave($event)"> <ion-icon name="custom-privilege-leave"> </ion-icon>
+            <ion-label>{{privilegeLeave}} <ion-badge item-end>{{leaveBalance3}}</ion-badge></ion-label>
+      </button>
+        <button ion-fab (click)="applyWeddingLeave()"(click)="myWeddingLeave($event)"><ion-icon  name="custom-wedding-leave"></ion-icon>
+          <ion-label>{{weddingLeave}} <ion-badge item-end>{{leaveBalance4}}</ion-badge></ion-label>
+        </button>
+        <button ion-fab (click)="applyMaternityLeave()"(click)="myMaternityLeave($event)"><ion-icon  name="custom-paternity-leave"></ion-icon>
+          <ion-label>{{paternetyLeave}} <ion-badge item-end>{{leaveBalance5}}</ion-badge></ion-label>
+        </button>
+      
+      </ion-fab-list>
+    </ion-fab>
+  
+   
+    <div padding>
+        <ion-segment [(ngModel)]="leaves">
+          <ion-segment-button value="leaveApplied">
+            Pending
+          </ion-segment-button>
+          <ion-segment-button value="leaveApproved">
+            Approved
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+      
+      <div [ngSwitch]="leaves">
+        <ion-list *ngSwitchCase="'leaveApproved'">
+          <ion-item>
+              <ion-grid>
+               
+                  <ion-row class="header">
+                 
+                    <ion-col>Leave Type</ion-col>
+                    <ion-col>From Date</ion-col>
+                    <ion-col>To Date</ion-col>
+                  </ion-row>
+                  <ion-row *ngFor="let data of approvedData;let i = index">
+                     
+                      <ion-col >{{data.leavesType}}</ion-col>
+                      <ion-col >{{data.startDt}}</ion-col>
+                      <ion-col >{{data.endDt}}</ion-col>
+                    </ion-row>
+                 
+                </ion-grid>
+          </ion-item>
+          ...
+        </ion-list>
+      
+        <ion-list *ngSwitchCase="'leaveApplied'">
+          <ion-item>
+            
+            <ion-grid>
+               
+                <ion-row class="header">
+                  <ion-col>#</ion-col>
+                  <ion-col>Leave Type</ion-col>
+                  <ion-col>Applied Date</ion-col>
+                
+                </ion-row>
+                <ion-row *ngFor="let data of appliedData;let i = index"(click)="approveScreen(data.id)">
+                  <ion-col >{{i+1}}</ion-col>
+                    <ion-col >{{data.leavesType}}</ion-col>
+                   
+                    <ion-col >{{data.leaveApplnDt}}</ion-col>
+                 
+                  </ion-row>
+               
+              </ion-grid>
+          </ion-item>
+          ...
+        </ion-list>
+     </div>
+  </ion-content>
+  

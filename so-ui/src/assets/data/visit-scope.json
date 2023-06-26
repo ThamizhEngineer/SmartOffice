@@ -1,0 +1,23 @@
+[
+  {
+    "skill": "Field Engineering Expert",
+    "level": 1,
+    "headcount": "50%",
+    "actual": 2,
+    "notes": "should have experience in this and that"
+  },
+  {
+    "skill": "Surveillance Engineer",
+    "level": 2,
+    "headcount": "25%",
+    "actual": 1,
+    "notes": "Some notes"
+  },
+  {
+    "skill": "Onsite Project Coordinater",
+    "level": 3,
+    "headcount": "1",
+    "actual": 1,
+    "notes": "Lorem Ipsum"
+  }
+]

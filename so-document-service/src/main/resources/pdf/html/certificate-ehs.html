@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+@page {
+           size: A4;
+           margin: 1px;
+          
+       }
+body {
+  margin: 25;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+ 
+.certificate-band{
+	background:url("/opt/so/data/images/certificate.png")  no-repeat;
+	background-size:23px 35px;
+}
+.SlideBackGround {
+	height: 400px;
+	width: 700px;            
+	margin: 10px 10px 10px 10px;
+	background-color: white;
+	background-image: url("/opt/so/data/images/frame.png");
+	background-size: 700px 400px;
+	background-repeat: no-repeat;
+	z-index: 2;
+}
+.logoPart {
+	height: 80px;
+    width: 220px;
+    position: relative;
+    left: 250px;
+    top: 34px;
+	background-size: 207px 45px;
+	background-image: url("/opt/so/data/images/logo_original.png");
+	background-repeat: no-repeat;
+	z-index: 5;
+}
+
+.MiddlePart {
+	height: 120px;
+	width: 465px;
+	top: 0px;
+	left: 133px;
+	position: relative;
+	background-image: url("/opt/so/data/images/middle_part.png");
+	background-size: 450px 100px;
+	background-repeat: no-repeat;
+	z-index: 5;
+}
+
+.Seal {
+	height: 60px;
+	width: 60px;
+	left: 310px;
+	top: -130px;
+	background-image: url("/opt/so/data/images/sigill.png");
+	background-size: 60px 60px;
+	background-repeat: no-repeat;
+	z-index: 5;
+	position:relative;
+}
+
+.DateLine {
+	width: 120px;
+	left: -198px;
+	top: -60px;
+	z-index: 11;
+    color: #8B7B67;
+	position: relative;
+}
+
+.ExaminerLine {
+	width: 205px;
+	left: 165px;
+	top: -190px;
+	z-index: 11;
+    color: #8B7B67;
+	position: relative;
+
+}
+
+.ExaminerText {
+	left: 415px;
+	top: -180px;
+	color: #8B7B67;
+	z-index: 11;
+	position: relative;
+}
+
+.ExaminerTextSmall {
+	width: 270px;
+	left: 415px;
+	top: -200px;
+	color: #8B7B67;
+	font-size: 13px;
+	z-index: 11;
+	position: relative;
+}
+
+.DateText {
+	width: 270px;
+	left: 120px;
+	top: -70px;
+    
+	z-index: 15;
+	color: #8B7B67;
+	position: relative;
+}
+
+.ParagraphSmall {
+	top: -70px;
+	font-size: 13px;
+	text-align: center;
+	z-index: 11;
+	color: #8B7B67;
+	position: relative;
+}
+
+.ParagraphMedium {
+	width: 420px;
+	left: 140px;
+	top: -60px;
+	font-size: 14px;
+	text-align: center;
+	z-index: 11;
+	color: #8B7B67;
+	position: relative;
+}
+
+.HeadingLarge {
+	left: 183px;
+	top: -87px;
+	font-size: 28px;
+	z-index: 11;
+	color: #8B7B67;
+	position: relative;
+}
+
+.MiddleLine {
+	width: 300px;
+	top: -60px;
+	z-index: 11;
+	color: #8B7B67;
+	position: relative;
+}
+
+.StudentName {
+	font-weight: bold;
+	width: 720px;
+	left: -9px;
+	top: -50px;
+	font-size: 18px;
+	text-align: center;
+	z-index: 11;
+	color: #8B7B67;
+	position: relative;
+}
+
+.CompletionDate {
+	left: 30px;
+	top: -50px;
+	z-index: 11;
+	color: #8B7B67;
+	text-align: center;
+	position: relative;
+	width: 230px;
+
+}
+</style>
+</head>
+
+
+ 
+
+<div class="SlideBackGround">
+    
+ 
+			<div class="logoPart"> </div>
+			<div class="MiddlePart"> </div>
+
+			<div class="HeadingLarge"> Certificate of Completion</div>
+   
+            <br/>
+			<div class="ParagraphMedium"> This is to certify that </div>
+			<div class="StudentName"> <span th:text="${fname}"></span></div>
+			<hr class="MiddleLine" />
+<br/>
+			<div class="ParagraphSmall"> has completed the course EHS with score of <span th:text="${score}"></span></div>
+			<br/> 
+			<div class="CompletionDate"><span th:text="${#temporals.format(date,'dd-MM-yyyy')}"></span></div>
+			
+<hr class="DateLine"/>
+			<div class="DateText"><span th:text="${location}"></span></div>
+			<br/>
+			<div class="Seal"></div>
+
+			
+			<div class="ExaminerText">Certified by Pothigai Power</div>
+			<hr class="ExaminerLine" />
+			<div class="ExaminerTextSmall">Pothigai Power, Chennai  <span th:text="${code}"></span></div>
+
+ 
+
+</div>
+
+
+ 
+
+
+</html>

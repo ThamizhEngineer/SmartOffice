@@ -1,0 +1,174 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Responsibilities</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+				<li class="breadcrumb-item active">Responsibilities List </li>
+			</ol>
+			<button type="button" class="btn btn-info m-l-15" (click)="createNew();">
+				<i class="fa fa-plus-circle"></i> Map Responsibilities </button>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-12 card card-body">
+		<flag-alert [message]="saveMsg"></flag-alert>
+		<div class="table-responsive">
+			<table class="table table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Responsibilities Code</th>
+						<th>Responsibilities Name</th>
+						<th>Hr-1 Manager</th>
+						<th>Hr-2 Manager</th>
+						<th>Accounts-1 Manager</th>
+						<th>Accounts-2 Manager</th>
+						<th>Director</th>
+						<th>Is_Mgnt</th>
+						<th>Admin</th>
+						
+                        <th>Actions</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let row of userGroups | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index ">
+						<td>{{i+1}}</td>
+						<td>{{row.userGroupCode}}</td>
+						<td>{{row.userGroupName}}</td>
+						<td class="text-nowrap">
+								<span  *ngIf="row.isHrL1=='Y'" class="label label-success"><i class="fa fa-check text-inverse m-r-10"></i></span>
+						</td>
+						<td class="text-nowrap">
+								<span  *ngIf="row.isHrL2=='Y'" class="label label-success"><i class="fa fa-check text-inverse m-r-10"></i></span>
+						</td>
+						<td class="text-nowrap">
+								<span  *ngIf="row.isAcctL1=='Y'" class="label label-success"><i class="fa fa-check text-inverse m-r-10"></i></span>
+						</td>
+						<td class="text-nowrap">
+								<span  *ngIf="row.isAcctL2=='Y'" class="label label-success"><i class="fa fa-check text-inverse m-r-10"></i></span>
+						</td>
+						<td class="text-nowrap">
+							<span  *ngIf="row.isDir=='Y'" class="label label-success"><i class="fa fa-check text-inverse m-r-10"></i></span>
+					</td>
+					<td class="text-nowrap">
+						<!-- {{row.isMgnt}} -->
+						<span  *ngIf="row.isMgnt=='Y'" class="label label-success"><i class="fa fa-check text-inverse m-r-10"></i></span>
+					</td>
+					<td class="text-nowrap">
+						<span  *ngIf="row.isAdmin=='Y'" class="label label-success"><i class="fa fa-check text-inverse m-r-10"></i></span>
+				</td>
+						
+						<td class="text-nowrap">
+							<a href="javascript:void(0)" (click)="showDetail(row.id);">
+								<i class="fa fa-pencil text-inverse m-r-10"></i>
+							</a>
+							<confirm-delete [type]="'icon'" (confirmed)="deleteRow(row.id)"></confirm-delete>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+			<ngb-pagination 
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="userGroups.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>
+		</div>
+	</div>
+</div>
+
+<ng-template #vdetail let-c="close">
+		<div class="modal-header">
+			<h3 class="modal-title">User Group Detail</h3>
+			<button type="button" class="close" (click)="c()">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+	
+				<div class="col-6 form-group ">
+						<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="read[0]"   [(ngModel)]="usergroup.isHrL1">
+						<label class="custom-control-label" for="read[0]">Hr-1 Manager</label>
+						</div>
+					</div>
+				<div class="col-6 form-group" >
+						<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="read[1]"  [(ngModel)]="usergroup.isHrL2">
+						<label class="custom-control-label" for="read[1]">Hr-2 Manager</label>
+						</div>
+					</div>
+				<div class="col-6 form-group" >
+						<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="read[2]"  [(ngModel)]="usergroup.isAcctL1">
+						<label class="custom-control-label" for="read[2]">Accounts-1 Manager</label>
+						</div>
+					</div>
+				<div class="col-6 form-group" >
+				<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="read[3]"  [(ngModel)]="usergroup.isAcctL2">
+						<label class="custom-control-label" for="read[3]">Accounts-2 Manager</label>
+				</div>
+					</div>
+					<div class="col-6 form-group" >
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" id="read[4]"  [(ngModel)]="usergroup.isDir">
+							<label class="custom-control-label" for="read[4]">Director</label>
+					</div>
+				</div>
+				<div class="col-6 form-group ">
+						<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="read[5]"   [(ngModel)]="usergroup.isMgnt">
+						<label class="custom-control-label" for="read[5]">Is-Mgnt</label>
+						</div>
+					</div>
+				<div class="col-6 form-group" >
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="read[6]"  [(ngModel)]="usergroup.isAdmin">
+						<label class="custom-control-label" for="read[6]">Admin</label>
+				</div>
+			</div>
+			</div>
+			<div class="row">
+
+				<div class="col-6 form-group">					
+					<label class="control-label">User Group Code</label><br>
+					<span class="label label-default">{{usergroup.userGroupCode}} </span>										
+				</div>
+
+					<div class="col-6 form-group">
+							<form [formGroup]="form">
+							<label class="control-label">User Group Name</label>						
+							<input type="text" class="form-control" formControlName="UserGroup" placeholder="User Group Name" [(ngModel)]="usergroup.userGroupName">
+						</form>
+
+						</div>
+				<div class="col-12 form-group" [ngClass]="{'has-danger': usdesc.invalid && (usdesc.dirty || usdesc.touched)}">
+					<label class="control-label">Description</label>
+				
+					<textarea type="text" class="form-control" required pattern="[a-zA-Z][a-zA-Z0-9 ]+" placeholder="Description" #usdesc="ngModel" [(ngModel)]="usergroup.description"></textarea>
+					<div *ngIf="usdesc.invalid && (usdesc.dirty || usdesc.touched)">
+							<small class="form-control-feedback" *ngIf="usdesc?.errors.required">Data is required.</small>
+							<small class="form-control-feedback" *ngIf="usdesc?.errors.pattern">Description must be in alphabetic.</small>
+						</div>
+				</div>
+				
+			</div>
+		</div>
+	
+	
+		<div class="modal-footer">
+			<button type="button" class="btn btn-warning" [disabled]="!form.valid"
+			(click)="save();">Save</button>
+		</div>
+	</ng-template>

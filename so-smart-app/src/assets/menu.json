@@ -1,0 +1,35 @@
+[{
+    "name" : "Dashboard",
+    "path" : "/home/dashboard",
+    "role" : "all",
+    "currentItem" : "active",
+    "iconName" : "pie"
+},
+{
+    "name" : "Chat",
+    "path" : "/home/chat",
+    "role" : "all",
+    "currentItem" : "not-active",
+    "iconName" : "chatbubbles"
+},
+{
+    "name" : "Notifications",
+    "path" : "/home/notifications",
+    "role" : "all",
+    "currentItem" : "not-active",
+    "iconName" : "notifications-outline"
+},
+{
+    "name" : "Settings",
+    "path" : "/home/settings",
+    "role" : "all",
+    "currentItem" : "not-active",
+    "iconName" : "hammer"
+},
+{
+    "name" : "Signout",
+    "path" : "/logout",
+    "role" : "all",
+    "currentItem" : "not-active",
+    "iconName" : "exit"
+}]

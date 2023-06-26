@@ -1,0 +1,139 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Trainings Event1</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">My Space</li>
+                <li class="breadcrumb-item active">Trainings Event</li>
+            </ol>        
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+<div class="card-body">
+    <div class="row">
+        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+            <label *ngIf="view=='open'" ngbButtonLabel class="btn btn-success waves-effect waves-light">
+                <input ngbButton type="radio" (click)="view='open'"> Open
+              </label>
+            <label *ngIf="view!='open'" ngbButtonLabel class="btn btn-outline-success waves-effect waves-light">
+              <input ngbButton type="radio" (click)="view='open'"> Open
+            </label>
+            <label *ngIf="view=='on-going'" ngbButtonLabel class="btn btn-warning waves-effect waves-light">
+                <input ngbButton type="radio" (click)="view='on-going'"> On Going
+              </label>
+            <label *ngIf="view!='on-going'" ngbButtonLabel class="btn btn-outline-warning waves-effect waves-light">
+              <input ngbButton type="radio" (click)="view='on-going'"> Submit
+            </label>
+            <label *ngIf="view!='completed'" ngbButtonLabel class="btn-outline-danger">
+              <input ngbButton type="radio" (click)="view='completed'"> Completed
+            </label>
+            <label *ngIf="view=='completed'" ngbButtonLabel class="btn-info">
+                <input ngbButton type="radio" (click)="view='completed'"> Completed
+            </label>
+          </div>  
+    </div>
+    <flag-alert [message]="msg"></flag-alert>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Trainig Code</th>
+                    <th scope="col">Trainig Name</th>
+                    <th scope="col">Facility Name</th>
+                    <th scope="col">Contect No</th>  
+                    <th scope="col">Day Duration</th> 
+                    <th scope="col">Exam</th>      
+                    <th scope="col">Skills Acquired</th>                    
+                    <th scope="col" *ngIf="view!='completed'">Action</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="view=='open'">                
+                <tr *ngFor="let item of newTraining | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.incidentCode}}</td>
+                    <td>{{item.incidentName}}</td>
+                    <td>{{item.faculty}}</td>
+                    <td>{{item.contactNo}}</td>                   
+                    <td>{{ item.trStartDt | dtdiff: item.trEndDt}}</td>
+                    <td>{{item.hasTest}}</td>
+                    <td>{{item.skillsAqd}}</td>
+                    <td *ngIf="item.isEmpApplied=='N'"> <button type="submit" class="btn btn-info waves-effect waves-light m-t-10"
+                        (click)="apply(item)">Apply</button></td>
+                    <td *ngIf="item.isEmpApplied=='Y'"><u> Attended</u></td>                  
+                </tr>
+                <ngb-pagination 
+						[(page)]="page"
+						[pageSize]="pageSize"
+						[collectionSize]="newTraining.length"></ngb-pagination>
+						<pre>Current page: {{page}}</pre>
+            </tbody>
+            <tbody *ngIf="view=='on-going'">
+                <tr *ngFor="let item of ongoingTraining | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.incidentCode}}</td>
+                    <td>{{item.incidentName}}</td>
+                    <td>{{item.faculty}}</td>
+                    <td>{{item.contactNo}}</td>                   
+                    <td>{{ item.trStartDt | dtdiff: item.trEndDt}}</td>
+                    <td>{{item.hasTest}}</td>
+                    <td>{{item.skillsAqd}}</td>
+                    <td *ngIf="item.isEmpApplied=='N'">
+                        <button type="submit" class="btn btn-info waves-effect waves-light m-t-10"
+                        (click)="apply(item)">Apply</button></td>
+                    <td *ngIf="item.isEmpApplied=='Y'"><u> Attended</u></td>
+                </tr>
+                <ngb-pagination 
+						[(page)]="page"
+						[pageSize]="pageSize"
+						[collectionSize]="ongoingTraining.length"></ngb-pagination>
+						<pre>Current page: {{page}}</pre>
+            </tbody>
+            <tbody *ngIf="view=='completed'">
+                <tr *ngFor="let item of completedTraining | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.incidentCode}}</td>
+                    <td>{{item.incidentName}}</td>
+                    <td>{{item.faculty}}</td>
+                    <td>{{item.contactNo}}</td>                   
+                    <td>{{ item.trStartDt | dtdiff: item.trEndDt}}</td>
+                    <td>{{item.hasTest}}</td>
+                    <td>{{item.skillsAqd}}</td>
+                </tr>
+                <ngb-pagination 
+						[(page)]="page"
+						[pageSize]="pageSize"
+						[collectionSize]="completedTraining.length"></ngb-pagination>
+						<pre>Current page: {{page}}</pre>
+            </tbody>        
+
+        </table>
+    </div>
+</div>
+</div>
+
+<ng-template #submitWarining let-c="close">
+    <div class="modal-header">
+        <h4 class="modal-title">Are You Sure to Apply for {{incident.incidentName}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer align-self-center">
+        <div class="row">
+            <div class="col">
+              <button type="button" (click)="submit()" class="btn btn-success">Apply</button>
+            </div>
+         <div class="col">
+          <button type="button" (click)="c()" class="btn btn-info">Ignore</button>
+         </div>
+        </div> 
+      </div>
+</ng-template>

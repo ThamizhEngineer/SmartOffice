@@ -1,0 +1,9 @@
+{
+  "name": "Karthick",
+  "userName": "admin",
+  "firstName": "Karthick",
+  "lastName": "Mani",
+  "token": "abcdefgh",
+  "id": 1,
+  "roles": [1,2,3,4,5,6]
+}

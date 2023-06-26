@@ -1,0 +1,26 @@
+[
+{
+  "name": "Dashboard",
+  "state": "index",
+  "type": "link",
+  "icon": "icon-speedometer"
+},
+{
+  "name": "My Space",
+  "state": "my-space",
+  "type": "link",
+  "icon": "icon-user"
+},
+{
+  "name": "Job Opening",
+  "state": "job-openinig",
+  "type": "link",
+  "icon": "fa fa-envelope-open"
+},
+{
+  "name": "Take Test",
+  "state": "take-test",
+  "type": "link",
+  "icon": "fa fa-graduation-cap"
+}
+]

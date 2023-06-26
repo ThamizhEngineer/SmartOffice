@@ -1,0 +1,47 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Payout-adjusted</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+                <li class="breadcrumb-item active">Payout-adjusted</li>
+			</ol>
+			
+		</div>
+	</div>
+</div>
+
+<div class="row">
+    <div class="col-12 card card-body form-body">
+        <div class="row">
+            <!-- <div class="col-4 form-group">
+                <label>Month</label>
+                <month-picker [(config)]="mpFromConfig" [(model)]="mpSalModel"
+                    (mpOnModelChange)="this.mpOnModelChange($event)"></month-picker>
+            </div> -->
+            <div class="form-group col-md-2">
+                <label>Month</label>
+                <select class="form-control" [(ngModel)]="payMonth" (ngModelChange)="onModelChange1($event)">
+                    <option *ngFor="let v of month" [value]="v.month" >{{v.month}}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label>year</label>
+                <select class="form-control" [(ngModel)]="payYear" (ngModelChange)="mpOnModelChange($event)">
+                    <option *ngFor="let v of year" [value]="v.year" >{{v.year}}</option>
+                </select>
+            </div>           
+        </div>
+        
+        <div class="row">
+            <div class="form-group col-md-1">
+                <label>&nbsp;</label>
+                <button type="button" (click)="navigateToDetailPage()" class="btn btn-info d-none d-lg-block m-l-15"> Fetch Adjustments</button>
+            </div>
+        </div>
+    </div>
+</div>

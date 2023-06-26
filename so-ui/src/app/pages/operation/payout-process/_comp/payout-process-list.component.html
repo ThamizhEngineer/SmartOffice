@@ -1,0 +1,64 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Payout Process List</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a [routerLink]="['/index']">Home</a></li>
+				<li class="breadcrumb-item active">Payout Process List</li>
+		
+			</ol>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <!-- <h4 class="card-title">Info Table</h4> -->
+            
+            <div class="table-responsive">
+                <table class="table color-bordered-table theme-bordered-table">
+                    <thead>
+                        <tr>
+                               
+                            <th>Month</th>
+                            <th>Year</th>
+                            <th>Process Status</th>
+                                              
+                            <th>Action</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let payoutProcess of rows | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;">
+                          
+                            <td>{{payoutProcess.month}}</td>
+                            <td>{{payoutProcess.year}}</td>
+                            <td>{{payoutProcess.processStatus}}</td>
+                                             
+                            <td class="text-nowrap">
+                                   
+                                    <a href="javascript:void(0)" style="font-size:23px"  (click)="navigateToDetailPage(payoutProcess.id)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a href="javascript:void(0)" style="font-size:23px" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                    
+                          
+                                </td>
+                            
+                        </tr>
+                     
+                    </tbody>
+                </table>
+            </div>
+            <ngb-pagination 
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="rows?.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>
+        </div>
+    </div>
+</div>  
+</div>

@@ -1,0 +1,9 @@
+export SET _JAVA_OPTIONS=-Xmx512M
+
+ionic state reset
+ionic state reset --plugins
+cordova platform remove android
+ionic build
+cordova platform add android
+ionic cordova prepare android
+cordova run android

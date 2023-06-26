@@ -1,0 +1,42 @@
+
+<ion-header>
+  <ion-toolbar>
+    <app-common-header title="Profile"></app-common-header>
+  </ion-toolbar> 
+</ion-header>
+
+<ion-content >
+	<ion-card>
+		<ion-card-content>
+		  <form #formCtrl="ngForm">
+			  <div align ="center" *ngIf="formCtrl.form.valid">
+				<img class="profile-image" src="assets/user.jpg">
+				  <h4>{{person.name}}, {{person.company}}</h4>
+				  <h5>{{age}} years old</h5>
+			  </div>
+		  <ion-list>
+			  <ion-item>
+				<ion-label floating>Name : </ion-label>
+				<ion-input type="text" [(ngModel)]="person.name" name="name" required></ion-input>
+			  </ion-item>
+			  <ion-item>
+				<ion-label>Company : </ion-label>
+				<ion-select [(ngModel)]="person.company" name="company" required>
+				  <ion-select-option value="Maybank">Maybank</ion-select-option>
+				  <ion-select-option value="CIMB">CIMB</ion-select-option>
+				  <ion-select-option value="Public Bank">Public Bank</ion-select-option>
+				</ion-select>
+			  </ion-item>
+			  <ion-item>
+				  <ion-label >Birth Date : </ion-label>
+				  <ion-datetime required name="birthdate" displayFormat="DD MMM YYYY" pickerFormat="DD MMM YYYY" [(ngModel)]="dob" [ngModelOptions]="{standalone:true}"></ion-datetime>
+			  </ion-item>
+			  
+		  </ion-list>
+		  <ion-button color="secondary" [disabled]="!formCtrl.form.valid" block (click)="save()">Save</ion-button>
+		  <ion-button color="danger" ion-button block (click)="reset()">Reset</ion-button>
+		</form>
+	
+		</ion-card-content>
+	</ion-card>
+</ion-content>

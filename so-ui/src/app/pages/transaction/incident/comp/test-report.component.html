@@ -1,0 +1,380 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Score Test</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Event</li>
+                <li class="breadcrumb-item active">Test Report</li>
+            </ol>
+            <button type="button" (click)="navigateToList()" class="btn btn-info d-none d-lg-block m-l-15">
+                Back</button>
+
+        </div>
+    </div>
+</div>
+
+<br />
+<div class="row">
+    <div class="form-group col-md-4 col-sm-6">
+        <label class="control-label">Search</label>
+        <input type="text" class="form-control form-control-line" placeholder="search" (input)="textSearch()"
+            [(ngModel)]="searchString" name="searchString">
+    </div>
+    <div (click)="advanceSearch()" ngbTooltip="Advance Search">
+        <label></label><br />
+        <a class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i></a>
+    </div>
+</div>
+
+
+<br />
+
+<div *ngIf="advSearch==true" class="card card-body">
+    <div class="row p-t-20">
+        <div class="form-group col-md-2">
+            <label>Score</label>
+            <input type="text" class="form-control form-control-line" vlaue="0" placeholder="0-100" min='0'
+                [(ngModel)]="score" name="0-100">
+        </div>
+        <div class="form-group col-md-2">
+            <label>Mark</label>
+            <input type="text" class="form-control form-control-line" vlaue="0" placeholder="0-100" min='0'
+                [(ngModel)]="mark" name="0-100">
+        </div>
+        <div class="form-group col-md-2">
+            <label>Test Status</label>
+            <select class="form-control" [(ngModel)]="testStatus" placeholder=" passed Out">
+                <option value="In-Progress">In-Progress</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label>Test Result</label>
+            <select class="form-control" [(ngModel)]="testResult" placeholder=" passed Out">
+                <option value="pass">Pass</option>
+                <option value="fail">Fail</option>
+                <option value="in-hold">In-Hold</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label></label>
+            <button type="button" style="width:70%" class="btn btn-info d-block m-l-15" (click)="search()">
+                Search</button>
+        </div>
+        <div class="form-group col-md-2">
+            <label></label>
+            <button type="button" style="width:70%" class="btn btn-success d-block m-l-15" (click)="reset()">
+                Reset</button>
+        </div>
+
+    </div>
+</div>
+
+<div class="card card-body">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" sortable="testTemplateName" (sort)="onSort($event)">Test Name</th>
+                    <th scope="col" sortable="applicantName" (sort)="onSort($event)">Applicant Name</th>
+                    <th scope="col" sortable="testStatus" (sort)="onSort($event)">Progress</th>
+                    <th scope="col" sortable="totaleasy" (sort)="onSort($event)">Correct-Easy</th>
+                    <th scope="col" sortable="totalmedium" (sort)="onSort($event)">Correct-Medium</th>
+                    <th scope="col" sortable="totaltough" (sort)="onSort($event)">Correct-Tough</th>
+                    <th scope="col" sortable="totalCorrect" (sort)="onSort($event)">Total Correct Answered</th>
+
+                    <th scope="col" sortable="totalUnAttended" (sort)="onSort($event)">Un attended Questions</th>
+                    <th scope="col" sortable="totalWrong" (sort)="onSort($event)">Wrong Answers</th>
+                    <th scope="col" sortable="totalWrong" (sort)="onSort($event)">Positive Mark</th>
+                    <th scope="col" sortable="totalWrong" (sort)="onSort($event)">Negative Mark</th>
+                    <th scope="col" sortable="totalWrong" (sort)="onSort($event)">Total Mark</th>
+                    <th scope="col" sortable="scoreMedian" (sort)="onSort($event)">Median</th>
+                    <th scope="col" sortable="score" (sort)="onSort($event)">Score</th>
+                    <th scope="col" sortable="score" (sort)="onSort($event)">Median Factor</th>
+                    <th scope="col" sortable="passPercentage" (sort)="onSort($event)">Pass Percentage</th>
+                    <th scope="col" sortable="result" (sort)="onSort($event)">Declared Result</th>
+                    <th scope="col" sortable="historyExists" *ngIf="view!='recruitment'" (sort)="onSort($event)">History</th>
+                    <th scope="col" sortable="isReschedule" (sort)="onSort($event)">Reschedule</th>
+
+
+                    <th>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" [(ngModel)]="masterSelected" (change)="checkUncheckAll()"></div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let s of sorted | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                    <th scope="row">{{ i+1 }}</th>
+                    <td>{{ s.testTemplateName }}</td>
+                    <td>{{ s.applicantName }}</td>
+                    <td *ngIf="s.testStatus==null">
+                        <span ngbTooltip="Test Not Started" class="badge badge-pill badge-danger">Not Started</span>
+                    </td>
+                    <td *ngIf="s.testStatus=='In-Progress'">
+                        <ng-template #tipContent> Start Time= {{s.startTime |date:'dd/MM/yyyy hh:mm'}}
+                            &nbsp;&nbsp;&nbsp; End Time= {{s.endTime |date:'yy-mm-dd h:mm'}} </ng-template>
+                        <span [ngbTooltip]="tipContent" class="badge badge-pill badge-info">{{s.testStatus}}</span>
+                    </td>
+                    <td *ngIf="s.testStatus=='Completed'">
+                        <ng-template #tipContent> Start Time= {{s.startTime |date:'dd/MM/yyyy hh:mm'}}
+                            &nbsp;&nbsp;&nbsp; End Time= {{s.endTime |date:'yy-mm-dd h:mm'}} </ng-template>
+                        <span [ngbTooltip]="tipContent" class="badge badge-pill badge-success">{{s.testStatus}}</span>
+                    </td>
+
+
+                    <td *ngIf="s.totalCorrectEasy==null"> - </td>
+                    <td *ngIf="s.totalCorrectEasy!=null">{{ s.totalCorrectEasy | number }}</td>
+                    <td *ngIf="s.totalCorrectMedium==null"> - </td>
+                    <td *ngIf="s.totalCorrectMedium!=null">{{ s.totalCorrectMedium | number }}</td>
+                    <td *ngIf="s.totalCorrectTough==null"> - </td>
+                    <td *ngIf="s.totalCorrectTough!=null">{{ s.totalCorrectTough | number }}</td>
+                    <td *ngIf="s.totalCorrect==null"> - </td>
+                    <td *ngIf="s.totalCorrect!=null">{{ s.totalCorrect | number }}</td>
+
+                    <td *ngIf="s.totalUnAttended!=null">{{ s.totalUnAttended | number }}</td>
+                    <td *ngIf="s.totalUnAttended==null">-</td>
+                    <td *ngIf="s.totalWrong==null">-</td>
+                    <td *ngIf="s.totalWrong!=null">{{ s.totalWrong | number }}</td>
+
+                    <td *ngIf="s.totalPositiveMarkObtained==null">-</td>
+                    <td *ngIf="s.totalPositiveMarkObtained!=null">{{ s.totalPositiveMarkObtained | number }}</td>
+
+                    <td *ngIf="s.totalNegativeMarkObtained==null">-</td>
+                    <td *ngIf="s.totalNegativeMarkObtained!=null">{{ s.totalNegativeMarkObtained | number }}</td>
+
+                    <td *ngIf="s.totalResult==null">-</td>
+                    <td *ngIf="s.totalResult!=null">{{ s.totalResult | number }}</td>
+
+
+                    <td *ngIf="s.scoreMedian!=null">
+                        {{ s.scoreMedian }}
+                    </td>
+                    <td *ngIf="s.scoreMedian==null">
+                        0.0
+                    </td>
+                    <td *ngIf="s.score==null">
+                        <div *ngIf="s.isPass=='Y'"> <span class="label label-danger">{{ 0 | number }}/100</span>
+                        </div>
+                        <div *ngIf="s.isPass=='N'"><span class="label label-danger">{{ 0 | number }}/100</span>
+                        </div>
+                    </td>
+
+
+                    <td *ngIf="s.score!=null">
+                        <div *ngIf="s.isPass=='Y'"><span class="label label-success"> {{ s.score | number }}/100</span>
+                        </div>
+                        <div *ngIf="s.isPass=='N'"><span class="label label-danger"> {{s.score | number }}/100</span>
+                        </div>
+                    </td>
+                    <td *ngIf="s.scoreMedian!=null">
+                        <div *ngIf="s.isPass=='Y'"><i *ngIf="s.isGreater=='N'"
+                                class="fa fa-long-arrow-down downArrow"></i><i *ngIf="s.isGreater=='Y'"
+                                class="fa fa-long-arrow-up upArrow"></i>&nbsp;<span class="label label-success">
+                                {{ s.score | number }}/100</span>
+                        </div>
+                        <div *ngIf="s.isPass=='N'"><i *ngIf="s.isGreater=='N'"
+                                class="fa fa-long-arrow-down downArrow"></i><i *ngIf="s.isGreater=='Y'"
+                                class="fa fa-long-arrow-up upArrow"></i><span class="label label-danger">
+                                {{s.score | number }}/100</span>
+                        </div>
+                    </td>
+                    <td *ngIf="s.scoreMedian==null">
+                        <div *ngIf="s.isPass=='Y'"><i *ngIf="s.isGreater=='N'"
+                                class="fa fa-long-arrow-down downArrow"></i><i *ngIf="s.isGreater=='Y'"
+                                class="fa fa-long-arrow-up upArrow"></i>&nbsp;<span class="label label-success">
+                                {{ 0 | number }}/100</span>
+                        </div>
+                        <div *ngIf="s.isPass=='N'"><i *ngIf="s.isGreater=='N'"
+                                class="fa fa-long-arrow-down downArrow"></i><i *ngIf="s.isGreater=='Y'"
+                                class="fa fa-long-arrow-up upArrow"></i><span class="label label-danger">
+                                {{0 | number }}/100</span>
+                        </div>
+                    </td>
+                    <td>{{ s.passPercentage}} </td>
+                    <td *ngIf="s.testResult!=null">
+                        <span class="label label-{{statuses[s.testResult]}}">{{s.testResult}}</span></td>
+
+                    <td *ngIf="s.testResult==null">
+                        <span class="label label-danger">Not Declared</span></td>
+
+                    <td *ngIf="s.historyExists==null && view!='recruitment'">-</td>
+                    <td *ngIf="s.historyExists!=null && view!='recruitment'">
+                        <span [ngbTooltip]="s.historyExists" (click)="openModelShowHistory(content,s.historyList)" class="badge badge-pill badge-success">{{ s.historyExists | number }}</span>
+                    </td>
+                    
+                    <td *ngIf="s.historyExists==null">-</td>
+                    <td *ngIf="s.historyExists!=null">
+                        <!-- <span [ngbTooltip]="s.historyExists"  class="badge badge-pill badge-success">Reschedule</span> -->
+                        <button [ngbTooltip]="s.testStatus" type="button" (click)="reschedule(s)" class="btn btn-primary btn-sm">Reschedule</button>
+
+                    </td>
+                    
+                    <td>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" [(ngModel)]="s.selected" (change)="isAllSelected()"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="sorted.length"></ngb-pagination>
+
+        <pre>Current page: {{page}}</pre>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <button type="submit" class="btn btn-info waves-effect waves-light m-t-10"
+                (click)="navigateToList()">Back</button>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success waves-effect waves-light m-t-10"
+                (click)="finalDecision('pass');">Pass</button>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-danger waves-effect waves-light m-t-10"
+                (click)="finalDecision('fail');">Fail</button>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-warning waves-effect waves-light m-t-10"
+                (click)="finalDecision('in-hold');">In-Hold</button>
+        </div>
+        
+
+    </div>
+
+</div>
+<style>
+    .downArrow {
+        color: #eb0505;
+    }
+
+    .upArrow {
+        color: #12970e;
+    }
+    .dark-modal .modal-content {
+      background-color: #292b2c;
+      color: white;
+    }
+    .dark-modal .close {
+      color: white;
+    }
+    .light-blue-backdrop {
+      background-color: #5cb3fd;
+    }
+    .table-sm{
+        padding: 1px;
+    }
+</style>
+
+<ng-template #content let-modal let-c="close">
+    <div class="modal-header">
+      <h4 class="modal-title">Test History</h4>
+      <button type="button" class="close" aria-label="Close" (click)="c()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <table  class="table table-sm">
+            <thead>
+                <tr>
+                    <!-- <th scope="col">#</th> -->
+                    <th scope="col">Test Name</th>
+                    <th scope="col">Applicant Name</th>
+                    <!-- <th scope="col">Progress</th> -->
+                    <!-- <th scope="col">Correct-Easy</th>
+                    <th scope="col">Correct-Medium</th>
+                    <th scope="col">Correct-Tough</th> -->
+                    <th scope="col">Total Correct Answered</th>
+                    <!-- <th scope="col">Un attended Questions</th> -->
+                    <th scope="col">Wrong Answers</th>
+                    <th scope="col">Positive Mark</th>
+                    <th scope="col">Negative Mark</th>
+                    <th scope="col">Total Mark</th>
+                    <th scope="col">Median</th>
+                    <th scope="col">Score</th>
+                    <th scope="col">Median Factor</th>
+                    <th scope="col">Pass Percentage</th>
+                    <th scope="col">Declared Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let s of historyList">
+                    <!-- <th scope="row">{{ i+1 }}</th> -->
+                    <td>{{ s.testTemplateName }}</td>
+                    <td>{{ s.applicantName }}</td>
+                    <!-- <td *ngIf="s.testStatus==null">
+                        <span ngbTooltip="Test Not Started" class="badge badge-pill badge-danger">Not Started</span>
+                    </td> -->
+                    <!-- <td *ngIf="s.testStatus=='in-progress'">
+                        <ng-template #tipContent> Start Time= {{s.startTime |date:'dd/MM/yyyy hh:mm'}}
+                            &nbsp;&nbsp;&nbsp; End Time= {{s.endTime |date:'yy-mm-dd h:mm'}} </ng-template>
+                        <span [ngbTooltip]="tipContent" class="badge badge-pill badge-info">{{s.testStatus}}</span>
+                    </td> -->
+                    <!-- <td *ngIf="s.testStatus=='Completed'">
+                        <ng-template #tipContent> Start Time= {{s.startTime |date:'dd/MM/yyyy hh:mm'}}
+                            &nbsp;&nbsp;&nbsp; End Time= {{s.endTime |date:'yy-mm-dd h:mm'}} </ng-template>
+                        <span [ngbTooltip]="tipContent" class="badge badge-pill badge-success">{{s.testStatus}}</span>
+                    </td> -->
+                    <!-- <td *ngIf="s.totalCorrectEasy==null"> - </td>
+                    <td *ngIf="s.totalCorrectEasy!=null">{{ s.totalCorrectEasy | number }}</td>
+                    <td *ngIf="s.totalCorrectMedium==null"> - </td>
+                    <td *ngIf="s.totalCorrectMedium!=null">{{ s.totalCorrectMedium | number }}</td>
+                    <td *ngIf="s.totalCorrectTough==null"> - </td>
+                    <td *ngIf="s.totalCorrectTough!=null">{{ s.totalCorrectTough | number }}</td> -->
+                    <td *ngIf="s.totalCorrect==null"> - </td>
+                    <td *ngIf="s.totalCorrect!=null">{{ s.totalCorrect | number }}</td>
+
+                    <!-- <td *ngIf="s.totalUnAttended!=null">{{ s.totalUnAttended | number }}</td>
+                    <td *ngIf="s.totalUnAttended==null">-</td> -->
+                    <td *ngIf="s.totalWrong==null">-</td>
+                    <td *ngIf="s.totalWrong!=null">{{ s.totalWrong | number }}</td>
+
+                    <td *ngIf="s.totalPositiveMarkObtained==null">-</td>
+                    <td *ngIf="s.totalPositiveMarkObtained!=null">{{ s.totalPositiveMarkObtained | number }}</td>
+
+                    <td *ngIf="s.totalNegativeMarkObtained==null">-</td>
+                    <td *ngIf="s.totalNegativeMarkObtained!=null">{{ s.totalNegativeMarkObtained | number }}</td>
+
+                    <td *ngIf="s.totalResult==null">-</td>
+                    <td *ngIf="s.totalResult!=null">{{ s.totalResult | number }}</td>
+
+
+                    <td *ngIf="s.scoreMedian!=null">
+                        {{ s.scoreMedian }}
+                    </td>
+                    <td *ngIf="s.scoreMedian==null">
+                        0.0
+                    </td>
+                    <td *ngIf="s.score==null">
+                        {{ 0 | number }}/100
+                    </td>
+                    <td *ngIf="s.score!=null">
+                        {{s.score | number }}/100
+                    </td>
+                    <td *ngIf="s.scoreMedian!=null">
+                        {{s.score | number }}/100
+                    </td>
+                    <td *ngIf="s.scoreMedian==null">
+                        {{ 0 | number }}/100
+                    </td>
+
+                    <td>{{ s.passPercentage}} </td>
+                    <td *ngIf="s.testResult!=null">
+                        <span class="label label-{{statuses[s.testResult]}}">{{s.testResult}}</span></td>
+
+                    <td *ngIf="s.testResult==null">
+                        <span class="label label-danger">Not Declared</span></td>
+
+   
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="c()">Close</button>
+    </div>
+  </ng-template>

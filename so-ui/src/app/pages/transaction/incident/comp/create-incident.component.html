@@ -1,0 +1,549 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 *ngIf="incident.id==null" class="text-themecolor">Create New {{view}}</h4>
+        <h4 *ngIf="incident.id!=null" class="text-themecolor">Edit {{view}}</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Recruitment</li>
+                <li class="breadcrumb-item active">Event</li>
+                <li *ngIf="incident.id==null" class="breadcrumb-item active">Create New {{view}}</li>
+                <li *ngIf="incident.id!=null" class="breadcrumb-item active">Edit {{view}}</li>
+            </ol>
+            <button type="button" (click)="navigateToList()" class="btn btn-info d-none d-lg-block m-l-15"> Back</button>
+        </div>
+    </div>
+</div>
+
+<flag-alert [message]="saveMsg"></flag-alert>
+
+<div *ngIf="incident.id==null || incident.incidentStatus=='PENDING-APPROVAL' && isDir==false" class="card card-body">
+    <h3 *ngIf="incident.id==null">New {{view}} Event</h3>
+    <h3 *ngIf="incident.id!=null">Edit {{view}}</h3>
+    <br />
+    <div class="row">      
+    <div class="form-group col-md-3 col-sm-6">
+    <label class="control-label">Name</label>
+    <form [formGroup]="commonGroup">
+    <input type="text" class="form-control form-control-line" placeholder="name"
+        [(ngModel)]="incident.incidentName" name="name" formControlName="incidentName">
+    </form>
+    </div>
+
+
+    <div class="form-group col-md-3 col-sm-6">
+        <label class="control-label">Description</label>
+        <form [formGroup]="commonGroup">
+        <textarea rows="7" style="widows: 150px;" input type="text" class="form-control form-control-line" placeholder="Description"
+        [(ngModel)]="incident.incidentDesc" name="Description" formControlName="incidentDesc"></textarea>
+    </form>
+        </div>
+
+        <div *ngIf="incident.incidentType=='Recruitment'" class="form-group col-md-3 col-sm-6">
+            <label class="control-label">Job Request</label>
+            <form [formGroup]="myGroup">
+            <select class="form-control" formControlName="jobId" [(ngModel)]="incident.vcId" name="vcCode" id="vcCode">
+                <option *ngFor="let item of vacancyRequests" [value]="item.id">{{item.vcCode}} &nbsp;{{item.summary}}
+                </option>
+            </select>
+        </form>
+        </div>
+
+        <div *ngIf="incident.incidentType=='Recruitment'" class="form-group col-sm-3 col-md-4">
+            <label class="control-label">handling Hr Manager Group</label>
+            <form [formGroup]="myGroup">            
+            <select class="form-control" formControlName="hrGroupId" [(ngModel)]="incident.handlingGroupId">
+                <option *ngFor="let v of hr1" [value]="v.id">{{v.userGroupName}}</option>
+            </select>
+        </form>
+        </div>
+
+        <div class="form-group col-3 col-md-4">
+            <label class="control-label">Map Location</label>
+           <map-view [value]="incident.locName" (location)="getMapLocation($event)" ></map-view>
+        </div>
+        
+        <div class="form-group col-2 col-md-2">
+            <div class="form-group">
+                <button type="button" (click)="importEvents()" class="btn btn-success d-none d-lg-block m-l-15"> Import Event</button>
+            </div>
+        </div>
+
+    </div>
+   
+    <div  class="row">
+        <div *ngIf="incident.incidentType=='Recruitment'" class="col-4 form-group ">
+            <div class="custom-control custom-checkbox">                
+                <input type="checkbox" [(ngModel)]="incident.isEntryLevel" class="custom-control-input" id="read[0]">
+                <label class="custom-control-label" for="read[0]">Fresher</label>
+            
+            </div>
+        </div>
+        <div class="col-4 form-group">
+            <div class="custom-control custom-checkbox">
+                
+                <input type="checkbox" (click)="exam()" [(ngModel)]="incident.hasTest" class="custom-control-input" id="read[1]">
+                <label class="custom-control-label" for="read[1]">Exam</label>            
+            </div>
+        </div>
+        <div class="col-4 form-group">
+            <div class="custom-control custom-checkbox">                
+                <input type="checkbox"  [(ngModel)]="incident.showScore" class="custom-control-input" id="read[4]">
+                <label class="custom-control-label" for="read[4]">Show Score</label>            
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="incident.incidentType=='Recruitment'" class="row">
+        <div class="col-4 form-group">
+            <div class="custom-control custom-checkbox">                
+                <input type="checkbox" [(ngModel)]="incident.isProfessional" class="custom-control-input" id="read[2]">
+                <label class="custom-control-label" for="read[2]">Professional</label>            
+            </div>
+        </div>
+        <div class="col-4 form-group">
+            <div class="custom-control custom-checkbox">
+                
+                <input type="checkbox" (click)="interview()" [(ngModel)]="incident.hasInterview" class="custom-control-input" id="read[3]">
+                <label class="custom-control-label" for="read[3]">Interview</label>            
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isInterview==true" class="row">
+        <div class="form-group col-3 col-md-4">
+            <label class="control-label">Level1 Name</label>
+            <autocomplete  [placeholder]="'Level 1 Name'"   [value]="incident.firstInterviewerName" (empDetail)="interviewer($event,1)"> </autocomplete>
+    </div>
+    <div class="form-group col-3 col-md-4">
+            <label class="control-label">Level2 Name</label>
+            <autocomplete  [placeholder]="'Level 2 Name'"   [value]="incident.secondInterviewerName" (empDetail)="interviewer($event,2)"> </autocomplete>
+    </div>
+    <div class="form-group col-3 col-md-4">
+            <label class="control-label">Level3 Name</label>
+            <autocomplete  [placeholder]="'Level 3 Name'"   [value]="incident.thirdInterviewerName" (empDetail)="interviewer($event,3)"> </autocomplete>
+    </div>
+
+   
+    </div>
+
+
+    <div *ngIf="incident.incidentType=='Training'" class="row">  
+        
+        <div class="form-group col-md-3 col-sm-6">
+            <label class="control-label">Start Date</label>
+            <form [formGroup]="myTrainingGroup">
+            <input type="date" class="form-control form-control-line" placeholder="Start Date" [max]="incident.trEndDt" [(ngModel)]="incident.trStartDt" name="trStartDt" formControlName="startDate">
+        </form>         
+        </div>
+
+        <div class="form-group col-md-3 col-sm-6">
+            <label class="control-label">End Date</label>
+            <form [formGroup]="myTrainingGroup">
+            <input type="date" class="form-control form-control-line" placeholder="End Date" [min]="incident.trStartDt" [(ngModel)]="incident.trEndDt" name="trEndDt" formControlName="endDate">
+        </form>         
+        </div>
+        
+            <div class="form-group col-md-3 col-sm-6">
+                    <label class="control-label">No Of Days</label>
+                    <br/>
+                    <span class="text">{{ incident.trStartDt | dtdiff: incident.trEndDt }} Days	</span>                   
+                </div>
+    
+             <div class="form-group col-md-3 col-sm-6" [ngClass]="{'has-danger': faculty.invalid && (faculty.dirty || faculty.touched)}">
+                    <label class="control-label">Faculty</label>
+                    <form [formGroup]="myTrainingGroup">
+                    <input type="text" class="form-control form-control-line" placeholder="Faculty" required pattern="[a-zA-Z0-9][a-zA-Z0-9 ]+" [(ngModel)]="incident.faculty" name="faculty" formControlName="faculty">
+                    <div *ngIf="faculty.invalid && (faculty.dirty || faculty.touched)">
+                        <!-- <small class="form-control-feedback" *ngIf="faculty.errors.required">First Name is required.</small> -->
+                        <small class="form-control-feedback" *ngIf="faculty.errors.pattern">Special characters not allowed.</small>
+                                </div>
+                </form>
+                </div>
+             <div class="form-group col-md-3 col-sm-6" [ngClass]="{'has-danger': contactNo.invalid && (contactNo.dirty || contactNo.touched)}">
+                    <label class="control-label">Contact Number</label>
+                    <form [formGroup]="myTrainingGroup">
+                    <input type="number" class="form-control form-control-line" placeholder="Contact Number" required pattern="[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}" [(ngModel)]="incident.contactNo" name="contactNo" formControlName="contactNo">
+                    <div *ngIf="contactNo.invalid && (contactNo.dirty || contactNo.touched)">
+                        <small class="form-control-feedback" *ngIf="contactNo?.errors.required">Contact Number is required.</small>
+                        <small class="form-control-feedback" *ngIf="contactNo?.errors.pattern">Contact Number must be 10 digits.</small>
+                </div> 
+                </form>
+                </div>
+    
+             <div class="form-group col-md-3 col-sm-6">
+                    <label class="control-label">Skills Acquired</label>
+                    <form [formGroup]="myTrainingGroup">
+                    <textarea rows="7" style="widows: 150px;" type="text" class="form-control form-control-line" placeholder="Skills Acquired" [(ngModel)]="incident.skillsAqd" name="skillsAqd" formControlName="skillsAqd"></textarea>
+                </form>
+                </div>       
+        </div>
+    <br/>
+
+    
+
+    <div *ngIf="isExam==true" class="table-responsive">
+            <table class="table table-sm table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Test Template Name</th>
+                        <th>Duration</th>
+                        <th>description</th>                       
+                        <th>Total Questios</th>
+                        <th>Pass Percentage</th>
+                        <th>Action 
+                            <a *ngIf="incident?.incidentTestTemplates.length==0" href="javascript:void(0)" (click)="addTemplate()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of incident?.incidentTestTemplates | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                        <td>{{i+1}}</td>
+                        <td> 
+                                <!-- <input type="text" class="form-control form-control-line" [ngbTypeahead]="profileAC" [resultTemplate]="rt1" [inputFormatter]="formatter"
+                                 placeholder="Template Name" (selectItem)="projectSelected($event,i)" [value]="item.testTemplateName" name="TemplateName">
+                                <ng-template #rt1 let-r="result" let-t="term">
+										{{r.testTemplateName}}
+                                </ng-template> -->
+                                <input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                            class="form-control" [ngbTypeahead]="searchTemplates"
+                                            [resultTemplate]="rt1" [inputFormatter]="formatter"
+                                            placeholder="Search Template" (selectItem)="templateSelected($event,i)"
+                                            [value]="item.testTemplateName" [editable]='false' ngbtypeaheadpopup>
+                                        <ng-template #rt1 let-r="result" let-t="term">
+                                            {{r.testTemplateName}}
+                                        </ng-template>
+                            </td> 
+                            <td>
+                                {{item.duration}}
+                            </td>
+                            <td>
+                                {{item.description}}
+                            </td>
+                            <td>
+                              {{item.totalQuestions}}
+                            </td>
+                            <td>
+                                {{item.passPercentage}}
+                            </td>
+                        <td>
+                                <a href="javascript:void(0)" (click)="addTemplate()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+                                <a href="javascript:void(0)" (click)="delTemplate(i)"><i class="fa fa-close text-danger"></i></a>
+                        </td>                   
+                    </tr>                  
+                </tbody>
+            </table>
+            <ngb-pagination 
+						[(page)]="page"
+						[pageSize]="pageSize"
+						[collectionSize]="incident?.incidentTestTemplates.length"></ngb-pagination>
+						<pre>Current page: {{page}}</pre>
+        </div>
+
+    <div class="modal-footer">
+        <div class="form-group">
+            <button type="button" (click)="navigateToList()"
+                class="btn btn-info d-none d-lg-block m-l-15"> Back</button>
+        </div>
+        <div *ngIf="incident.id==null && view=='Recruitment'" class="form-group">
+            <button type="button" [disabled]="!commonGroup.valid || !myGroup.valid || !incident.isEntryLevel && !incident.isProfessional || !incident.hasInterview && !incident.hasTest" (click)="submit()" 
+                class="btn btn-success d-none d-lg-block m-l-15"> Submit</button>
+        </div>
+        <div *ngIf="incident.id==null && view=='Training'" class="form-group">
+            <button type="button" [disabled]="!commonGroup.valid || !myTrainingGroup.valid" (click)="submit()" 
+                class="btn btn-success d-none d-lg-block m-l-15"> Submit</button>
+        </div>         
+            
+        <div *ngIf="incident.id!=null && view=='Recruitment'" class="form-group">
+            <button type="button" [disabled]="isStillPendingApproval" [disabled]="!commonGroup.valid || !myGroup.valid || !incident.isEntryLevel && !incident.isProfessional || !incident.hasInterview && !incident.hasTest" (click)="update()" 
+                class="btn btn-warning d-none d-lg-block m-l-15"> Update</button>
+        </div>  
+        
+        <div *ngIf="incident.id!=null && view=='Training'" class="form-group">
+            <button type="button" [disabled]="isStillPendingApproval" [disabled]="!commonGroup.valid || !myTrainingGroup.valid" (click)="update()" 
+                class="btn btn-warning d-none d-lg-block m-l-15"> Update</button>
+        </div>  
+    </div>
+</div>
+
+
+<!-- After Approved By Dir  -->
+
+
+<div *ngIf="incident.incidentStatus=='OPEN' || isDir==true" class="card card-body">
+<div *ngIf="isDir==true" class="d-flex flex-row flex-row-reverse">
+    <confirm-delete [type]="'icon'" class="close mr-2" aria-label="Close" (confirmed)="deleteInc(incident.id)"><span aria-hidden="true"><i class="fa fa-close"></i></span></confirm-delete>    
+</div>
+    <h3 *ngIf="incident.id==null">New {{view}} Event</h3>
+    <h3 *ngIf="incident.id!=null">Edit {{view}}</h3>
+    <br />
+    <div class="row">      
+    <div class="form-group col-md-3 col-sm-6">
+    <label class="control-label textColor">Name</label><br/>
+    <span class="text">{{incident.incidentName}}</span>    
+    </div>
+
+    <div class="form-group col-md-3 col-sm-6">
+        <label class="control-label textColor">Description</label><br/>
+        <span class="text">{{incident.incidentDesc}}</span>
+        </div>
+
+        <div *ngIf="incident.incidentType=='Recruitment'" class="form-group col-md-2 col-sm-3">
+            <label class="control-label textColor">JR Code </label><br/>
+            <span class="text">{{incident.vcCode}} &nbsp;{{incident.vcSummary}}</span>            
+        </div>
+        <div *ngIf="incident.incidentType=='Recruitment'" class="form-group col-sm-3 col-md-4">
+            <label class="control-label textColor">handling Hr Manager Group</label><br/>           
+            <span class="text">{{incident.handlingGroupName}}</span>
+        </div>
+
+        <div class="form-group col-sm-3 col-md-4">
+            <label class="control-label textColor">Map Location</label><br/>           
+            <span class="text">{{incident.locName}}</span>
+        </div>
+
+
+    </div>
+   
+    <div  class="row">
+        <div *ngIf="incident.incidentType=='Recruitment'" class="col-4 form-group ">
+            <div class="custom-control">
+                <label class="text">Fresher :</label> &nbsp;
+                <i *ngIf="incident.isEntryLevel=='Y'" class="fa fa-check text-success"></i>
+                <i *ngIf="incident.isEntryLevel=='N'|| incident.isEntryLevel==null" class="fa fa-close text-danger"></i>
+            </div>
+        </div>
+        <div class="col-4 form-group">
+            <div class="custom-control">
+                <label class="text">Exam :</label> &nbsp;
+                <i *ngIf="incident.hasTest=='Y'" class="fa fa-check text-success"></i>
+                <i *ngIf="incident.hasTest=='N' || incident.hasTest==null" class="fa fa-close text-danger"></i>
+            </div>
+        </div>
+        <div class="col-4 form-group">
+            <div class="custom-control">
+                <label class="text">Show Score :</label> &nbsp;
+                <i *ngIf="incident.showScore=='Y'" class="fa fa-check text-success"></i>
+                <i *ngIf="incident.showScore=='N' || incident.showScore==null" class="fa fa-close text-danger"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <div *ngIf="incident.incidentType=='Recruitment'" class="row">
+        <div class="col-4 form-group">
+            <div class="custom-control">
+                <label class="text">Professional :</label> &nbsp;
+                <i *ngIf="incident.isProfessional=='Y'" class="fa fa-check text-success"></i>
+                <i *ngIf="incident.isProfessional=='N' || incident.isProfessional==null" class="fa fa-close text-danger"></i>
+            </div>
+        </div>
+        <div class="col-4 form-group">
+            <div class="custom-control">
+                <label class="text" >Interview :</label> &nbsp;
+                    <i *ngIf="incident.hasInterview=='Y'" class="fa fa-check text-success"></i>
+                    <i *ngIf="incident.hasInterview=='N' || incident.hasInterview==null" class="fa fa-close text-danger"></i>
+            </div>
+        </div>
+    </div>
+
+
+    <div *ngIf="incident.incidentType=='Training'" class="row">   
+        
+        <div class="form-group col-md-3 col-sm-6">
+            <label class="control-label textColor">Start Date</label><br/>   
+            <span class="text">{{ incident.trStartDt | date:'dd-MM-yyy'  }} </span>                   
+        </div>
+
+        <div class="form-group col-md-3 col-sm-6">
+            <label class="control-label textColor">End Date</label><br/>     
+            <span class="text">{{ incident.trEndDt | date:'dd-MM-yyy'  }} </span>                     
+        </div>
+        
+            <div class="form-group col-md-3 col-sm-6">
+                    <label class="control-label textColor">No Of Days</label><br/>
+                    <br/>
+                    <span class="text">{{ incident.trStartDt | dtdiff: incident.trEndDt }} Days	</span>                       
+                </div>
+    
+             <div *ngIf="isDir==true" class="form-group col-md-3 col-sm-6">
+                    <label class="control-label textColor">Faculty</label><br/>
+                    <span class="text">{{incident.faculty}}</span>                    
+                </div>
+             <div *ngIf="isDir==true" class="form-group col-md-3 col-sm-6">
+                    <label class="control-label textColor">Contact Number</label><br/>
+                    <span class="text">{{incident.contactNo}}</span>                   
+                </div>
+
+                <div *ngIf="isDir==false" class="form-group col-md-3 col-sm-6" [ngClass]="{'has-danger': faculty.invalid && (faculty.dirty || faculty.touched)}">
+                    <label class="control-label textColor">Faculty</label>
+                    <form [formGroup]="myTrainingGroup">
+                    <input type="text" class="form-control form-control-line" placeholder="Faculty" required pattern="[a-zA-Z0-9][a-zA-Z0-9 ]+" [(ngModel)]="incident.faculty" name="faculty" formControlName="faculty">
+                    <div *ngIf="faculty.invalid && (faculty.dirty || faculty.touched)">
+                        <!-- <small class="form-control-feedback" *ngIf="faculty.errors.required">First Name is required.</small> -->
+                        <small class="form-control-feedback" *ngIf="faculty.errors.pattern">Special characters not allowed.</small>
+                                </div>
+                </form>
+                </div>
+             <div *ngIf="isDir==false" class="form-group col-md-3 col-sm-6" [ngClass]="{'has-danger': contactNo.invalid && (contactNo.dirty || contactNo.touched)}">
+                    <label class="control-label textColor">Contact Number</label>
+                    <form [formGroup]="myTrainingGroup">
+                    <input type="number" class="form-control form-control-line" placeholder="Contact Number" required pattern="[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}" [(ngModel)]="incident.contactNo" name="contactNo" formControlName="contactNo">
+                    <div *ngIf="contactNo.invalid && (contactNo.dirty || contactNo.touched)">
+                        <small class="form-control-feedback" *ngIf="contactNo?.errors.required">Contact Number is required.</small>
+                        <small class="form-control-feedback" *ngIf="contactNo?.errors.pattern">Contact Number must be 10 digits.</small>
+                </div> 
+                </form>
+                </div>
+    
+             <div class="form-group col-md-3 col-sm-6">
+                    <label class="control-label textColor">Skills Acquired</label><br/>
+                    <span class="text">{{incident.skillsAqd}}</span>                  
+                </div>       
+        </div>
+    <br/>
+
+    <div *ngIf="incident.hasInterview=='Y'" class="row">
+        <div class="form-group col-3 col-md-4">
+            <label class="control-label textColor">Level1 Name</label><br/>
+            <span class="text">{{incident.firstInterviewerName}}</span>              
+    </div>
+    <div class="form-group col-3 col-md-4">
+            <label class="control-label textColor">Level2 Name</label><br/>
+            <span class="text">{{incident.secondInterviewerName}}</span>            
+    </div>
+    <div class="form-group col-3 col-md-4">
+            <label class="control-label textColor">Level3 Name</label><br/>
+            <span class="text">{{incident.thirdInterviewerName}}</span>           
+    </div>
+    </div>
+
+    <div *ngIf="isExam==true" class="table-responsive">
+            <table class="table table-sm table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Test Template Name1</th>
+                        <th>Duration</th>
+                        <th>description</th>                       
+                        <th>Total Questios</th>
+                        <th>Pass Percentage</th>
+                        <!-- <th>Negative Scoring</th>
+                        <th>Marks Per Question</th> -->
+                        <th *ngIf="incident.incidentStatus=='PENDING-APPROVAL'">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of incident?.incidentTestTemplates | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                            <!-- <tr *ngFor="let s of testtemplate?.testTemplateCatagory"> -->
+                        <td>{{i+1}}</td>
+                        <td> 
+                               {{item.testTemplateName}}
+                            </td> 
+                            <td>
+                                {{item.duration}}
+                            </td>
+                            <td>
+                                {{item.description}}
+                            </td>
+                            <td>
+                              {{item.totalQuestions}}
+                            </td>
+                            <td>
+                                {{item.passPercentage}}
+                            </td>
+                            <!-- <td>
+                                {{s.negativeMarking}}
+                            </td>
+                            <td>
+                                {{s.marksPerQuestion}}
+                            </td> -->
+                        <td *ngIf="incident.incidentStatus=='PENDING-APPROVAL'">
+                                <a href="javascript:void(0)" (click)="addTemplate()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+                                <a href="javascript:void(0)" (click)="delTemplate(i)"><i class="fa fa-close text-danger"></i></a>
+                            
+                            </td>                   
+                    </tr>                  
+                </tbody>
+            </table>
+            <ngb-pagination 
+						[(page)]="page"
+						[pageSize]="pageSize"
+						[collectionSize]="incident?.incidentTestTemplates.length"></ngb-pagination>
+						<pre>Current page: {{page}}</pre>
+        </div>
+
+    <div class="modal-footer">
+        <div class="form-group">
+            <button type="button" (click)="navigateToList()"
+                class="btn btn-info d-none d-lg-block m-l-15"> Back</button>
+        </div>  
+        <div *ngIf="isDir==true && incident.incidentStatus=='PENDING-APPROVAL'" class="form-group">
+            <button type="button" (click)="approve()" class="btn btn-success d-none d-lg-block m-l-15"> Approve</button>
+        </div>  
+        <div *ngIf="isDir==false && view=='Training'" class="form-group">
+            <button type="button" [disabled]="isStillPendingApproval" [disabled]="!commonGroup.valid || !myTrainingGroup.valid" (click)="updateFaculty()" 
+             class="btn btn-warning d-none d-lg-block m-l-15"> Update Faculty Info</button>
+        </div>  
+    </div>
+    
+</div>
+
+<ng-template #importEvent let-c="close">
+    <div class="modal-header">
+        <h4 class="modal-title">Delete Test</h4>
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Training Name</th>
+                    <th scope="col">Description</th>
+                    <th *ngIf="view=='Recruitment'" scope="col">Job Request</th>
+                    <th *ngIf="view=='Training'" scope="col">Start Date</th>
+                    <th *ngIf="view=='Training'" scope="col">End Date</th>
+                    <th *ngIf="view=='Training'" scope="col">Faculty</th>
+                    <th *ngIf="view=='Recruitment'" scope="col">Fresher</th>
+                    <th *ngIf="view=='Recruitment'" scope="col">Professional</th>
+                    <th *ngIf="view=='Recruitment'" scope="col">Interview</th>
+                    <th scope="col">Exam</th>
+                    <th scope="col">Pick</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let i of incidents; index as o">
+                    <th scope="row">{{ o + 1 }}</th>
+                    <td>{{ i.incidentName }}</td>
+                    <td>{{ i.incidentDesc }}</td>
+                    <td *ngIf="view=='Recruitment'">{{ i.incidentDesc }}</td>
+                    <td *ngIf="view=='Training'">{{ i.trStartDt | date:'dd-MM-yyy'}}</td>
+                    <td *ngIf="view=='Training'">{{ i.trEndDt | date:'dd-MM-yyy'}}</td>
+                    <td *ngIf="view=='Training'">{{ i.faculty}}</td>
+                    <td *ngIf="view=='Recruitment'">{{ i.isEntryLevel }}</td>
+                    <td *ngIf="view=='Recruitment'">{{ i.isProfessional }}</td>
+                    <td *ngIf="view=='Recruitment'">{{ i.hasInterview }}</td>
+                    <td>{{ i.hasTest }}</td>
+                    <td><div class="custom-control custom-radio">
+                        <input type="radio" (click)="getIncident(i)"  required id="loc[{{o}}]" name="loc" class="custom-control-input">
+                            <label class="custom-control-label" for="loc[{{o}}]"></label></div> </td>                    
+                </tr>
+            </tbody>
+        </table>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="c()" class="btn btn-info">Ignore</button>
+      </div>
+</ng-template>
+
+<style>
+    .textColor {
+        color: #0b0ff3;
+    }
+</style>

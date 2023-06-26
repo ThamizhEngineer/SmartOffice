@@ -1,0 +1,249 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Organisation Goal Analysis for <span>{{fyName}}</span> </h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item">Operation</li>
+				<li class="breadcrumb-item active">Organisation Goal Analysis for <span>{{fyName}}</span></li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+<div class="card">
+<div class="card-body">
+    <flag-alert [message]="msg"></flag-alert> 
+    <div class="row">
+        <div class="form-group col-md-4 col-sm-3">
+            <select name="year" id="year" [(ngModel)]="yearId" class="form-control">
+                <option *ngFor="let item of fyYears"  [value]="item.id">{{item.fiscalCode}}</option>                           
+            </select>
+        </div>
+        <div>
+            <div class="form-group col-md-1 col-sm-3">
+                <label class="control-label"></label><br>
+                <button type="button" (click)="refresh()" class="btn btn-outline-success">Refersh</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+    <div class="card">
+        <div class="card-body">
+            <!-- <h3>Analysis for Fy 2020-2021</h3> -->
+            <div class="row">
+              
+                <div class="col-md-2 col-lg-2 col-xlg-2">
+                    <div class="card">
+                        <div (click)="view('All')" class="box bg-success text-center">
+                            <h1 class="font-light text-white">{{countOfAll.length}}</h1>
+                            <h4 style="font-size: x-large;" class="text-white">All</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Column -->
+                  <!-- Column -->
+                  <div class="col-md-2 col-lg-2 col-xlg-2">
+                    <div class="card">
+                        <div (click)="view('Functional')" class="box bg-info text-center">
+                            <h1 class="font-light text-white">{{functionalCount.length}}</h1>
+                            <h4 style="font-size: x-large;" class="text-white">Functional</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Column -->
+                <div class="col-md-2 col-lg-2 col-xlg-2">
+                    <div class="card">
+                        <div (click)="view('Non-Functional')" class="box bg-primary text-center">
+                            <h1 class="font-light text-white">{{nonFunctionalCount.length}}</h1>
+                            <h4 style="font-size: x-large;" class="text-white">NonFunctional</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Column -->                             
+                
+                <!-- Column -->
+                <div class="col-md-2 col-lg-2 col-xlg-2">
+                    <div class="card">
+                        <div (click)="view('Technical')" class="box bg-warning text-center">
+                            <h1 class="font-light text-white">{{technicalCount.length}}</h1>
+                            <h4 style="font-size: x-large;" class="text-white">Technical</h4>
+                        </div>
+                    </div>
+                </div>
+                 <!-- Column -->
+                 <div class="col-md-2 col-lg-2 col-xlg-2">
+                    <div class="card">
+                        <div (click)="view('Behavioral')" class="box bg-dark text-center">
+                            <h1 class="font-light text-white">{{nonTechnicalCount.length}}</h1>
+                            <h4 style="font-size: x-large;" class="text-white">Behavioral</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-lg-2 col-xlg-2">
+                    <div class="card">
+                        <div class="panel panel-primary text-center">
+                            <div class="panel-body">
+                            <h1 class="font-light text-dark">Verdict</h1>
+                            <div class="row">
+                                <div class="col">
+                                    <h2 (click)="view('NOT-MET')" ><i class="fa fa-thumbs-down fa-1x"></i></h2>
+                                </div>
+                                <div class="col">
+                                    <h2 (click)="view('MET')" ><i class="fa fa-thumbs-up text-success fa-1x"></i></h2>
+                                </div>
+                                <div class="col">
+                                    <h2 (click)="view('EXCEED')"><i class="fa fa-star text-warning fa-1x"></i></h2>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>  
+                
+            </div>
+        </div>
+    </div>
+
+
+<div class="row">
+    <div class="col-md-12">
+    <div class="card">      
+            <div class="card card-body">
+                            <div class="table-responsive">
+                                <table class="table m-t-30 table-hover no-wrap contact-list">
+                                    <thead>
+										<tr>
+                                            <th>#</th>
+											<th>Goal Name</th>										
+											<th>Organization Target</th>
+											<th>Threshold</th>
+                                            <th>Team's Target</th>
+                                            <th>Results Achieved By Team</th>
+                                            <th>Achievement Verdict</th>
+                                            <th width="20%">Goal Description</th>											
+										</tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr (click)="showEmpOrgAnalysis(item)" *ngFor="let item of orgAnalysis | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{item.metricName}}</td>                                                                                      
+                                            <td>{{item.operatorName}} &nbsp;than&nbsp;{{item.target}}{{item.metricSymbol}}</td>
+                                            <td>{{item.threshold}}{{item.metricSymbol}}</td>
+                                            <td> <label class="label label-{{item.isAchived ? 'success' : 'danger'}}">{{item.teamTarget}}{{item.metricSymbol}}</label> </td>
+                                            <td>{{item.resltsAcheivedByTeam}}{{item.metricSymbol}}</td>
+                                            <td> 
+                                                <div><i class="fa {{icon[item.acheivVerdictName]}}"></i></div>
+                                            </td>
+                                            <td [ngbTooltip]="item.goalDesc">{{item.dummyDesc}}</td>                                                                                  
+                                        </tr>
+                                    </tbody>
+                                </table>
+                    </div>  
+                    <ngb-pagination 
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="orgAnalysis.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>                     
+        </div>
+    </div>
+</div>
+</div>
+
+<ng-template #selectYear let-c="close">
+    <div class="modal-header">
+        <h4>Please Select Fiscal Year</h4>
+    </div>
+    <div class="modal-body">
+        <div>
+            <select name="year" id="year" [(ngModel)]="yearId" class="form-control">
+                <option *ngFor="let item of fyYears"  [value]="item.id">{{item.fiscalCode}}</option>                           
+            </select>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #empOrgAnalysis let-c="close">
+    <div class="modal-header">
+		<h4 class="modal-title">Employee Goal Analysis</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-3">
+                <label class="text"> Goal Name</label><br/>
+                <label>{{orgAnalysises.metricName}}</label>
+            </div>
+            <div class="col-sm-3">
+                <label class="text"> Organization Target</label><br/>
+                <label>{{orgAnalysises.operatorName}} &nbsp;than&nbsp;{{orgAnalysises.target}}{{orgAnalysises.metricSymbol}}</label>
+            </div>
+            <div class="col-sm-6">
+                <label class="text">Goal Description</label><br/>
+                <label>{{orgAnalysises.goalDesc}}</label>
+            </div>  
+            <div class="col-sm-3">
+                <label class="text">Threshold</label><br/>
+                <label>{{orgAnalysises.threshold}}{{orgAnalysises.metricSymbol}}</label>
+            </div>
+            <div class="col-sm-3">
+                <label class="text">Team's Target</label><br/>
+                <label><div class="label label-{{orgAnalysises.isAchived ? 'success' : 'danger'}}">{{orgAnalysises.teamTarget}}{{orgAnalysises.metricSymbol}}</div></label>
+            </div>
+            <div class="col-sm-3">
+                <label class="text">Results Achieved By Team</label><br/>
+                <label>{{orgAnalysises.resltsAcheivedByTeam}}{{orgAnalysises.metricSymbol}}</label>
+            </div>
+            <div class="col-sm-3">
+                <label class="text">Achievement Verdict</label><br/>
+                <label><i class="fa {{icon[orgAnalysises.acheivVerdictName]}}"></i></label>
+            </div>
+                      
+        </div>
+
+        
+            <div class="table-responsive m-t-40">
+                <table id="example23" class="display nowrap table table-hover table-striped" cellspacing="0" width="100%">
+                <thead>
+                    <th>Employee Name</th>
+                    <th>Manager Name</th>
+                    <th>Office</th>
+                    <th>Designation</th>
+                    <th>Target</th>                    
+                    <th>Achieved</th>
+                    <th>Manager Score</th>
+                    <th>Manager Remark</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let emp of orgAnalysises.resultAnalysisByEmps">
+                        <td>{{emp.employeeName}}</td>
+                        <td>{{emp.managerName}}</td>
+                        <td>{{emp.officeName}}</td>
+                        <td>{{emp.designationName}}</td>
+                        <td>{{emp.targetEmp}}{{emp.metricSymbol}}</td>                                              
+                        <td> <label class="label label-{{emp.isAchieved ? 'success' : 'danger'}}">{{emp.empAcheiv}}{{emp.metricSymbol}}</label></td>
+                        <td> <ngb-rating max="5" style="font-size: large;" [readonly]="true" [(rate)]="emp.managerScoreCode"></ngb-rating>
+                            <div class="form-text small">
+                                <label>{{rating[emp.managerScoreCode]}}</label>
+                              </div></td>
+                        <td [ngbTooltip]="emp.managerRemarks">{{emp.managerRemarks}}</td>
+                    </tr>
+                </tbody>
+                </table>               
+        </div>
+    </div>
+</ng-template>
+
+<style>
+.text{
+    color: #0000ff;
+}
+</style>

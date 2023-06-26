@@ -1,0 +1,46 @@
+
+  .innermsg.left {
+    float: left;
+    margin-left: 3%;
+    background-color: #F1F0F0;
+    color: black;
+    clear: both;
+}
+
+.innermsg.right {
+    float: right;
+    margin-right: 3%;
+    background-color: rgb(151, 191, 228);
+    color: white;
+    clear: both;
+}
+
+.innerTime.left{
+    float: left;
+    margin-left: 5%;
+    color: black;
+    clear: both; 
+    font-size: 8px;
+}
+
+.innerTime.right{
+    float: right;
+    margin-right: 5%;
+    color: black;
+    clear: both; 
+    font-size: 8px;
+}
+
+.innermsg {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    font-weight: 500;
+    font-size: 16px;
+    border-radius: 15px;
+    margin-bottom: 5px;
+}
+
+.msgbubble {
+    margin-bottom: 10px;
+}

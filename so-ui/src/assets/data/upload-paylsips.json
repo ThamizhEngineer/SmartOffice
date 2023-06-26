@@ -1,0 +1,37 @@
+[{
+	"UploadCode": "001",
+	"UploadDateTime": "2018-05-01 12:00:00",
+	"PayMonth" : "2018-04-01",
+	"ProcessStatus" : "Completed",
+	"RecordsUploaded": "100",
+	"SuccessCount": "100"
+},{
+	"UploadCode": "002",
+	"UploadDateTime": "2018-06-01 12:00:00",
+	"PayMonth" : "2018-05-01",
+	"ProcessStatus" : "Completed",
+	"RecordsUploaded": "200",
+	"SuccessCount": "200"
+},{
+	"UploadCode": "003",
+	"UploadDateTime": "2018-07-01 12:00:00",
+	"PayMonth" : "2018-06-01",
+	"ProcessStatus" : "Completed",
+	"RecordsUploaded": "200",
+	"SuccessCount": "200"
+},{
+	"UploadCode": "004",
+	"UploadDateTime": "2018-08-01 12:00:00",
+	"PayMonth" : "2018-07-01",
+	"ProcessStatus" : "In Progress",
+	"RecordsUploaded": "50",
+	"SuccessCount": "0"
+},{
+	"UploadCode": "004",
+	"UploadDateTime": "2018-09-01 12:00:00",
+	"PayMonth" : "2018-08-01",
+	"ProcessStatus" : "Pending",
+	"RecordsUploaded": "100",
+	"SuccessCount": "0"
+}
+]

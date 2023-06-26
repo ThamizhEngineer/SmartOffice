@@ -1,0 +1,112 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">CTC Definition</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item"><a [routerLink]="['/ctc-settings']">CTC Settings</a></li>
+				<li class="breadcrumb-item active">Definition</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+
+<div class="row m-b-20">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+				
+				<h4 class="card-title">Deduction</h4>
+				<div class="row">
+					<div class="col-4 m-b-20">
+						<label>Select Financial Year</label>
+						<select  class="form-control form-control-line" [(ngModel)]="fyear" (ngModelChange)="yearChange($event)">
+							<option *ngFor="let v of fiscalYears" [value]="v.id">{{v.fiscalCode}}</option>
+						</select>
+					</div>
+				</div>
+				<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" *ngIf="fyear">
+					<ngb-panel *ngFor="let cd of codes;let ind=index" [title]="cd.name" id="ngb-panel-{{ind}}">
+						<ng-template ngbPanelContent>
+							<div class="table-responsive">
+								<table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th>Detail</th>
+											<th>Category</th>
+											<th>Code</th>
+											<th>Employee</th>
+											<th>Code</th>
+											<th>Employer</th>
+										</tr>
+									</thead>
+									<tbody>
+										<ng-container *ngFor="let c of configs;let i = index">
+										<tr *ngIf="c.headerConfigCode == cd.code && c.serial % 2 == 1">
+											
+											<td>{{c.conDetail.name}}</td>
+											<td>{{c.catDetail}}</td>
+											<td><small class="text-inverse">{{c.configCode}}</small></td>
+											<td><input class="form-control col-9 text-right" (ngModelChange)="cModified = true" [(ngModel)]="c.configValue" type="text"/><span class="col-3" >%</span></td>
+											
+											<ng-container>
+												<td><small class="text-inverse">{{configs[(i+1)].configCode}}</small></td>
+												<td><input class="form-control col-9 text-right"  (ngModelChange)="cModified = true" [(ngModel)]="configs[(i+1)].configValue" type="text"/><span class="col-3" >%</span></td>
+											</ng-container>
+										</tr>
+										</ng-container>
+										
+									</tbody>
+								</table>
+							</div>
+						</ng-template>
+					</ngb-panel>
+				</ngb-accordion>
+				<h4 class="card-title">Income Tax</h4>
+				<ngb-accordion #acc="ngbAccordion">
+					<ngb-panel *ngFor="let ages of itAgeCodes;" title="{{ages.value}}">
+						<ng-template ngbPanelContent>
+							<div class="table-responsive">
+								<table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th>From</th>
+											<th>To</th>
+											<th>Tax Rate</th>
+											<th>Edu Cess</th>
+											<th>S Edu Cess</th>
+										</tr>
+									</thead>
+									<tbody>
+										<ng-container *ngFor="let c of itSlabs">
+											<tr *ngIf="c.ageCode == ages.code">
+												<td><input class="form-control col-9 text-right" type="text" [(ngModel)]="c.fromAmt" (ngModelChange)="itModified = true"/><span class="col-3" >INR</span></td>
+												<td><input class="form-control col-9 text-right" type="text" [(ngModel)]="c.toAmt" (ngModelChange)="itModified = true"/><span class="col-3">INR</span></td>
+												<td><input class="form-control col-9 text-right" type="text" [(ngModel)]="c.taxPercent" (ngModelChange)="itModified = true"/><span class="col-3">%</span></td>
+												<td><input class="form-control col-9 text-right" type="text" [(ngModel)]="c.eduCessPercent" (ngModelChange)="itModified = true"/><span class="col-3">%</span></td>
+												<td><input class="form-control col-9 text-right" type="text" [(ngModel)]="c.splEduCessPercent" (ngModelChange)="itModified = true"/><span class="col-3">%</span></td>
+											</tr>
+										</ng-container>
+									</tbody>
+								</table>
+							</div>
+						</ng-template>
+					</ngb-panel>
+					
+				</ngb-accordion>
+				
+				<div class="row m-t-10">
+					<div class="form-group col-md-3 col-sm-6">
+						<button type="submit" class="btn btn-info waves-effect waves-light m-t-10" [disabled]="!itModified && !cModified" (click)="updateDefinitions()">Update Definitions</button>
+					</div>
+				</div>
+				
+				<flag-alert [message]="saveMsg"></flag-alert>
+            </div>
+        </div>
+	</div>
+</div>
+

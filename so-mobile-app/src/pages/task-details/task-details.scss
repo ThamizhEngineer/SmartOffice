@@ -1,0 +1,18 @@
+page-task-details {
+    .complete{
+        height: unset !important;
+    }
+
+    ion-item,ion-list-header,ion-grid{
+        background-color: #F7F7F7 !important;
+    }
+
+    
+    ion-card{
+        background-color: #F6F6F6 !important;
+        
+        ion-card-header{
+            background-color: #f3e4c4 !important;
+        }
+    }
+}

@@ -1,0 +1,330 @@
+<div *ngIf="incident.incidentType=='Recruitment'">
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor"><span>Recruitment Event &nbsp; {{incident.vcSummary}}</span></h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Recruitment</li>
+                <li class="breadcrumb-item active">Event</li>
+                <li class="breadcrumb-item active">Import Applicant</li>
+            </ol>
+            <button type="button" (click)="redirect()" class="btn btn-info d-none d-lg-block m-l-15"> Back</button>
+        </div>
+    </div>
+</div>
+</div>
+<div *ngIf="incident.incidentType=='Training'">
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <!-- <h4 class="text-themecolor"><span>Recruitment &nbsp; Event</span></h4> -->
+                <!-- <h4 class="text-themecolor"><span>Training Event &nbsp; </span></h4> -->
+                <h4 class="text-themecolor"><span>Training Event &nbsp; {{incident.vcSummary}}</span></h4>
+            </div>
+            <div class="col-md-7 align-self-center text-right">
+                <div class="d-flex justify-content-end align-items-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item active">Recruitment</li>
+                        <li class="breadcrumb-item active">Training Event</li>
+                        <li class="breadcrumb-item active">Add/Import Attendies</li>
+                    </ol>
+                    <button type="button" (click)="redirect()" class="btn btn-info d-none d-lg-block m-l-15"> Back</button>
+                </div>
+            </div>
+        </div>
+        </div>
+
+<div class="modal-header">
+        <div *ngIf="incident.incidentType=='Recruitment'">
+    <h4 class="modal-title"><span class="text"><b> Add/Import Applicant</b></span></h4>
+    </div>
+    <div *ngIf="incident.incidentType=='Training'">
+            <h4 class="modal-title"><span class="text"><b> Add/Import Attendies</b></span></h4>
+            </div>
+</div>
+
+
+<div *ngIf="incident.incidentType=='Training'" class="card card-body">
+    <h4 class="modal-title"><span class="text"><b> Import Employee</b></span> </h4>
+
+ <div class="row">
+     <div class="col-3">
+        <ng-multiselect-dropdown 
+        [placeholder]="'Employee Category'"
+        [data]="empCategory"
+        [(ngModel)]="selectedEmpCategory"
+        [settings]="dropdownSettings"        
+      >
+      </ng-multiselect-dropdown>
+     </div>
+     <div class="col-3">
+        <button type="button" style="width:70%" (click)="importEmpByCategory()" class="btn btn-info d-block m-l-15" > Import</button>
+     </div>
+ </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Employee Code</th>
+                    <th>Name</th>                    
+                    <th>Email Id</th>                                                        
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let emp of employees | slice: (page1-1) * page1Size : (page1-1) * page1Size + page1Size;let i=index">
+                    <td *ngIf="emp.isExiste!=true">{{emp.empCode}}</td>
+                    <td *ngIf="emp.isExiste!=true">{{emp.empName}}</td>                    
+                    <td *ngIf="emp.isExiste!=true">{{emp.emailId}}</td>                    
+                    <td *ngIf="emp.isExiste!=true">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" (click)="importEmp(emp)" name="valid">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-10">
+            <ngb-pagination 
+            [(page)]="page1"
+            [pageSize]="page1Size"
+            [collectionSize]="employees.length"></ngb-pagination>
+
+            <pre>Current page: {{page1}}</pre>						
+        </div>						
+    </div>
+</div>
+
+
+<div *ngIf="incident.incidentType=='Recruitment'" class="card card-body">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email Id</th>
+                    <th>Mobile Number</th>
+                    <th>Imported</th>
+                    <th>Resume</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let webApplicant of webApplications | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                    <td>{{webApplicant.firstName}} </td>
+                    <td>{{webApplicant.lastName}}</td>
+                    <td>{{webApplicant.email}}</td>
+                    <td>{{webApplicant.mobNum}}</td>
+                    <td> <span class="badge badge-pill badge-dark"> {{webApplicant.imported === 'Yes' ? 'Yes' : 'No'}}</span></td>                   
+                    <td>
+                        <preview-document [docId]="webApplicant.resumeDocId"></preview-document>
+                        <download-document [docId]="webApplicant.resumeDocId"></download-document> 
+                    </td> 
+                    <td>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" (change)="checkBoxChecked(webApplicant,i)" name="valid" [(ngModel)]="webApplicant.select">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-10">
+            <ngb-pagination 
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="webApplications.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>						
+        </div>						
+    </div>
+</div>
+
+<div class="row ">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <form action="#">
+                    <div class="form-body">
+                        <div class="row p-t-20">
+                            <div class="form-group col-3">
+                                <label>College Name</label>
+                                <select class="form-control"[(ngModel)]="institute" [ngModelOptions]="{standalone: true}"placeholder="collegeName">
+                                    <option *ngFor="let college of incidents" [value]="college.collegeName">{{college.collegeName}}</option>
+                                </select>
+                            </div> 
+
+                            <div class="form-group col-md-2">
+                                <label>Course Name</label>
+                            <select class="form-control"[(ngModel)]="course" [ngModelOptions]="{standalone: true}" placeholder="courseName">
+                                    <option *ngFor="let co of courses" [value]="co.courseName">{{co.courseName}}</option>
+                            </select>
+                        </div>
+
+                            <div class="form-group col-md-2">
+                                    <label>Degree Name</label>
+                                <select class="form-control "[(ngModel)]="degreeName" [ngModelOptions]="{standalone: true}" placeholder="degreeName">
+                                        <option *ngFor="let degree of degrees" [value]="degree.degreeName">{{degree.degreeName}}</option>
+                                </select>
+                            </div>
+                           
+                            
+                            <div class="form-group col-md-2">
+                                    <label>Passed Out</label>
+                                    <select class="form-control" [(ngModel)]="passoutYear" [ngModelOptions]="{standalone: true}" placeholder=" passed Out">
+                                            <option >2010</option>
+                                            <option >2011</option>    
+                                            <option >2012</option>
+                                            <option >2013</option>
+                                            <option >2014</option>
+                                            <option >2015</option>
+                                            <option >2016</option>
+                                            <option >2017</option>
+                                            <option >2018</option>
+                                            <option >2019</option>
+                                            <option >2020</option>
+                                        
+                                    </select>
+                                </div>
+                                
+                            <div class="form-group col-3" align="center">
+                                <label></label>
+                                <button type="button" style="width:70%" class="btn btn-info d-block m-l-15" (click)="search()"> Search</button>
+                                <br>
+                                <button type="button" style="width:70%" class="btn btn-info d-block m-l-15" (click)="reset()"> Reset</button>
+
+                            </div>
+                            
+                        </div>    
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+    <div class="row">
+        <div class="col-md-2"><file-upload [fileDetail]="'UPLOADAPPLICANT'" (change)="upload($event,'UPLOADAPPLICANT')"></file-upload></div>
+        <div class="col">
+            <a class="btn btn-primary" href="assets/CSV/Applicant Uplaod.csv"><i class="fa fa-file-pdf-o"></i> CSV Template</a>	
+        </div>
+    </div>
+    <flag-alert [message]="msg"></flag-alert>
+    
+    
+        <div *ngIf="ngAlert" class="alert alert-danger" role="alert">
+                {{ngAlertMessage}}
+        </div>
+  
+    <div class="table-responsive">
+        <table class="table table-sm table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email Id</th>
+                    <th>Mobile Number</th>                    
+                    <th>Resume</th>
+                    <th>Modify</th>                                      
+                    <th *ngIf="incident.incidentType=='Recruitment'">Source</th>
+                    <th *ngIf="incident.incidentType=='Recruitment'">Reference Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let incidentApplicant of incidentApplicants | slice: (page1-1) * page1Size : (page1-1) * page1Size + page1Size;let i=index">
+                    <td>
+                        <input type="text" class="form-control form-control-line" [(ngModel)]="incidentApplicant.firstName"
+                            name="remarks" placeholder="First Name">
+                    </td>
+
+                    <td>
+                        <input type="text" class="form-control form-control-line" [(ngModel)]="incidentApplicant.lastName"
+                            name="remarks" placeholder="Last Name">
+                    </td>
+
+                    <td>
+                        <input type="email" class="form-control form-control-line" [(ngModel)]="incidentApplicant.email"
+                            name="remarks" placeholder="Email">
+                    </td>
+
+                    <td>
+                        <input type="number" class="form-control form-control-line" [(ngModel)]="incidentApplicant.mobileNumber"
+                            name="remarks" placeholder="">
+                    </td>
+                    <td>
+                        <preview-document [docId]="incidentApplicant.resumeDocId"></preview-document> 
+                        <download-document [docId]="incidentApplicant.resumeDocId"></download-document> 
+                    </td>               
+                    <td> &nbsp;&nbsp;                       
+                        <file-upload [fileDetail]="'RESUME-FROM-INCIDENT'" (change)="modifyResume(i,$event,'RESUME-FROM-INCIDENT',incidentApplicant.resumeDocId)">
+                        </file-upload>     
+                    </td>
+                   
+                    <td *ngIf="incident.incidentType=='Recruitment'">
+                        <select class="form-control" name="source" [(ngModel)]="incidentApplicant.source" id="source">
+                            <option value="website">Website</option>
+                            <option value="campus">Campus</option>
+                            <option value="reference">Reference</option>
+                            <option value="adhoc">adhoc</option>
+                        </select>
+                    </td>
+                 
+
+                    <td *ngIf="incidentApplicant.source!='reference' && incident.incidentType=='Recruitment'">
+                        -
+                    </td>
+
+                    <td *ngIf="incidentApplicant.source=='reference' && incident.incidentType=='Recruitment'">
+                        <autocomplete  [placeholder]="'Reference Name'"   [value]="secondInterviewerName" (empDetail)="secondInterviewer($event)"> </autocomplete>	
+                </td>
+                    
+                    
+                    <td>
+                        <a href="javascript:void(0)" (click)="addApplicant()" data-toggle="tooltip"
+                            data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                        <a href="javascript:void(0)" *ngIf="incidentApplicants.length > 1" (click)="removeApplicant(incidentApplicant,i)" data-toggle="tooltip"
+                            data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a><br />
+                            <applicant-detail-edit
+                                    [childMessage]="incidentApplicant"></applicant-detail-edit>
+                           
+
+                    </td>
+
+                </tr>
+            </tbody>
+           
+        </table>
+        <ngb-pagination 
+						[(page)]="page1"
+						[pageSize]="page1Size"
+						[collectionSize]="incidentApplicants.length"></ngb-pagination>
+						<pre>Current page: {{page1}}</pre>
+    </div>
+
+    <div class="modal-footer">
+        <div class="form-group">
+                <button type="button" (click)="redirect()" class="btn btn-warining d-none d-lg-block m-l-15"> Back</button>                
+        </div>
+        <div class="form-group">
+            <button type="button" (click)="submit()" 
+                class="btn btn-success d-none d-lg-block m-l-15"> Submit</button>
+        </div>       
+        <div class="form-group">
+            <button type="button" (click)="sendNotification()" 
+                class="btn btn-primary d-none d-lg-block m-l-15"> Send Email</button>
+        </div>
+    </div>
+    </div>
+</div>

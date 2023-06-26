@@ -1,0 +1,233 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Shift Change Request List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li *ngIf="view=='emp'" class="breadcrumb-item active">My Space</li>                
+                <li *ngIf="view=='manager'" class="breadcrumb-item active">My Task</li>                
+                <li *ngIf="view=='hr'" class="breadcrumb-item active">Operation</li>                
+                <li class="breadcrumb-item active">Shift Change Request List</li>
+            </ol>
+            <div *ngIf="view=='emp'">
+                <button type="button" [disabled]="employee.shiftId==null"  (click)="create()" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Create</button>
+            </div>
+            <div *ngIf="view!='emp'">
+                <button type="button"  (click)="create()" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="view=='emp'" class="row">
+    <div class="col-12">
+        <div class="card">
+            <div *ngIf="employee.shiftId==null" class="alert alert-danger">
+                <span>{{employee.empName}} does not have a shift. Please contact HR/manager to fix it</span>
+            </div>
+            <div class="card-body">                
+                <div class="table-responsive m-t-40">
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th data-sort-initial="true" data-toggle="true">#</th>
+                                <th data-sort-initial="true" data-toggle="true">Current Shift</th>
+                                <th data-sort-initial="true" data-toggle="true">New Shift</th>
+                                <th data-sort-initial="true" data-toggle="true">From Date</th>
+                                <th data-sort-initial="true" data-toggle="true">To Date</th>
+                                <th data-sort-initial="true" data-toggle="true">Status</th>                              
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let item of shiftChangeList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize ; let i=index">
+                        <tr>
+                            <td>{{i+1}}</td>
+                            <td>{{item.currShiftName}}</td>
+                            <td>{{item.newShiftName}}</td>
+                            <td>{{item.fromDt | date:'dd-MM-yyyy'}}</td>
+                            <td>{{item.toDt | date:'dd-MM-yyyy'}}</td>
+                            <td><span class="label label-{{statuses[item.status]}}">{{item.status}}</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination 
+                                    [(page)]="page"
+                                    [pageSize]="pageSize"
+                                    [collectionSize]="shiftChangeList.length"></ngb-pagination>
+                        
+                                    <pre>Current page: {{page}}</pre>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="view!='emp'" class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="table-responsive m-t-40">
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th data-sort-initial="true" data-toggle="true">#</th>
+                                <th data-sort-initial="true" data-toggle="true">Employee Name</th>
+                                <th data-sort-initial="true" data-toggle="true">Current Shift</th>
+                                <th data-sort-initial="true" data-toggle="true">New Shift</th>
+                                <th data-sort-initial="true" data-toggle="true">From Date</th>
+                                <th data-sort-initial="true" data-toggle="true">To Date</th>
+                                <th data-sort-initial="true" data-toggle="true">Status</th>     
+                                <th data-sort-initial="true" data-toggle="true">View</th>                              
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let item of shiftChangeList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize ; let i=index">
+                        <tr>
+                            <td>{{i+1}}</td>
+                            <td>{{item.empName}}</td>
+                            <td>{{item.currShiftName}}</td>
+                            <td>{{item.newShiftName}}</td>
+                            <td>{{item.fromDt | date:'dd-MM-yyyy'}}</td>
+                            <td>{{item.toDt | date:'dd-MM-yyyy'}}</td>
+                            <td><span class="label label-{{statuses[item.status]}}">{{item.status}}</span></td>
+                            <td class="text-nowrap">
+                                <a href="javascript:void(0)" (click)="viewDetail(item.id)"  data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-eye text-info m-r-10"></i> </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination 
+                    [(page)]="page"
+                    [pageSize]="pageSize"
+                    [collectionSize]="shiftChangeList.length"></ngb-pagination>
+        
+                    <pre>Current page: {{page}}</pre>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #createShift let-c="close">
+    <div class="modal-header">
+        <h4 class="modal-title">Create</h4>
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div *ngIf="shiftRequest.empName!='' && shiftRequest.currShiftId==null" class="alert alert-danger">
+            <span>{{shiftRequest.empName}} does not have a shift. Please contact HR/manager to fix it</span>
+        </div>
+
+          <div class="row">
+            <div class="col-3">
+                <label> Name </label><br/>
+                <span *ngIf="view=='emp'" class="text">{{shiftRequest.empName}}</span>
+                <autocomplete *ngIf="view!='emp'"  [placeholder]="'Name'"   [value]="shiftRequest.empName" (empDetail)="projectSelected($event)"> </autocomplete>                
+            </div>
+            <div class="col-3">
+                <label> Current Shift</label><br/>
+                <span class="text">{{shiftRequest.currShiftName}}</span>
+            </div>
+            <div class="col-3">
+                <label> new Shift </label><br/>
+                <select class="form-control" [(ngModel)]="shiftRequest.newShiftId" [ngModelOptions]="{standalone: true}"placeholder="collegeName">
+                    <option *ngFor="let shift of shifts" [value]="shift.id">{{shift.shiftName}}</option>
+                </select>
+            </div>            
+          </div>  
+          <div class="row">
+            <div class="col-3">
+                <label> From Date </label><br/>
+                <input type="date" class="form-control form-control-line"  [max]="shiftRequest.toDt" [(ngModel)]="shiftRequest.fromDt">
+            </div>
+            <div class="col-3">
+                <label>To Date </label><br/>
+                <input type="date" class="form-control form-control-line"  [min]="shiftRequest.fromDt" [(ngModel)]="shiftRequest.toDt">
+            </div>
+            <div class="col-3">
+                <label> Reason </label><br/>
+                <textarea class="form-control form-control-line" [(ngModel)]="shiftRequest.empReason" id="remark" rows="4"></textarea>
+            </div>
+          </div>       
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="shiftCreate()" class="btn btn-info d-none d-lg-block m-l-15">Create</button>
+      </div>
+</ng-template>
+
+<ng-template #viewShift let-c="close">
+    <div class="modal-header">
+        <h4 class="modal-title">View</h4>
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-2">
+                <label class="textColor"> Name </label><br/>
+                <span class="text">{{shiftRequest.empName}}</span>
+            </div>
+            <div class="col-3">
+                <label class="textColor"> Current Shift Name </label><br/>
+                <span class="text">{{shiftRequest.currShiftName}}</span>
+            </div>
+            <div class="col-3">
+                <label class="textColor"> new Shift Name </label><br/>
+                <span class="text">{{shiftRequest.newShiftName}}</span>
+            </div>
+            <div class="col-2">
+                <label class="textColor"> From Date </label><br/>
+                <span class="text">{{shiftRequest.fromDt | date:'dd-MM-yyyy'}}</span>
+            </div>
+            <div class="col-2">
+                <label class="textColor">To Date </label><br/>
+                <span class="text">{{shiftRequest.toDt | date:'dd-MM-yyyy'}}</span>
+            </div>
+            <div class="col-5">
+                <label class="textColor">  Reason </label><br/>
+                <span class="text">{{shiftRequest.empReason}}</span>
+            </div>
+          </div>         
+      </div>
+      <div *ngIf="shiftRequest.status=='PENDING-APPROVAL'" class="modal-footer">
+     
+        <button type="button" (click)="save('approve')" class="btn btn-info d-none d-lg-block m-l-15">Approve</button>
+           
+        <button type="button" (click)="alert()" class="btn btn-danger d-none d-lg-block m-l-15">Reject</button>
+     
+      </div>
+</ng-template>
+
+<ng-template #warning let-c="close">
+    <div class="modal-header">
+        <h4 class="modal-title">Are you sure To reject Shift Change Request Of {{shiftRequest.empName}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       
+           
+               <label>Remark</label>
+               <textarea class="form-control form-control-line" [(ngModel)]="shiftRequest.remark" id="remark" rows="4"></textarea>                              
+                 
+      </div>
+      <div class="modal-footer">
+                        
+        <button type="button" [disabled]="shiftRequest.remark==null || shiftRequest.remark==''" (click)="save('reject')" class="btn btn-danger d-none d-lg-block m-l-15">Reject</button>
+     
+      </div>
+</ng-template>
+
+<style>
+    .textColor {
+        color: rgb(11, 15, 243);
+    }
+</style>

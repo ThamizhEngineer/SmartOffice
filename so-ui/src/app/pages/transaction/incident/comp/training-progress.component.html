@@ -1,0 +1,162 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Training</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Training Event</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-body">
+    <flag-alert [message]="saveMsg"></flag-alert>
+        <h3>Training Event</h3>
+        <div class="modal-footer">
+        <div class="form-group">
+                <button type="button" (click)="navigateToList()"
+                    class="btn btn-warning d-none d-lg-block m-l-15"> Back</button>
+            </div>
+            <div class="form-group">
+                <button type="button" (click)="noShow()"  
+                    class="btn btn-success d-none d-lg-block m-l-15"> Attended</button>
+            </div>
+            <div class="form-group">
+                <button type="button"  (click)="issueCertificate()"
+                    class="btn btn-success d-none d-lg-block m-l-15"> Issue Certificate</button>
+            </div>
+        </div>
+<div class="table-responsive">
+    <table class="table table-md table-hover table-striped table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Sno</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email Id</th>
+                <th>Mobile Number</th>
+                <th>Is Attended</th>
+                <th>Issued Certificate</th>
+                <th>Select</th>
+                <th>More</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let incidentApplicant of incident.incidentApplicants;let i=index">
+                    <th scope="row">{{ i+1 }}</th>
+                <td>{{incidentApplicant.firstName}}</td>
+                <td>{{incidentApplicant.lastName}}</td>
+                <td>{{incidentApplicant.email}}</td>
+                <td>{{incidentApplicant.mobileNumber}}</td>  
+                <td>
+                <a href="javascript:void(0)" *ngIf="incidentApplicant.isAttended=='N'"><i class="fa fa-close text-danger"></i></a>
+                <a href="javascript:void(0)" *ngIf="incidentApplicant.isAttended=='Y'"><i class="fa fa-check text-success"></i></a>
+                </td>
+                <td>
+                <!-- <a href="javascript:void(0)" *ngIf="incidentApplicant.certificateIssued=='N'" ngbTooltip="CertificateNotIssued"><i class="fa fa-close text-danger"></i></a> -->
+                <a href="javascript:void(0)" *ngIf="incidentApplicant.certificateIssued=='Y'" (click)="downloadPdf(incidentApplicant)" ngbTooltip="Certificate Issued"><i class="fa fa-certificate text-success"></i></a>
+                </td>
+                <td>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="select[{{i}}]" [(ngModel)]="incidentApplicant.select">
+                    <label class="custom-control-label" for="select[{{i}}]"></label>
+                </div>
+                </td>
+                <td>
+                    <a href="javascript:void(0)" ngbTooltip="More Details" (click)="moreDetails(incidentApplicant)"><i class="fa fa-pencil text-dark"></i></a>
+                </td>
+             </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+
+<!-- ------------------- view certificate --> 
+<!-- <ng-template #certificate let-c="close">
+        <div class="modal-body"> 
+            <div *ngIf="incidentApplicant.certificateIssued=='Y'">
+            <div class="SlideBackGround">       
+                <div class="logoPart"> </div>
+                <div class="MiddlePart"> </div>
+    
+                <div class="HeadingLarge">Certificate of Completion</div>
+    
+                <div class="ParagraphMedium">This is to certify that </div>
+                <div class="StudentName">
+                    {{incidentApplicant.firstName}} {{incidentApplicant.lastName}}
+                </div>
+                <hr class="MiddleLine" />
+                <div class="ParagraphSmall">has completed the course Basic Engineering Training with score of {{incidentApplicant.score}}%</div>
+                
+                <div class="CompletionDate">{{incidentApplicant.certificateIssuedDate}}
+                </div>
+                <hr class="DateLine" />
+                <div class="DateText">Datum</div>
+                
+                <div class="Seal"></div>
+    
+                
+                <div class="ExaminerText">Certified by Pothigai Power</div>
+                <hr class="ExaminerLine" />
+                <div class="ExaminerTextSmall">Pothigai Power, Chennai-600096</div>
+                
+            </div>
+        </div>  
+        </div>
+    </ng-template> -->
+
+    <!-- --------------------------Edit within popup--- -->
+    <ng-template #edit let-c="close">
+            <div class="modal-body">
+                    <button type="button" class="close" aria-label="Close" (click)="c()">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    <h3>Edit Details</h3>
+                    <div class="table-responsive">
+                            <table class="table table-md table-hover table-striped table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email Id</th>
+                                        <th>Mobile Number</th>
+                                        <th>Score</th>
+                                        <th>Skills Acquired</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{incidentApplicant.firstName}}</td>
+                                        <td>{{incidentApplicant.lastName}}</td>
+                                        <td>{{incidentApplicant.email}}</td>
+                                        <td>{{incidentApplicant.mobileNumber}}</td> 
+                                        <td>
+                                            <!-- <input type="text" class="form-control form-control-line" [(ngModel)]="incidentApplicant.score"
+                                                name="remarks" placeholder=""> -->
+                                            <input type="number" [(ngModel)]="incidentApplicant.score" name="remarks" placeholder="">
+                                        </td> 
+                                        <td>
+                                            <textarea [(ngModel)]="incidentApplicant.skillsAcquired" name="remarks" placeholder=""></textarea>
+                                        </td>
+                                        <td>
+                                            <textarea [(ngModel)]="incidentApplicant.remarksFromTrainer" name="remarks" placeholder=""></textarea>
+                                        </td>
+                                     </tr>
+                                </tbody>
+                            </table>
+                            <!-- <label class="form-control-feedback" *ngIf="select==true"><font color="green">Saved Successfully.</font></label> -->
+                        </div>
+            </div> 
+            
+            <div class="model-footer align-self-center text-right">
+                    <div *ngIf="incidentApplicant!=null">
+                            <button type="submit" class="btn btn-info" (click)="save(incidentApplicant)">Save</button>
+                    </div>
+            </div>
+    </ng-template>

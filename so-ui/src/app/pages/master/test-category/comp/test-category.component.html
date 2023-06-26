@@ -1,0 +1,109 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Question Bank</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Recruitment</li >
+				<li class="breadcrumb-item active">Test Category List </li>
+			</ol>
+
+			<button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="categoryView()" ><i class="fa fa-plus-circle"></i> Create New</button>
+            <!-- <button type="button" class="btn btn-success d-none d-lg-block m-l-15" (click)="upload($event,'QUESTIONBANK')" ><i class="fa fa-upload"></i> Upload</button> -->
+            <!-- <div class="d-flex justify-content-end align-items-center"><file-upload- (change)="upload($event,'QUESTIONBANK')"></file-upload></div> -->
+        </div>
+	</div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <flag-alert [message]="saveMsg"></flag-alert>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                <!-- <div class="col-3 text-left"><label>Upload Questions</label></div> -->
+		        <div class="col-md-7"><file-upload [fileDetail]="'QUESTIONBANK'" (change)="upload($event,'QUESTIONBANK')"></file-upload></div>
+                </div>
+                <div class="table-responsive m-t-10">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th data-sort-initial="true" data-toggle="true">#</th>
+                                <th data-sort-initial="true" data-toggle="true">Category Code</th>
+                                <th data-sort-initial="true" data-toggle="true">Category Name</th>
+                                <th data-sort-initial="true" data-toggle="true">Easy</th>
+                                <th data-sort-initial="true" data-toggle="true">Medium</th>
+                                <th data-sort-initial="true" data-toggle="true">Tough</th>
+                                <th data-sort-initial="true" data-toggle="true">Total</th>
+                                <th data-sort-initial="true" data-toggle="true">Action</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of testCategorys | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber}; let i=index">
+                             <td>{{i+1}}</td>
+                             <td>{{item.id}}</td>
+                             <td>{{item.testCategoryName}}</td>
+                             <td>{{item.easy}}</td>
+                             <td>{{item.medium}}</td>
+                             <td>{{item.tough}}</td>
+                             <td>{{item.total}}</td>                            
+                             <td>
+                                    <i (click)="navigateToQuestionsPage(item.id)" class="fa fa-eye text-info"></i> &nbsp;
+                                    <i (click)="editCategory(item.id)" class="fa fa-pencil text-dark"></i>&nbsp;
+                                    <confirm-delete [type]="'icon'" (confirmed)="delete(item.id)"></confirm-delete>
+                            </td>
+                           </tr>
+                        </tbody>
+                    </table>
+                    <form class="pagination-wrapper">
+                            <div class="form-group pages">
+                              <pagination-controls class="my-pagination" id="pager" (pageChange)="pageChanged($event)" maxSize="2" directionLinks="true"
+                                autoHide="true" previousLabel="Prev" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                screenReaderCurrentLabel="You're on page">
+                              </pagination-controls>
+                            </div>
+                           
+                          </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="row">
+    <div class="col-3 text-left"><label>Please Upload Customer PO</label></div>
+		<div class="col-3"><file-upload- (change)="upload($event,'QUESTIONBANK')"></file-upload></div>
+</div> -->
+
+
+<ng-template #category let-c="close">
+    <div class="modal-header">
+        <h4 *ngIf="testcategory.id==null" class="modal-title"> Question Bank </h4>
+        <h4 *ngIf="testcategory.id!=null" class="modal-title"> Question Bank </h4>
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">    
+            <div *ngIf="testcategory.id!=null" class="form-group col-md-4 col-sm-6">
+                <label class="control-label">Category Code:</label>
+                <span class="text"><b><strong>{{testcategory.id}}</strong></b></span>                
+            </div>                          
+            <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">Category Name<font color="red">*</font></label>
+                    <input type="text" class="form-control form-control-line" [(ngModel)]="testcategory.testCategoryName" placeholder="First Name"  name="empName"> 
+                    <small class="form-control-feedback" *ngIf="errorMsg==true"><font color="red">Category Name Already Present.</font></small>                                       
+                </div>                
+            </div>            
+    </div>
+    <div class="modal-footer align-self-center">
+        <div *ngIf="testcategory.id==null">
+                <button type="button" [disabled]="testcategory.testCategoryName==''||testcategory.testCategoryName==null || !testcategory.testCategoryName"  class="btn btn-info" (click)="create()">Create</button>
+        </div>
+        <div *ngIf="testcategory.id!=null">
+                <button type="button" [disabled]="testcategory.testCategoryName==''" class="btn btn-info" (click)="update()">Update</button>
+        </div>
+    </div>
+</ng-template>

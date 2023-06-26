@@ -1,0 +1,172 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Grades & Designation</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item active">Grades & Designation </li>
+			</ol>
+		</div>
+	</div>
+</div>
+    
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+			<ngb-tabset>
+				<ngb-tab title="Grades">
+					<ng-template ngbTabContent>
+					
+					<flag-alert [message]="saveMsg"></flag-alert>
+						<div class="m-t-15">
+							<div class="text-right">
+								<a href="javascript:void(0);" (click)="newGrade();"><button type="button" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i>  Create New Grade</button></a>
+							</div>
+						</div>
+						
+					   <div class="table-responsive m-t-10 col-md-8">
+							<table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table draggable">
+								<thead>
+									<tr>
+										<th>Code</th>
+										<th>Grade Name</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody [sortablejs]="grades" [sortablejsOptions]="options">
+									<tr *ngFor="let g of grades">
+										<td>{{g.gradeCode}}</td>
+										<td>{{g.gradeName}}</td>
+										<td class="text-nowrap">
+											<a href="javascript:void(0)" title="Edit" (click)="editGrade(g);"> <i class="fa fa-pencil m-r-10 text-warning"></i> </a>
+											<a href="javascript:void(0)" title="Delete" (click)="deleteType(g, 'grade');"> <i class="fa fa-close text-danger"></i> </a>
+										</td>
+									</tr>
+							</table>
+						</div>
+						
+						<flag-alert [message]="saveMsg"></flag-alert>
+						<div class="row m-t-10">
+							<div class="form-group col-md-3 col-sm-6">
+								<button type="submit" class="btn btn-info waves-effect waves-light m-t-10" [disabled]="!gModified" (click)="updateGradeOrder()">Update Grade Order</button>
+							</div>
+						</div>
+					</ng-template>
+				</ngb-tab>
+				
+				<ngb-tab title="Designation">
+					<ng-template ngbTabContent>
+					
+						<flag-alert [message]="saveMsg"></flag-alert>
+			   
+					   <div class="m-t-15">
+							<div class="text-right">
+								<a href="javascript:void(0);" (click)="newDesignation();"><button type="button" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i>  Create New Designation</button></a>
+							</div>
+						</div>
+						
+						<div class="table-responsive m-t-10 col-md-8">
+							<table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table">
+								<thead>
+									<tr>
+										<!--<th>Grade Id</th> -->
+										<th>Grade Name</th>
+										<th>Designation</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let d of designations">
+										<!--<td>{{d.gradeId}}</td> -->
+										<td>{{d.grade?.gradeName}}</td>
+										<td>{{d.desigName}}</td>
+										<td class="text-nowrap">
+											<a href="javascript:void(0)" title="Edit" (click)="editDesignation(d);"> <i class="fa fa-pencil m-r-10 text-warning"></i> </a>
+											<a href="javascript:void(0)" title="Delete" (click)="deleteType(d, 'desig');"> <i class="fa fa-close text-danger"></i> </a>
+										</td>
+									</tr>
+							</table>
+						</div>
+						
+						<flag-alert [message]="saveMsg"></flag-alert>
+					</ng-template>
+				</ngb-tab>
+			</ngb-tabset>
+			</div>
+		</div>
+	</div>
+</div>
+    
+<ng-template #cdelete let-c="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Are you sure want to Delete?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+ <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="confirmDelete(modalData, dType)">OK</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #cedit let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">{{isEdit? "Update" : "Create"}} Grade</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+					<label class="control-label">Grade Name</label>
+					<input type="text" class="form-control" [(ngModel)]="modalData.gradeName" placeholder="Grade Name"/>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="updateGrade(modalData)">{{isEdit? "Update" : "Create"}} Grade</button>
+		<button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+	</div>
+</ng-template>
+
+<ng-template #dedit let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">{{isEdit? "Update" : "Create"}} Designation</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+					<label class="control-label">Grade</label>
+					<select  class="form-control" [(ngModel)]="modalData.gradeId">
+						<option *ngFor="let v of grades" [value]="v.id">{{v.gradeName}}</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+					<label class="control-label">Designation Name</label>
+					<input type="text" class="form-control" [(ngModel)]="modalData.desigName" placeholder="Designation Name"/>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="updateDesignation(modalData)">{{isEdit? "Update" : "Create"}} Designation</button>
+		<button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+	</div>
+</ng-template>

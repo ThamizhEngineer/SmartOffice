@@ -1,0 +1,32 @@
+<ng-container *ngIf="!showSearchBar">
+  <ion-menu-toggle #myMenuToggle id="myMenuToggle">
+    <ion-buttons left inline-block float-left>
+      <ion-button fill="clear"  float-left menuToggle>
+        <i class="fas fa-lg fa-bars margin-vertical-auto"></i>
+      </ion-button>
+    </ion-buttons>
+  </ion-menu-toggle>
+ 
+  <img float-left height="33px" width="33px" src="assets/imgs/logo-small.png" class="m-l-2">
+    <ion-title float-left class="m-t-4" > {{title}}  </ion-title>
+   
+  <ion-buttons left inline-block float-right >
+    <ion-button fill="clear" (click)="(showSearchBar=!showSearchBar) && focusButton()">
+      <i class="fas fa-2x fa-search margin-vertical-auto m-r-6"> </i>
+    </ion-button>
+    <!-- <ion-button fill="clear" (click)="navigateToNotification()"> -->
+      <!-- <i class="fas fa-lg fa-bell margin-vertical-auto m-r-6">  -->
+        <!-- <ion-badge id="notifications-badge" color="danger">15</ion-badge> -->
+      <!-- </i> -->
+    <!-- </ion-button> -->
+    <!-- <ion-button fill="clear" (click)="presentPopover($event)"> -->
+      <!-- <i class="fas fa-lg fa-user-circle margin-vertical-auto m-r-6"> </i> -->
+    <!-- </ion-button> -->
+  </ion-buttons>
+</ng-container>
+<ng-container *ngIf="showSearchBar">
+  <ion-searchbar #searchBar ngDefaultControl [(ngModel)]="searchTerm" (ionInput)="searchText($event)" (keyup.enter)="handleRedirect()" (ionCancel)="onCancel($event)" (ionBlur)="checkBlur($event)" showCancelButton="true"></ion-searchbar>
+</ng-container>
+
+
+

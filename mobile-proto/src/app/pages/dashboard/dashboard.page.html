@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <app-common-header title="Dashboard"></app-common-header>
+  </ion-toolbar> 
+</ion-header>
+<ion-content>
+
+<ion-card *ngFor="let d of data?.link" class="d-ct" [routerLink]="['/', d.url]">
+	<ion-card-content>
+		<div class="ion-text-center icon"><ion-label [color]="d.color"><i class="fa fa-2x" [ngClass]="d.icon"></i></ion-label></div>
+		<div class="ion-text-center title">{{d.title}}</div>
+	</ion-card-content>
+</ion-card>

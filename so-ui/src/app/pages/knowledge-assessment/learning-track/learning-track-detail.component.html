@@ -1,0 +1,68 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Learning Track</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item active">Video Upload</li>
+			</ol>
+		
+		</div>
+	</div>
+</div>
+
+
+<div class="row m-b-20">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+				<h4>Video Upload Details</h4>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Video Name</label>
+						
+								<input type="text" id="videoName" [(ngModel)]="learningTrack.videoName" [ngModelOptions]="{standalone: true}" class="form-control">
+		
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Video Category</label>
+						
+								<input type="text" id="videoName" [(ngModel)]="learningTrack.videoUploadCategory" [ngModelOptions]="{standalone: true}" class="form-control">
+		
+						</div>
+					</div>
+					
+				</div>
+				
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Video URL</label>
+							<input type="text" id="videoName" [(ngModel)]="learningTrack.videoUrl" [ngModelOptions]="{standalone: true}" class="form-control">
+						</div>
+					</div>
+				</div>
+				
+				
+				<div class="row">
+					<div class="form-group col-2">
+						<button type="submit" class="btn btn-info waves-effect waves-light m-t-10" (click)="videoUpload(learningTrack.videoUrl);">Save</button>
+					</div>
+				
+					<div class="form-group col-1">
+						<a [routerLink]="['/learning-track-list']"><button type="submit" class="btn btn-warning waves-effect waves-light m-t-10" >Back</button></a>
+					</div>
+				</div>
+				<!-- <flag-alert [message]="saveMsg"></flag-alert> -->
+			</div>
+        </div>
+	</div>
+</div>
+

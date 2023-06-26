@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://www.w3.org/2005/10/profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style>
+@page {
+	size: A4;
+	margin: 5px;
+	margin-left: 15px;
+	padding-top: 1px;
+	font-family: "Times";
+	padding-left: 15px;
+	size: portrait;
+}
+
+body {
+	font-size: 8px;
+	font-family: "Times";
+	width: 842px;
+}
+
+th {
+	background-color: #efefef;
+}
+
+.textLeft {
+	text-align: left;
+}
+
+.textRight {
+	text-align: right;
+}
+</style>
+<title>Invoice</title>
+</head>
+<body align="center">
+	<div class="row">
+		<div class="container">
+			<br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+			<div class="row">
+				<div class="col-md-12">
+					<div style="float: right">
+						<p style="font-family: Arial; font-size: 180%;">
+							Invoice<br /> #<span th:text="${invoiceCode}"></span>
+						</p>
+						<p style="font-size: 80%;">
+							<b>Balance Due</b>
+						</p>
+						<b>Rs.<span th:text="${balanceAmt}"></span></b>
+					</div>
+					<div class="textLeft">
+						<img th:src="'/opt/so/data/images/'+${logo}" height="100px"></img>
+						<br /> <b><span th:text="${companyName}"></span></b> <br />
+						<span style="white-space: pre;" th:utext="${companyAddress}"></span>
+						<br />India <br />GSTIN: <span th:text="${gstin}"></span>
+
+					</div>
+
+				</div>
+			</div>
+
+			<br /> <br /> <br /> <br />
+			
+			
+
+				<div   class="col-md-2">
+					<div class="table-responsive">
+						<table style="float: right;text-align: right;">
+							<tbody>
+								<tr>
+									<th
+										style="background-color: #ffffff; font-family: Times;">Invoice
+										Date:</th>
+									<td align="right"><span
+										th:text="${#temporals.format(invoiceDate, 'dd-MMMM-yyyy')}"></span></td>
+									<td width="100px">&nbsp;</td>
+								</tr>
+								<tr>
+									<th
+										style="background-color: #ffffff; font-family: Times; ">Terms:</th>
+									<td align="right"><span th:text="${termsOfPayment}"></span></td>
+									<td width="100px">&nbsp;</td>
+								</tr>
+								<tr>
+									<th
+										style="background-color: #ffffff; font-family: Times; ">Due
+										Date:</th>
+									<td align="right"><span
+										th:text="${#temporals.format(pmtDueDt, 'dd-MMMM-yyyy')}"></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-md-10">
+					Bill to <br /> <b><span th:text="${clientName}"></span></b>
+					<address>
+						<span th:text="${buyerAddress}"></span> <br />GSTIN:<span
+							th:text="${buyerGstinOrUin}"></span> <br /> <br /> Place Of
+						Supply:<span th:text="${buyerPlaceOfSupply}"></span>
+					</address>
+				</div>
+		
+
+			<br />
+			<br /> <br />
+			<div class="row">
+				<div class="col-12 card card-body">
+					<div class="table-responsive">
+						<table style="border: 1px solid #CCC; border-collapse: collapse; width: 725px; font-size: 10px">
+							<thead>
+								<tr>
+									<th
+										style="background-color: #333333; color: #ffffff; font-size: 80%;">Item
+										and Description</th>
+									<th
+										style="background-color: #333333; color: #ffffff; font-size: 80%">Charge</th>
+									<th th:if="${buyerHasGst=='Y'}"
+										style="background-color: #333333; color: #ffffff; font-size: 80%">CGST</th>
+									<th th:if="${buyerHasGst=='Y'}"
+										style="background-color: #333333; color: #ffffff; font-size: 80%">SGST</th>
+									<th
+										style="background-color: #333333; color: #ffffff; font-size: 80%">Amount</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="poLine : ${poLines}">
+									<td><span th:text="${poLine.itemDescription}"></span></td>
+									<td><span th:text="${poLine.itemRate}"></span></td>
+									<td th:if="${buyerHasGst=='Y'}"><span
+										th:text="${poLine.cgst}"></span></td>
+									<td th:if="${buyerHasGst=='Y'}"><span
+										th:text="${poLine.sgst}"></span></td>
+									<td><span th:text="${poLine.itemTotal}"></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<br />
+
+			
+					<div class="table-responsive">
+						<table style="float: right;">
+							<tbody>
+								<tr style="text-align: right;">
+									<th style="background-color: #ffffff">Sub Total:</th>
+									<td align="right"><span th:text="${beforeTaxSubTotalAmt}"></span></td>
+									<td width="100px">&nbsp;</td>
+								</tr>
+								<tr style="text-align: right;" th:if="${buyerHasGst=='Y'}">
+									<th style="background-color: #ffffff">CGST9 (9%):</th>
+									<td align="right"><span th:text="${cgst}"></span></td>
+									<td width="100px">&nbsp;</td>
+								</tr>
+								<tr style="text-align: right;" th:if="${buyerHasGst=='Y'}">
+									<th style="background-color: #ffffff">CGST9 (9%):</th>
+									<td align="right"><span th:text="${sgst}"></span></td>
+									<td width="100px">&nbsp;</td>
+								</tr>
+								<tr style="text-align: right;">
+									<th style="background-color: #ffffff">Total:</th>
+									<td align="right"><span th:text="${afterTaxSubTotalAmt}"></span></td>
+									<td width="100px">&nbsp;</td>
+								</tr>
+								<tr style="text-align: right;">
+									<th style="background-color: #e6e6e6">Balance Due:</th>
+									<td style="background-color: #e6e6e6"><span
+										th:text="${afterTaxSubTotalAmt}"></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				
+
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<div class="row">
+				<div class="col-md-8">
+					<font size="5"> <b>Notes</b>
+					</font> <br /> <br />List of hosted website(s) are mentioned below, <br />1.
+					smsgroup.company. <br />2. electricaltoelectronics.com. <br />3.
+					smstradelink.com. <br />4. avisfashions.com. <br /> <br /> <br />
+					<b>Terms and Conditions</b> <br />As agreed in the agreement.
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

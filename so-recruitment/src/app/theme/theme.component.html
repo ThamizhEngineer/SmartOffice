@@ -1,0 +1,13 @@
+<div id="main-wrapper" [class]="themeCss" [ngClass]="{'mini-sidebar': minibar}">
+	<app-header-nav [themeCss]="themeCss" (change)="changeTheme($event)" (collapse)="collapsible($event)"></app-header-nav>
+	<app-aside-nav [minibar]="minibar"></app-aside-nav>
+	<div class="page-wrapper">
+		<perfect-scrollbar>
+			<div class="container-fluid">
+				<router-outlet></router-outlet>
+			</div>
+		</perfect-scrollbar>
+	</div>
+	
+	<app-footer></app-footer>
+</div>

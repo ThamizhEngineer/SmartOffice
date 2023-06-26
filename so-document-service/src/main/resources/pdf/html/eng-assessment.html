@@ -1,0 +1,81 @@
+<html>
+
+<head>
+    <style>
+        @page {
+            size: A4;
+            margin: 1px;
+            padding-top: 1px;
+            size: landscape;
+        }
+
+        body {
+            font-size: 8x;
+            font-family: "Times";
+            width: 1025px;
+        }
+
+        table,
+        td,
+        th {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="padding: 0.1px;text-align: center;background: #efefef;color: black; font-size: 13px;">
+        <h1>Engineer Assessment</h1>
+    </div>
+    <div style="padding: 0%;">
+        <p> <b>Updated By:</b> <span th:text="${updatedBy}">Updated By</span></p>
+        <p> <b>Timestamp:</b> <span th:text="${curentdate}">Timestamp</span></p>
+    </div>
+
+    <table border="1" cellpadding="6"
+        style="border:1px solid #CCC;border-collapse:collapse;width:1025px;margin-top:15px;text-align: left;">
+        <thead>
+            <tr>
+                <th style="background-color:#efefef"> Engineer </th>
+                <th style="background-color:#efefef"> Has </th>
+                <th style="background-color:#efefef"> Lacks </th>
+                <th style="background-color:#efefef"> Training </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${res.empty}">
+                <td colspan="4"> No Data Available </td>
+            </tr>
+            <tr th:each="r : ${res}">
+                <td><span th:text="${r.engineer}">Engineer</span></td>
+                <td>
+                    <ul th:each="hs,iterator: ${r.has}">
+                        <li th:text="${hs.productName} + ${hs.serviceName}"></li>
+                    </ul>
+                </td>
+                <td>
+                    <ul th:each="lks,iterator: ${r.lacks}">
+                        <li th:text="${lks.productName} + ${lks.serviceName}"></li>
+                    </ul>
+                </td>
+                <td>
+                    <ul th:each="tra,iterator: ${r.training}">
+                        <li th:text="${tra.productName} + ${tra.serviceName}"></li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

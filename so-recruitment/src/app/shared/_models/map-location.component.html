@@ -1,0 +1,57 @@
+<div class="modal-body" style="border-style: solid" >
+    <div class="row">
+        <div class="form-group col-4">
+                <label>Location Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" [(ngModel)]="mapLocation.locName" placeholder="Location Name">
+
+            <!-- <input type="text" class="form-control form-control-line"  [value]="mapLocation.locName" [ngbTypeahead]="countryAC" (selectItem)="itemSelected($event,jobEmployee)" [resultTemplate]="rt1" [inputFormatter]="country_formatter"   placeholder="Profile">
+								<ng-template #rt1 let-r="result" let-t="term">
+							
+								{{r.countryName}}
+                            </ng-template>  -->
+        </div>
+        <div class="form-group col-4">
+                <label>Country <span class="text-danger">*</span></label>
+            <select class="form-control form-control-line" [(ngModel)]="mapLocation.country">
+                <option *ngFor="let c of countries" [value]="c.countryCode">{{c.countryName}}</option>
+
+            </select>
+        </div>
+
+        <div class="form-group col-4">
+                <label>Address <span class="text-danger">*</span></label>
+            <textarea class="form-control form-control-line" placeholder="address" [(ngModel)]="mapLocation.address"></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-3">
+
+            <button type="button" (click)="convertAddressToCoords()" class="form-control btn btn-success">Search </button>
+        </div>
+    </div>
+
+    <div  *ngIf="this.mapLocation.lats!=null">
+        
+            <div class="row">
+                    <div class="form-group col-6">
+                    <label><span class="text-success">&nbsp;&nbsp;Search result found</span> </label>  
+                </div>
+            </div>
+            <div class="row">
+                        <div class="form-group col-4">
+                <label>Latitude </label>
+            <input type="text" class="form-control" [value]="mapLocation.lats" placeholder="Latitude">
+        </div>
+        <div class="form-group col-4">
+                <label>Latitude </label>
+            <input type="text" class="form-control" [value]="mapLocation.longs" placeholder="Longitude">
+        </div>
+
+        <div class="form-group col-3">
+                <label>&nbsp;<span class="text-success">&nbsp;&nbsp;</span> </label>
+            <button type="button" (click)="save()" class="form-control btn btn-success ">Save </button>
+        </div>
+    </div>
+
+    </div>
+</div>

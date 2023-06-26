@@ -1,0 +1,253 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Employee Service Record</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Employee Service Record</li>
+            </ol>
+            <button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="create();"><i class="fa fa-plus-circle"></i> Create Employee Service Record</button>
+        </div>
+    </div>
+</div>
+
+<div class="card card-body">
+    <div class="form-body">
+        <div class="form-body">
+               
+                    <div class="row p-t-20">
+                    <div class="form-group col-md-2">
+                            <label>Emp Code</label>
+                            <autocomplete  [placeholder]="'Emp Code'"   [value]="empCode" (empDetail)="empCodeSelected($event)"> </autocomplete>
+                        </div>
+                        <div class="col-3 form-group">
+                                <label>Internal Id</label>
+                                <autocomplete  [placeholder]="'Internal Id'"   [value]="internalId" (empDetail)="internalIdSelected($event)"> </autocomplete>
+                            </div>
+                    <div class="form-group col-2">
+                        <label>Emp First Name</label>
+                        <autocomplete  [placeholder]="'Emp First Name'"   [value]="empFname" (empDetail)="empFirstNameSelected($event)"> </autocomplete>
+                        </div>  
+                    <div class="form-group col-md-2">
+                            <label>office Name</label>
+                            <select type="text" class="form-control form-control-line" placeholder="office Name"    [(ngModel)]="officeName"  name="officeName"> 
+                            <option *ngFor="let o of offices" [value]="o.officeName">{{o.officeName}}</option>
+                        </select>
+                        </div>
+                    <div class="form-group col-2">
+                        <label>N1 Employee</label>
+                        <autocomplete  [placeholder]="'n1 Employee'"   [value]="n1Name" (empDetail)="n1Selected($event)"> </autocomplete>
+                    </div>  
+
+                    &nbsp;&nbsp; <div class="form-group col-md-2">
+                                        <label></label>
+                                            <button type="button" style="width:70%" class="btn btn-info d-block m-l-15" (click)="search()"> Search</button>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                                <label></label>
+                                            <button type="button" style="width:70%" class="btn btn-success d-block m-l-15" (click)="reset()"> Reset</button>
+                                        </div>
+                                
+                </div>
+            </div>
+</div>
+</div>
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+        <!-- <flag-alert [message]="saveMsg"></flag-alert> -->
+           <div class="table-responsive">
+                <table class="table color-bordered-table theme-bordered-table; align=right">
+                    <thead>
+                        <tr>
+                            <th data-sort-initial="true" data-toggle="true">#</th>
+                            <!-- <th data-sort-initial="true" data-toggle="true">Id</th> -->
+                            <th data-sort-initial="true" data-toggle="true">Employee Name</th>
+                            <th data-sort-initial="true" data-toggle="true">Internal Id</th>
+                            <th data-sort-initial="true" data-toggle="true">Employee Code</th>
+                            <th data-sort-initial="true" data-toggle="true">office Name</th>
+                            <th data-sort-initial="true" data-toggle="true">N1 Employee Id</th>
+                            <th data-sort-initial="true" data-toggle="true">Esr Type Code</th>
+                            <th data-sort-initial="true" data-toggle="true">Esr Date</th>
+                            <th data-sort-initial="true" data-toggle="true">Record Data</th>
+                            <th data-sort-initial="true" data-toggle="true">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr *ngFor="let row of rows | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i=index ">
+                                <td>{{i+1}}</td>
+                                <!-- <td>{{row.id}}</td> -->
+                                <td>{{row.empFname}} {{row.empLname}}</td>
+                                <td>{{row.internalId}}</td>
+                                <td>{{row.empCode}}</td>
+                                <td>{{row.officeName}}</td>
+                                <td>{{row.n1EmpId}} - {{row.n1EmpName}}</td>
+                                <td>{{row.esrTypeCode}}</td>
+                                <td>{{row.esrDt | date:'dd/MM/yyyy'}}</td>
+                                <td>{{row.recordData}}</td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)"><i *ngIf="isDir==false" class="fa fa-pencil text-inverse m-r-10" (click)="show(row.id);"></i> </a>
+                                    <confirm-delete [type]="'icon'" (confirmed)="delete(row.id)"></confirm-delete>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination 
+                    [(page)]="page"
+                    [pageSize]="pageSize"
+                    [collectionSize]="rows.length"></ngb-pagination>
+                    <pre>Current page: {{page}}</pre>
+            </div>
+        </div>
+    </div>
+</div>  
+
+    <ng-template #cdetail let-c="close">
+        <div class="modal-header">
+            <h3 class="modal-title">Employee Service Record</h3>
+            <div mat-dialog-actions align="end">
+                <button type="button" class="btn btn-warning" (click)="save();">Save</button>
+                 <button type="button" class="btn btn-outline-dark" (click)="c()">Close</button> 
+             </div>
+                    </div>
+        <div class="modal-body">
+            <div class="row" >
+                    <div class="form-group col-md-2" *ngIf="employeeServiceHeader.id==null">
+                            <label>Employee Name</label>
+                            <autocomplete  [placeholder]="'Employee Name'"   [value]="empName" (empDetail)="employeeSelected($event)"> </autocomplete>
+                            </div>
+
+                            <div class="form-group col-md-2" *ngIf="employeeServiceHeader.id==null">
+                                <label>Office Name</label>
+                                <select class="form-control mydatepicker" placeholder="Office Name" [(ngModel)]="employeeServiceHeader.officeId" name="officeId"> 
+                                    <option *ngFor="let v of offices" [value]="v.id">{{v.officeName}}</option>
+                                </select>
+                                </div>
+                                <div class="form-group col-md-2" *ngIf="employeeServiceHeader.id==null">
+                                        <label class="control-label">Esr Type Code</label>
+                                        <select type="text" class="form-control" placeholder="Esr Type Code"  [(ngModel)]="employeeServiceHeader.esrTypeCode"> 
+                                            <option *ngFor="let b of code" [value]="b.configDtlName">{{b.configDtlName}}</option>
+                                        </select>
+                                        </div>
+                                
+                                   <div class="form-group col-md-3" *ngIf="employeeServiceHeader.id==null">
+                                        <label class="control-label">Esr Date</label>
+                                        <input type="date" [(ngModel)]="employeeServiceHeader.esrDt">
+                                    </div>        
+                                       
+                                   <div class="form-group col-md-12  col-sm-12" *ngIf="employeeServiceHeader.id==null">
+                                        <label class="control-label">Record Data</label>
+                                        <textarea type="text" class="form-control" placeholder="Record Data"  [(ngModel)]="employeeServiceHeader.recordData" rows="3"> </textarea>
+                                   </div>
+
+                                   <div class="col-3 form-group" *ngIf="employeeServiceHeader.id!=null">
+                                    <label>Employee Name</label>
+                                    <input type="text" class="form-control" placeholder="Employee Name" [resultTemplate]="rt1" (ngModelChange)='empi()'
+                                    (selectItem)="projectSelected3($event)" [inputFormatter]="formatter3" [ngbTypeahead]="empIdTypeAC" [value]="employeeServiceHeader.empFname" name="empName">                        
+            
+                                    <ng-template #rt1 let-r="result" let-t="term">
+                                        {{ r.empName}} 
+                                      </ng-template>
+                                </div>
+
+                                   <div class="form-group col-3"*ngIf="employeeServiceHeader.id!=null">
+                                    <label><font color="blue">Internal Id</font></label><br/>
+                                    <span class="text">{{employeeServiceHeader.internalId}}</span>
+                                </div> 
+
+                            <div class="form-group col-2" *ngIf="employeeServiceHeader.id!=null">
+                                    <label>Employee Code</label>
+                                    <select type="text" class="form-control form-control-line" placeholder="Employee Code" [(ngModel)]="employeeServiceHeader.esrTypeCode"  name="esrTypeCode"> 
+                                        <option *ngFor="let b of rows" [value]="b.esrTypeCode">{{b.empCode}}</option>
+                                    </select>
+                                    </div>  
+                            <div class="form-group col-3" *ngIf="employeeServiceHeader.id!=null">
+                                    <label>Esr Date</label><br/>
+                                    <input type="date" [(ngModel)]="employeeServiceHeader.esrDt" placeholder="dd/mm/yyyy" >
+                                </div>   
+
+                                    <div class="form-group col-md-12  col-sm-12" *ngIf="employeeServiceHeader.id!=null">
+                                            <label class="control-label">Record Data</label>
+                                            <textarea type="text" class="form-control" placeholder="Record Data"  [(ngModel)]="employeeServiceHeader.recordData" rows="3"> </textarea>
+                                       </div>
+                                    
+            </div>
+
+            <div class="row" *ngIf="employeeServiceHeader.id!=null">
+                <div class="form-group col-3">
+                    <label><font color="blue" for="$event">Emp Code</font></label><br/>
+                    <span class="text">{{employeeServiceHeader.empCode}}</span>
+                </div>
+                <div class="form-group col-3">
+                    <label><font color="blue">Emp First Name</font></label><br/>
+                    <span class="text">{{employeeServiceHeader.empFname}}</span>
+                </div>
+                <div class="form-group col-3">
+                    <label><font color="blue">Emp Last Name</font></label><br/>
+                    <span class="text">{{employeeServiceHeader.empLname}}</span>
+                </div>
+                <div class="form-group col-3">
+                    <label><font color="blue">Office Name</font></label><br/>
+                    <span class="text">{{employeeServiceHeader.officeName}}</span>
+                </div>
+
+                <div class="form-group col-3">
+                    <label><font color="blue">N1 Employee Id</font></label><br/>
+                    <span class="text">{{employeeServiceHeader.n1EmpName}}</span>
+                </div>
+                <div class="form-group col-3">
+                    <label><font color="blue">N2 Employee Id</font></label><br/>
+                    <span class="text">{{employeeServiceHeader.n2EmpName}}</span>
+                </div>
+            </div> 
+                     
+         <div class="row">
+                <div class="card-body">
+                       <div class="table-responsive">
+                           <table class="table table-striped table-hover table-bordered">
+                               <thead>
+                                   <tr>
+                                       <th>#</th>
+                                       <th>Bus Key</th>
+                                       <th>Bus Value</th>
+                                       <th>Action</th>
+                                       <th *ngIf="employeeServiceHeader.employeeServiceLine.length==0">   
+                                        <a href="javascript:void(0)"  (click)="addEmployee()" data-toggle="tooltip" data-original-title="Edit"> 
+                                                <i class="fa fa-cog text-inverse m-r-10"></i>
+                                            <i class="fa fa-plus text-inverse m-r-10"></i> </a>                        
+                                    </th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                   <tr *ngFor="let line of employeeServiceHeader.employeeServiceLine; let iter=index">
+                                       <td>
+                                            {{iter+1}}
+                                       </td>
+                                       <td>
+                                           <input type="text" class="form-control form-control-line" [(ngModel)]="line.busKey"
+                                           [ngModelOptions]="{standalone: true}" placeholder="busKey">
+                                       </td>
+                                       <td>
+                                           <input type="text" class="form-control form-control-line" [(ngModel)]="line.busValue"
+                                           [ngModelOptions]="{standalone: true}"   placeholder="busValue">
+                                       </td>
+                                       <td>
+                                           <a href="javascript:void(0)" (click)="addEmployee()" data-toggle="tooltip" data-original-title="Edit"> 
+                                            <i class="fa fa-plus text-inverse m-r-10"></i> </a>   
+                                           <a href="javascript:void(0)" (click)="delEmployeeRow(iter)">
+                                               <i class="fa fa-close text-danger"></i>
+                                           </a>
+                                       </td>
+                                   </tr>
+                               </tbody>
+                           </table>
+                       </div>
+            </div>
+           </div>
+           
+           
+    </div>
+</ng-template>

@@ -1,0 +1,205 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Travel Advance Request Detail &nbsp;&nbsp; <span class="label" [ngClass]="{'label-success': myTar.tarStatus=='APPROVED','label-danger': myTar.tarStatus=='CANCELLED' || myTar.tarStatus=='N1-REJECTED' || myTar.tarStatus=='ACC2-REJECTED','label-warning': myTar.tarStatus=='CREATE' || myTar.tarStatus=='N1-APPROVAL-PENDING' || myTar.tarStatus=='N1-APPROVED' || myTar.tarStatus=='ACC2-APPROVAL-PENDING' || myTar.tarStatus=='ACC2-APPROVED'  }">{{myTar.tarStatus}}</span> </h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="navigateToListPage()">Travel Advance Request List</a></li>
+                    <li class="breadcrumb-item active">Travel Advance Request Detail </li>
+                    
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+            <div class="card card-body">
+                    <flag-alert [message]="msg"></flag-alert>
+                <div class="row">
+                 <div *ngIf="myTar.tarCode!=null && myTar.tarStatus !='CREATED'" class="form-group col-md-2 col-sm-3">
+                        <label class="control-label"><font color="blue"><b>Travel Advance Reg No</b></font> </label><br/>                        
+                        <span class="label label-default">{{myTar.tarCode}} </span>
+                </div>
+                    <div class="form-group col-md-2 col-sm-3"> 
+                            <label class="control-label"><font color="blue"><b>Employee</b></font> </label><br/>
+                        <span class="text">{{userName}} </span>
+                    </div>
+                    <div *ngIf="myTar.tarCode==null || myTar.tarStatus =='CREATED'" class="form-group col-md-2  col-sm-3">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="jobCode" value="Y" name="code" [(ngModel)]="myTar.jobOrCc" class="custom-control-input">
+                            <label class="custom-control-label" for="jobCode">Job Code</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="costCode" value="N" name="code" [(ngModel)]="myTar.jobOrCc" class="custom-control-input">
+                            <label class="custom-control-label" for="costCode" >Cost Code</label>
+                        </div>
+                    </div>
+    
+                    
+                    <div class="form-group col-md-2 col-sm-3" *ngIf="myTar.jobOrCc=='Y'">
+                        <label class="control-label"><font color="blue"><b>Job Code</b></font></label><br/>
+                       
+                        <select *ngIf="myTar.tarCode==null || myTar.tarStatus =='CREATED'" class="form-control" [(ngModel)]="myTar.jobId">
+                            <option *ngFor="let jc of jobCodes" [value]="jc.jobId">{{jc.jobCode}}</option>
+                        </select>
+                        <span *ngIf="myTar.tarCode!=null && myTar.tarStatus !='CREATED'" class="text">{{myTar.jobCode}} </span>
+
+                    </div>
+                    <div class="form-group col-md-2 col-sm-3" *ngIf="myTar.jobOrCc=='N'">
+                            <label class="control-label"><font color="blue"><b>Cost Center Code</b></font></label><br/>
+                            <select *ngIf="myTar.tarCode==null || myTar.tarStatus =='CREATED'" class="form-control" [(ngModel)]="myTar.costCenterId">
+                                <option *ngFor="let v of costCode" [value]="v.id">{{v.ccCode}}</option>
+                            </select>
+                            <span *ngIf="myTar.tarCode!=null && myTar.tarStatus !='CREATED'" class="text">{{myTar.costCenterCode}} </span>
+                        </div>
+    
+                    <div class="form-group col-md-2 col-sm-3">
+                        <label class="control-label"><font color="blue"><b>Application Date</b></font></label><br/>
+                        <span class="text">{{myTar.tarSubmittedDt | date:'dd/MM/yyyy'}} </span>
+                    </div>
+                    <div *ngIf="myTar.tarCode==null || myTar.tarStatus =='CREATED'" class="form-group col-md-2 col-sm-3">
+                            <label class="control-label"><font color="blue"><b>Day Range</b></font></label>
+                            <select class="form-control" [(ngModel)]="myTar.dayRangeId">
+                                <option *ngFor="let v of dayRange" [value]="v.id">{{v.dayRangeName}}</option>
+                            </select>
+                        </div>
+
+                        <div *ngIf="myTar.tarCode!=null && myTar.tarStatus !='CREATED'" class="form-group col-md-2 col-sm-3">
+                            <label class="control-label"><font color="blue"><b>Day Range</b></font></label><br/>
+                            <span class="text">{{myTar.dayRangeName}} </span>
+                        </div>
+    
+                        <div *ngIf="myTar.tarCode==null || myTar.tarStatus =='CREATED'" class="form-group col-md-2 col-sm-3">
+                            <label  class="control-label"><font color="blue"><b>Required Advance Amount</b></font></label>
+                            <input type="number" id="costCode" [(ngModel)]="myTar.reqAdvAmt"  [ngModelOptions]="{standalone: true}" placeholder="Required Advance Amount" class="form-control form-control-line">
+                        </div>
+
+                        <div *ngIf="myTar.tarCode!=null && myTar.tarStatus !='CREATED'" class="form-group col-md-2 col-sm-3">
+                            <label class="control-label"><font color="blue"><b>Required Advance Amount</b></font></label><br/>
+                            <span class="text">{{myTar.reqAdvAmt}} </span>
+                        </div>
+    
+                    <div *ngIf="myTar.tarCode==null || myTar.tarStatus =='CREATED'" class="form-group col-md-4 col-sm-6">
+                        <label class="control-label"><font color="blue"><b>Purpose</b></font></label>
+                        <textarea type="textarea" id="amount" [(ngModel)]="myTar.empRemarks" rows="5" [ngModelOptions]="{standalone: true}" placeholder="Purpose" class="form-control form-control-line"></textarea>
+                    </div>
+                    <div *ngIf="myTar.tarCode!=null && myTar.tarStatus !='CREATED'" class="form-group col-md-4 col-sm-6">
+                        <label class="control-label"><font color="blue"><b>Purpose</b></font></label><br/>
+                        <span class="text">{{myTar.empRemarks}} </span>
+                    </div>
+                    <div *ngIf="myTar.tarCode==null || myTar.tarStatus =='CREATED'" class="form-group col-md-2 col-sm-3">
+                        <label class="control-label"><font color="blue"><b>Travel Involved</b></font></label><br/>
+                        <input type="checkbox" [(ngModel)]="myTar.isAddlTravelInvolved">
+                    </div>
+                    <div *ngIf="myTar.tarCode!=null && myTar.tarStatus !='CREATED'" class="form-group col-md-2 col-sm-3">
+                        <label class="control-label"><font color="blue"><b>Travel Involved</b></font></label><br/>
+                        <span class="text">{{isTravel}} </span>
+                    </div>
+                    <br>
+    </div>
+    
+    
+              
+                <div class="modal-footer">
+                    <div *ngIf="myTar.id==null" class="form-group">
+                        <button type="button"  (click)="createTar()" class="btn btn-info waves-effect waves-light m-t-10">Create</button>
+                    </div>
+                    <div *ngIf="myTar.id==null || myTar.tarStatus =='CREATED'" class="form-group">
+                        <button type="button"  (click)="applyTar()" class="btn btn-success waves-effect waves-light m-t-10">Apply</button>
+                    </div>
+                    <div *ngIf=" myTar.tarStatus == 'N1-APPROVAL-PENDING'" class="form-group">
+                        <button type="button" (click)="cancle()" class="btn btn-danger waves-effect waves-light m-t-10 ml-2">Cancel</button>
+                    </div>
+    
+                    <div class="form-group">        
+                        <button type="button" (click)="navigateToListPage()" class="btn btn-warning waves-effect waves-light m-t-10 ml-2">Back</button>
+                    </div>
+                </div>
+            </div> 
+
+
+            <div *ngIf="myTar.tarStatus=='N1-REJECTED' || myTar.tarStatus=='ACC2-REJECTED'">
+                <h4 ><strong><b>Decision :</b> &nbsp;&nbsp; <span class="label label-danger"><font size="4">REJECTED</font></span></strong></h4><br>
+                </div>
+
+                <div *ngIf="myTar.tarStatus=='APPROVED'">
+                <h4 ><strong><b>Decision :</b> &nbsp;&nbsp; <span class="label label-success"><font size="4">APPROVED</font></span></strong></h4><br>
+              </div>
+                <!-- [ngClass]="{'label-danger': myTar.tarStatus=='CANCELLED' || myTar.tarStatus=='N1-REJECTED' || myTar.tarStatus=='ACC2-REJECTED'  }" -->
+        
+
+            <div *ngIf=" myTar.tarStatus == 'N1-REJECTED'" class="card card-body">
+                    <!-- <h4 ><strong><b> Rejected by N+1 Manager</b></strong></h4><br> -->
+                <div class="row">
+                        <div class="form-group col-md-2 col-sm-3">
+                            <label class="control-label"><font color="navy"> Rejected by</font></label><br/>
+                            <!-- <span class="text">{{myTar.n1Name}} </span> -->
+                            <span class="text">{{myTar.n1EmployeeCode}} - {{myTar.n1EmployeeName}}  </span> <br/>
+                            <span class="text">( N+1 Manager ) </span>
+                        </div>
+                        <!-- <div class="form-group col-md-2 col-sm-3">
+                                <label class="control-label"><font color="navy"> Manager Code</font></label><br/>
+                                <span class="text">{{myTar.n1Code}} </span>
+                            </div> -->
+                        <div class="form-group col-md-2 col-sm-3">
+                            <label class="control-label"><font color="navy"><b>Remarks</b></font></label><br/>
+                                <span class="text">{{myTar.n1Remarks}} </span>
+                        </div>
+              </div>
+        </div>
+    
+            <div *ngIf=" myTar.tarStatus == 'ACC2-REJECTED'" class="card card-body">
+                    <!-- <h4 ><strong><b> Rejected by Account Manager</b></strong></h4><br> -->
+                <div class="row"> 
+                   
+                            <div class="form-group col-md-2 col-sm-3">
+                            <label class="control-label"><font color="navy"> Rejected by</font></label><br/>
+                            <span class="text">{{myTar.acc2EmployeeCode}} - {{myTar.acc2EmployeeName}}  </span> <br/>
+                            <span class="text">( Account 2 Manager ) </span>
+                            </div>
+                            <!-- <div class="form-group col-md-2 col-sm-3">
+                            <label class="control-label"><font color="navy">Account Manager Code</font></label><br/>
+                            <span class="text">{{myTar.acc2Code}} </span>
+                            </div> -->
+                            <div class="form-group col-md-2 col-sm-3">
+                            <label class="control-label"><font color="navy"> Remarks</font></label><br/>
+                                <span class="text">{{myTar.acc2Remarks}} </span>
+                            </div>
+                        </div>
+        </div>
+
+        <div *ngIf=" myTar.tarStatus == 'APPROVED'" class="card card-body">
+                <!-- <h4 ><strong><b> Account Manager</b></strong></h4><br> -->
+            <div class="row"> 
+               
+                    <div class="form-group col-md-2 col-sm-3">
+                            <label class="control-label"><font color="navy"> Approved by</font></label><br/>
+                            <span class="text">{{myTar.acc2EmployeeCode}} - {{myTar.acc2EmployeeName}}  </span> <br/>
+                            <span class="text">( Account 2 Manager ) </span>
+                            </div>
+                        <!-- <div class="form-group col-md-2 col-sm-3">
+                         <label class="control-label"><font color="navy">Account Manager Code</font></label><br/>
+                        <span class="text">{{myTar.acc2Code}} </span>
+                        </div> -->
+                        <div class="form-group col-md-2 col-sm-3">
+                        <label class="control-label"><font color="navy"> Remarks</font></label><br/>
+                            <span class="text">{{myTar.acc2Remarks}} </span>
+                        </div>
+
+                        <div class="form-group col-md-2 col-sm-3">
+                         <label class="control-label"><font color="navy">Net Advance Amount</font></label><br/>
+                        <span class="text">{{myTar.netAdvanceAmount}} </span>
+                        </div>
+                    </div>
+    </div>
+
+            <ng-template #vdetail let-c="close">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Are You Sure To Cancel This Request</h3>
+                        <button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+                    </div>        
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info waves-effect waves-light" (click)="cancleTar()">Yes</button>
+                            <button type="button" class="btn btn-default" (click)="back()">No</button>
+                        </div>
+                </ng-template>

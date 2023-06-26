@@ -1,0 +1,25 @@
+<ion-header translucent>
+  <ion-toolbar color="primary">
+    <ion-title>Notifications</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let item of notificationArray">
+    <ion-card-header>
+      <ion-card-subtitle>
+        {{item.notfnDt}}
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content >
+      <ion-label>
+          <ion-chip>
+            <ion-icon name="star" color="primary"></ion-icon>
+            <ion-label>{{item.eventDesc}}</ion-label>
+          </ion-chip>
+        <p>{{item.notfnMessage}}</p>
+      </ion-label>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

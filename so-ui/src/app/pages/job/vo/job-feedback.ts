@@ -1,0 +1,32 @@
+export class JobFeedback{
+    id?:string;
+    tJobId?:string;
+    employeeId?:string;
+    expStartDt?:Date;  
+    expEndDt?:Date;  
+    tJobProfileId?:string;
+    hasReported?:string;
+    hasDeparted?:string;
+    isJobTravelComplete?:string;
+    isJobAccComplete?:string;
+    reportedRemarks?:string;
+    departedRemarks?:string;
+    reportedDt?:Date;  
+    departedDt?:Date;  
+    clientFeedbackScore?:string;
+    clientFeedbackRemarks?:string;
+    jobCode?:string;
+    mJobTypeId?:string;
+    partnerId?:string;
+    endClientId?:string;
+    clientName?:string;
+    jobTypeName?:string;
+    jobLocation?:string;
+    jobName?:string;
+    endClientName?:string;
+    isEnabled?:string;
+    createdBy?:string;
+    modifiedBy?:string;
+    createdDt?:Date;
+    modifiedDt?:Date;  
+}

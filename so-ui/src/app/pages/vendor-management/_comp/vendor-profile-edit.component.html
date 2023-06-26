@@ -1,0 +1,256 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Edit Vendor</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+             <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="javascript:void(0)" [routerLink]="['/vendor/list']">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Edit Vendor</li>
+                <button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="save()">Save</button>
+
+                <button type="button" class="btn btn-info d-none d-lg-block m-l-15"  [routerLink]="['/vendor/list']">Back</button>
+            </ol>
+        </div>
+    </div>
+</div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <!-- Row -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <ngb-tabset>
+                    <ngb-tab>
+                        <ng-template ngbTabTitle><b>Internal</b> </ng-template>
+                        <ng-template ngbTabContent>
+                            <div class="row p-3">
+                                <div class="form-group col-md-4 text-md-left text-center show-image">
+                                    <img src="./assets/img/client/1.gif" alt="logo" height="200px" width="200px" />
+                                    <button type="submit" class="btn btn-success upload" (click)="open(content)">Change Logo</button>
+                                </div>
+                                <div class="col-md-8 text-left">
+                                    <div class="form-group">
+                                        <label class="control-label">Vendor Code</label>
+                                        <input type="text" id="vendorCode" class="form-control"[(ngModel)]="partner.vendorCode" [ngModelOptions]="{standalone: true}" placeholder="Vendor Code">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Vendor Abbreviation</label>
+                                        <input type="text" id="vendorName" maxlength="10"  class="form-control" [(ngModel)]="partner.vendorName" [ngModelOptions]="{standalone: true}" placeholder="Vendor Abbreviation">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Vendor Gst Number</label>
+                                        <input type="text" id="gstNo"   class="form-control" [(ngModel)]="partner.gstNo" [ngModelOptions]="{standalone: true}" placeholder="Vendor Gst Number">
+                                    </div>
+                                </div>
+                            </div>                            
+                        </ng-template>
+                        <ng-template #content let-c="close" let-d="dismiss">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="modal-basic-title">Vendor Logo update</h4>
+                                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="dateOfBirth">Please select new image</label>
+                                    <div class="col-12"><file-upload [buttonName]="'Upload Logo'" [fileDetail]="'CLIENT-Logo'" (change)="fileChange($event,'CLIENT-Logo','')"></file-upload></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Upload</button>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                        <ng-template ngbTabTitle><b>General Info</b> </ng-template>
+                        <ng-template ngbTabContent>
+                            <div class="p-3">
+                                <h4 class="box-title">Company Address</h4>
+                                <div class="row">
+                                    <div class="form-group col-12 col-md-4">
+                                        <label class="control-label">Address Line 1</label>
+                                        <input type="text" class="form-control form-control-line" [(ngModel)]="partner.addressLine1" [ngModelOptions]="{standalone: true}" placeholder="address line1">
+                                    </div>
+                                    <div class="form-group col-12 col-md-4">
+                                        <label class="control-label">Address Line 2</label>
+                                        <input type="text" class="form-control form-control-line"  [(ngModel)]="partner.addressLine2" [ngModelOptions]="{standalone: true}" placeholder="address line2">
+                                    </div>
+                                    <div class="form-group col-12 col-md-4">
+                                        <label class="control-label">City</label>
+                                        <input type="text" class="form-control form-control-line" [(ngModel)]="partner.city" [ngModelOptions]="{standalone: true}" placeholder="city">
+                                    </div>
+                                    <div class="form-group col-12 col-md-4">
+                                        <label class="control-label">State</label>
+                                        <input type="text" class="form-control form-control-line" [(ngModel)]="partner.state" [ngModelOptions]="{standalone: true}" placeholder="state">
+                                    </div>
+                                    <div class="form-group col-12 col-md-4">
+                                        <label class="control-label">Country</label>
+                                        <select  class="form-control form-control-line"  [(ngModel)]="partner.countryId">
+                                            <option *ngFor="let l of countries" [value]="l.id">{{l.countryName}}</option>
+                                            
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-12 col-md-4">
+                                        <label class="control-label">Pincode</label>
+                                        <input type="text" class="form-control form-control-line" [(ngModel)]="partner.tinNo" [ngModelOptions]="{standalone: true}" placeholder="Pincode">
+                                    </div>
+                                </div>
+                                <h4 class="box-title">Primary Contact</h4>
+                                <div class="row">
+                                    <div class="form-group col-12 col-md-4">
+                                        <label class="control-label">Name</label>
+                                        <input type="text" class="form-control form-control-line" [(ngModel)]="partner.priFirstName" [ngModelOptions]="{standalone: true}" placeholder="Name">
+                                    </div>
+                                    <div class="form-group col-12 col-md-4">
+                                        <label class="control-label">Mobile Number</label>
+                                        <input type="text" class="form-control form-control-line" [(ngModel)]="partner.mobileNo" [ngModelOptions]="{standalone: true}" placeholder="Mobile Number">
+                                    </div>
+                                    <div class="form-group col-12 col-md-4">
+                                        <label class="control-label">Landline Number</label>
+                                        <input type="text" class="form-control form-control-line" [(ngModel)]="partner.number" [ngModelOptions]="{standalone: true}" placeholder="Landline Number">
+                                    </div>
+                                    <div class="form-group col-12 col-md-4">
+                                        <label class="control-label">Email Id</label>
+                                        <input type="text" class="form-control form-control-line" [(ngModel)]="partner.emailId" [ngModelOptions]="{standalone: true}" placeholder="Email Id">
+                                    </div>
+                                </div>
+                                <h4 class="box-title">Billing Info</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-striped table-hover color-bordered-table theme-bordered-table" >
+                                        <thead>
+                                            <tr>
+                                                <th>Document Name</th>
+                                                <th>Document No</th>
+                                                <th>Proof</th>
+                                                <th>Upload</th>
+                                                <!-- <th>Upload</th> -->
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+  
+                                            <tr *ngFor="let e of partner?.partnerDocuments;let item=index ">
+                                                <td>
+                                                    <input type="text" class="form-control form-control-line" [(ngModel)]="e.docTypeName" [ngModelOptions]="{standalone: true}" placeholder="Document Name">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-control-line" [(ngModel)]="e.docNumber" [ngModelOptions]="{standalone: true}" placeholder="Document No" value="GSTIN00012345">
+                                                </td>
+                                                <td>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="read[{{item}}]"  [(ngModel)]="e.isAttached">
+                                                        <label class="custom-control-label" for="read[{{item}}]">GST Proof</label>
+                                                    </div>
+                                                    <!-- <input type="checkbox" checked disabled><label class="ml-2"> GST Proof</label> -->
+                                                </td>
+                                                <td><file-upload [fileDetail]="'VENDOR-BILLING'" (change)="fileChange($event,'VENDOR-BILLING',item)"></file-upload></td>
+                                                <td>
+                                                    <a href="javascript:void(0)" (click)="addVendorDoc()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+                                                    <a href="javascript:void(0)"  *ngIf="partner?.partnerDocuments.length > 1" (click)="delVendorDoc(item)"><i class="fa fa-close text-danger"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                        <ng-template ngbTabTitle><b>Vendor Contacts</b> </ng-template>
+                        <ng-template ngbTabContent>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover table-bordered" >
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Landline Number</th>
+                                                <th>Mobile Number</th>
+                                                <!-- <th>Landline Number</th> -->
+                                                <th>isManager</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let e of partner?.partnerEmployees;let item=index ">
+                                                <td>
+                                                    <input type="text" class="form-control form-control-line" [(ngModel)]="e.firstName" [ngModelOptions]="{standalone: true}"  placeholder="Name">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-control-line"  [(ngModel)]="e.landlineNo" [ngModelOptions]="{standalone: true}" placeholder="Landline Number">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-control-line" [(ngModel)]="e.mobileNo" [ngModelOptions]="{standalone: true}" placeholder="Mobile Number">
+                                                </td>
+                                                <!-- <td>
+                                                    <input type="text" class="form-control form-control-line" placeholder="Landline Number">
+                                                </td> -->
+                                                <td>
+                                                    <input type="checkbox" [(ngModel)]="e.managerId" [ngModelOptions]="{standalone: true}"class="ml-4">
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:void(0)" (click)="addVendorContact()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+                                                    <a href="javascript:void(0)" *ngIf="partner?.partnerEmployees.length > 1" (click)="delVendorContact(item)"><i class="fa fa-close text-danger"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                        <ng-template ngbTabTitle><b>Banking Account Information</b> </ng-template>
+                        <ng-template ngbTabContent>
+                            <div class="card-body">
+                                <div class="card group">
+                                    <div class="card card-body border border-secondary bg-light" *ngFor="let e of partner?.partnerAccountInfos; let item of index" >
+                                        <div class="d-flex flex-row flex-row-reverse">
+                                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true"  *ngIf="partner?.partnerAccountInfos.length > 1" (click)="delVendorBank(item)"><i class="fa fa-close"></i></span></button>
+                                            <button type="button" class="close mr-2" aria-label="Close" (click)="addVendorBank()"><span aria-hidden="true"><i class="fa fa-plus"></i></span></button>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-6 col-md-4">
+                                                <label class="control-label">Bank Account Number</label>
+                                                <input type="text" class="form-control form-control-line"  [(ngModel)]="e.bankAccountNo" [ngModelOptions]="{standalone: true}" placeholder="Bank Account Number">
+                                            </div>
+                                            <div class="form-group col-6 col-md-4">
+                                                <label class="control-label">Bank Account Name</label>
+                                                <input type="text" class="form-control form-control-line"  [(ngModel)]="e.bankAccountName" [ngModelOptions]="{standalone: true}" placeholder="Bank Account Name">
+                                            </div>
+                                            <div class="form-group col-6 col-md-4">
+                                                <label class="control-label">Bank Name</label>
+                                                <input type="text" class="form-control form-control-line" [(ngModel)]="e.bankName" [ngModelOptions]="{standalone: true}" placeholder="Bank Name">
+                                            </div>
+                                            <div class="form-group col-6 col-md-4">
+                                                <label class="control-label">Bank Branch Name</label>
+                                                <input type="text" class="form-control form-control-line"  [(ngModel)]="e.bankBranchName" [ngModelOptions]="{standalone: true}" placeholder="Bank Branch Name">
+                                            </div>
+                                            <div class="form-group col-6 col-md-4">
+                                                <label class="control-label">IFSC Code</label>
+                                                <input type="text" class="form-control form-control-line"  [(ngModel)]="e.ifscCode" [ngModelOptions]="{standalone: true}" placeholder="IFSC Code">
+                                            </div>
+                                            <div class="form-group col-6 col-md-4">
+                                                <label class="control-label">Others</label>
+                                                <textarea class="form-control form-control-line" rows="3" [(ngModel)]="e.others" [ngModelOptions]="{standalone: true}" placeholder="Others"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+            </div>
+        </div>
+    </div>    
+</div>   

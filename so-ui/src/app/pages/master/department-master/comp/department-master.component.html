@@ -1,0 +1,111 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Department Master</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Department Master </li>
+            </ol>
+            
+            <a href="javascript:void(0)" (click)="create()">
+                <button type="button" class="btn btn-info d-none d-lg-block m-l-15">
+                    <i class="fa fa-plus-circle"></i> Add </button>
+            </a>
+            
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+              <div class="table-responsive m-t-40">
+                  <flag-alert [message]="saveMsg"></flag-alert>
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                  <th data-sort-initial="true" data-toggle="true">#</th>                                 
+                                  <th data-sort-initial="true" data-toggle="true">Department Name</th>
+                                  <th data-sort-initial="true" data-toggle="true">Department Code</th>
+                                  <th data-sort-initial="true" data-toggle="true">Remarks</th>
+                                  <th data-sort-initial="true" data-toggle="true">Options</th> 
+                            </tr>
+                        </thead>
+                       <tbody>
+                                <tr *ngFor="let t of rows | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index ">
+                                        <td>{{i+1}}</td>                                      
+                                        <td>{{t.deptName}}</td>
+                                        <td> {{t.deptCode}} </td>
+                                        <td>{{t.remarks}}</td>
+                            <td class="text-nowrap">
+                                    <a href="javascript:void(0)"><i class="fa fa-pencil text-inverse m-r-10" (click)="show(t.id);"></i> </a>
+                                    <confirm-delete [type]="'icon'" (confirmed)="delete(t.id)"></confirm-delete>
+                            </td>
+                           </tr>
+                      </tbody>
+                    </table>
+                    <ngb-pagination 
+                    [(page)]="page"
+                    [pageSize]="pageSize"
+                    [collectionSize]="rows.length"></ngb-pagination>
+                    <pre>Current page: {{page}}</pre>
+                 </div>
+              </div>
+            </div>
+          </div>
+    </div>
+
+    <ng-template #cdetail let-c="close">
+            <div class="modal-header">
+                <h3 class="modal-title">Department Master</h3>
+                <button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-4 form-group" [ngClass]="{'has-danger': bName.invalid && (bName.dirty || bName.touched)}">
+                        <label class="control-label">Department Name</label>
+                          <input type="text" class="form-control"  #bName="ngModel" placeholder="Department Name"  [(ngModel)]="department.deptName"> 
+                        <div *ngIf="bName.invalid && (bName.dirty || bName.touched)">
+                            <small class="form-control-feedback" *ngIf="bName.errors.required">deptName is required.</small>
+                        </div>
+                   </div>
+                   <div class="col-4 form-group" [ngClass]="{'has-danger': bName.invalid && (bName.dirty || bName.touched)}">
+                        <label class="control-label">Department Code</label>
+                          <input type="text" class="form-control"  #bName="ngModel" placeholder="Department Code"  [(ngModel)]="department.deptCode"> 
+                        <div *ngIf="bName.invalid && (bName.dirty || bName.touched)">
+                            <small class="form-control-feedback" *ngIf="bName.errors.required">deptCode is required.</small>
+                        </div>
+                   </div>
+                   <div class="col-4 form-group" [ngClass]="{'has-danger': bName.invalid && (bName.dirty || bName.touched)}">
+                        <label class="control-label">Remarks</label>
+                          <input type="text" class="form-control"  #bName="ngModel" placeholder="Remarks"  [(ngModel)]="department.remarks"> 
+                        <div *ngIf="bName.invalid && (bName.dirty || bName.touched)">
+                            <small class="form-control-feedback" *ngIf="bName.errors.required">remarks is required.</small>
+                        </div>
+                   </div>
+                   <div class="col-4 form-group" [ngClass]="{'has-danger': bName.invalid && (bName.dirty || bName.touched)}">
+                        <label class="control-label">Is Enabled</label>
+                          <select class="form-control"  #bName="ngModel" placeholder="Is Enabled"  [(ngModel)]="department.isEnabled"> 
+                          <option >Y</option>
+                          <option >N</option>  
+                          </select>
+                          <div *ngIf="bName.invalid && (bName.dirty || bName.touched)">
+                            <small class="form-control-feedback" *ngIf="bName.errors.required">Is Enabled is required.</small>
+                        </div>
+                   </div>
+                 
+                  
+             </div>
+
+               
+            </div>
+              
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning"  (click)="save();">Save</button>
+                <button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+            </div>
+        </ng-template>     

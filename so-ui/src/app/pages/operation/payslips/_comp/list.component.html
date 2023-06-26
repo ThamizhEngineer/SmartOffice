@@ -1,0 +1,129 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Upload Payslips</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item">HR Operation</li>
+				<li class="breadcrumb-item active">Upload Payslips</li>
+			</ol>
+			<button class="btn btn-info d-none d-lg-block m-l-15" type="button" [routerLink]="['/operation/upload-payslips/new']"><i class="fa fa-plus-circle"></i> Upload Payload Data</button>
+			<a class="btn btn-primary" href="assets/CSV/Payslip-updated.csv"><i class="fa fa-file-pdf-o"></i> payslip Template</a>			  
+		</div>
+	</div>
+</div>
+
+<div *ngIf="advSearch==true" class="card card-body">
+    <div class="form-body">
+        <div class="form-body">
+               
+                    <div  class="row p-t-20">
+					<div class="form-group col-md-2">
+                            <label>Month</label>
+                            <select class="form-control form-control-line"  [(ngModel)]="payMonth">
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+								<option>5</option>
+								<option>6</option>
+								<option>7</option>
+								<option>8</option>
+								<option>9</option>
+								<option>10</option>
+								<option>11</option>
+								<option>12</option>
+							</select>
+                        </div>               
+                    <div class="form-group col-md-2">
+                            <label>Year</label>
+                            <select class="form-control" [(ngModel)]="payYear" placeholder="year">                                           
+                                <option value="2015" >2015</option>
+                                <option value="2016" >2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <label>Overwrite Flag</label>
+                            <select class="form-control" [(ngModel)]="isOverwriteFlag" placeholder="OverwriteFlag">                                           
+                                <option value="Y" >Y</option>
+                                <option value="N" >N</option>                                                                          
+                            </select>
+                        </div>                                                                                                                      
+                                    <div class="form-group col-md-2">
+                                        <label></label>
+                                            <button [disabled]="!payMonth || !payYear || !isOverwriteFlag" type="button" style="width:70%" class="btn btn-info d-block m-l-15" (click)="search()"> Search</button>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                                <label></label>
+                                            <button type="button" style="width:70%" class="btn btn-success d-block m-l-15" (click)="reset()"> Reset</button>
+                                        </div>
+                                
+                </div>
+            </div>
+</div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-12 card card-body">
+
+		<div (click)="advanceSearch()" ngbTooltip="Advance Search">
+			<label></label><br/>                                                
+			<a class="btn btn-info"><i class="fa fa-filter" aria-hidden="true"></i></a>
+		</div>
+		<br>
+		<br>
+
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>UploadCode</th>
+						<th>UploadDateTime</th>
+						<th>ProcessStatus</th>
+						<th>OverWrited Record</th>
+						<th>Pay Month & Year </th>
+						<th>RecordsUploaded</th>
+						<th>SuccessCount</th>
+						<th>Remarks</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let u of uploadPayslipHdrList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+						<td>{{u.id}}</td>
+						<td>{{u.upload_datetime | date : 'dd/MM/y HH:mm'}}</td>
+						<td><span class="label label-{{statuses[u.process_status]}}">{{u.process_status}}</span></td>
+							<td><span class="label label-{{statuses[u.isOverwriteFlag]}}">{{u.isOverwriteFlag}}</span></td>
+						<td>{{u.payMonth}}-{{u.payYear}}</td>
+						<td>{{u.records_uploaded}}</td>
+						<td>{{u.success_count}}</td>
+						<td>{{u.remarks}}</td>
+						<td class="text-nowrap">
+							<a href="javascript:void(0)" style="font-size:23px" (click)="navigateToDetailPage(u.id)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-eye" ></i> </a>																		  
+						</td>
+						<!-- <td class="text-center"><a [routerLink]="['/operation/upload-payslips/detail']"><i class="fa fa-search text-info"></i></a></td> -->
+					</tr>			 
+				</tbody>
+			</table>
+			<ngb-pagination 
+			[(page)]="page"
+			[pageSize]="pageSize"
+			[collectionSize]="uploadPayslipHdrList.length"></ngb-pagination>
+
+			<pre>Current page: {{page}}</pre>
+		</div>
+	</div>
+</div>

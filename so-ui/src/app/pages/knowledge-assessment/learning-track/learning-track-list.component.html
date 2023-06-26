@@ -1,0 +1,259 @@
+<div class="row page-titles">
+		<div class="col-md-5 align-self-center">
+			<h4 class="text-themecolor">Learning Videos </h4>
+		</div>
+		<div class="col-md-7 align-self-center text-right">
+			<div class="d-flex justify-content-end align-items-center">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="javascript:void(0)">Home</a>
+					</li>
+					<li class="breadcrumb-item active">Videos</li>
+				</ol>
+				<button type="button" [routerLink]="['/knowledge-assessment/learning-track/learning-track-detail']" class="btn btn-info d-block m-l-15"><i class="fa fa-plus-circle"></i> Upload Videos</button>
+			</div>
+		</div>
+	</div>
+	
+		<div class="row">
+			<div class="col-3">					
+				<div class="card card-body custom-card">						
+					<div class="row m-t-10">						
+						<div class="card-title col-10"><h4>Create Load Flow with ETAP</h4></div>				
+						<i class="fa fa-play" placement="top" ngbTooltip="play" (click)="videoDetail($event);">
+						
+					</i>
+					</div>
+				
+					
+				
+				</div>
+			</div>
+			<div class="col-3">
+				<div class="card card-body custom-card">
+					<div class="row m-t-10">
+						<div class="card-title col-10"><h4>Create Load Flow ETAP - Part 2</h4></div>
+						<i class="fa fa-play" placement="top" ngbTooltip="play" (click)="videoDetail1($event);">
+						
+					</i>
+					</div>
+				
+					
+				
+				</div>
+			</div>
+			<div class="col-3">
+				<div class="card card-body custom-card">
+					<div class="row m-t-10">
+						<div class="card-title col-10"><h4>Unsymmetrical Fault Power System Analysis</h4></div>
+						<i class="fa fa-play" placement="top" ngbTooltip="play" (click)="videoDetail2($event);">
+						
+					</i>
+					</div>
+				
+					
+				
+				</div>
+			</div>
+			<div class="col-3">
+				<div class="card card-body custom-card">
+					<div class="row m-t-10">
+						<div class="card-title col-10"><h4>Power Transmission & Distribution</h4></div>
+						<i class="fa fa-play" placement="top" ngbTooltip="play" (click)="videoDetail3($event);">
+						
+					</i>
+					</div>
+				
+					
+				
+				</div>
+			</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-3">
+					<div class="card card-body custom-card">
+						<div class="row m-t-10">
+							<div class="card-title col-10"><h4>Principles of Symmetrical Components</h4></div>
+							<i class="fa fa-play" placement="top" ngbTooltip="play" (click)="videoDetail4($event);">
+							
+						</i>
+						</div>
+					
+						
+					
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="card card-body custom-card">
+						<div class="row m-t-10">
+							<div class="card-title col-10"><h4>Protection relay_ Power system protection</h4></div>
+							<i class="fa fa-play" placement="top" ngbTooltip="play" (click)="videoDetail5($event);">
+							
+						</i>
+						</div>
+					
+						
+					
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="card card-body custom-card">
+						<div class="row m-t-10">
+							<div class="card-title col-10"><h4>How Relay works...</h4></div>
+							<i class="fa fa-play" placement="top" ngbTooltip="play" (click)="videoDetail6($event);">
+							
+						</i>
+						</div>
+					
+						
+					
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="card card-body custom-card">
+						<div class="row m-t-10">
+							<div class="card-title col-10"><h4>Load Flow Calculation in ETAP</h4></div>
+							<i class="fa fa-play" placement="top" ngbTooltip="play" (click)="videoDetail7($event);">
+							
+						</i>
+						</div>
+					
+						
+					
+					</div>
+				</div>
+	
+	
+	
+	
+				</div>
+	
+	
+				<ng-template #uploadVideo let-c="close">
+			
+		
+					<div class="col-13">
+							<div class="card card-body custom-card">
+						<label>Video source</label>
+					
+			<input  type="file" id="file">
+			<small class="form-control-feedback" >Video Must be In Mp4 format.</small>
+					</div>
+				</div>
+							
+						
+				
+				</ng-template>
+	
+	
+				<ng-template #videoContent let-c="close">
+			
+		
+				
+					<video width="800" controls #video (loadedmetadata)="onMetadata($event, video,0)">
+						
+						<source  [src]="videos[0].videoUrl" type="video/mp4" />
+					  </video>
+			
+				
+			
+	
+	</ng-template>
+	
+		
+	
+	
+		<ng-template #videoContent1 let-c="close">
+			
+		
+				
+			<video  width="800" controls #video (loadedmetadata)="onMetadata($event, video,1)">
+				
+				<source  [src]="videos[1].videoUrl" type="video/mp4" />
+			  </video>
+	
+		
+	
+	
+	</ng-template>
+	<ng-template #videoContent2 let-c="close">
+			
+		
+				
+		<video  width="800" controls #video (loadedmetadata)="onMetadata($event, video,2)">
+			
+			<source  [src]="videos[2].videoUrl" type="video/mp4" />
+		  </video>
+	
+	
+		
+	
+	</ng-template>
+	<ng-template #videoContent3 let-c="close">
+			
+		
+				
+		<video width="800" controls #video (loadedmetadata)="onMetadata($event, video,3)">
+			
+			<source  [src]="videos[3].videoUrl" type="video/mp4" />
+		  </video>
+	
+	
+	
+	
+	</ng-template>
+	<ng-template #videoContent4 let-c="close">
+			
+		
+				
+		<video width="800" controls #video (loadedmetadata)="onMetadata($event, video,4)">
+			
+			<source  [src]="videos[4].videoUrl" type="video/mp4" />
+		  </video>
+	
+	
+	
+	
+	</ng-template>
+	<ng-template #videoContent5 let-c="close">
+			
+		
+				
+		<video  width="800" controls #video (loadedmetadata)="onMetadata($event, video,5)">
+			
+			<source  [src]="videos[5].videoUrl" type="video/mp4" />
+		  </video>
+	
+	
+	
+	
+	</ng-template>
+	<ng-template #videoContent6 let-c="close">
+			
+		
+				
+		<video  width="800" autoplay controls  #video (loadedmetadata)="onMetadata($event, video,6)">
+			
+			<source  [src]="videos[6].videoUrl" type="video/mp4" />
+		  </video>
+	
+	
+	
+	
+	</ng-template>
+	<ng-template #videoContent7 let-c="close">
+			
+		
+				
+		<video width="800" autoplay #video download="false" (loadedmetadata)="onMetadata($event, video,7)"	>
+			
+			<source  [src]="videos[7].videoUrl" type="video/mp4" />
+		  </video>
+	
+	
+	
+	
+	</ng-template>
+	
+	

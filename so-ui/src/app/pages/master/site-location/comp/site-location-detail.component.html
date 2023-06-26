@@ -1,0 +1,166 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+      <h4 *ngIf="siteLocation.id!=null" class="text-themecolor"> Site Location Detail</h4>
+      <h4 *ngIf="siteLocation.id==null" class="text-themecolor"> Create Site Location</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+      <div class="d-flex justify-content-end align-items-center">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+          <li *ngIf="siteLocation.id!=null" class="breadcrumb-item active"> Site Location Detail </li>
+          <li *ngIf="siteLocation.id==null" class="breadcrumb-item active"> Create Site Location </li>
+        </ol>    
+        <button type="button" [routerLink]="['/job/site-location']"  class="btn btn-outline-info"> Back </button>        
+      </div>
+    </div>
+</div>
+
+
+<div class="card">  
+
+  <!-- only view access -->
+
+  <div *ngIf="!isEdit" class="card-body">
+
+    <div class="row form-group">
+        <div class="form-group col-md-2 col-sm-3">   
+            <label class="textColor">Site Name</label><br/>             
+            <span> {{siteLocation.siteName}}</span>
+          </div> 
+          <div class="form-group col-md-2 col-sm-3">
+              <label class="textColor">Site Address</label><br/>             
+              <span> {{siteLocation.siteAddress}}</span>
+          </div>
+          <div class="form-group col-md-2 col-sm-3">
+            <label class="textColor">Country</label><br/>             
+            <span> {{siteLocation.country}}</span>
+          </div> 
+          <div class="form-group col-md-2 col-sm-3">
+            <label class="textColor">End Client Name</label><br/>             
+            <span> {{siteLocation.endClientName}}</span>
+          </div> 
+          
+          <div class="form-group col-md-2 col-sm-3">
+            <label class="textColor">Contact Name</label><br/>             
+            <span> {{siteLocation.contactName}}</span>
+          </div> 
+          <div class="form-group col-md-2 col-sm-3">
+            <label class="textColor">Mobile Number</label><br/>             
+            <span> {{siteLocation.mobileNumber}}</span>
+          </div>
+          
+          <div class="form-group col-md-2 col-sm-3">
+            <label class="textColor">Location</label><br/>             
+            <span> {{siteLocation.mapLocationName}}</span>
+          </div>
+
+          <div class="form-group col-md-2 col-sm-3">
+            <label class="textColor">Latitude</label><br>
+            <span>{{siteLocation.lats}}</span>
+          </div>
+
+          <div class="form-group col-md-2 col-sm-3">
+            <label class="textColor">Longitude</label><br>
+            <span>{{siteLocation.longs}}</span>
+          </div>
+
+              
+    </div>
+
+</div>
+
+<style>
+  .textColor {
+      color: #0b0ff3;
+  }
+</style>
+
+    <!-- edit and delete access -->
+
+
+    <div *ngIf="isEdit" class="card-body">
+
+        <div class="row">
+            <div class="col-4">   
+                <label>Site Name</label>  
+                <form [formGroup]="myGroup">
+                  <input type="text" class="form-control form-control-line" (keypress)="commonService.isValidName($event)" formControlName="siteName" placeholder="Site Name" (keypress)="commonService.isValidName($event)"  [(ngModel)]="siteLocation.siteName" />
+                </form>                          
+              </div> 
+              <div class="col-4">
+                  <label>Site Address</label>
+                  <form [formGroup]="myGroup">
+                  <textarea  id="address"  class="form-control form-control-line" formControlName="siteAddress" placeholder="Site Address" (keypress)="commonService.isValidName($event)" [(ngModel)]="siteLocation.siteAddress" rows="5"></textarea>
+                </form>
+                </div>
+              <div class="col-4">
+                <label>Country</label>
+                <form [formGroup]="myGroup">
+                <select class="form-control form-control-line" formControlName="country" [(ngModel)]="siteLocation.country">
+                  <option *ngFor="let c of countries" [value]="c.countryName">{{c.countryName}}</option>
+              </select>
+                </form>
+                <!-- <input type="text" class="form-control form-control-line" placeholder="Country"  [(ngModel)]="siteLocation.country" /> -->
+              </div> 
+              <div class="col-4">
+                <label>End Client Name</label>
+                <input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                class="form-control" [ngbTypeahead]="searchClient"
+                [resultTemplate]="client" [inputFormatter]="clientFormatter"
+                placeholder="Search Client" (selectItem)="onClientSelect($event)"
+                [value]="siteLocation.endClientName" [editable]='false' ngbtypeaheadpopup>
+            <ng-template #client let-r="result" let-t="term">
+                {{r.clientName}}
+            </ng-template>
+                <!-- <input type="text" class="form-control form-control-line" placeholder="End Client Name"  [(ngModel)]="siteLocation.endClientName" /> -->
+              </div> 
+              
+              <div class="col-4">
+                <label>Contact Name</label>
+                <form [formGroup]="myGroup">
+                <input type="text" class="form-control form-control-line" formControlName="contactName" placeholder="Contact Name" (keypress)="commonService.isValidName($event)" [(ngModel)]="siteLocation.contactName" />
+                </form>
+              </div> 
+              <div class="col-4">
+                <label>Mobile Number</label>
+                <form [formGroup]="myGroup">
+                <input type="number" class="form-control form-control-line" formControlName="contactNumber" placeholder="Mobile Number"  [(ngModel)]="siteLocation.mobileNumber" />
+                </form>
+              </div>
+              
+              <div class="col-4">
+                <label>Location</label>
+                <form [formGroup]="myGroup">
+                <map-view [value]="siteLocation.mapLocationName" (location)="onLocationSelected($event)" ></map-view>
+                </form>
+              </div>
+
+              <div class="col-4">
+                <label>Latitude</label><br>
+                <span>{{siteLocation.lats}}</span>
+              </div>
+
+              <div class="col-4">
+                <label>Longitude</label><br>
+                <span>{{siteLocation.longs}}</span>
+              </div>
+
+              <div *ngIf="siteLocation.id==null" class="col-3">
+                 <br/>
+                 <button type="button" [disabled]="!myGroup.valid" (click)="saveSiteLocation()" class="btn btn-outline-success">Save</button>                   
+              </div>  
+              
+              <div *ngIf="siteLocation.id!=null" class="col-3">
+                <br/>
+                <button type="button" [disabled]="!myGroup.valid" (click)="saveSiteLocation()" class="btn btn-outline-warning">Update</button>                   
+             </div>  
+             
+             <div *ngIf="siteLocation.id!=null" class="col-3">
+              <br/>
+              <confirm-delete [type]="'submit'" [typeString]="'Site Location'" (confirmed)="deleteSite()"></confirm-delete>
+             </div>
+
+        </div>
+
+    </div>
+</div>

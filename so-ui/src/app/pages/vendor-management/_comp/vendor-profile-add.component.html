@@ -1,0 +1,140 @@
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Add Vendor</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="javascript:void(0)" [routerLink]="['/vendor/list']">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Add Vendor</li>
+               
+            </ol>
+        </div>
+    </div>
+</div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row ">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+               <ngb-tabset>
+                   <ngb-tab>
+                    <ng-template ngbTabTitle><b>Internal</b></ng-template>
+                    <ng-template ngbTabContent>
+                       
+                        <div class="row">
+                            <div class="form-group col-12">
+                                <label class="control-label">Company Name</label>
+                                <input type="text" class="form-control form-control-line" [(ngModel)]="partner.companyName" [ngModelOptions]="{standalone: true}" placeholder="Company Name">
+                            </div>
+                        </div>
+                        <h4 class="box-title">Primary Contact</h4>
+                        <div class="row">
+                            <div class="form-group col-12 col-md-6" [ngClass]="{'has-danger': vname.invalid && (vname.dirty || vname.touched)}">
+                                <label class="control-label">Name</label>
+                                <input type="text" class="form-control form-control-line" required pattern="[a-zA-Z0-9][a-zA-Z0-9]+" #vname="ngModel" [(ngModel)]="partner.companyName" [ngModelOptions]="{standalone: true}" placeholder="Name">
+                                <div *ngIf="vname.invalid && (vname.dirty || vname.touched)">
+                                        <small class="form-control-feedback" *ngIf="vname?.errors.required">Name is required.</small>
+                                        <!-- <small class="form-control-feedback" *ngIf="vname?.errors.pattern">Name must be within alphanumeric.</small> -->
+                                    </div>
+                            </div>
+                            <div class="form-group col-12 col-md-6" [ngClass]="{'has-danger': cno.invalid && (cno.dirty || cno.touched)}">
+                                <label class="control-label">Mobile Number</label>
+                                <input type="text" class="form-control form-control-line" required pattern="[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}" #cno="ngModel"[(ngModel)]="partnerContact.mobileNo" [ngModelOptions]="{standalone: true}" placeholder="Mobile Number">
+                                <div *ngIf="cno.invalid && (cno.dirty || cno.touched)">
+                                        <small class="form-control-feedback" *ngIf="cno?.errors.required">Mobile Number is required.</small>
+                                        <small class="form-control-feedback" *ngIf="cno?.errors.pattern">Mobile Number must be 10 digits.</small>
+                                    </div>
+                            </div>
+                            <div class="form-group col-12 col-md-6">
+                                <label class="control-label">Landline Number</label>
+                                <input type="text" class="form-control form-control-line" [(ngModel)]="partnerContact.number" [ngModelOptions]="{standalone: true}" placeholder="Landline Number">
+                            </div>
+                            <div class="form-group col-12 col-md-6" [ngClass]="{'has-danger': vemail.invalid && (vemail.dirty || vemail.touched)}">
+                                <label class="control-label">Email Id</label>
+                                <input type="email" class="form-control form-control-line" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" #vemail="ngModel" [(ngModel)]="partner.emailId" [ngModelOptions]="{standalone: true}" placeholder="Email Id">
+                                <div *ngIf="vemail.invalid && (vemail.dirty || vemail.touched)">
+                                        <small class="form-control-feedback" *ngIf="vemail?.errors.pattern">please enter valid email.</small>
+                                    </div>
+                            </div>
+                           
+                          
+                          
+                        </div>
+                        <div class="row ">
+                            <div class="form-group col-12 col-md-6">
+                                <button type="submit" style="width:100px;" class="btn btn-info waves-effect waves-light mr-1" (click)="addVendor()">Add Vendor</button> 
+                                <button type="submit" style="width:75px;" class="btn btn-warning waves-effect waves-light" [routerLink]="['']">Cancel</button>   
+                            </div>
+                        </div>
+                    </ng-template>
+                   </ngb-tab>
+                   <!-- <ngb-tab>
+                    <ng-template ngbTabTitle><b>Banking Account Information</b> </ng-template>
+                    <ng-template ngbTabContent>
+                        <div class="card-body">
+                            <div class="card group">
+                                <div class="card card-body border border-secondary bg-light" >
+                                    <div class="d-flex flex-row flex-row-reverse">
+                                        <button type="button" class="close" aria-label="Close"><span aria-hidden="true"  *ngIf="partner?.partnerAccountInfos.length > 1" (click)="delVendorBank(item)"><i class="fa fa-close"></i></span></button>
+                                        <button type="button" class="close mr-2" aria-label="Close" (click)="addVendorBank()"><span aria-hidden="true"><i class="fa fa-plus"></i></span></button>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-6 col-md-4">
+                                            <label class="control-label">Bank Account Number</label>
+                                            <input type="text" class="form-control form-control-line"  [(ngModel)]="e.bankAccountNo" [ngModelOptions]="{standalone: true}" placeholder="Bank Account Number">
+                                        </div>
+                                        <div class="form-group col-6 col-md-4">
+                                            <label class="control-label">Bank Account Name</label>
+                                            <input type="text" class="form-control form-control-line"  [(ngModel)]="e.bankAccountName" [ngModelOptions]="{standalone: true}" placeholder="Bank Account Name">
+                                        </div>
+                                        <div class="form-group col-6 col-md-4">
+                                            <label class="control-label">Bank Name</label>
+                                            <input type="text" class="form-control form-control-line" [(ngModel)]="e.bankName" [ngModelOptions]="{standalone: true}" placeholder="Bank Name">
+                                        </div>
+                                        <div class="form-group col-6 col-md-4">
+                                            <label class="control-label">Bank Branch Name</label>
+                                            <input type="text" class="form-control form-control-line"  [(ngModel)]="e.bankBranchName" [ngModelOptions]="{standalone: true}" placeholder="Bank Branch Name">
+                                        </div>
+                                        <div class="form-group col-6 col-md-4">
+                                            <label class="control-label">IFSC Code</label>
+                                            <input type="text" class="form-control form-control-line"  [(ngModel)]="e.ifscCode" [ngModelOptions]="{standalone: true}" placeholder="IFSC Code">
+                                        </div>
+                                        <div class="form-group col-6 col-md-4">
+                                            <label class="control-label">Others</label>
+                                            <textarea class="form-control form-control-line" rows="3" [(ngModel)]="e.others" [ngModelOptions]="{standalone: true}" placeholder="Others"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab> -->
+               
+               </ngb-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<style>
+  .table-responsive{
+    display: block;
+    width: 97%;
+    margin-left: 22px;
+    overflow-x: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+h4.box-title {
+    margin-left: 15px;
+}
+</style>

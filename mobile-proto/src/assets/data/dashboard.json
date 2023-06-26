@@ -1,0 +1,7 @@
+{"link":[
+  { "title": "My TAR", "icon": "fa-plane", "color": "success", "url": "tar"},
+  { "title": "Expense Claim", "icon": "fa-credit-card", "color": "tertiary", "url": "expense-claim"},
+  { "title": "Leave", "icon": "fa-sign-out-alt", "color": "tertiary", "url": "leave"},
+  { "title": "Attendance", "icon": "fa-sign-out-alt", "color": "tertiary", "url": "attendance"}
+
+]}

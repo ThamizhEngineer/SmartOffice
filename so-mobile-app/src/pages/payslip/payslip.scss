@@ -1,0 +1,23 @@
+page-payslip {
+    ion-row{
+        border-bottom:0.5px solid #ca8d8d;
+    }
+
+    .header > ion-col{
+        font-size:16px;
+        font-weight: bold;
+        color: brown;
+    }
+
+    .fa-download{
+        color: dodgerblue;
+    }
+
+    ion-content{
+        background-color: snow !important;
+    }
+
+    ion-row.content:nth-child(even) {
+        background: #d6e5f3;
+    }
+}

@@ -1,0 +1,4 @@
+<!-- Theme Tabs Footer tab - text -->
+<ion-tabs #tabs tabsPlacement="bottom">
+    <ion-tab [tabTitle]="item.title" [tabIcon]="item.icon" [root]="item.page" [tabBadge]="item.badgeCount" [tabBadgeStyle]="item.style" tabsHideOnSubPages="true" *ngFor="let item of data;let i = index"></ion-tab>
+</ion-tabs>

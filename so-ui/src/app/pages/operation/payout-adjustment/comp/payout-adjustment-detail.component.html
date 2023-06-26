@@ -1,0 +1,328 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Payout-adjusted-detail</h4>
+        <ol class="breadcrumb">
+				<li class="breadcrumb-item active">Pay Month: {{this.empCode.payMonth}} </li>
+                <li class="breadcrumb-item active">Pay Year: {{this.empCode.payYear}} </li>
+			</ol>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Payout-adjusted</a>
+				</li>
+                <li class="breadcrumb-item active">Payout-adjusted-detail</li>
+			</ol>
+			<div class="form-group col-1">
+                    <a [routerLink]="['/operation/payout-adjustment/list']"><button type="submit" class="btn btn-warning waves-effect waves-light m-t-10" >Back</button></a>
+                </div>
+		</div>
+	</div>
+</div> 
+
+<div class="row">
+        <!-- <div class="col-4 form-group">
+                <label class="control-label">Pay Month</label>
+                <span class="label label-default">{{this.empCode.payMonth}} </span>	
+                <label class="control-label">Pay Year</label>
+                <span class="label label-default">{{this.empCode.payYear}} </span>	
+                </div> -->
+	<div class="col-12 card card-body">
+		<flag-alert [message]="saveMsg"></flag-alert>
+		<div class="table-responsive">
+			<table class="table table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Employee Code</th>
+                        <th scope="col">From Date</th>
+                        <th scope="col">To Date</th>
+                        <th scope="col">Allowance Code1</th>
+                        <th scope="col">Allowance Amount1</th>
+                        <th scope="col">Allowance Code2</th>
+                        <th scope="col">Allowance Amount2</th>
+                        <th scope="col">Allowance Code3</th>
+                        <th scope="col">Allowance Amount3</th>
+                        <th scope="col">Allowance Code4</th>
+                        <th scope="col">Allowance Amount4</th>
+                        <th scope="col">Allowance Code5</th>
+                        <th scope="col">Allowance Amount5</th>
+                        
+                        <th scope="col">Deduction Code1</th>
+                        <th scope="col">Deduction Amount1 </th>
+                        <th scope="col">Deduction Code2</th>
+                        <th scope="col">Deduction Amount2</th>
+                        <th scope="col">Deduction Code3</th>
+                        <th scope="col">Deduction Amount3</th>
+                        <th scope="col">Deduction Code4</th>
+                        <th scope="col">Deduction Amount4</th>
+                        <th scope="col">Deduction Code5</th>
+                        <th scope="col">Deduction Amount5</th>
+                        <th scope="col">Option</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let p of rows ;let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{p.empCode}}</td>
+                        <td>{{p.fromDt}}</td>
+                        <td>{{p.lopDays}}</td>
+                        <td>{{p.allw_1_code}}</td>
+                        <td>{{p.allw_1_amount}}</td>
+                        <td>{{p.allw_2_code}}</td>
+                        <td>{{p.allw_2_amount}}</td>
+                        <td>{{p.allw_3_code}}</td>
+                        <td>{{p.allw_3_amount}}</td>
+                        <td>{{p.allw_4_code}}</td>
+                        <td>{{p.allw_4_amount}}</td>
+                        <td>{{p.allw_5_code}}</td>
+                        <td>{{p.allw_5_amount}}</td>
+                        
+                        <td>{{p.ded_1_code}}</td>
+                        <td>{{p.ded_1_amount}}</td>
+                        <td>{{p.ded_2_code}}</td>
+                        <td>{{p.ded_2_amount}}</td>
+                        <td>{{p.ded_3_code}}</td>
+                        <td>{{p.ded_3_amount}}</td>
+                        <td>{{p.ded_4_code}}</td>
+                        <td>{{p.ded_4_amount}}</td>
+                        <td>{{p.ded_5_code}}</td>
+                        <td>{{p.ded_5_amount}}</td>
+                        
+						
+						<td class="text-nowrap">
+                                <a href="javascript:void(0)" (click)="createNew()" data-toggle="tooltip" data-original-title="Edit"> 
+                                        <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+							<a href="javascript:void(0)" (click)="showDetail(p.id);">
+								<i class="fa fa-pencil text-inverse m-r-10"></i>
+							</a>
+							<confirm-delete [type]="'icon'" (confirmed)="deleteRow(p.id)"></confirm-delete>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<ng-template #vdetail let-c="close">
+	<div class="modal-header">
+		<h3 class="modal-title">Payout-Adjustment Detail</h3>
+		<button type="button" class="close" (click)="c()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+		<div class="col-6 form-group">				
+			<label class="control-label">Pay Month</label>
+			<span class="label label-default">{{payout.payMonth}} </span>					
+        </div>
+        <div class="col-6 form-group">				
+			<label class="control-label">Pay Year</label>
+			<span class="label label-default">{{payout.payYear}} </span>					
+        </div>
+        </div>
+    </div>
+    
+   
+                        <div class="modal-body">
+                                <div class="row">
+                                        
+    <div class="col-4 form-group" >
+        <label class="control-label">Emp Code</label>
+        <select  class="form-control" [(ngModel)]="payout.empCode">
+                <option *ngFor="let v of ro" [value]="v.empCode">{{v.empCode}}</option>
+            </select>
+</div>
+<div class="col-sm-4">
+        <label class="control-label">From Date</label>
+        <div class="form-group">
+            <input type="date" placeholder="From Date" class="form-control" [(ngModel)]="payout.fromDt" [ngModelOptions]="{standalone: true}">
+        </div>
+    </div>
+    <div class="col-sm-4">
+            <label class="control-label">To Date</label>
+            <div class="form-group">
+                <input type="date" placeholder="To Date" class="form-control" [(ngModel)]="payout.toDt" [ngModelOptions]="{standalone: true}">
+            </div>
+        </div>
+        </div>
+        </div>
+
+        <div class="modal-body">
+                <div class="row">
+<div class="col-6 form-group" >
+    <label class="control-label">Loss Of Pay Days</label>
+    <select  class="form-control" [(ngModel)]="payout.lopDays">
+            <option *ngFor="let v of ro" [value]="v.lopDays">{{v.lopDays}}</option>
+        </select>
+</div>
+</div>
+        </div>
+
+        <div class="modal-body">
+                <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-5 card card-body">
+                                <h3 class="modal-title">Allowance</h3>
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover table-bordered" >
+                                        <thead>
+                                            <tr>
+                                                    <th scope="col">Allowance Code</th>
+                                                    <th scope="col">Allowance Amount</th>
+                                                                                                                                                                                              
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                
+                                                <td>
+                                                        <select  class="form-control" [(ngModel)]="payout.allw_1_code">
+                                                                <option *ngFor="let v of row" [value]="v.payTypeCode">{{v.payTypeCode}}</option>
+                                                            </select>
+                                                </td>
+                                                <td>
+                                                        <input type="text" class="form-control form-control-line" [(ngModel)]="payout.allw_1_amount" [ngModelOptions]="{standalone: true}"  placeholder="allw_1_amount">
+                                                    </td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>
+                                                        <select  class="form-control" [(ngModel)]="payout.allw_2_code">
+                                                                <option *ngFor="let v of row" [value]="v.payTypeCode">{{v.payTypeCode}}</option>
+                                                            </select>                                                
+                                                        </td>
+                                                        <td>
+                                                                <input type="text" class="form-control form-control-line" [(ngModel)]="payout.allw_2_amount" [ngModelOptions]="{standalone: true}"  placeholder="allw_2_amount">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                          
+                                                <td>
+                                                        <select  class="form-control" [(ngModel)]="payout.allw_3_code">
+                                                                <option *ngFor="let v of row" [value]="v.payTypeCode">{{v.payTypeCode}}</option>
+                                                            </select>
+                                                </td>  
+                                                <td>
+                                                        <input type="text" class="form-control form-control-line" [(ngModel)]="payout.allw_3_amount" [ngModelOptions]="{standalone: true}" placeholder="allw_3_amount">
+                                                    </td>  
+                                            </tr>
+                                            <tr>
+                                                  
+                                                <td>
+                                                        <select  class="form-control" [(ngModel)]="payout.allw_4_code">
+                                                                <option *ngFor="let v of row" [value]="v.payTypeCode">{{v.payTypeCode}}</option>
+                                                            </select>
+                                                </td>   
+                                                <td>
+                                                        <input type="text" class="form-control form-control-line" [(ngModel)]="payout.allw_4_amount" [ngModelOptions]="{standalone: true}" placeholder="allw_4_amount">
+
+                                                </td>                                                                                         
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td>
+                                                        <select  class="form-control" [(ngModel)]="payout.allw_5_code">
+                                                                <option *ngFor="let v of row" [value]="v.payTypeCode">{{v.payTypeCode}}</option>
+                                                            </select>
+                                                </td>   
+                                                <td>
+                                                        <input type="text" class="form-control form-control-line" [(ngModel)]="payout.allw_5_amount" [ngModelOptions]="{standalone: true}" placeholder="allw_5_amount">
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                    <!-- </div> -->
+        <!-- </div> -->
+
+        <!-- <div class="modal-body"> -->
+                <!-- <div class="row"> -->
+                        <div class="col-5 card card-body">
+                                <h3 class="modal-title">Deduction</h3>
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover table-bordered" >
+                                        <thead>
+                                            <tr>    
+                                                    <th >Deduction code</th>                     
+                                                    <th >Deduction amount</th>
+                                                    
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                    <td>
+                                                            <select  class="form-control" [(ngModel)]="payout.ded_1_code">
+                                                                    <option *ngFor="let v of row" [value]="v.payTypeCode">{{v.payTypeCode}}</option>
+                                                                </select>
+                                                    </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-control-line" [(ngModel)]="payout.ded_1_amount" [ngModelOptions]="{standalone: true}"  placeholder="allw_1_amount">
+                                                </td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>
+                                                        <select  class="form-control" [(ngModel)]="payout.ded_2_code">
+                                                                <option *ngFor="let v of row" [value]="v.payTypeCode">{{v.payTypeCode}}</option>
+                                                            </select>                                                
+                                                        </td>
+                                                        <td>
+                                                                <input type="text" class="form-control form-control-line" [(ngModel)]="payout.ded_2_amount" [ngModelOptions]="{standalone: true}"  placeholder="ded_2_amount">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                         
+                                                <td>
+                                                        <select  class="form-control" [(ngModel)]="payout.ded_3_code">
+                                                                <option *ngFor="let v of row" [value]="v.payTypeCode">{{v.payTypeCode}}</option>
+                                                            </select>
+                                                </td>  
+                                                <td>
+                                                        <input type="text" class="form-control form-control-line" [(ngModel)]="payout.ded_3_amount" [ngModelOptions]="{standalone: true}" placeholder="ded_3_amount">
+                                                    </td>     
+                                            </tr>
+                                            <tr>
+                                                   
+                                                <td>
+                                                        <select  class="form-control" [(ngModel)]="payout.ded_4_code">
+                                                                <option *ngFor="let v of row" [value]="v.payTypeCode">{{v.payTypeCode}}</option>
+                                                            </select>
+                                                </td>
+                                                <td>
+                                                        <input type="text" class="form-control form-control-line" [(ngModel)]="payout.ded_4_amount" [ngModelOptions]="{standalone: true}" placeholder="ded_4_amount">
+
+                                                </td>                                                                                            
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td>
+                                                        <select  class="form-control" [(ngModel)]="payout.ded_5_code">
+                                                                <option *ngFor="let v of row" [value]="v.payTypeCode">{{v.payTypeCode}}</option>
+                                                            </select>
+                                                </td>  
+                                                <td>
+                                                        <input type="text" class="form-control form-control-line" [(ngModel)]="payout.ded_5_amount" [ngModelOptions]="{standalone: true}" placeholder="ded_5_amount">
+
+                                                </td> 
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                    </div>
+        </div>
+
+    <div class="modal-footer">
+            <button type="button" class="btn btn-warning" (click)="save()">Save</button>
+        </div>
+</ng-template>

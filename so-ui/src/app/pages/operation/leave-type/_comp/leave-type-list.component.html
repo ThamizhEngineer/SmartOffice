@@ -1,0 +1,128 @@
+<div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h4 class="text-themecolor">Leave Type List</h4>
+            </div>
+            <div class="col-md-7 align-self-center text-right">
+                <div class="d-flex justify-content-end align-items-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item active">Leave Type</li>
+                    </ol>
+                    <button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="create();"><i class="fa fa-plus-circle"></i> Create Leave Type</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                <flag-alert [message]="saveMsg"></flag-alert>
+                   <div class="table-responsive">
+                        <table class="table color-bordered-table theme-bordered-table">
+                            <thead>
+                                <tr>
+                                    <th data-sort-initial="true" data-toggle="true">#</th>
+                                    <th data-sort-initial="true" data-toggle="true">Leave Type Name</th>
+                                    <th data-sort-initial="true" data-toggle="true">Leave Type Code</th>
+                                    <th data-sort-initial="true" data-toggle="true">Min Duration</th>
+                                    <th data-sort-initial="true" data-toggle="true">Max Duration</th>
+                                    <th data-sort-initial="true" data-toggle="true">Approval Driven</th>
+                                    <th data-sort-initial="true" data-toggle="true">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr *ngFor="let row of rows | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index ">
+                                        <td>{{i+1}}</td>
+                                        <td>{{row.leaveTypeName}}</td>
+                                        <td>{{row.leaveTypeCode}}</td>
+                                        <td>{{row.minDuration}}</td>
+                                        <td>{{row. maxDuration}}</td>
+                                        <td>{{row.approvalDriven}}</td>
+                                        <td class="text-nowrap">
+                                            <a href="javascript:void(0)"><i class="fa fa-pencil text-inverse m-r-10" (click)="show(row.id);"></i> </a>
+                                            <confirm-delete [type]="'icon'" (confirmed)="delete(row.id)"></confirm-delete>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ngb-pagination 
+                            [(page)]="page"
+                            [pageSize]="pageSize"
+                            [collectionSize]="rows.length"></ngb-pagination>
+                            <pre>Current page: {{page}}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        
+        <ng-template #cdetail let-c="close">
+                <div class="modal-header">
+                    <h3 class="modal-title">Leave Type Detail</h3>
+                    <button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6 form-group" [ngClass]="{'has-danger': ltName.invalid && (ltName.dirty || ltName.touched)}">
+                            <label class="control-label">Leave Type Name</label>
+                            <input type="text" class="form-control"  #ltName="ngModel" placeholder="Leave Type Name" required pattern="[a-zA-Z][a-zA-Z ]+"  [(ngModel)]="leavetype.leaveTypeName"> 
+                            <div *ngIf="ltName.invalid && (ltName.dirty || ltName.touched)">
+                                <small class="form-control-feedback" *ngIf="ltName.errors.required">Leave Type Name is required.</small>
+                            </div>
+                        
+                                
+                                
+                        </div>
+                        <div class="col-6 form-group" [ngClass]="{'has-danger': ltCode.invalid && (ltCode.dirty || ltCode.touched)}">
+                            <label class="control-label">Leave Type Code</label>
+                            <input type="text" class="form-control"  #ltCode="ngModel" placeholder="Leave Type Code" required pattern="[a-zA-Z][a-zA-Z ]+"  [(ngModel)]="leavetype.leaveTypeCode"> 
+                            <div *ngIf="ltCode.invalid && (ltCode.dirty || ltCode.touched)">
+                                <small class="form-control-feedback" *ngIf="ltCode.errors.required">Leave Type Code is required.</small>
+                                <small class="form-control-feedback" *ngIf="ltCode.errors.pattern">Leave Type Code must be CAPITAL.</small>
+                            </div>
+                        </div>
+
+                        <div class="col-6 form-group ">
+                                <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="read[0]"[(ngModel)]="leavetype.approvalDriven">
+                                <label class="custom-control-label" for="read[0]">Approval Driven</label>
+                                </div>
+                            </div>
+                    </div>
+                <div class="row">
+                        <div class="col-6 form-group" [ngClass]="{'has-danger': mid.invalid && (mid.dirty || mid.touched)}">
+                            <label class="control-label">Min Duration</label>
+                            <input type="text" class="form-control"  #mid="ngModel" placeholder="Min Duration"[(ngModel)]="leavetype.minDuration"> 
+                            <div *ngIf="mid.invalid && (mid.dirty || mid.touched)">
+                                <small class="form-control-feedback" *ngIf="mid.errors.required">Min Duration is required.</small>
+                            </div>
+                        
+                                
+                                
+                        </div>
+                        <div class="col-6 form-group" [ngClass]="{'has-danger': mad.invalid && (mad.dirty || mad.touched)}">
+                            <label class="control-label">Max Duration</label>
+                            <input type="text" class="form-control"  #mad="ngModel" placeholder="Max Duration"  [(ngModel)]="leavetype.maxDuration"> 
+                            <div *ngIf="mad.invalid && (mad.dirty || mad.touched)">
+                                <small class="form-control-feedback" *ngIf="mad.errors.required">Max Durationis required.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-6 form-group" >
+                                <label class="control-label">Accumulation</label>
+                                <textarea type="text" class="form-control form-control-line" placeholder="Accumulation"
+        [(ngModel)]="leavetype.accumulation" [ngModelOptions]="{standalone: true}" rows="6"></textarea>
+                        </div>
+                        <div class="col-6 form-group" >
+                                <label class="control-label">Remarks</label>
+                                <textarea type="text" class="form-control form-control-line" placeholder="Remarks"
+        [(ngModel)]="leavetype.remarks" [ngModelOptions]="{standalone: true}" rows="6"></textarea>
+                        </div>
+                        </div>
+    
+                </div>
+                  
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning"  (click)="save();">Save</button>
+                    <button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+                </div>
+            </ng-template>        

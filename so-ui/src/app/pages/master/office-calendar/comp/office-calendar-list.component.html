@@ -1,0 +1,89 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+      <h4 class="text-themecolor"> Office Calendar List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+      <div class="d-flex justify-content-end align-items-center">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item active"> Office Calendar List </li>
+        </ol>        
+      </div>
+    </div>
+</div>
+
+
+<div class="card">  
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-3 text-center">
+                <button type="button" (click)="findList(yearId1.id,yearId1.calCode)" class="btn btn-outline-warning">{{yearId1.id? yearId1.year : yearId1.calCode}}</button>                   
+              </div> 
+              <div class="col-3 text-center">
+                <button type="button" (click)="findList(yearId2.id,yearId2.calCode)" class="btn btn-outline-success">{{yearId2.id? yearId2.year : yearId2.calCode}}</button>                   
+              </div> 
+              <div class="col-3 text-center">
+                <button type="button" (click)="findList(yearId3.id,yearId3.calCode)" class="btn btn-outline-danger">{{yearId3.id? yearId3.year : yearId3.calCode}}</button>                   
+              </div>     
+        </div>
+        <br/>
+
+        <div class="table-responsive">
+            <table class="table table-sm table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Office Name</th>
+                        <th>Calendar Status</th>                      
+                        <th>Total Calendar Days</th>
+                        <th>WeekDays</th>
+                        <th>WeekEnds</th>
+                        <th>Holiday</th>
+                        <th>Total Calculated Days</th>
+                        <th><i class="fa fa-cog text-inverse m-r-10"></i></th>                              					
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of offices | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.officeName}}</td>
+                    <td>{{item.calStatus? item.calStatus : 'not-started'}}</td>
+                    <td>{{item.totalCalendarDays? item.totalCalendarDays : '-'}}</td>
+                    <td>{{item.weekdayCount? item.weekdayCount : '-'}}</td>
+                    <td>{{item.weekendCount? item.weekendCount : '-'}}</td>
+                    <td>{{item.holidayCount? item.holidayCount : '-'}}</td>
+                    <td>{{item.totalCalculatedDays? item.totalCalculatedDays : '-'}}</td>
+                    <td *ngIf="item.calStatus==null || item.calStatus==''">
+                      <button type="button" (click)="start('start-calendar',item.id)" class="btn btn-outline-info"><i class="fa fa-flag-checkered"> &nbsp; Start </i></button>
+                    </td>
+                    <td *ngIf="item.calStatus=='setup-inprogress'">
+                      <button type="button" (click)="view('view',item.calendarHeaderId)" class="btn btn-outline-warning"><i class="fa fa-refresh"> &nbsp; Change </i></button>
+                    </td>
+                    <td *ngIf="item.calStatus=='completed'">
+                      <button type="button" (click)="view('view',item.calendarHeaderId)" class="btn btn-outline-success"><i class="fa fa-eye"> &nbsp; View </i></button>
+                    </td>                   
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+        <ngb-pagination 
+        [(page)]="page"
+        [pageSize]="pageSize"
+        [collectionSize]="offices.length"></ngb-pagination>
+        <pre>Current page: {{page}}</pre>
+    </div>
+</div>
+
+<ng-template #Create let-c="close">
+  <div class="modal-header">
+      <h2>Create Year For {{disYear}}</h2>    
+        <button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+  </div>
+    
+     
+      
+  <div class="modal-footer">
+    <button type="button" class="btn btn-info waves-effect waves-light" (click)="createCal()">Submit</button>
+    </div>
+</ng-template>

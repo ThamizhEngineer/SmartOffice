@@ -1,0 +1,98 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Goods Master List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Goods List </li>
+            </ol>
+			<button type="button" class="btn btn-info m-l-15" (click)="createNew();"><i class="fa fa-plus-circle"></i> Create Goods</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 card card-body">
+		<flag-alert [message]="saveMsg"></flag-alert>
+        <div class="table-responsive">
+			<table class="table table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Goods Code</th>
+						<th>Goods Name</th>
+		
+						<th>Actions</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let row of rows;let i=index ">
+						<td>{{i+1}}</td>
+						<td>{{row.goodsCode}}</td>
+						<td>{{row.goodsName}}</td>
+						
+						<td class="text-nowrap">
+							<a href="javascript:void(0)" (click)="showDetail(row.id);"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+							<confirm-delete [type]="'icon'" (confirmed)="deleteRow(row.id)"></confirm-delete>
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+    </div>
+</div>
+
+<ng-template #vdetail let-c="close">
+	<div class="modal-header">
+		<h3 class="modal-title">Goods Detail</h3>
+		<button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-6 form-group" [ngClass]="{'has-danger': gdname.invalid && (gdname.dirty || gdname.touched)}">
+				<label class="control-label">Goods Name</label>
+				<input type="text" class="form-control" placeholder="Goods Name" required pattern="[a-zA-Z][a-zA-Z]+" #gdname="ngModel" [(ngModel)]="goods.goodsCode">
+				<div *ngIf="gdname.invalid && (gdname.dirty || gdname.touched)">
+                    <small class="form-control-feedback" *ngIf="gdname.errors.pattern">Goods Name must be alphabetic.</small>
+                </div>
+			</div>	
+			<div class="col-6 form-group" [ngClass]="{'has-danger': gdcode.invalid && (gdcode.dirty || gdcode.touched)}">
+				<label class="control-label">Goods Code</label>
+				<input type="text" class="form-control" placeholder="Goods Code" required pattern="[a-zA-Z][a-zA-Z0-9]+" #gdcode="ngModel" [(ngModel)]="goods.goodsName">
+				<div *ngIf="gdcode.invalid && (gdcode.dirty || gdcode.touched)">
+                    <small class="form-control-feedback" *ngIf="gdcode.errors.pattern">Goods Code must be alphabetic.</small>
+                </div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 form-group" [ngClass]="{'has-danger': gdesc.invalid && (gdesc.dirty || gdesc.touched)}" >
+				<label class="control-label">Goods Description</label>
+				<textarea type="text" class="form-control" placeholder="Goods Description" required pattern="[a-zA-Z][a-zA-Z ]+" #gdesc="ngModel" [(ngModel)]="goods.goodsDescription" rows=4></textarea>
+				<div *ngIf="gdesc.invalid && (gdesc.dirty || gdesc.touched)">
+                    <small class="form-control-feedback" *ngIf="gdesc.errors.pattern">Goods Description must be alphabetic.</small>
+                </div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6 form-group" [ngClass]="{'has-danger': gprice.invalid && (gprice.dirty || gprice.touched)}" >
+				<label class="control-label">Unit Price</label>
+				<input type="text" class="form-control" required pattern="[0-9]+"  #gprice="ngModel" [(ngModel)]="goods.unitPrice" placeholder="Unit Price">
+				<div *ngIf="gprice.invalid && (gprice.dirty || gprice.touched)">
+                    <small class="form-control-feedback" *ngIf="gprice.errors.pattern">Unit Price must be Number.</small>
+                </div>
+			</div>	
+			<div class="col-6 form-group">
+				<label class="control-label">Unit of Measure</label>
+				<input type="text" class="form-control" [(ngModel)]="goods.unitOfMeasure" placeholder="Unit of Measure">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-warning" (click)="save()">Save</button>
+	</div>
+</ng-template>

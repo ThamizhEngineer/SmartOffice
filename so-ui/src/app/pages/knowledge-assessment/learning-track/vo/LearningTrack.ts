@@ -1,0 +1,30 @@
+export class LearningTrack{
+    id:string;
+    videoName:string;
+    videoUrl:string;
+    videoUploadId:string;
+    videoUploadCategory:string;
+    videoUploadDesc:string;
+    videoUploadDuration:string;
+    videoUploadEmployeeId:string;
+    isLike:string;
+    isDisLike:string;
+    comment:string;
+    isEnabled:string;
+    createdBy:string;
+    modifiedBy:string;
+    createdDt:string;
+    modifiedDt:string;
+    learningTrackDetails?:Array<LearningTrackDetails>
+}
+export class LearningTrackDetails{
+    id:string;
+    tLearningTrackId:string;
+    isVideoWatched:string;
+    videoPlayHead:string;
+    isEnabled:string;
+    createdBy:string;
+    modifiedBy:string;
+    createdDt:string;
+    modifiedDt:string;
+}

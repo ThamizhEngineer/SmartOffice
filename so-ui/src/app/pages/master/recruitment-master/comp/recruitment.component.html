@@ -1,0 +1,193 @@
+<div class="card-deck">
+    <div class="card">
+        <div class="card-header">School/College/University</div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th class="col-sm-3" scope="col">Name</th>
+                        <th scope="col">Abbreviation</th>
+                        <th scope="col"> <i class="fa fa-cog text-inverse m-r-10"></i>
+                            <a *ngIf="colleges.length == 0" href="javascript:void(0)" (click)="addCollege()" data-toggle="tooltip"
+                            data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let c of colleges | slice: (cgpage-1) * cgpageSize : (cgpage-1) * cgpageSize + cgpageSize;let i=index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="c.collegeName" aria-label="Small"
+                                    aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="c.abbreviation" aria-label="Small"
+                                    aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" (click)="addCollege()" data-toggle="tooltip"
+                                data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                                <a href="javascript:void(0)" *ngIf="colleges.length > 1" (click)="removeCollege(c.id,i)" data-toggle="tooltip"
+                                        data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a><br />  
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="card-footer bg-light">
+            <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <ngb-pagination [(page)]="cgpage" [pageSize]="cgpageSize" [collectionSize]="colleges.length">
+                            </ngb-pagination>
+                            <pre>Current page: {{cgpage}}</pre>
+                        </div>
+                        <div class="col-sm">
+                        </div>
+                        <div class="col-sm">
+                        </div>
+                        <div class="col-sm">
+                            <button type="button" (click)="saveCollege()" class="btn btn-info">Update College</button>
+                        </div>
+                    </div>
+    
+                </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">Degree</div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th class="col-sm-3" scope="col">Name</th>
+                        <th scope="col">Abbreviation</th>
+                        <th scope="col"> <i class="fa fa-cog text-inverse m-r-10"></i>
+                            <a *ngIf="degrees.length==0" href="javascript:void(0)" (click)="addDegree()" data-toggle="tooltip"
+                            data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let d of degrees | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="d.degreeName" aria-label="Small"
+                                    aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="d.abbreviation" aria-label="Small"
+                                    aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" (click)="addDegree()" data-toggle="tooltip"
+                                data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                                <a href="javascript:void(0)" *ngIf="degrees.length > 1" (click)="removeDegree(d.id,i)" data-toggle="tooltip"
+                                        data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a><br /> 
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="card-footer bg-light">
+            <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="degrees.length">
+                            </ngb-pagination>
+                            <pre>Current page: {{page}}</pre>
+                        </div>
+                        <div class="col-sm">
+                        </div>
+                        <div class="col-sm">
+                            </div>
+                        <div class="col-sm">
+                            <button type="button" (click)="saveDegrees()" class="btn btn-info">Update Degree</button>
+                        </div>
+                    </div>
+    
+                </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">Course</div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th class="col-sm-3" scope="col">Name</th>
+                        <th scope="col">Abbreviation</th>
+                        <th scope="col"> <i class="fa fa-cog text-inverse m-r-10"></i>
+                            <a *ngIf="courses.length==0" href="javascript:void(0)" (click)="addCourse()" data-toggle="tooltip"
+                            data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let cr of courses | slice: (cpage-1) * cpageSize : (cpage-1) * cpageSize + cpageSize;let i=index">
+
+                        <th scope="row">{{i+1}}</th>
+                        <td>
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="cr.courseName" aria-label="Small"
+                                    aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="cr.abbreviation" aria-label="Small"
+                                    aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" (click)="addCourse()" data-toggle="tooltip"
+                                data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                                <a href="javascript:void(0)" *ngIf="courses.length > 1" (click)="removeCourse(cr.id,i)" data-toggle="tooltip"
+                                        data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a><br />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="card-footer bg-light">
+
+            <div class="container">
+                    <div class="row justify-content-between">
+                            <div class="col-4">
+                                    <ngb-pagination [(page)]="cpage" [pageSize]="cpageSize" [collectionSize]="courses.length">
+                        </ngb-pagination>
+                        <pre>Current page: {{cpage}}</pre>
+                    </div>
+                    <div class="col-sm">
+                    </div>
+                    <div class="col-sm">
+                        </div>
+                        <div class="col-sm">
+                            </div>
+                            <div class="col-4">
+                                    <button type="button" (click)="saveCourses()" class="btn btn-info">Update Course</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/dashboard" routerDirection="forward"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label>Dark</ion-label>
+      <ion-toggle (click)="checkIsDark()" [(ngModel)]="isDark" color="primary"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Logout</ion-label>
+      <ion-button (click)="startLogout()" color="secondary">Bye</ion-button>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

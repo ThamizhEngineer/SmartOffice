@@ -1,0 +1,3 @@
+firstName,lastName,mobileNumbe,email,dob,college,course,degree,exprienceType,currCompany,currDesignation,currExperience,currSalary,isClean,remarks
+name,1,9094348585,email.gm.com,24-03-2020,newCollege,ECE,B.E,Fresher,,,,,Y,test
+name,2,9094348585,email.gm.com,24-03-2020,,,,Experienced,newCompany,Developer,1,20000,Y,test

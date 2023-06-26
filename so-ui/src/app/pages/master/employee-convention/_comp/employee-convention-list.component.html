@@ -1,0 +1,73 @@
+
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+   
+        <!-- ============================================================== -->
+        <!-- Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h4 class="text-themecolor">Employee Convention List</h4>
+            </div>
+            <div class="col-md-7 align-self-center text-right">
+                <div class="d-flex justify-content-end align-items-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item active">Employees</li>
+                    </ol>                
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <!-- .row -->
+        
+        
+
+
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <h4 class="card-title">Info Table</h4> -->
+
+                 
+                    
+                
+
+
+                    <div class="table-responsive">
+                            <table class="table color-bordered-table theme-bordered-table">
+                                <thead>
+                                    <tr>
+                                        <th>Employee Code</th>
+                                        <th>Employee Name</th>
+                                        <th>Designation</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let employee of active;">
+                                        <td>{{employee.empCode}}</td>
+                                        <td>{{employee.empName}}</td>
+                                        <td>{{employee.desigName}}</td>
+                                        <td><span class="label label-{{statuses[employee.empStatus]}}">{{employee.empStatus}}</span></td>
+                                        <td class="text-nowrap">
+                                                <a href="javascript:void(0)"  (click)="navigateToDetailPage(employee.id)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                <confirm-delete [type]="'icon'" (confirmed)="deleteRow(employee.id)"></confirm-delete>
+                                            </td>                                        
+                                    </tr>                                 
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+            </div>
+        </div>     
+    

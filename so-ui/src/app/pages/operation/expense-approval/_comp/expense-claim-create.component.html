@@ -1,0 +1,231 @@
+ <div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Expense Claim Detail</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="navigateToListPage()">Expense Claim List</a></li>
+                <li class="breadcrumb-item active">Expense Claim Detail </li>
+            </ol>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and center sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="row">
+    <div class="col-12">
+        <div class="card card-body">
+            <div *ngIf="expense.id==null" class="row">
+                <div class="form-group col-md-2">
+                    <label class="control-label">Employee</label><br/>
+                    <autocomplete  [placeholder]="'Employee Name'" [value]="expense.employeeFName" (empDetail)="projectSelected1($event)"> </autocomplete>
+                    <!-- <select class="form-control" (click)="getJobCode(expense.employeeId)" [(ngModel)]="expense.employeeId">
+                        <option *ngFor="let emp of employee" [value]="emp.id">{{emp.empName}}</option>
+                    </select>                     -->
+                </div>
+                <div class="form-group col-md-2  col-sm-6">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="jobCode"  value="Y" name="code" [(ngModel)]="expense.isJobBased" class="custom-control-input">
+                        <label class="custom-control-label" for="jobCode">Job Code</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="costCode"  value="N"  name="code" [(ngModel)]="expense.isJobBased" class="custom-control-input">
+                        <label class="custom-control-label" for="costCode" >Cost Code</label>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-2 col-sm-6" *ngIf="expense.isJobBased=='Y'">
+                    <label class="control-label">Job Code</label>
+                    <select class="form-control" [(ngModel)]="expense.jobId">
+                        <option *ngFor="let jc of jobCode" [value]="jc.jobId">{{jc.jobCode}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2 col-sm-6" *ngIf="expense.isJobBased=='N'">
+                        <label class="control-label">Cost Center Code</label>
+                        <select class="form-control" [(ngModel)]="expense.costCenterId">
+                            <option *ngFor="let v of costCode" [value]="v.id">{{v.ccCode}}</option>
+                        </select>                       
+                    </div>
+
+                <div class="form-group col-md-2 col-sm-6">
+                    <label class="control-label">Application Date</label><br/>
+                    <input type="date" class="form-control form-control-line" [(ngModel)]="expense.appliedDt" [ngModelOptions]="{standalone: true}" placeholder="Application Date">
+                </div>
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">Purpose</label>
+                    <textarea type="textarea" id="amount"  [(ngModel)]="expense.empRemarks" rows="5" [ngModelOptions]="{standalone: true}" placeholder="Purpose" class="form-control form-control-line"></textarea>
+                </div>
+                <div class="form-group col-md-2 col-sm-6">
+                        <label class="control-label">Total Expense Amount:</label><br/>
+                        <span class="text">{{expense.expenseClaimAmount}}</span>                
+                    </div>
+                <br>
+             
+
+
+            <div class="table-responsive m-t-40">
+                <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th data-sort-initial="true" data-toggle="true">#</th>
+                            <th data-sort-initial="true" data-toggle="true" style="width: 10%;">Category</th>
+                            <th data-sort-initial="true" data-toggle="true" style="width: 15%;">Merchant Name</th>
+                            <th data-sort-initial="true" data-toggle="true" style="width: 10%;">Bill No</th>
+                            <th data-sort-initial="true" data-toggle="true" style="width: 8%;">Bill Date</th>
+                            <th data-sort-initial="true" data-toggle="true" style="width: 10%;" >Bill Amount</th>
+                            <th data-sort-initial="true" data-toggle="true">Remarks</th>
+                            <th data-sort-initial="true" data-toggle="true" style="width: 10%;">Bill Proof</th>
+                            <th data-sort-initial="true" data-toggle="true" style="width: 5%;">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let claim of expense?.expenseClaimBills; let iter=index">
+                        <tr>
+                            <td>{{iter+1}}</td>
+                            <td>
+                                <input type="text" class="form-control form-control-line" [ngbTypeahead]="searchCategory" [resultTemplate]="rt1"
+                                [inputFormatter]="formatter" [value]="claim.subCategoryName" (selectItem)="categorySelected($event,iter)" placeholder="Category Name">
+                            <ng-template #rt1 let-r="result" let-t="term">
+                               <option> {{r.subCategoryName}} ({{ r.categoryName}})</option> 
+                            </ng-template>
+                            </td>
+                            <td>
+                                <input type="text" id="merchantId"  [(ngModel)]="claim.merchantId"  [ngModelOptions]="{standalone: true}" placeholder="Merchant Name" class="form-control form-control-line">
+                            </td>
+                            <td>
+                                <input type="text" id="billNo"  [(ngModel)]="claim.billNo"  [ngModelOptions]="{standalone: true}" placeholder="Bill Number" class="form-control form-control-line">
+                            </td>
+                            <td>
+                                    <input type="date" dateform  class="form-control form-control-line" [(ngModel)]="claim.billDt"  >	
+                            </td>
+                            <td>
+                            <input type="number" id="billAmount"  [(ngModel)]="claim.billAmount" (input)="calculateExpenseTotal()" (change)="calculateExpenseTotal(claim)" [ngModelOptions]="{standalone: true}" placeholder="Bill Amount" class="form-control form-control-line">
+                            </td>
+                            <td>
+                                <textarea type="text" rows="4" cols="10" type="text" id="Remarks" [(ngModel)]="claim.billRemarks"  [ngModelOptions]="{standalone: true}" placeholder="Remarks" class="form-control form-control-line-4"></textarea>
+                            </td>
+                            <td>
+                            <file-upload  [fileDetail]="'EXPENSE-CLAIM-BILL-PROOF'" (change)="uploadDoc(iter,$event,'EXPENSE-CLAIM-BILL-PROOF')"></file-upload>
+                            <a href="javascript:void(0)" *ngIf="claim.docId!=null" (click)="download(claim.docId,'');">
+                                <font color="Green">Download</font>
+                            </a>    
+                        </td>
+                            <td class="text-nowrap">
+                                <a href="javascript:void(0)" (click)="addBillRows()">
+                                    <i class="fa fa-plus text-danger m-r-10"></i>
+                                </a>
+                                <a href="javascript:void(0)" *ngIf="expense?.expenseClaimBills.length > 1" (click)="delBillRow(iter)">
+                                    <i class="fa fa-close text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div *ngIf="expense.id!=null" class="row">
+                <div class="form-group col-md-2">
+                        <label class="control-label">Expense Code </label><br/>
+                        
+                        <span class="label label-default">{{expense.expenseClaimCode}} </span>
+                 </div>
+                <div class="form-group col-md-2">
+                    <label class="control-label">Employee</label><br/>                    
+                    <span class="text">{{expense.employeeFName}}&nbsp;{{expense.employeeLName}} </span>
+                </div>
+            
+
+                <div class="form-group col-md-2 col-sm-6" *ngIf="expense.isJobBased=='Y'">
+                    <label class="control-label">Job Code</label><br/>                    
+                    <span class="text">{{expense.jobName}}</span>                    
+                </div>
+                <div class="form-group col-md-2 col-sm-6" *ngIf="expense.isJobBased=='N'">
+                        <label class="control-label">Cost Center Code</label><br/>                    
+                        <span class="text">{{expense.costCenterCode}}</span>                      
+                    </div>
+
+                <div class="form-group col-md-2 col-sm-6">
+                    <label class="control-label">Application Date</label><br/>
+                    <span class="text">{{expense.appliedDt | date:'dd-MM-yyyy'}}</span>
+                </div>
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">Purpose</label><br/>                    
+                    <span class="text">{{expense.empRemarks}}</span>                    
+                </div>
+                <div class="form-group col-md-2 col-sm-6">
+                        <label class="control-label">Total Expense Amount:</label><br/>
+                        <span class="text">{{expense.expenseClaimAmount}}</span>                
+                    </div>
+                <br>
+             
+
+
+            <div class="table-responsive m-t-40">
+                <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th data-sort-initial="true" data-toggle="true">#</th>
+                            <th data-sort-initial="true" data-toggle="true">Category</th>
+                            <th data-sort-initial="true" data-toggle="true">Merchant Name</th>
+                            <th data-sort-initial="true" data-toggle="true">Bill Date</th>
+                            <th data-sort-initial="true" data-toggle="true">Bill Amount</th>
+                            <th data-sort-initial="true" data-toggle="true">Remarks</th>
+                            <th data-sort-initial="true" data-toggle="true">Bill Proof</th>
+                            <th data-sort-initial="true" data-toggle="true">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let claim of expense?.expenseClaimBills; let item=index">
+                        <tr>
+                            <td>{{item+1}}</td>
+                            <td>
+                                {{claim.subCategoryName}}&nbsp;({{claim.categoryName}}) 
+                            </td>
+                            <td>{{claim.merchantId}}                                
+                            </td>
+                            <td>{{claim.billDt | date:'dd-MM-yyyy'}}                                    
+                            </td>
+                            <td>{{claim.billAmount}}                            
+                            </td>
+                            <td>{{claim.billRemarks}}                         
+                            </td>
+                            <td><a href="javascript:void(0)" *ngIf="claim.docId!=null" (click)="download(claim.docId,'');">
+                                    <font color="Green">Download</font>
+                                </a>                            
+                            </td>
+                            <td class="text-nowrap">
+                                <a href="javascript:void(0)" (click)="addBillRows()">
+                                    <i class="fa fa-plus text-danger m-r-10"></i>
+                                </a>
+                                <a href="javascript:void(0)" *ngIf="expense?.expenseClaimBills.length > 1" (click)="delBillRow(item)">
+                                    <i class="fa fa-close text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+            
+            <div class="modal-footer">    
+                    <div *ngIf="expense.id!=null" class="form-group" >
+                            <button type="button" (click)="expenseClaimPrintout()" (click)="download(expense.expPdfId);"class="btn btn-info waves-effect waves-light m-t-10 ml-2">Print</button>
+                            <button type="button"  (click)="download(expense.expPdfId,expense.expenseClaimCode);"class="btn btn-info waves-effect waves-light m-t-10 ml-2">Download Expense Claim</button>
+                        </div>            
+                <div *ngIf="expense.id==null" class="form-group">
+                    <button type="button" (click)="applyClaim()" class="btn btn-info waves-effect waves-light m-t-10 ml-2">Apply Claim</button>
+                </div>
+                <div class="form-group">        
+                    <button type="button" (click)="navigateToListPage()" class="btn btn-warning waves-effect waves-light m-t-10 ml-2">Back</button>
+                </div>
+            </div>
+      
+            <flag-alert [message]="saveMsg"></flag-alert>
+        
+    </div>
+</div> 

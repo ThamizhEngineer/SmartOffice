@@ -1,0 +1,247 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Payslips</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item">My Space</li>
+                <li class="breadcrumb-item active">Payslips</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="row" >
+	<!-- <div class="col-4">
+		<div class="card card-body">
+			<h4>Payslips</h4>
+			<p class="form-group">
+				<label class="control-label">Change Financial Year:</label>
+                <select class="form-control">
+					<option value="FY2018-2019" selected>FY2018-2019</option>
+				</select>
+			</p>
+			<p><label><b>Financial Year:</b></label> FY2018-2019</p>
+		</div>
+	</div> -->
+	
+	<div class="col-12">
+		<div class="card card-body">
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Month</th>
+							<th>Year</th>
+							<!-- <th>View</th> -->
+							<th>Download</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let r of rows | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+							<td>{{months[(r.dSalaryForMonth-1)]}}</td>
+							<td>{{r.dSalaryForYear}}</td>
+							<!-- <td><a href="javascript:void(0);" (click)="viewPayslip(r.id)">View</a></td> -->
+							<td><a href="javascript:void(0);" (click)="download(r.payslipDocId)">Download</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<ngb-pagination 
+						[(page)]="page"
+						[pageSize]="pageSize"
+						[collectionSize]="rows.length"></ngb-pagination>
+						<pre>Current page: {{page}}</pre>	
+		</div>
+	</div>
+</div>
+
+<ng-template #payslip let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">Payslip - {{months[(payDetail.dSalaryForMonth-1)]}}'{{payDetail.dSalaryForYear}}</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		
+		
+		<table border="1" cellpadding="6" style="border:1px solid #CCC;border-collapse:collapse;width:700px;margin-top:5px;text-align: left;">
+			<tr>
+				<th>Employee Code</th>
+				<td>{{payDetail.employeeCode}}</td>
+				<th>Salary For Month</th>
+				<td>{{months[(payDetail.dSalaryForMonth-1)]}} - {{payDetail.dSalaryForYear}}</td>
+			</tr>
+			<tr>
+				<th>Employee Name</th>
+				<td>{{payDetail.employeeName}}</td>
+				<th>PAN Number</th>
+				<td>{{payDetail.dPanNumber}}</td>
+			</tr>
+			<tr>
+				<th>Designation</th>
+				<td>{{payDetail.dDesignation}}</td>
+				<th>EPF UAN No.</th>
+				<td>{{payDetail.uanNo}}</td>
+			</tr>
+			<tr>
+				<th>Loss Of Pay</th>
+				<td>-</td>
+                <th>Paid On</th>
+				<td>{{payDetail.payDt | date: 'dd/MM/yyyy'}}</td>	 
+			</tr>  
+			<tr>
+				<th>IFSC Code</th>
+				<td>{{payDetail.dBankName}}/{{payDetail.ifscCode}}</td>
+				<th>Bank Account Number</th>
+				<td>{{payDetail.dAccountNumber}}</td>
+			</tr>
+			<tr>
+				<th>Special Designation</th>
+				<td>{{payDetail.specialDesignation}}</td>
+				<th>DOJ</th>
+				<td>{{payDetail.doj}}</td>
+			</tr>
+			<tr>
+				<th>Period Days</th>
+				<td>{{payDetail.periodDays}}</td>
+				<th>ESI Number</th>
+				<td>{{payDetail.dEsiNumber}}</td>
+			</tr>
+            <tr>
+				 
+				
+			</tr>
+		</table>
+
+		
+		<table border="1" cellpadding="6" style="border:1px solid #CCC;border-collapse:collapse;width:700px;margin-top:15px;text-align: left;">
+			<thead>
+				<tr>
+					<th width="30%">Earnings</th>
+					<th width="20%">INR</th>
+					<th width="30%">Deduction</th>
+					<th width="20%">INR</th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr style="background-color:#efefef">
+				<td><i>A1. Fixed Benefits</i></td>
+				<th></th>
+				<td><i>Deductions</i></td>
+				<th></th>
+			</tr>
+			<tr>
+				<td>Basic</td>
+				<td>{{payoutLines.Basic}}</td>
+				<td>EPF by Employee</td>
+				<td>{{payoutLines['EPF by Employee']}}</td>
+			</tr>
+			<tr>
+				<td>HRA</td>
+				<td>{{payoutLines.HRA}}</td>
+				<td>ESI by Employee</td>
+				<td>{{payoutLines['ESI by Employee']}}</td>
+			</tr>
+			<tr>
+				<td>Local Conveyance</td>
+				<td>{{payoutLines.LocalConvyence}}</td>
+				<td>Addl.EPF by Employee</td>
+				<td>{{payoutLines['Addi.EPF']}}</td>
+			</tr>
+			<tr>
+				<td>Medical Allowance</td>
+				<td>{{payoutLines.MedicalAllowance}}</td>
+				<td>Deduct Advance</td>
+				<td>{{payoutLines['Advance Deduction']}}</td>
+			</tr>
+			<tr>
+				<td>Communication Allowance</td>
+				<td>{{payoutLines.CommunicationAllowance}}</td>
+				<td>Additional Deduction 1</td>
+				<td>{{payoutLines['Addl.Deduction']}}</td>
+			</tr>
+			<tr>
+				<td>Leave Travel Allowance</td>
+				<td>{{payoutLines.LeaveTravelAllowance}}</td>
+				<td>Additional Deduction 2</td>
+				<td>{{payoutLines['Addl.Deduction']}}</td>
+			</tr>
+			<tr>
+				<td>Special Allowance</td>
+				<td>{{payoutLines['Special Allowance']}}</td>
+				<td>Tax</td>
+				<td>{{payoutLines['Income Tax']}}</td>
+			</tr>
+			<tr style="background-color:#efefef">
+				<td><i>A2. Additional Fixed Benefit</i></td>
+				<th></th>
+				<th></th>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Leave Wage</td>
+				<td>{{payoutLines['LeaveWage']}}</td>
+				<th></th>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Pay: Bonus</td>
+				<td>{{payoutLines['Bonus']}}</td>
+				<th></th>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Incentives/Site Allowance</td>
+				<td>{{payoutLines['Incentives']}}</td>
+				<th></th>
+				<td></td>
+			</tr>
+			<tr style="background-color:#efefef">
+				<td><i>B. Variable Benefit</i></td>
+				<th></th>
+				<th></th>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Site Allowance</td>
+				<td>{{payoutLines.SiteAllowance}}</td>
+				<th></th>
+				<td></td>
+			</tr>
+			</tbody>
+			
+		</table>
+		
+		<table border="1" cellpadding="6" style="border:1px solid #CCC;border-collapse:collapse;width:700px;margin-top:15px;text-align: left;">
+		<tr>
+				<th width="30%">Total Fixed Benefits (A1+A2)</th>
+				<td width="20%">{{payDetail.totalEarnings}}</td>
+				<th width="30%">Total Deduction</th>
+				<td width="20%">{{payDetail.totalDeductionAmt}}</td>
+			</tr>
+			<tr>
+				<th>Total Variable Benefit</th>
+				<td>{{payDetail.totalVariablePay}}</td>
+				<th>Total Tax</th>
+				<td>{{payDetail.totalTax}}</td>
+			</tr>
+			<tr>
+				<th>Gross Salary</th>
+				<td>{{payDetail.grossSalary}}</td>
+				<th>Net Salary</th>
+				<td>{{payDetail.netPayAmt}}</td>
+			</tr>
+		</table>
+		
+		
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" (click)="c()"><i class="fa fa-print"></i>  Print</button>
+		<button type="button" class="btn btn-success" (click)="c()"><i class="fa fa-cloud-download"></i>  Download</button>
+	</div>
+</ng-template>

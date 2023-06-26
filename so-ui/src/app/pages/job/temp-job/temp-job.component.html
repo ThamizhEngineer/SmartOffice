@@ -1,0 +1,125 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Job List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Job List </li>
+            </ol>
+			<button type="button" class="btn btn-info m-l-15" (click)="create();" ><i class="fa fa-plus-circle"></i> Create Job</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 card card-body">
+    	<flag-alert [message]="saveMsg"></flag-alert>
+        <div class="table-responsive">
+			<table class="table table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Job Code</th>
+						<th>Job Name</th>
+		                <th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let row of rows;let i=index ">
+						<td>{{i+1}}</td>
+						<td>{{row.jobCode}}</td>
+						<td>{{row.jobName}}</td>
+						<td class="text-nowrap">
+							<a href="javascript:void(0)" (click)="show(row.id);"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+							<confirm-delete [type]="'icon'" (confirmed)="delete(row.id)"></confirm-delete>
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+    </div>
+</div>
+
+<ng-template #vedit let-c="close">
+	<div class="modal-header">
+		<h3 class="modal-title">Job Detail</h3>
+		<button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-6 form-group" [ngClass]="{'has-danger': jobCode.invalid && (jobCode.dirty || jobCode.touched)}">
+				<label class="control-label">Job Code</label>
+				<input type="text" class="form-control"  #jobCode="ngModel" placeholder="Job Code" [(ngModel)]="tempjob.jobCode"> 
+				<div *ngIf="jobCode.invalid && (jobCode.dirty || jobCode.touched)">
+                    <small class="form-control-feedback" *ngIf="jobCode.errors.required">Job Code is required.</small>
+				</div>	
+			</div>
+			<div class="col-6 form-group">
+				<label class="control-label">Job Name</label>
+				<input type="text" class="form-control" placeholder="Job Name" (keypress)="commonService.isValidName($event)" [(ngModel)]="tempjob.jobName"> 			
+			</div>	
+			<div class="col-6 form-group ">
+				<div class="custom-control custom-checkbox">
+				<input type="checkbox" class="custom-control-input" id="read[0]"[(ngModel)]="tempjob.jobActive">
+				<label class="custom-control-label" for="read[0]">Is Active</label>
+				</div>
+			</div>
+			
+			
+			</div>
+			<div class="row">
+					<div class="form-group col-sm-6 col-md-4">
+							<label class="control-label">Office</label>
+							<select class="form-control"  [(ngModel)]="tempjob.officeId">
+								<option *ngFor="let v of office" [value]="v.id">{{v.officeName}}</option>
+							</select>	
+						</div>
+			</div>
+			<h4>Employee List</h4>
+			<div class="table-responsive">
+				<table class="table table-striped table-hover table-bordered" >
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>From Date</th>
+ 							<th>To Date</th>
+							<th style="width: 10%;">Employee Name</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					
+						<tbody>
+							<tr *ngFor="let emplist of tempjob?.tempJobEmps;let i=index">
+								<td>{{i+1}}</td>
+								<td>
+									<div class="form-group">
+										<input type="date" style="width:200px" id="datepicker" max="2019-01-01" [max]="emplist.toDt" class="form-control" [(ngModel)]="emplist.fromDt">
+									</div>
+								</td>
+								<td>
+									<input type="date" style="width:200px" id="datepicker" min="2019-01-01" [min]="emplist.fromDt" class="form-control" [(ngModel)]="emplist.toDt">
+								</td>
+								<td>
+								<select class="form-control" style="width:200px" [disabled]="isMan" [ngModelOptions]="{standalone: true}" [(ngModel)]="emplist.employeeId" [ngModelOptions]="{standalone: true}" placeholder="Employee Names" >
+											<option *ngFor="let item of employeeList " [value]="item.id">{{item.empName}}</option>
+										</select></td>
+								<td>
+									<a href="javascript:void(0)" (click)="addJobRows()" ><i class="fa fa-plus text-danger m-r-10"></i> </a>
+									<a href="javascript:void(0)" *ngIf="tempjob?.tempJobEmps.length > 1" (click)="delJobRow(i)"><i class="fa fa-close text-danger"></i></a>
+								</td>
+							</tr>
+						</tbody>
+				</table>
+			</div>
+			
+			
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-warning" (click)="save()" >Save</button>
+		<button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+	</div>
+</ng-template>

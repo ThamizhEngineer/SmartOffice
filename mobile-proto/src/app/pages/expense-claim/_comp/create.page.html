@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-toolbar>
+    <app-subpage-header title="Create Expense"></app-subpage-header>
+  </ion-toolbar> 
+</ion-header>
+
+<ion-content>
+	<ion-list>
+	   <ion-item>
+		<ion-label>Has Job</ion-label>
+		<ion-toggle slot="end" color="success" [(ngModel)]="data.jobCode"></ion-toggle>
+	  </ion-item>
+	  <ion-item *ngIf="data.jobCode">
+		<ion-label  class="content" position="floating"><h2>Job Code</h2></ion-label>
+		<ion-select interface="popover" class="selector" okText="Okay" cancelText="Dismiss" [(ngModel)]="data.jobId">
+		  <ion-select-option *ngFor="let j of jobCodes" [value]="j.jobId" class="option">{{j.jobCode}}</ion-select-option>
+		</ion-select>
+	  </ion-item>
+	  <ion-item *ngIf="!data.jobCode">
+		<ion-label  class="content" position="floating"><h2>Cost Center Code</h2></ion-label>
+		<ion-select interface="popover" class="selector" okText="Okay" cancelText="Dismiss" [(ngModel)]="data.costCenterId">
+		  <ion-select-option *ngFor="let j of costCenters" [value]="j.id" class="option">{{j.ccName}}</ion-select-option>
+		</ion-select>
+	  </ion-item>
+	   <ion-item>
+		<ion-label position="floating"><h2>Amount</h2></ion-label>
+		<ion-input placeholder="Amount" [(ngModel)]="data.expenseClaimAmount"></ion-input>
+	  </ion-item>
+	  <ion-item>
+		<ion-label position="floating"><h2>Purpose</h2></ion-label>
+		<ion-input placeholder="purpose" [(ngModel)]="data.empRemarks"></ion-input>
+	  </ion-item>
+	  <!---->
+	  <ion-item>
+			<ion-button (click)="addBill();">Add Bill</ion-button>
+	  </ion-item>
+		<ion-list *ngFor="let e of expenseClaimBills; let i = index" class="sub-list">
+			<ion-item>
+				<ion-label>Billed On Company Name</ion-label>
+				<ion-toggle slot="end" color="tertiary" [(ngModel)]="e.billOnCompany"></ion-toggle>
+			  </ion-item>
+
+			  <ion-item>
+				<ion-label position="floating">Bill Date</ion-label>
+				<ion-datetime displayFormat="DD-MM-YYYY" min="{{minDate}}" max="{{maxDate}}" [(ngModel)]="e.billDt"></ion-datetime>
+			</ion-item>
+			<ion-item>
+				<ion-label position="floating"><h2>Amount</h2></ion-label>
+				<ion-input placeholder="Amount" [(ngModel)]="e.billAmount"></ion-input>
+			  </ion-item>
+			<ion-item>
+				<ion-label position="floating"><h2>Remarks</h2></ion-label>
+				<ion-input placeholder="Remarks" [(ngModel)]="e.billRemarks"></ion-input>
+			  </ion-item>
+			  <ion-item>
+				<ion-label>Attachment</ion-label>
+				<ion-button slot="end" (click)="takePhoto(e)" icon-only>
+					<ion-icon name="camera"></ion-icon>
+				  </ion-button>
+				<ion-button slot="end" (click)="selectPhoto(e)" icon-only>
+					<ion-icon name="image"></ion-icon>
+				 </ion-button>
+			  </ion-item>
+			  <ion-item *ngIf="e.attachmentImage">
+					<ion-thumbnail slot="start">
+						<img [src]="e.attachmentImage"/>
+					</ion-thumbnail>
+			  </ion-item>
+			  <ion-item *ngIf="error">
+				<ion-label>
+				  <strong>{{error}}</strong>
+				</ion-label>
+			  </ion-item>
+			<ion-item>
+				<ion-button color="warning" (click)="deleteBill(i);">Delete Bill</ion-button>
+		  </ion-item>
+		</ion-list>
+	</ion-list>
+	
+	<ion-grid>
+	  <ion-row>
+		<ion-col>
+			<ion-button expand="block" size="large" (click)="createExpenseClaim();">Apply</ion-button>
+		</ion-col>
+	  </ion-row>
+  </ion-grid>
+	
+</ion-content>
+
+<!-- <ion-header>
+	<ion-toolbar>
+	  <ion-title>
+		Upload
+	  </ion-title>
+	</ion-toolbar>
+  </ion-header>
+  
+  <ion-content class="ion-padding">
+	<ion-item>
+	  <ion-label>
+		<ion-row>
+		  <ion-col size="6">
+			<ion-button color="danger" type="button" expand="full" shape="round" size="large" (click)="takePhoto()">
+			  <ion-icon name="camera"></ion-icon>
+			</ion-button>
+		  </ion-col>
+		  <ion-col size="6">
+			<ion-button color="secondary" type="button" expand="full" shape="round" size="large" (click)="selectPhoto()">
+			  <ion-icon name="image"></ion-icon>
+			</ion-button>
+		  </ion-col>
+		</ion-row>
+	  </ion-label>
+	</ion-item>
+	<ion-item *ngIf="error">
+	  <ion-label>
+		<strong>{{error}}</strong>
+	  </ion-label>
+	</ion-item>
+	<ion-item>
+	  <ion-label>
+		<img *ngIf="myPhoto" [src]="myPhoto"/>
+	  </ion-label>
+	</ion-item>
+  </ion-content> -->

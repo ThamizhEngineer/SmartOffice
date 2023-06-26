@@ -1,0 +1,47 @@
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">  
+    <h4 class="text-themecolor">Cash Balance</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+    <div class="d-flex justify-content-end align-items-center">
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+    <li class="breadcrumb-item active">Cash Balance</li>
+    </ol>
+    <button type="button" class="btn btn-info d-none d-lg-block m-l-15" [routerLink]="['/operation/cash-balance/new']"><i class="fa fa-plus-circle" ></i> Create New</button>
+    </div>
+    </div>
+    </div>
+    <div class="card p-20">
+    <div class="table-responsive">
+    <table class="table color-bordered-table theme-bordered-table">
+    <thead>
+    <tr>
+    <!-- <th> Id</th> -->
+    <th>Employee Name</th>
+    <th>Import Date</th>
+    <th>Pay To Company Amount</th>
+    <th>Pay To Employee Amount </th>
+    <!-- <th>Cash Balance Imported Id</th> -->
+    <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let all of employee">
+    <!-- <td>{{all.id}}</td> -->
+    <td>{{all.empName}}</td>
+    <td>{{all.importDt | date:'dd/MM/yyyy'}}</td>
+    <td>{{all.payToCompAmt}}</td>
+    <td>{{all.payToEmpAmt}}</td>
+    <!-- <td>{{all.cashBalImportId}}</td> -->
+    <td class="text-nowrap">
+    <a href="javascript:void(0)"  (click)="navigateToDetail(all.id)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+    <!-- <a [routerLink]="['/operation/cash-balance/detail']"><i class="fa fa-pencil text-inverse m-r-10"></i></a> -->
+    <confirm-delete [type]="'icon'" (confirmed)="deleteRow(all.id)"></confirm-delete>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+    <flag-alert [message]="saveMsg"></flag-alert>    

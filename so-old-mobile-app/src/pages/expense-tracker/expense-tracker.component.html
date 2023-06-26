@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Expense Tracker</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list *ngFor="let expense of expenses">
+    <ion-card padding>
+      <ion-row>
+        <ion-col>Upload Date</ion-col>
+        <ion-col>{{expense.uploadDate}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>Amount</ion-col>
+        <ion-col>{{expense.uploadAmount}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>Status</ion-col>
+        <ion-col>{{expense.uploadStatus}}</ion-col>
+      </ion-row>
+    </ion-card>
+  </ion-list>
+</ion-content>

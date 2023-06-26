@@ -1,0 +1,600 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">{{screenName}} Event</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">{{screenName}} Event</li>
+            </ol>
+            <button type="button" *ngIf="isDir!=true" class="btn btn-info d-none d-lg-block m-l-15"
+                (click)="createNew()"><i class="fa fa-plus-circle"></i> Create
+                New</button>
+        </div>
+    </div>
+</div>
+<div class="card-group">
+    <div class="card">
+        <flag-alert [message]="saveMsg"></flag-alert>
+        <div class="card-body">
+            <form class="pagination-wrapper">
+                <div class="form-group pages">
+                    <pagination-controls class="my-pagination" id="pager" (pageChange)="pageChanged($event)" maxSize="4"
+                        directionLinks="true" autoHide="true" previousLabel="Prev" nextLabel="Next"
+                        screenReaderPaginationLabel="Pagination" screenReaderPageLabel="pageNumber"
+                        screenReaderCurrentLabel="You're on page">
+                    </pagination-controls>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-footer">
+            <small class="text-muted">Current page: {{pageNumber}}</small>
+        </div>
+    </div>
+</div>
+<div *ngIf="view=='recruitment'" class="align-items-center">
+    <div style="padding-bottom: 10px;"
+        *ngFor="let c of incidentList | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let i=index"
+        class="card card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="inputPosition" class="col-md-12 ">
+                    <span style="font-weight:bold">{{c.incidentName}}</span>
+                    <div class="row col-md-12">
+                        &nbsp;&nbsp;&nbsp;<span>{{c.incidentDesc}}</span>
+                    </div>
+                </label>
+            </div>
+            <div class="col-sm-1">
+                <div (click)="navigateToDetailPage(c.id)" data-toggle="tooltip" data-original-title="Edit"
+                    ngbTooltip="Edit Recruitment" class="form-group col-sm-1">
+                    <a class="btn Color"><i class="fa fa-edit"></i></a>
+                </div>
+            </div>
+            <div class="col-sm-1" *ngIf="c.incidentStatus=='OPEN'">
+                <div (click)="navigateToImportApplicant(c.id)" ngbTooltip="Import Applicants"
+                    class="form-group col-sm-1 ">
+                    <a class="btn btn-warning"><i class="fa fa-users"></i></a>
+                </div>
+            </div> 
+
+
+            <div  class="col-md-1" *ngIf="c.hasTest=='Y'">
+
+                <div *ngIf="c.incidentStatus=='OPEN'">
+                    <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-primary" id="dropdownForm1" ngbDropdownToggle>Test</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                            <form class="px-4 py-3">
+
+                                <div  class="form-group">
+                                    <div (click)="generateTemplate(c.id,c)" ngbTooltip="generate-template"
+                                        class="form-group col-sm-1 ">
+                                        <a class="btn btn-outline-success"><i class="fa fa-eye"> &nbsp;Generate
+                                                Template</i></a>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div (click)="getTemplates(c)" ngbTooltip="View Tests" class="form-group col-sm-1 ">
+                                        <a class="btn btn-outline-primary"><i class="fa fa-eye"> &nbsp;View
+                                                Tests</i></a>
+                                    </div>
+                                </div>
+                                <div  class="form-group">
+                                    <div (click)="navigateToFilterApplicant(c.id)"
+                                        ngbTooltip="Filter Applicants for Test" class="form-group col-sm-1">
+                                        <a class="btn btn-outline-primary"><i class="fa fa-filter"> &nbsp;Filter
+                                                Applicants
+                                                for Test</i></a>
+                                    </div>
+                                </div>
+                                <div  class="form-group">
+                                    <div (click)="navigateToTestSchedule(c.id)" ngbTooltip="Schedule Test"
+                                        class="form-group col-sm-1 ">
+                                        <a class="btn btn-outline-primary"><i class="fa fa-book"> &nbsp;Schedule
+                                                Test</i></a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div (click)="navigateToTestReport(c.id)" ngbTooltip="Score Test"
+                                        class="form-group col-sm-1 ">
+                                        <a class="btn btn-outline-primary"><i class="fa fa-area-chart"> &nbsp;Score
+                                                Test</i></a>
+                                    </div>
+                                </div>
+                                <div *ngIf="c.incidentTests.length!=0" class="form-group">
+                                    <div ngbTooltip="Delete test"
+                                        class="form-group col-sm-1 ">
+                                        <confirm-delete [type]="'submit'" [typeString]="'All Test'" (confirmed)="deleteTest('test',c.id)"></confirm-delete>
+                                    </div>
+                                </div>
+                                <div  class="form-group">
+                                    <div  ngbTooltip="Delete test-template" class="form-group col-sm-1 ">
+                                        <confirm-delete [type]="'submit'" [typeString]="'All Imported question from question bank'" (confirmed)="deleteTest('template',c.id)"></confirm-delete>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div  class="col-md-1" *ngIf="(c.hasInterview=='Y' && c.incidentStatus=='OPEN')">
+                <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-info" id="dropdownForm1" ngbDropdownToggle>Interview</button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                        <form class="px-4 py-3">
+                            <div class="form-group">
+                                <div (click)="navigateToShortList(c.id)"
+                                    ngbTooltip="Filter Applicants for Interview" class="form-group col-sm-1">
+                                    <a class="btn btn-outline-info"><i class="fa fa-filter">&nbsp; ShortList Applicants for Interview</i></a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div (click)="navigateToInterview(c.id)" ngbTooltip="Schedule Interview"
+                                    class="form-group col-sm-1 ">
+                                    <a class="btn btn-outline-info"><i class="fa fa-calendar-check-o">&nbsp;
+                                            Schedule
+                                            Interview </i></a>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="col-md-2" *ngIf="c.incidentStatus=='OPEN'">
+                <div (click)="navigateToEmployeeConversion(c.id)" ngbTooltip="Employee Conversion"
+                    class="form-group col-sm-1 ">
+                    <a class="btn btn-info">Employee Conversion</a>
+                </div>
+            </div>
+
+            <!-- -------------------Export------------------ -->
+
+            <div class="col-md-1" *ngIf="c.incidentStatus=='OPEN'">
+                <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-primary" id="dropdownForm1" ngbDropdownToggle>Export</button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                        <form class="px-4 py-3">
+                            <div class="form-group">
+                                <div (click)="exportApplicant(c.id)" ngbTooltip="Export Applicant List"
+                                    class="form-group col-sm-1 ">
+                                    <a class="btn btn-outline-primary"><i class="fa fa-download"> &nbsp;Export
+                                            Applicant List</i></a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div (click)="exportResult(c.id)" ngbTooltip="Export Overall Result List"
+                                    class="form-group col-sm-1 ">
+                                    <a class="btn btn-outline-primary"><i class="fa fa-download"> &nbsp;Export
+                                            Overall Result List</i></a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div (click)="exportTestResult(c.id)" ngbTooltip="Export Test Result"
+                                    class="form-group col-sm-1 ">
+                                    <a class="btn btn-outline-primary"><i class="fa fa-download"> &nbsp;Export Test
+                                            Result List</i></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="inputPosition" class="col-md-12 " *ngIf="c.errorCode==null">
+                    <font color="blue">Status:</font> &nbsp;
+                    <span class="label label-{{statuses[c.incidentStatus]}}">{{c.incidentStatus}}</span>
+                    <span class="badge badge-pill badge-dark">{{c.incidentCode}}</span>
+                </label>
+            </div>
+            <div class="col">
+                <flag-alert [message]="c.msg"></flag-alert>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div *ngIf="c.incidentType=='Recruitment'" class="col-md-3">
+                <label for="inputPosition" class="col-md-12 col-sm-3">
+                    <font color="blue">Job Request Code:</font> &nbsp;<span
+                        class="badge badge-pill badge-dark">{{c.vcCode}}</span>
+                </label>
+            </div>
+
+            <div class="col-md-3">
+                <label for="inputPosition" class="col-md-12 ">
+                    <font color="blue">Positions available:</font> &nbsp;<span
+                        class="badge badge-pill badge-dark">{{c.vcCount}}</span>
+
+                </label>
+            </div>
+            <div *ngIf="c.incidentType=='Training'" class="col-md-3 col-sm-3">
+                <label for="inputPosition">
+                    <font color="blue">Certificate Code:</font> &nbsp;<span>{{c.certificateCode}}</span>
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPosition" class="col-md-12 ">
+                    <font color="blue">Applications received:</font> &nbsp;<span
+                        class="badge badge-pill badge-dark">{{c.totalApplnCount}}</span>
+                </label>
+            </div>
+        </div>
+        <div class="row" *ngIf="c.errorCode!=null">
+            <div class="col-md-3">
+
+                <label for="inputPosition" class="col-md-12 ">
+                    <font color="blue">Error Code:</font> &nbsp;<span class="badge badge-pill badge-danger"
+                        [ngbTooltip]="c.errorMessage"> {{c.errorCode}}</span>
+                </label>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <form class="pagination-wrapper">
+                    <div class="form-group pages">
+                        <pagination-controls class="my-pagination" id="pager" (pageChange)="pageChanged($event)" maxSize="4"
+                            directionLinks="true" autoHide="true" previousLabel="Prev" nextLabel="Next"
+                            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="pageNumber"
+                            screenReaderCurrentLabel="You're on page">
+                        </pagination-controls>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-footer">
+                <small class="text-muted">Current page: {{pageNumber}}</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Training -->
+
+<div class="align-items-center" *ngIf="view=='training'">
+    <div style="padding-bottom: 10px;"
+        *ngFor="let c of incidentList | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let i=index"
+        class="card card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="inputPosition" class="col-md-12 ">
+                    <span style="font-weight:bold">{{c.incidentName}}</span>
+                    <div class="row col-md-12">
+                        &nbsp;&nbsp;&nbsp;<span>{{c.incidentDesc}}</span>
+                    </div>
+                </label>
+            </div>
+            <div class="col-md-1">
+                <div (click)="navigateToDetailPage(c.id)" data-toggle="tooltip" data-original-title="Edit"
+                ngbTooltip="Edit Training" class="form-group col-sm-1">
+                    <a class="btn Color"><i class="fa fa-edit"></i></a>
+                </div>
+            </div>
+            <div class="col-md-1" *ngIf="c.incidentStatus=='OPEN'">
+                <div (click)="navigateToImportApplicant(c.id)" ngbTooltip="Import Applicants"
+                    class="form-group col-sm-1 ">
+                    <a class="btn btn-warning"><i class="fa fa-users"></i></a>
+                </div>
+            </div>
+            <div class="col-md-1" *ngIf="c.incidentStatus=='PENDING-APPROVAL'">
+                <div (click)="navigateToImportApplicant(c.id)" ngbTooltip="Import Applicants"
+                    class="form-group col-sm-1 ">
+                    <a class="btn btn-warning"><i class="fa fa-users"></i></a>
+                </div>
+            </div>
+            <div class="col-md-1" *ngIf="c.incidentStatus=='OPEN'">
+                <div (click)="navigateToTrainingProgress(c.id)" ngbTooltip="Training Progress"
+                    class="form-group col-sm-1 ">
+                    <a class="btn btn-success"><i class="fa fa-archive"></i></a>
+                </div>
+            </div>
+            <div class="col-md-1" *ngIf="c.incidentStatus=='OPEN' && c.hasTest=='Y'">
+                <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-primary" id="dropdownForm1" ngbDropdownToggle>Test</button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                        <form class="px-4 py-3">
+
+                            <div class="form-group">
+                                <div (click)="generateTemplate(c.id,c)" ngbTooltip="generate-template"
+                                    class="form-group col-sm-1 ">
+                                    <a class="btn btn-outline-success"><i class="fa fa-eye"> &nbsp;Import Question Bank</i></a>
+                                </div>
+                            </div>
+
+                            <div  class="form-group">
+                                <div (click)="navigateToTestSchedule(c.id)" ngbTooltip="Schedule Test"
+                                    class="form-group col-sm-1 ">
+                                    <a class="btn btn-outline-primary"><i class="fa fa-book"> &nbsp;Schedule
+                                            Test</i></a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div (click)="navigateToTestReport(c.id)" ngbTooltip="Score Test"
+                                    class="form-group col-sm-1 ">
+                                    <a class="btn btn-outline-primary"><i class="fa fa-area-chart"> &nbsp;Score
+                                            Test</i></a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div (click)="getTemplates(c)" ngbTooltip="View Test" class="form-group col-sm-1 ">
+                                    <a class="btn btn-outline-primary"><i class="fa fa-eye"> &nbsp;View
+                                            Test</i></a>
+                                </div>
+                            </div>
+                            <div *ngIf="c.incidentTests.length!=0" class="form-group">
+                                <div (click)="deleteIncidenTest(c.id)"  ngbTooltip="Delete test"  class="form-group col-sm-1 ">
+                                    <a class="btn btn-outline-danger"><i class="fa fa-trash"> &nbsp;Delete Test</i></a>
+                                    <!-- <confirm-delete [type]="'submit'" [typeString]="'Test'" (confirmed)="deleteTest('test',c.id)"></confirm-delete> -->
+                                    <!-- <a class="btn btn-outline-danger"><i class="fa fa-trash"> &nbsp;Delete Test</i></a> -->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div  ngbTooltip="Delete test-template" class="form-group col-sm-1 ">
+                                    <confirm-delete [type]="'submit'" [typeString]="'Test Template'" (confirmed)="deleteTest('template',c.id)"></confirm-delete>
+                                    <!-- <a class="btn btn-outline-danger"><i class="fa fa-trash"> &nbsp;Delete Test
+                                            Template</i></a> -->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- -------------------Export------------------ -->
+
+            <div class="col-md-1" *ngIf="c.incidentStatus=='OPEN'">
+                <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-primary" id="dropdownForm1" ngbDropdownToggle>Export</button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                        <form class="px-4 py-3">
+                            <div class="form-group">
+                                <div (click)="exportApplicant(c.id)" ngbTooltip="Export Applicant List"
+                                    class="form-group col-sm-1 ">
+                                    <a class="btn btn-outline-primary"><i class="fa fa-download"> &nbsp;Export
+                                            Applicant List</i></a>
+                                </div>
+                            </div>
+                            <!-- <div *ngIf="c.hasTest=='Y'" class="form-group">
+                                <div (click)="exportResult(c.id)" ngbTooltip="Export Overall Result List"
+                                    class="form-group col-sm-1 ">
+                                    <a class="btn btn-outline-primary"><i class="fa fa-download"> &nbsp;Export
+                                            Overall Result List</i></a>
+                                </div>
+                            </div> -->
+                            <div *ngIf="c.hasTest=='Y'" class="form-group">
+                                <div (click)="exportTestResult(c.id)" ngbTooltip="Export Test Result"
+                                    class="form-group col-sm-1 ">
+                                    <a class="btn btn-outline-primary"><i class="fa fa-download"> &nbsp;Export Test
+                                            Result List</i></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="inputPosition" class="col-md-12 ">
+                    <font color="blue">Status:</font> &nbsp;
+                    <span class="label label-{{statuses[c.incidentStatus]}}">{{c.incidentStatus}}</span>
+                    <span class="badge badge-pill badge-dark">{{c.incidentCode}}</span>
+                </label>
+            </div>
+            <div class="col">
+                <flag-alert [message]="c.msg"></flag-alert>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="inputPosition" class="col-md-12 col-sm-3">
+                    <font color="blue">Total Head Count:</font> &nbsp;<span
+                        class="badge badge-pill badge-dark">{{c.totalHeadCount}}</span>
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPosition" class="col-md-12 col-sm-3">
+                    <font color="blue">Total Attendees Count:</font> &nbsp;<span
+                        class="badge badge-pill badge-dark">{{c.totalAttendies}}</span>
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label for="inputPosition" class="col-md-12 col-sm-3">
+                    <font color="blue">Certificate Issued Count:</font> &nbsp;<span
+                        class="badge badge-pill badge-dark">{{c.certificateIssuedCount}}</span>
+                </label>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <form class="pagination-wrapper">
+                    <div class="form-group pages">
+                        <pagination-controls class="my-pagination" id="pager" (pageChange)="pageChanged($event)" maxSize="4"
+                            directionLinks="true" autoHide="true" previousLabel="Prev" nextLabel="Next"
+                            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="pageNumber"
+                            screenReaderCurrentLabel="You're on page">
+                        </pagination-controls>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-footer">
+                <small class="text-muted">Current page: {{pageNumber}}</small>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- 
+<ng-template #deleteWarining let-c="close">
+    <div class="modal-body">
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3>Are You Sure to Delete {{deleteType}}</h3>                      
+    </div>
+
+    <div class="model-footer align-self-center text-right">
+
+    </div>
+</ng-template> -->
+
+
+                <!-- deleteTest -->
+
+                <ng-template #deleteTests let-c="close">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Delete Test</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="c()">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                          <div class="row">
+                            <div class="col">
+                                <label> <font color="blue">Applicant Started The Test :</font></label>
+
+                                <span class="text">{{incidentStartTest.length}}</span>
+                            </div>
+                            <div class="col">
+                                <label> <font color="blue">Applicant Completed The Test :</font></label>
+                                <span class="text">{{incidentCompleteTest.length}}</span>
+                            </div>
+                          </div> 
+                          <div class="row">
+                              <div class="col">
+                                <button type="button" (click)="deleteTest('test',inc.id)" class="btn btn-danger">Delete</button>
+                              </div>
+                           <div class="col">
+                            <button type="button" (click)="c()" class="btn btn-info">Ignore</button>
+                           </div>
+                          </div>
+                      </div>
+                </ng-template>
+
+
+                <!-- test Tempalte  -->
+
+<ng-template #testTemplate let-c="close">
+    <div class="modal-body">
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3>View Tests</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Pass percentage</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Total Questions</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let i of itt; index as o">
+                    <th scope="row">{{ o + 1 }}</th>
+                    <td>{{ i.testTemplateName }}</td>
+                    <td>{{ i.description }}</td>
+                    <td>{{ i.passPercentage | number }}</td>
+                    <td>{{ i.duration }}</td>
+                    <td>
+                        <a href="javascript:void(0)" (click)="getQuestion(i.incidentApplicantTemplateQuestions)"><span
+                                class="badge badge-pill badge-dark">{{ i.incidentApplicantTemplateQuestions.length }}</span></a>
+                    </td>
+                    <td *ngIf="i.incidentApplicantTemplateQuestions.length!=0">
+                        <ng-template #tt> <b>Message : </b>{{i.creationMessage}}</ng-template>
+                        <span [ngbTooltip]="tt"
+                            class="label label-{{statuses[i.creationStatus]}}">{{i.creationStatus}}</span>
+                    </td>
+                    <td *ngIf="i.incidentApplicantTemplateQuestions.length==0">
+                        <span class="label label-danger">Not Imported</span>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Question Details</h3>
+        <div class="table-responsive">
+            <table class="table table-md table-hover table-striped table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Question</th>
+                        <th>Difficulty Level</th>
+                        <th>Option1</th>
+                        <th>Option2</th>
+                        <th>Option3</th>
+                        <th>Option4</th>
+                        <th>CorrectAnswer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let testq of incidentApplicantTemplateQuestions;let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{testq.question}}</td>
+                        <td>{{testq.difficultyLevel}}</td>
+                        <td>{{testq.option1}}</td>
+                        <td>{{testq.option2}}</td>
+                        <td>{{testq.option3}}</td>
+                        <td>{{testq.option4}}</td>
+                        <td>{{testq.correctAnswer}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="model-footer align-self-center text-right">
+
+    </div>
+</ng-template>
+
+<style>
+    .Color {
+        background: #cc00ff;
+    }
+
+    .textColor {
+        color: rgb(11, 15, 243);
+    }
+
+    
+</style>

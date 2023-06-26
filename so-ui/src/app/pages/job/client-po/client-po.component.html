@@ -1,0 +1,121 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Client Purchase Order List</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+				<li class="breadcrumb-item active">Client Purchase Order List</li>
+			</ol>
+			<button type="button" class="btn btn-info m-l-15" (click)="createNew();">
+				<i class="fa fa-plus-circle"></i> Create ClientPo</button>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-12 card card-body">
+		<flag-alert [message]="saveMsg"></flag-alert>
+		<div class="table-responsive">
+			<table class="table table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Client Name</th>
+						<th>PO RefNo</th>
+						<th>PO Date</th>
+						
+						<th>Actions</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let row of rows;let i=index ">
+						<td>{{i+1}}</td>
+					 <td>{{row.companyName}}</td>
+			         <td>{{row.poRefNo}}</td>
+					 <td>{{row.poDate}}</td>
+						
+						<td class="text-nowrap">
+							<a href="javascript:void(0)" (click)="showDetail(row.id);">
+								<i class="fa fa-pencil text-inverse m-r-10"></i>
+							</a>
+							<confirm-delete [type]="'icon'" (confirmed)="deleteRow(row.id)"></confirm-delete>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<ng-template #vdetail let-c="close">
+	<div class="modal-header">
+		<h3 class="modal-title">Client Po Detail</h3>
+		<button type="button" class="close" (click)="c()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		
+		<div class="row">
+
+			<div class="col-6 form-group">
+				<label class="control-label">Client Name</label>
+				<form [formGroup]="form">
+				<select  class="form-control" formControlName="clientName" [(ngModel)]="clientPurchaseOrder.clientId">
+						<option *ngFor="let v of partnerList" [value]="v.id">{{v.clientCode}}-{{v.companyName}}</option>
+					</select>	
+				</form>
+			</div>
+			<div class="col-6 form-group" >
+				<label class="control-label">PO RefNo</label>
+				<form [formGroup]="form">
+				<input class="form-control" placeholder="refNo" formControlName="refNo"  [(ngModel)]="clientPurchaseOrder.poRefNo">
+			</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6 form-group">
+				<label class="control-label">PO Date</label>
+				<form [formGroup]="form">
+				<input type="date"class="form-control" formControlName="poDt" [(ngModel)]="clientPurchaseOrder.poDate">
+			</form>
+			</div>
+			<div class="col-6 form-group">
+				<label class="control-label">PO Description</label>
+				<form [formGroup]="form">
+				<textarea type="text" class="form-control" placeholder="poDescription" formControlName="desc" (keypress)="commonService.isValidName($event)" [(ngModel)]="clientPurchaseOrder.poDesc"></textarea>
+			</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6 form-group" >
+				<label class="control-label">Order Amount</label>
+				<form [formGroup]="form">
+				<input type="number" class="form-control" placeholder="Order Amount" formControlName="orderAmount" [(ngModel)]="clientPurchaseOrder.orderAmount">			
+			</form>
+			</div>
+		</div>
+		<div class="row">
+	
+				
+		<div class="col-3 text-left"><label>Please Upload Customer PO</label></div>
+		<div class="col-3"><file-upload [fileDetail]="'CLIENT-PO'" (change)="fileChange($event,'CLIENT-PO')"></file-upload></div>
+				
+		<div class="col-6 form-group">
+			<a href="javascript:void(0)" *ngIf="clientPurchaseOrder.docId!=null" (click)="download(clientPurchaseOrder.docId);"><font  color="Green">Download</font></a>
+	</div>	
+			</div>
+	</div>
+
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-warning" [disabled]="!form.valid" (click)="save();">Save</button>
+	</div>
+</ng-template>

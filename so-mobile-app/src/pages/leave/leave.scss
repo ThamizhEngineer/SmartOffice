@@ -1,0 +1,64 @@
+page-leave {
+        .fab {
+            contain: layout;
+        }
+    button[ion-fab] {
+            overflow: visible;
+            position: relative;
+    
+            ion-label {
+                position: absolute;
+                top: -3px;
+                right: 40px;
+    
+                // color: rgb(45, 61, 209);
+              
+                line-height: 30px;
+                padding: 4px 8px;
+                border-radius: 4px;
+            }
+        }  
+        ion-fab ion-label {
+            font-weight: bold;
+            color: color($colors, primary, base);
+            text-align: center;
+            margin: 0px !important;
+        } 
+    
+            
+       
+    
+        h3{
+            color:rgb(45, 61, 209);
+        }
+    
+        .header > ion-col{
+            font-size:16px;
+            font-weight: bold;
+            color:rgb(45, 61, 209);
+        }
+        ion-icon {
+            &[class*="custom-"] {
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
+             
+                mask-size: contain;
+                mask-position: 50% 50%;
+                mask-repeat: no-repeat;
+                background: contain;
+                width: 1em;
+                height: 1em;
+               
+            }
+          
+            &[class*="custom-casual-leave"] {
+               
+               font-size: xx-large !important;
+             
+            }
+            
+}
+
+  
+}

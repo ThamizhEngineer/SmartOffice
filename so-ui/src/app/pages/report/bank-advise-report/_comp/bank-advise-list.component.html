@@ -1,0 +1,118 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Bank Advise Report </h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+				<li class="breadcrumb-item active">Bank Advise Report</li>
+			</ol>
+			
+		</div>
+	</div>
+</div>
+
+<div class="col-lg-12">
+	<div class="card">
+		<div class="card-body">
+			
+		<div class="row m-t-10">
+			<div class="form-group col-3">
+				<label class="control-label">Purpose 	</label><select class="form-control"  [(ngModel)]="purpose" placeholder="purpose" >
+					<option *ngFor="let item of purposes" [value]="item.name">{{item.name}}</option>
+				</select>
+		
+			
+			</div>
+			<div class="form-group col-3">
+			<label class="control-label">From Date</label>
+			
+			<input type="date" class="form-control" [(ngModel)]="fromDt">
+		
+		</div>
+		<div class="form-group col-3">
+			<label class="control-label">To Date</label>
+		
+			<input type="date"   class="form-control" [(ngModel)]="endDt">
+	
+		</div>
+		
+
+	</div>
+	<button type="submit" class="btn btn-info waves-effect waves-light mr-1 "(click)="getAllBankReports(purpose,fromDt,endDt)">Fetch Report</button>
+	<button type="submit" class="btn btn-info waves-effect waves-light mr-1 "(click)="exportAsExcelData()">Download Report</button>
+		<br/>
+		<br/>
+		<br/>
+		<div  class="table-responsive">
+	<table  *ngIf="isGetAllData" class="table table-striped table-hover table-bordered" >
+		<thead>
+			<tr>
+			
+		
+				<th data-sort-initial="true" data-toggle="true">Beneficiary Account Number</th>
+				<th data-sort-initial="true" data-toggle="true">Bank Name</th>
+				<th data-sort-initial="true" data-toggle="true">Print location</th>
+				<th data-sort-initial="true" data-toggle="true">Bene add1</th>
+				<th data-sort-initial="true" data-toggle="true">Add details3</th>
+
+				<th data-sort-initial="true" data-toggle="true">Add details4</th>
+				<th data-sort-initial="true" data-toggle="true">Add details1</th>
+				<th data-sort-initial="true" data-toggle="true">Add details2</th>
+				<th data-sort-initial="true" data-toggle="true">PayMod</th>
+
+				<th data-sort-initial="true" data-toggle="true">Amt</th>
+				<th data-sort-initial="true" data-toggle="true">Purpose</th>
+				<th data-sort-initial="true" data-toggle="true">Ben add3</th>
+				<th data-sort-initial="true" data-toggle="true">Add details5</th>
+				<th data-sort-initial="true" data-toggle="true">Ben add4</th>
+				<th data-sort-initial="true" data-toggle="true">Date</th>
+				<th data-sort-initial="true" data-toggle="true">Debit Account No</th>
+				<th data-sort-initial="true" data-toggle="true">Payable location</th>
+
+
+				<th data-sort-initial="true" data-toggle="true">Beneficiary Account Name</th>
+				<th data-sort-initial="true" data-toggle="true">IFSC Code</th>
+				<th data-sort-initial="true" data-toggle="true">Remarks</th>
+				<th data-sort-initial="true" data-toggle="true">Ben Mobile No</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let allData of allDatas">
+				<td>{{allData.accNo}}</td>
+			   <td>{{allData.bankName}}</td>
+			   <td></td>
+			   <td></td>
+			   <td></td>
+			   <td></td>
+			   <td></td>
+			   <td></td>
+			   <td></td>
+			   <td >
+				{{allData.totalEntitledAmount}}
+				</td><td >
+					{{allData.expensePurpose}}
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+			   <td>{{allData.debitAccountNo}}</td>
+			   <td></td>
+			   <td>{{allData.accountName}}</td>
+			   <td>{{allData.ifscCode}}</td>
+			   <td>{{allData.settleRemarks}}</td>
+			   <td></td>
+		   </tr>
+		</tbody>
+		</table>
+	</div>
+</div>
+		
+	</div>
+	
+	</div>
+	

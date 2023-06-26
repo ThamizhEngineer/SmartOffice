@@ -1,0 +1,53 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">  
+    <h4 class="text-themecolor">Cash Balance</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+    <div class="d-flex justify-content-end align-items-center">
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+    <li class="breadcrumb-item active">Cash Balance</li>
+    </ol>
+    </div>
+    </div>
+    </div>
+<div class="d-flex justify-content-left">
+        
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card p-20">
+
+                        <div class="card-body" id="printSection">
+                            <div class="row m-t-10">
+                               <div class="form-group col-md-4 col-sm-6">
+                            <label class="control-label">Employee Id</label><br/>
+                            <autocomplete  [placeholder]="'Employee Id'"   [value]="cashbalance.empName" (empDetail)="employeeIdSelected($event)"> </autocomplete>
+                                    <!-- <select class="form-control" [(ngModel)]="cashbalance.employeeId">
+										<option *ngFor="let v of employee" [value]="v.id">{{v.empName}}</option>
+									</select> -->
+                                </div>
+                                <div class="form-group col-md-4 col-sm-6" >
+                                    <label class="control-label">Import Date</label>
+                                    <input type="date" class="form-control form-control-line" placeholder="Name" [(ngModel)]="cashbalance.importDt" #importDt="ngModel" name="importDt">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-6">
+                                    <label class="control-label">Pay To Emp Amt</label>
+                                    <input type="number" class="form-control form-control-line" placeholder="PayToEmpAmt" required pattern="[0-9]{9}[.]?[0-9]{4,6}" [(ngModel)]="cashbalance.payToEmpAmt" #payToEmpAmt="ngModel" name="payToEmpAmt">
+                                </div>
+
+<div class="form-group col-md-4 col-sm-6">                  
+                                <label class="control-label">Pay To Comp Amt</label>
+                                    <input type="number" class="form-control form-control-line" placeholder="payToCompAmt" required pattern="[0-9]{9}[.]?[0-9]{4,6}" [(ngModel)]="cashbalance.payToCompAmt" #payToCompAmt="ngModel" name="payToCompAmt">                                    
+                                </div>
+</div>
+</div>
+<div class="d-flex justify-content-end align-items-center">
+<button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="savecashbalance()">Save</button>
+<!-- <button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="cancel()">Cancel</button> -->
+<button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="listcashbalance()">Back</button>
+</div>
+</div>
+</div>
+</div>
+<flag-alert [message]="msg"></flag-alert>

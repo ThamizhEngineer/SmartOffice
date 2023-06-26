@@ -1,0 +1,9 @@
+.card {
+	margin-bottom: 5px;
+}
+.card-body {
+    padding: 0.7rem 1.25rem 0.3rem 1.25rem;
+}
+.table {
+    margin-bottom: 0.75rem;
+}

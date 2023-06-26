@@ -1,0 +1,95 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Attendance</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a [routerLink]="['/index']">Home</a></li>
+                    <li class="breadcrumb-item"><a  [routerLink]="['/transaction/attendance']">Attendance</a></li>
+                    <li class="breadcrumb-item active">Proxy</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-md-12" *ngIf="warning">
+						GEO Location is disabled by Browser Please enable to continue.
+					</div>
+					<div class="col-md-12" *ngIf="!warning && !clockRunning">
+						Attendance Check In: <label class="toggle col-sm-8"><input type="checkbox" [(ngModel)]="checkin"/><span class="handle"></span></label>
+					</div>
+				</div>
+				<div class="row" *ngIf="checkin && coordinates">
+					<div class="col-md-6">
+						<label><b>Location</b></label>
+						<agm-map [latitude]="coordinates.latitude" [longitude]="coordinates.longitude">
+						  <agm-marker [latitude]="coordinates.latitude" [longitude]="coordinates.longitude"></agm-marker>
+						</agm-map>
+					</div>
+					<div class="col-md-6">
+						<button type="submit" class="btn btn-success waves-effect waves-light m-t-30" (click)="checkThisLocation();">Confirm Location</button>
+					</div>
+				</div>
+				
+				<div *ngIf="clockRunning && coordinates">
+					<div class="row">
+						<div class="col-md-6">
+							<label><b>Location</b></label>
+							<agm-map [latitude]="coordinates.latitude" [longitude]="coordinates.longitude">
+							  <agm-marker [latitude]="coordinates.latitude" [longitude]="coordinates.longitude"></agm-marker>
+							</agm-map>
+						</div>
+						<div class="col-md-6 m-t-30">
+							<small> Time in Office</small>
+							<h1>{{stopwatch}}</h1>
+							<div class="row m-t-20" *ngIf="checkout">
+								<div class="col-md-4">
+									Check In time: 
+								</div>
+								<div class="col-md-8">
+									{{checkInTime.dateTime}}
+								</div>
+								<div class="col-md-4">
+									Check Out time: 
+								</div>
+								<div class="col-md-8">
+									{{checkOutTime.dateTime}}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" >
+						<div class="col-md-6" *ngIf="!checkout">
+							<button type="submit" class="btn btn-success waves-effect waves-light m-t-30" (click)="checkOut(confirmation);">Confirm Checkout</button><br/>
+							<small class="bg-danger">Attendance will be closed if button clicked</small>
+						</div>
+						
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<ng-template #confirmation let-c="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Confirm Checkout</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Your attendance is less than 8 hours. Do you still want to checkout?...</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="confirmCheckout()">OK</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+  </div>
+</ng-template>

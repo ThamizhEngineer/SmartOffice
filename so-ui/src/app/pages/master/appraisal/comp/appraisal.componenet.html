@@ -1,0 +1,214 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Appraisal</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item">Appraisal</li>				
+			</ol>
+		</div>
+	</div>
+</div>
+<flag-alert [message]="saveMsg"></flag-alert>
+<div class="card-deck">
+    
+    <div class="card">
+        <div class="card-header">Units</div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Unit Code</th>
+                        <th scope="col">Unit Name</th>
+                        <th scope="col"> <i class="fa fa-cog text-inverse m-r-10"></i>
+                            <a href="javascript:void(0)" *ngIf="units.length==0" (click)="editUnits(null)" data-toggle="tooltip" data-original-title="Edit"> 
+                                <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                            </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let c of units | slice: (upage-1) * upageSize : (upage-1) * upageSize + upageSize;let i=index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>
+                            {{c.unitCode}}
+                          
+                        </td>
+                        <td>{{c.unitName}}</td>
+                        <td>
+                            <a href="javascript:void(0)" (click)="editUnits(null)" data-toggle="tooltip" data-original-title="Edit"> 
+                            <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                            <a href="javascript:void(0)" (click)="editUnits(c.unitCode)" data-toggle="tooltip" data-original-title="Edit"> 
+                                <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <confirm-delete [type]="'icon'" *ngIf="units.length > 1" (confirmed)="removeUnits(c.unitCode)"></confirm-delete><br />  
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="card-footer bg-light">
+            <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <ngb-pagination [(page)]="upage" [pageSize]="upageSize" [collectionSize]="units.length">
+                            </ngb-pagination>
+                            <pre>Current page: {{upage}}</pre>
+                        </div>                                                                 
+                    </div>
+    
+                </div>
+        </div>
+    </div>      
+
+
+
+
+
+
+    <div class="card">
+        <div class="card-header">Metric Categrories</div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Metric Code</th>
+                        <th scope="col">Metric Name</th>
+                        <th scope="col"> <i class="fa fa-cog text-inverse m-r-10"></i>
+                        <a href="javascript:void(0)" *ngIf="metrics.length==0" (click)="editMetric(null)" data-toggle="tooltip" data-original-title="Edit"> 
+                                <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let m of metrics | slice: (mpage-1) * mpageSize : (mpage-1) * mpageSize + mpageSize;let i=index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>
+                            {{m.metricCategoryCode}}
+                          
+                        </td>
+                        <td>{{m.metricCategoryName}}</td>
+                        <td>
+                            <a href="javascript:void(0)" (click)="editMetric(null)" data-toggle="tooltip" data-original-title="Edit"> 
+                            <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                            <a href="javascript:void(0)" (click)="editMetric(m.id)" data-toggle="tooltip" data-original-title="Edit"> 
+                                <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <confirm-delete *ngIf="metrics.length > 1" [type]="'icon'" (confirmed)="removeMetric(m.id)"></confirm-delete><br />  
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="card-footer bg-light">
+            <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <ngb-pagination [(page)]="mpage" [pageSize]="mpageSize" [collectionSize]="metrics.length">
+                            </ngb-pagination>
+                            <pre>Current page: {{mpage}}</pre>
+                        </div>                                                                 
+                    </div>
+    
+                </div>
+        </div>
+    </div>  
+
+</div>
+
+<ng-template #editunits let-c="close">
+    <div class="modal-body">
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <flag-alert [message]="errorMsg"></flag-alert>
+        <h3 *ngIf="isEdit==false"> Create New Unit </h3> 
+        <h3 *ngIf="isEdit==true"> Edit Unit </h3>               
+        <div class="model-footer align-self-center text-left">
+            <div class="row">
+                <div *ngIf="isEdit==false" class="form-group col-md-3 col-sm-6">
+                    <label class="control-label">Unit Code</label>
+                    <input type="text" class="form-control form-control-line" placeholder="Units Code" [(ngModel)]="unit.unitCode" name="code" >
+                </div>
+                <div *ngIf="isEdit==true" class="form-group col-md-3 col-sm-6">
+                    <label class="control-label">Unit Code</label><br/>
+                   <span class="label label-default">{{unit.unitCode}}</span>
+                </div>
+            
+                <div class="form-group col-md-3 col-sm-6">
+                    <label class="control-label">Unit Name</label>
+                    <input type="text" class="form-control form-control-line" placeholder="Units Name" [(ngModel)]="unit.unitName" name="name" >
+                </div>        
+                <div class="form-group col-md-3 col-sm-6">
+                    <label class="control-label"> Symbol </label>
+                    <input type="text" class="form-control form-control-line" placeholder="Symbol" [(ngModel)]="unit.dispSymbol" name="name" >
+                </div>                  
+                <div class="form-group col-md-5 col-sm-6">
+                    <label class="control-label"> Description </label>
+                    <textarea type="text" row="4" class="form-control form-control-line" placeholder="Description" [(ngModel)]="unit.descp" name="name" ></textarea>
+                </div>  
+            </div>    
+        </div>
+        <div class="modal-footer">
+            <div *ngIf="isEdit==false" class="col-4">
+                <button type="button" (click)="saveUnits()" class="btn btn-success">Create Units</button>
+            </div>
+            <div *ngIf="isEdit==true" class="col-4">
+                <button type="button" (click)="updateUnit()" class="btn btn-info">Update Units</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #editmetric let-c="close">
+    <div class="modal-body">
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <flag-alert [message]="errorMsg"></flag-alert>
+        <h3 *ngIf="metric.id==null"> Create New Metric </h3> 
+        <h3 *ngIf="metric.id!=null"> Edit Metric </h3>               
+        <div class="model-footer align-self-center text-left">
+            <div class="row">
+                <div *ngIf="metric.id==null" class="form-group col-md-3 col-sm-6">
+                    <label class="control-label">Metric Code</label>
+                    <input type="text" class="form-control form-control-line" placeholder="Metric Code" [(ngModel)]="metric.metricCategoryCode" name="code" >
+                </div>
+                <div *ngIf="metric.id!=null" class="form-group col-md-3 col-sm-6">
+                    <label class="control-label">Metric Code</label><br/>
+                   <span class="label label-default">{{metric.metricCategoryCode}}</span>
+                </div>
+            
+                <div class="form-group col-md-3 col-sm-6">
+                    <label class="control-label">Metric Name</label>
+                    <input type="text" class="form-control form-control-line" placeholder="Metric Name" [(ngModel)]="metric.metricCategoryName" name="name" >
+                </div>                                     
+                <div class="form-group col-md-5 col-sm-6">
+                    <label class="control-label"> Description </label>
+                    <textarea type="text" row="4" class="form-control form-control-line" placeholder="Description" [(ngModel)]="metric.descrption" name="name" ></textarea>
+                </div>  
+                <div class="form-group col-md-5 col-sm-6">
+                    <label class="control-label"> Metric Level Code </label>
+                   <select class="form-control form-control-line" name="metricCode" [(ngModel)]="metric.metricLevelCode" id="metricCode">
+                       <option value="Functional">Functional</option>
+                       <option value="Non-Functional">Non-Functional</option>
+                   </select>
+                </div>  
+            </div>    
+        </div>
+        <div class="modal-footer">
+            <div *ngIf="metric.id==null" class="col-4">
+                <button type="button" (click)="saveMetric()" class="btn btn-success">Create Metric</button>
+            </div>
+            <div *ngIf="metric.id!=null" class="col-4">
+                <button type="button" (click)="updateMetric()" class="btn btn-info">Update Metric</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

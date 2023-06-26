@@ -1,0 +1,105 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Sale Order List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Sale Order List</a></li>
+                <li class="breadcrumb-item active">Sale Order Detail </li>
+            </ol>
+            
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and center sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="col-md-12">
+    <div class="card card-body">
+
+        <form class="form-horizontal">
+
+
+
+
+
+            <div class="form-group  row ">
+                <label for="example-text-input3" class="col-sm-3 text-center control-label  col-form-label">Sale Order Number</label>
+                <div class="col-sm-3">
+                    <div class="form-group">
+
+                        <input type="text"  [(ngModel)]="saleOrder.soNumber" name="saleOrder.soNumber" class="form-control">
+                    </div>
+                </div>
+                <label for="example-text-input3" class="col-sm-3 text-center control-label  col-form-label">Sale Order Date</label>
+                <div class="col-sm-3">
+                    <div class="form-group">
+
+                        <input type="date" [(ngModel)]="saleOrder.soDt" name="saleOrder.soDt"  class="form-control mydatepicker">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group  row">
+                <label for="example-text-input3" class="col-sm-3 text-center control-label  col-form-label">Gross Amount</label>
+                <div class="col-sm-3">
+                    <div class="form-group">
+
+                        <input type="text" [(ngModel)]="saleOrder.soGrossAmt" name="saleOrder.soGrossAmt"  class="form-control">
+                    </div>
+                </div>
+                <label for="example-text-input3" class="col-sm-3 text-center control-label  col-form-label">Tax Amount</label>
+                <div class="col-sm-3 align-left">
+                    <div class="form-group align-left" >
+
+                        <input type="text" [(ngModel)]="saleOrder.soTaxAmt" name="saleOrder.soTaxAmt" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group  row">
+                <label for="example-text-input3" class="col-sm-3 text-center control-label  col-form-label">Net Amount</label>
+                <div class="col-sm-3">
+                    <div class="form-group">
+
+                        <input type="text"  [(ngModel)]="saleOrder.soNetAmt" name="saleOrder.soNetAmt" class="form-control">
+                    </div>
+                </div>
+                <label for="example-text-input3" class="col-sm-3 text-center control-label  col-form-label">Payment Terms</label>
+                <div class="col-sm-3">
+                    <div class="form-group">
+
+                        <input type="text" [(ngModel)]="saleOrder.paymentTerms" name="saleOrder.paymentTerms" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group  row">
+                <label for="example-text-input3" class="col-sm-3 text-center control-label  col-form-label">Remarks</label>
+                <div class="col-sm-3">
+                    <div class="form-group">
+
+                        <input type="text" [(ngModel)]="saleOrder.remarks" name="saleOrder.remarks" class="form-control">
+                    </div>
+                </div>
+                
+            </div>
+
+
+
+
+
+            <div class="form-group m-b-0">
+                <div class="offset-sm-3 col-sm-9">
+                    <button type="submit"style="width:100px" (click)="saveSaleOrder()" class="btn btn-info waves-effect waves-light m-t-10">Save</button>
+                    <button type="submit" style="margin-left:100px;width:100px" (click)="listSaleOrder()" class="btn btn-info waves-effect waves-light m-t-10">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

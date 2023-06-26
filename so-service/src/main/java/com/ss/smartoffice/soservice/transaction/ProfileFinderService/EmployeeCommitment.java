@@ -1,0 +1,189 @@
+package com.ss.smartoffice.soservice.transaction.ProfileFinderService;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.context.annotation.Scope;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@Entity
+@Table(name=("t_pf_emp_commitment"))
+
+@Scope("prototype")
+public class EmployeeCommitment {
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	@Column(name="match_employee_id")
+	private String matchEmployeeId;
+	private String commitmentType;
+	@JsonFormat(pattern="yyyy-MM-dd")
+	private LocalDate fromDt;
+	@JsonFormat(pattern="yyyy-MM-dd")
+	private LocalDate toDt;
+	private String jobId;
+	private String jobName;
+	private String leaveName;
+	private String holidayName;
+	private String lats;
+	private String longs;
+	private String distanceToLocation;
+
+	private String isEnabled;
+	private String createdBy;
+	private String modifiedBy;
+	@CreationTimestamp
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime createdDt;
+	@UpdateTimestamp
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime modifiedDt;
+	public EmployeeCommitment() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public EmployeeCommitment(Integer id, String matchEmployeeId, String commitmentType, LocalDate fromDt,
+			LocalDate toDt, String jobId, String jobName, String leaveName, String holidayName, String lats,
+			String longs, String distanceToLocation, String isEnabled, String createdBy, String modifiedBy,
+			LocalDateTime createdDt, LocalDateTime modifiedDt) {
+		super();
+		this.id = id;
+		this.matchEmployeeId = matchEmployeeId;
+		this.commitmentType = commitmentType;
+		this.fromDt = fromDt;
+		this.toDt = toDt;
+		this.jobId = jobId;
+		this.jobName = jobName;
+		this.leaveName = leaveName;
+		this.holidayName = holidayName;
+		this.lats = lats;
+		this.longs = longs;
+		this.distanceToLocation = distanceToLocation;
+		this.isEnabled = isEnabled;
+		this.createdBy = createdBy;
+		this.modifiedBy = modifiedBy;
+		this.createdDt = createdDt;
+		this.modifiedDt = modifiedDt;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getMatchEmployeeId() {
+		return matchEmployeeId;
+	}
+	public void setMatchEmployeeId(String matchEmployeeId) {
+		this.matchEmployeeId = matchEmployeeId;
+	}
+	public String getCommitmentType() {
+		return commitmentType;
+	}
+	public void setCommitmentType(String commitmentType) {
+		this.commitmentType = commitmentType;
+	}
+	public LocalDate getFromDt() {
+		return fromDt;
+	}
+	public void setFromDt(LocalDate fromDt) {
+		this.fromDt = fromDt;
+	}
+	public LocalDate getToDt() {
+		return toDt;
+	}
+	public void setToDt(LocalDate toDt) {
+		this.toDt = toDt;
+	}
+	public String getJobId() {
+		return jobId;
+	}
+	public void setJobId(String jobId) {
+		this.jobId = jobId;
+	}
+	public String getJobName() {
+		return jobName;
+	}
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
+	}
+	public String getLeaveName() {
+		return leaveName;
+	}
+	public void setLeaveName(String leaveName) {
+		this.leaveName = leaveName;
+	}
+	public String getHolidayName() {
+		return holidayName;
+	}
+	public void setHolidayName(String holidayName) {
+		this.holidayName = holidayName;
+	}
+	public String getLats() {
+		return lats;
+	}
+	public void setLats(String lats) {
+		this.lats = lats;
+	}
+	public String getLongs() {
+		return longs;
+	}
+	public void setLongs(String longs) {
+		this.longs = longs;
+	}
+	public String getDistanceToLocation() {
+		return distanceToLocation;
+	}
+	public void setDistanceToLocation(String distanceToLocation) {
+		this.distanceToLocation = distanceToLocation;
+	}
+	public String getIsEnabled() {
+		return isEnabled;
+	}
+	public void setIsEnabled(String isEnabled) {
+		this.isEnabled = isEnabled;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+	public LocalDateTime getCreatedDt() {
+		return createdDt;
+	}
+	public void setCreatedDt(LocalDateTime createdDt) {
+		this.createdDt = createdDt;
+	}
+	public LocalDateTime getModifiedDt() {
+		return modifiedDt;
+	}
+	public void setModifiedDt(LocalDateTime modifiedDt) {
+		this.modifiedDt = modifiedDt;
+	}
+	@Override
+	public String toString() {
+		return "EmployeeCommitment [id=" + id + ", matchEmployeeId=" + matchEmployeeId + ", commitmentType="
+				+ commitmentType + ", fromDt=" + fromDt + ", toDt=" + toDt + ", jobId=" + jobId + ", jobName=" + jobName
+				+ ", leaveName=" + leaveName + ", holidayName=" + holidayName + ", lats=" + lats + ", longs=" + longs
+				+ ", distanceToLocation=" + distanceToLocation + ", isEnabled=" + isEnabled + ", createdBy=" + createdBy
+				+ ", modifiedBy=" + modifiedBy + ", createdDt=" + createdDt + ", modifiedDt=" + modifiedDt + "]";
+	}
+	
+}

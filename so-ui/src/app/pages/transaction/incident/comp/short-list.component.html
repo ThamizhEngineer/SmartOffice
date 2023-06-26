@@ -1,0 +1,230 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">ShortList Applicants for Interview</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Recruitment</li>
+                <li class="breadcrumb-item active">Event</li>
+                <li class="breadcrumb-item active">Short List</li>
+            </ol>
+            <button type="button"  class="btn btn-info d-none d-lg-block m-l-15"> Back</button>
+        </div>
+    </div>
+</div>
+    <flag-alert [message]="saveMsg"></flag-alert>
+                    <div *ngIf="advSearch==true" class="card card-body">
+                        <div class="form-body">
+                            <div class="form-body">
+                                   
+                                        <div  class="row p-t-20">
+                                    <div class="form-group col-3">
+                                            <label>Event</label>
+                                            <input type="text" class="form-control form-control-line" placeholder="institute"    [(ngModel)]="institute"  name="institute"> 
+                                        </div>  
+                                        <div class="form-group col-md-2">
+                                                <label>Course Name</label>
+                                                <input type="text" class="form-control form-control-line" placeholder="course"    [(ngModel)]="course"  name="course"> 
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                                <label>CGPA / Marks</label>
+                                                <input type="text" class="form-control form-control-line" placeholder="marks"    [(ngModel)]="marks"  name="marks"> 
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                                <label>Passed Out</label>
+                                                <select class="form-control" [(ngModel)]="passoutYear" placeholder=" passed Out">                                           
+                                                    <option value="2015" >2015</option>
+                                                    <option value="2016" >2016</option>
+                                                    <option value="2017">2017</option>
+                                                    <option value="2018">2018</option>
+                                                    <option value="2019">2019</option>
+                                                    <option value="2020">2020</option>
+                                                    <option value="2021">2021</option>
+                                                    <option value="2022">2022</option>
+                                                    <option value="2023">2023</option>
+                                                    <option value="2024">2024</option>
+                                                </select>
+                                            </div>
+        
+                                            <div class="form-group col-md-2">
+                                                <label>History Of Arrears</label>
+                                                <select class="form-control" [(ngModel)]="historyOfArrears" placeholder="historyOfArrears">                                           
+                                                    <option value="1" >1</option>
+                                                    <option value="2" >2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">6</option>
+                                                    <option value="8">8</option>                                           
+                                                </select>
+                                            </div>                                                                                                                      
+                                                        <div class="form-group col-md-2">
+                                                            <label></label>
+                                                                <button type="button" style="width:70%" class="btn btn-info d-block m-l-15" (click)="search()"> Search</button>
+                                                            </div>
+                                                            <div class="form-group col-md-2">
+                                                                    <label></label>
+                                                                <button type="button" style="width:70%" class="btn btn-success d-block m-l-15" (click)="reset()"> Reset</button>
+                                                            </div>
+                                                    
+                                    </div>
+                                </div>
+                    </div>
+                    </div>
+
+                    <div class="card card-body" >                                                   
+                        <div class="form-body">
+                                <div class="row">
+                                        <div class="form-group col-md-4 col-sm-6">
+                                                <label class="control-label">Search</label>
+                                                <input type="text" class="form-control form-control-line" placeholder="search"   (input)="textSearch()"   [(ngModel)]="searchString"  name="searchString">                                                                               
+                                            </div> 
+                                            <div (click)="advanceSearch()" ngbTooltip="Advance Search">
+                                                <label></label><br/>                                                
+                                                <a class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                            </div>
+                                            
+                                </div>
+                            </div>
+
+                            <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+                                <label *ngIf="binding=='true'" ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                                    <input ngbButton type="radio" (click)="changeActive('true')"> Pending Applicants
+                                  </label>
+                                <label *ngIf="binding=='false'" ngbButtonLabel class="btn btn-outline-info waves-effect waves-light">
+                                  <input ngbButton type="radio" (click)="changeActive('true')"> Pending Applicants
+                                </label>
+                                <label *ngIf="binding=='true'" ngbButtonLabel class="btn-outline-primary">
+                                  <input ngbButton type="radio" (click)="changeActive('false')"> ShortListed Applicants
+                                </label>
+                                <label *ngIf="binding=='false'" ngbButtonLabel class="btn-primary">
+                                    <input ngbButton type="radio" (click)="changeActive('false')"> ShortListed Applicants
+                                </label>
+                              </div>
+                              <br/>
+                         
+                     
+                              <div *ngIf="binding=='true'" class="table-responsive">
+                                  
+                                 
+                                    <table class="table table-sm table-hover table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Email Id</th>
+                                                <th>Mobile Number</th>
+                                                <th>Resume</th>
+                                                <th>Source</th>
+                                                <th>Reference Name</th>
+                                                <th>Action   <input type="checkbox" [(ngModel)]="masterSelected" (change)="checkUncheckAll()" (change)="changeEvent($event)"/></th>								
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let user of incidentApplicantsFiltered | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                                                <td> {{user.firstName}}<applicant-detail-edit
+                                                    [childMessage]="user">
+                                               </applicant-detail-edit> </td>
+                                                <td>{{user.lastName}}</td>
+                                                <td>{{user.email}}</td>
+                                                <td>{{user.mobileNumber}}</td>
+                                                <td>
+                                                    <preview-document [docId]="user.resumeDocId"></preview-document> 
+                                                    <download-document [docId]="user.resumeDocId"></download-document> 
+                                                </td>   
+                                                <td>{{user.source}}</td>
+                                                <td *ngIf="user.source!='reference'" >
+                                                    -
+                                                </td>
+                                                <td *ngIf="user.source=='reference'">
+                                                    {{user.referredByEmpName}} 
+                                                </td>
+                                                <td> 
+                                                        <div class="custom-control custom-checkbox">
+                                                            
+                                                                <input type="checkbox"  (change)="isAllSelected()" (change)="changeEvent($event)" class="custom-control-input" id="read[{{i}}]" [(ngModel)]="user.isInterviewEligible">
+                                                                <label class="custom-control-label" for="read[{{i}}]"></label>
+                                                        </div>                                                                                                    
+                                                </td>
+                                                                                
+                                            </tr>						 
+                                        </tbody>
+                                    </table>
+                                    <ngb-pagination 
+                                    [(page)]="page"
+                                    [pageSize]="pageSize"
+                                    [collectionSize]="incidentApplicantsFiltered.length"></ngb-pagination>
+                        
+                                    <pre>Current page: {{page}}</pre>
+                                </div>
+                              <!-- </div> -->
+
+                              <div *ngIf="binding=='false'" class="table-responsive">
+                                <!-- <div class="table-responsive"> -->
+                                 
+                                        <table class="table table-sm table-hover table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Email Id</th>
+                                                    <th>Mobile Number</th>
+                                                    <th>Resume</th>
+                                                    <th>Source</th>
+                                                    <th>Reference Name</th>
+                                                    <th>Action</th>								
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let user of completed | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                                                    <td> {{user.firstName}}<applicant-detail-edit
+                                                        [childMessage]="user">
+                                                   </applicant-detail-edit> </td>
+                                                    <td>{{user.lastName}}</td>
+                                                    <td>{{user.email}}</td>
+                                                    <td>{{user.mobileNumber}}</td> 
+                                                    <td>
+                                                        <preview-document [docId]="user.resumeDocId"></preview-document> 
+                                                        <download-document [docId]="user.resumeDocId"></download-document> 
+                                                    </td>                                                         
+                                                    <td>{{user.source}}</td>
+                                                    <td *ngIf="user.source!='reference'" >
+                                                        -
+                                                    </td>
+                                                    <td *ngIf="user.source=='reference'">
+                                                        {{user.referredByEmpName}}
+                                                       
+                                                    </td>
+                                                    <td>
+    
+                                                            <div class="custom-control custom-checkbox">
+                                                                    <i *ngIf="user.isInterviewEligible=='Y'" class="fa fa-check text-success m-r-10"></i>                                                                      
+                                                            </div>                                                                                                    
+                                                    </td>
+                                                                                    
+                                                </tr>						 
+                                            </tbody>
+                                        </table>
+                                        <ngb-pagination 
+                                        [(page)]="page"
+                                        [pageSize]="pageSize"
+                                        [collectionSize]="completed.length"></ngb-pagination>
+                            
+                                        <pre>Current page: {{page}}</pre>
+                                    </div>
+                                  <!-- </div> -->
+    
+                                <div class="modal-footer">    
+            <div class="form-group">
+                    <button type="button" (click)="navigateToList()" class="btn btn-warning d-none d-lg-block m-l-15"> Back</button>
+            </div>
+            <div class="form-group">
+                    <button type="button"   (click)="submit()"  [disabled]="toggleBool" class="btn btn-success d-none d-lg-block m-l-15"> Shortlist</button>
+            </div>           
+            </div>                                                                                                                               
+            </div>
+
+                    <!-- <input type="text" class="form-control form-control-line" [(ngModel)]="user." name="remarks" placeholder=""> -->

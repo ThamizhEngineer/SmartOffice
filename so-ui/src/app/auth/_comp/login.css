@@ -1,0 +1,77 @@
+.login-register {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image:url("../../../assets/img/login-register.jpg");
+  height: 100%;
+  width: 100%;
+  padding: 10% 0;
+  position: fixed; }
+
+.login-box {
+  width: 400px;
+  margin: 0 auto; }
+  .login-box .footer {
+    width: 100%;
+    left: 0px;
+    right: 0px; }
+  .login-box .social {
+    display: block;
+    margin-bottom: 30px; }
+
+#recoverform {
+  display: none; }
+
+.login-sidebar {
+  padding: 0px;
+  margin-top: 0px; }
+  .login-sidebar .login-box {
+    right: 0px;
+    position: absolute;
+  }
+.alert{
+	margin-bottom:0px;
+}
+.toggle{
+	display:block !important;
+}
+@media (min-width: 768px){
+	.login-sidebar .login-box {
+		height:100%;
+		width:400px;
+	}	
+}
+
+@media (max-width: 767px){
+	.login-sidebar .login-box {
+		position:relative !important; 
+		width:350px;
+	}	
+}
+.login-content{
+	font-size:1.5rem;
+	color:white;
+	position: absolute;
+    padding: 8rem 8rem;
+	width:60%;
+}
+@media (max-width: 1023px){
+	.login-content{
+		font-size: 1rem;
+		padding: 15rem 1.5rem;
+		width: 90%;
+	}
+	.login-content h1{
+		font-size: 1.8rem;
+	}
+}
+@media (max-width: 767px){
+	.login-content{
+		font-size: .8rem;
+		padding: 33rem 25px;
+		width: 90%;
+	}
+	.login-content h1{
+		font-size: 1.4rem;
+	}
+}

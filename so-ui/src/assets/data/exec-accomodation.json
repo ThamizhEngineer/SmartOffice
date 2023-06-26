@@ -1,0 +1,22 @@
+{
+"id":"011",
+"customer":"GE",
+"location":"Gujarat",
+"duration":"4days",
+"employee": "Jay Paul",
+"status" : "Approved",
+"tickets" :[{
+"type": "3 star",
+"name": "Comfort Inn",
+"date" : "11/03/2018 12:00",
+"TICKETID" : "ABCK11111",
+"pickup": "CAB driver - call Sameer @ 984059494"
+},{
+"type": "Guest House",
+"name": "GE Guest House",
+"date" : "15/03/2018 12:00",
+"TICKETID" : "",
+"pickup": "Company Bus"
+}]
+
+}

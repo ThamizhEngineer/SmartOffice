@@ -1,0 +1,148 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor"><span>Notification Rule</span></h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Back Office</li>
+                <li class="breadcrumb-item active">Notification Rule</li>
+            </ol>
+            <button type="button" class="btn btn-info d-none d-lg-block m-l-15"> Back</button>
+        </div>
+    </div>
+</div>
+
+<div class="card card-body">
+    <ngb-accordion #acc="ngbAccordion">
+        <ngb-panel id="toggle-2" title="Advance Search">
+            <ng-template ngbPanelContent>
+                <div class="form-body">            
+                    <div  class="row p-t-20">
+                        <div class="form-group col-md-2">
+                            <label class="control-label">Event Name</label>
+                                    <input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                            class="form-control" [ngbTypeahead]="searchEvent"
+                                            [resultTemplate]="rt1" [inputFormatter]="formatterManager"
+                                            placeholder="Search Event" (selectItem)="eventSelected($event)"
+                                            [value]="eventName" [editable]='false' ngbtypeaheadpopup>
+                                        <ng-template #rt1 let-r="result" let-t="term">
+                                            {{r.eventName}}
+                                        </ng-template>
+                        </div>
+                        <!-- <div class="form-group col-md-2">
+                            <label class="control-label">Entity</label>
+                            <input type="text" class="form-control form-control-line" [ngbTypeahead]="entityAc" [resultTemplate]="rt2" [inputFormatter]="entitySearch" 
+                                     placeholder="Entity" (selectItem)="entitySelected($event)" [value]="entity"  name="entity">
+                                    <ng-template #rt2 let-r="result" let-t="term">
+                                        {{ r.entity}}
+                                    </ng-template>
+                        </div> -->
+                        <div class="form-group col-md-2">
+                            <label class="control-label">Entity</label>
+                            <select class="form-control" [(ngModel)]="entity " [ngModelOptions]="{standalone: true}" placeholder="Entity">
+                                    <option >TAR</option>
+                                    <option >LA</option>    
+                                    <option >ACC</option>
+                                    <option >EC</option>
+                                    <option >EP</option>
+                                    <option >SI</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="control-label">IS Msg</label>
+                            <select class="form-control" [(ngModel)]="sms" [ngModelOptions]="{standalone: true}" placeholder="sms">
+                                <option >YES</option>
+                                <option >NO</option>    
+                                <option >NA</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="control-label">Is Email</label>
+                            <select class="form-control" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" placeholder="Email">
+                                <option >YES</option>
+                                <option >NO</option>    
+                                <option >NA</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="control-label">Is In-App-Msg</label>
+                            <select class="form-control" [(ngModel)]="inAppMsg" [ngModelOptions]="{standalone: true}" placeholder="In-App-Msg">
+                                    <option >YES</option>
+                                    <option >NO</option>    
+                                    <option >NA</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                        <div class="form-group col-md-5">
+                            <label></label>
+                                <button type="button" class="btn btn-info d-block m-l-15" (click)="advancedSearch(entity,sms,email,inAppMsg)"> Search</button>
+                            </div>
+                            <div class="form-group col-md-5">
+                                    <label></label>
+                                <button type="button" class="btn btn-success d-block m-l-15" (click)="reset()"> Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+    <div *ngIf="search==true" class="table-responsive">
+        <table class="table table-sm table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>S.NO</th>
+                    <th>Event Name</th>
+                    <th>Entity</th>
+                    <th>Send SMS</th>
+                    <th>Send Email</th>
+                    <th>Send In-App-Msg</th>							
+                </tr>
+            </thead>
+            <tr *ngFor="let notifi of filteredNotification | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                <td>{{i+1}}</td>
+                <td>{{notifi.eventName}}</td>
+                <td>{{notifi.entity}}</td>
+                <!-- <td>{{notifi.sendSms}}</td> -->
+                <td>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="sendSmsCheck[{{i}}]"  [(ngModel)]="notifi.sendSmsCheck">
+                        <label class="custom-control-label" for="sendSmsCheck[{{i}}]"></label> 
+                        <i *ngIf="notifi.sendSms=='Y'" class="fa fa-check text-success m-r-10" ngbTooltip="is-SendSms=YES"></i> 
+                        <i *ngIf="notifi.sendSms=='N'" class="fa fa-close text-danger m-r-10" ngbTooltip="is-SendSms=NO"></i>           
+                    </div>
+                </td>
+                <!-- <td>{{notifi.sendEmail}}</td> -->
+                <td>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="sendEmailCheck[{{i}}]"  [(ngModel)]="notifi.sendEmailCheck">
+                        <label class="custom-control-label" for="sendEmailCheck[{{i}}]"></label>   
+                        <i *ngIf="notifi.sendEmail=='Y'" class="fa fa-check text-success m-r-10" ngbTooltip="is-sendEmail=YES"></i> 
+                        <i *ngIf="notifi.sendEmail=='N'" class="fa fa-close text-danger m-r-10" ngbTooltip="is-sendEmail=NO"></i>           
+                    </div>
+                </td>
+                <!-- <td>{{notifi.sendInAppNotfn}}</td> -->
+                <td>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="sendInAppNotfnCheck[{{i}}]"  [(ngModel)]="notifi.sendInAppNotfnCheck">
+                        <label class="custom-control-label" for="sendInAppNotfnCheck[{{i}}]"></label>   
+                        <i *ngIf="notifi.sendInAppNotfn=='Y'" class="fa fa-check text-success m-r-10" ngbTooltip="is-sendInAppNotfn=YES"></i> 
+                        <i *ngIf="notifi.sendInAppNotfn=='N'" class="fa fa-close text-danger m-r-10" ngbTooltip="is-sendInAppNotfn=NO"></i>          
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <ngb-pagination 
+[(page)]="page"
+[pageSize]="pageSize"
+[collectionSize]="filteredNotification.length"></ngb-pagination>
+<pre>Current page: {{page}}</pre>
+    </div>
+    <div *ngIf="search==true" class="modal-footer">
+        <div class="form-group">
+            <button type="button" (click)="updateList(filteredNotification)" class="btn btn-success d-none d-lg-block m-l-15"> Update</button>
+    </div>
+    </div>
+</div>

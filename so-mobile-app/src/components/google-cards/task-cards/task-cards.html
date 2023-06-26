@@ -1,0 +1,16 @@
+<ion-grid no-padding>
+  <ion-row *ngIf="data.length">
+    <ion-col col-12 no-margin no-padding *ngFor="let item of data;let i = index" (click)="onEvent('onItemClick', item, $event)">
+      <ion-card> 
+        <ion-card-header>
+          <ion-badge float-right color="notification">{{item.taskStatus }}</ion-badge>
+          <h1>{{item.taskName ? item.taskName : 'No Taskname'}}</h1>
+        </ion-card-header>
+        <ion-card-content>
+          <h2>{{item.taskDesc ? item.taskDesc : 'No data to display'}}</h2>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+  

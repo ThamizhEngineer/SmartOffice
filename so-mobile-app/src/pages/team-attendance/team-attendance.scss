@@ -1,0 +1,23 @@
+page-team-attendance {
+    ion-col{
+        color: black;
+    }
+    .heading ion-col{
+        font-weight: bold;
+    }
+    .datetime-text{
+        color: black;
+    }
+    ion-datetime{
+        width: 100%;
+         opacity: 1 !important;
+    }
+    ion-card-header{
+        background-color: #0284a8;
+        color:#F7F7F7 !important;
+    }
+    ion-card-content,ion-item{
+        background-color: #F7F7F7 !important;
+    }
+
+}

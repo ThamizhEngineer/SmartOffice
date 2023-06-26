@@ -1,0 +1,324 @@
+<div class="row page-titles">
+		<div class="col-md-5 align-self-center">
+			<h4 class="text-themecolor">{{(addScreen?"New Contractor":flowType)}}</h4>
+		</div>
+		<div class="col-md-7 align-self-center text-right">
+			<div class="d-flex justify-content-end align-items-center">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+					<li class="breadcrumb-item active">{{(addScreen?"New Contractor":flowType)}}</li>
+				</ol>
+				<button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="saveEmployee()">Save</button>
+	
+				<button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="listEmployee()">Back</button>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card  p-20">
+				<ngb-tabset>
+					<ngb-tab title="Personal Info">
+						<ng-template ngbTabContent>
+							<div class="card-body" id="printSection">
+								<div class="row m-t-10">
+									<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': ename.invalid && (ename.dirty || ename.touched)}">
+										<label class="control-label">First Name<font color="red">*</font></label>
+										<input type="text" class="form-control form-control-line" placeholder="FirstName" required pattern="[a-zA-Z][a-zA-Z ]+" [(ngModel)]="contractor.firstName" #ename="ngModel" name="empName">
+										<div *ngIf="ename.invalid && (ename.dirty || ename.touched)">
+											<small class="form-control-feedback" *ngIf="ename.errors.required">First Name is required.</small>
+											<small class="form-control-feedback" *ngIf="ename.errors.pattern">First Name must be alphabetic.</small>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': ename.invalid && (ename.dirty || ename.touched)}">
+										<label class="control-label">Last Name<font color="red">*</font></label>
+										<input type="text" class="form-control form-control-line" placeholder="LastName" required pattern="[a-zA-Z][a-zA-Z ]+" [(ngModel)]="contractor.lastName" #ename="ngModel" name="empName">
+										<div *ngIf="ename.invalid && (ename.dirty || ename.touched)">
+											<small class="form-control-feedback" *ngIf="ename.errors.required">LastName is required.</small>
+											<small class="form-control-feedback" *ngIf="ename.errors.pattern">LastName must be alphabetic.</small>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': cno.invalid && (cno.dirty || cno.touched)}">
+										<label class="control-label">Current Mobile Number<font color="red">*</font></label>
+										<input type="text" class="form-control form-control-line" placeholder="Contact Number" [(ngModel)]="contractor.contactMobileNo" required pattern="[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}" #cno="ngModel" name="currentNumber">
+										<div *ngIf="cno.invalid && (cno.dirty || cno.touched)">
+											<small class="form-control-feedback" *ngIf="cno.errors.required">Contact Number is required.</small>
+											<small class="form-control-feedback" *ngIf="cno.errors.pattern">Contact Number must be 10 digits.</small>
+										</div>
+									</div>
+
+									<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': dob.invalid && (dob.dirty || dob.touched)}">
+										<label class="control-label">Dob<font color="red">*</font></label>
+										<div class="input-group">
+											<input type="text" class="form-control form-control-line" placeholder="mm-dd-yyyy" [(ngModel)]="contractor.vDob" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="updateDate($event, contractor, 'dob');isDateModified = true;" #dob="ngModel" name="dob">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+											</div>	
+										</div>
+										<div *ngIf="dob.invalid && (dob.dirty || dob.touched)">
+											<small class="form-control-feedback" *ngIf="dob.errors.required">Date of Birth is required.</small>
+											<!-- <small class="form-control-feedback" *ngIf="email.errors.pattern">Contact Number must be 10 digits.</small> -->
+										</div>
+									</div>
+
+									<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': emailId.invalid && (emailId.dirty || emailId.touched)}">
+										<label class="control-label">Email<font color="red">*</font></label>
+										<input type="text" class="form-control form-control-line" placeholder="Email Id" [(ngModel)]="contractor.emailId" required  #emailId="ngModel" name="emailId">
+										<div *ngIf="emailId.invalid && (emailId.dirty || emailId.touched)">
+											<small class="form-control-feedback" *ngIf="emailId.errors.required">Email is required.</small>
+											<!-- <small class="form-control-feedback" *ngIf="emailId.errors.pattern">Invalid email address.</small> -->
+										</div>
+									</div>
+
+									<div class="form-group col-md-4 col-sm-6">
+										<label class="control-label">SEX<font color="red">*</font></label>
+										<div class="custom-control custom-radio">
+											<input type="radio" id="male" value="male" name="Gender" [(ngModel)]="contractor.gender" class="custom-control-input">
+											<label class="custom-control-label" for="male">Male</label>
+										</div>
+										<div class="custom-control custom-radio">
+											<input type="radio" id="female" value="female"  name="Gender" [(ngModel)]="contractor.gender" class="custom-control-input">
+											<label class="custom-control-label" for="female" >Female</label>
+										</div>
+									</div>
+
+
+									<div class="form-group col-md-4 col-sm-6">
+										<label class="control-label">Current Address</label>
+										<textarea type="text" class="form-control form-control-line" placeholder="Current Address" [(ngModel)]="contractor.curAddress"  [ngModelOptions]="{standalone: true}"rows="4"></textarea>
+									</div>
+									<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': padd.invalid && (padd.dirty || padd.touched)}">
+										<label class="control-label">Permanent Address</label>
+										<textarea type="text" class="form-control form-control-line" placeholder="Permanent Address" rows="4" [(ngModel)]="contractor.permAddress" required pattern="[#.0-9a-zA-Z\s,-@()]+" #padd="ngModel" name="permanentaddress"></textarea>
+										<div *ngIf="padd.invalid && (padd.dirty || padd.touched)">
+											<small class="form-control-feedback" *ngIf="padd.errors.required">Address is required.</small>
+											<small class="form-control-feedback" *ngIf="padd.errors.pattern">Address must be correct value.</small>
+										</div>
+									</div>
+									
+
+									<div class="form-group col-md-4  col-sm-6">
+										<label class="control-label">Maritial Status</label>
+										<div class="custom-control custom-radio">
+											<input type="radio" id="married" value="Y" name="maritial" [(ngModel)]="contractor.maritalStatus" class="custom-control-input">
+											<label class="custom-control-label" for="married">Married</label>
+										</div>
+										<div class="custom-control custom-radio">
+											<input type="radio" id="single" value="N"  name="maritial" [(ngModel)]="contractor.maritalStatus" class="custom-control-input">
+											<label class="custom-control-label" for="single">Single</label>
+										</div>
+									</div>
+									
+									
+								</div>
+								
+								
+								<div class="row m-t-20">
+									<div class="form-group col-12 m-l-15">
+										
+										<div class="col-12 text-left"><label>Please Upload Photo of you.</label></div>
+										<div class="col-12"><file-upload [fileDetail]="'CONTRACTOR-ID'" (change)="fileChange($event,'CONTRACTOR-ID')"></file-upload></div>
+								<!-- <button type="submit" class="btn btn-info waves-effect waves-light m-t-10" (click)="printPage()">Print Info</button> -->
+								<a href="javascript:void(0)"  *ngIf="contractor.docId!=null" (click)="download(contractor.docId);"><font  color="Green">Download</font></a>	
+						
+									</div>
+								</div>
+
+								
+							</div>
+							
+						</ng-template>
+					</ngb-tab>
+
+					<ngb-tab title="Official Info" [disabled]="hideOfficial">
+						<ng-template ngbTabContent>
+							<div class="card-body">
+								<div class="row">
+									<div class="form-group col-sm-6 col-md-4">
+										<label class="control-label">Contractor Code</label><br />
+										<span class="label label-default">{{contractor.contractorCode}} </span>
+									</div>
+									<div class="form-group col-sm-6 col-md-4">
+										<label class="control-label">N+1 Manager</label>
+										<autocomplete  [placeholder]="'Manager'"   [value]="contractor.managerName" (empDetail)="projectSelected($event)"> </autocomplete>
+									</div>
+									<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': dob.invalid && (dob.dirty || dob.touched)}">
+										<label class="control-label">Date Of Join<font color="red">*</font></label>
+										<div class="input-group">
+											<input type="text" class="form-control form-control-line" placeholder="mm-dd-yyyy" [(ngModel)]="contractor.vDoj" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="updateDate($event, contractor, 'doj');isDateModified = true;" #dob="ngModel" name="doj">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+											</div>	
+										</div>
+										<div *ngIf="dob.invalid && (dob.dirty || dob.touched)">
+											<small class="form-control-feedback" *ngIf="dob.errors.required">Date Of Join is required.</small>
+										</div>
+									</div>
+									<div class="form-group col-sm-6 col-md-4">
+										<label class="control-label">Office<font color="red">*</font></label>
+										<select  class="form-control"  [(ngModel)]="contractor.officeId" >
+											<option *ngFor="let v of offices" [value]="v.id">{{v.officeName}}</option>
+										</select>
+									</div>
+									<div class="form-group col-sm-6 col-md-4">
+										<label class="control-label">Internal Id</label><br />
+										<span class="label label-default">{{contractor.internalId}} </span>
+									</div>
+									
+								</div>
+
+								<div class="table-responsive">
+									<h4>Contractor Skill</h4>
+									<table class="table table-striped table-hover table-bordered">
+										<thead>
+											<tr>
+												<th>Product Name</th>
+												<th>SKILL</th>
+												<th>Skill Level Code</th>
+
+												<th>Action</th>
+
+											</tr>
+										</thead>
+										<tbody>
+											<tr *ngFor="let e of contractor?.employeeSkills;let item=index">
+												<td>
+													<!-- <input type="text" class="form-control form-control-line" [(ngModel)]="e.mProductId" [ngModelOptions]="{standalone: true}" placeholder="Name"> -->
+													<select class="form-control" [(ngModel)]="e.mProductId">
+														<option *ngFor="let p of productNames" [value]="p.id">{{p.productName}}</option>
+													</select>
+												</td>
+												<td>
+													<select class="form-control" [(ngModel)]="e.mServiceId">
+														<option *ngFor="let p of serviceNames" [value]="p.id">{{p.serviceName}}</option>
+													</select>
+												</td>
+												<td>
+													<select class="form-control" [(ngModel)]="e.skillLevelCode">
+														<option *ngFor="let p of skillCode" [selected]="p.configDtlValue=='1'" [value]="p.configDtlValue">{{p.configDtlName}}</option>
+													</select>
+												</td>
+
+												<td>
+													<a href="javascript:void(0)" (click)="addEmployeeSkills()">
+														<i class="fa fa-plus text-danger m-r-10"></i>
+													</a>
+													<a href="javascript:void(0)" *ngIf="contractor?.employeeSkills.length > 1" (click)="delEmployeeSkills(item)">
+														<i class="fa fa-close text-danger"></i>
+													</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+
+							</div>
+						</ng-template>
+					</ngb-tab>
+				
+					<ngb-tab title="Account Info">
+						<ng-template ngbTabContent>
+							<div class="card-body">
+								<div class="row m-t-10">
+								
+									<div class="table-responsive m-t-20">
+										<h4>Bank Details</h4>
+										<table class="table table-striped table-hover table-bordered">
+											<thead>
+												<tr>
+													<th>Name of Bank</th>
+													<th>Account Number</th>
+													<th>IFSC Code</th>
+													<th>Address of Bank</th>
+													<th>Action</th>
+		
+												</tr>
+											</thead>
+											<tbody>
+												<tr *ngFor="let e of contractor?.bankDetails;let item=index">
+													<td [ngClass]="{'has-danger': ebank.invalid && (ebank.dirty || ebank.touched)}">
+														<input type="text" class="form-control form-control-line" required #ebank="ngModel" [(ngModel)]="e.bankName" [ngModelOptions]="{standalone: true}"
+														 placeholder="Name of Bank">
+														<div *ngIf="ebank.invalid && (ebank.dirty || ebank.touched)">
+															<small class="form-control-feedback" *ngIf="ebank?.errors.required">Bank Name is required.</small>
+														</div>
+													</td>
+													<td [ngClass]="{'has-danger': accno.invalid && (accno.dirty || accno.touched)}">
+														<input type="text" class="form-control form-control-line" required #accno="ngModel" [(ngModel)]="e.accNo" [ngModelOptions]="{standalone: true}"
+														 placeholder="Account Number">
+														<div *ngIf="accno.invalid && (accno.dirty || accno.touched)">
+															<small class="form-control-feedback" *ngIf="accno?.errors.required">Account Number is required.</small>
+														</div>
+													</td>
+													<td [ngClass]="{'has-danger': ifsc.invalid && (ifsc.dirty || ifsc.touched)}">
+														<input type="text" class="form-control form-control-line" required #ifsc="ngModel" [(ngModel)]="e.ifscCode" [ngModelOptions]="{standalone: true}"
+														 placeholder="IFSC Code">
+														<div *ngIf="ifsc.invalid && (ifsc.dirty || ifsc.touched)">
+															<small class="form-control-feedback" *ngIf="ifsc?.errors.required">IFSC Code is required.</small>
+														</div>
+													</td>
+													<td [ngClass]="{'has-danger': bankadd.invalid && (bankadd.dirty || bankadd.touched)}">
+														<input type="text" class="form-control form-control-line" required #bankadd="ngModel" [(ngModel)]="e.bankAddress" [ngModelOptions]="{standalone: true}"
+														 placeholder="Address of Bank">
+														<div *ngIf="bankadd.invalid && (bankadd.dirty || bankadd.touched)">
+															<small class="form-control-feedback" *ngIf="bankadd?.errors.required">Bank Address is required.</small>
+														</div>
+													</td>
+													<td>
+														<a href="javascript:void(0)" (click)="addbankRows()">
+															<i class="fa fa-plus text-danger m-r-10"></i>
+														</a>
+														<a href="javascript:void(0)" *ngIf="contractor?.bankDetails.length > 1" (click)="delbankRow(item)">
+															<i class="fa fa-close text-danger"></i>
+														</a>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+		
+									
+									</div>
+
+
+
+
+
+
+
+								</div>
+							
+
+								<!-- <div class="row m-t-20">
+									<div class="form-group col-md-4 col-sm-6" >
+										<div class="col-12 text-left"><label>Please Upload PAN Card of you.</label></div>
+										<div class="col-12"><file-upload- (change)="fileChangePanCard($event,'EMP-PAN-CARD')"></file-upload>
+											<a href="javascript:void(0)"  *ngIf="contractor.panDocId!=null" (click)="downloadPanCard(contractor.panDocId);"><font  color="Green">Download</font></a>	
+										</div>
+										
+									</div>
+									<div class="form-group col-md-4 col-sm-6">
+										<div class="col-12 text-left"><label>Please Upload Aadhar Card of you.</label></div>
+										<div class="col-12"><file-upload- (change)="fileChangeAadharCard($event,'EMP-ID-PROOF')"></file-upload>
+											<a href="javascript:void(0)"  *ngIf="contractor.aadharDocId!=null" (click)="downloadAadharCard(contractor.panDocId);"><font  color="Green">Download</font></a>	
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-6">
+										<div class="col-12 text-left"><label>Please Upload Address Proof of you.</label></div>
+										<div class="col-12"><file-upload- (change)="fileChangeBankPassBook($event,'EMP-BANK-PROOF')"></file-upload>
+											<a href="javascript:void(0)"  *ngIf="contractor.passBookDocId!=null" (click)="downloadBankPassBook(contractor.panDocId);"><font  color="Green">Download</font></a>	
+										</div>
+									</div>
+									
+								</div> -->
+
+
+							</div>
+						</ng-template>
+					</ngb-tab>
+
+				</ngb-tabset>		
+			</div>
+		</div>
+	</div>
+	   

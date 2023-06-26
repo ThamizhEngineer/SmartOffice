@@ -1,0 +1,132 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">My Apprisal Reivew</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">My Space</li>
+                <li class="breadcrumb-item active">My Apprisal Review</li>                
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="form-group col-md-2 col-sm-3">
+                <label class="control-label">Year</label>
+                <input class="form-control form-control-line" type="text">
+            </div>
+            <div class="form-group col-md-1 col-sm-3">
+                <label class="control-label"></label> <br>
+                <button type="button" class="btn btn-outline-success">Search</button>
+            </div>
+            <div class="form-group col-md-1 col-sm-3">
+                <label class="control-label"></label><br>
+                <button type="button" class="btn btn-outline-dark">Reset</button>
+            </div>   
+        </div>      
+    </div>
+    <flag-alert [message]="Alertmsg"></flag-alert>
+</div>
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="row">
+            <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+                <label *ngIf="view=='start'" ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                    <input ngbButton type="radio" (click)="changeView('start')"> Start
+                  </label>
+                <label *ngIf="view!='start'" ngbButtonLabel class="btn btn-outline-info waves-effect waves-light">
+                  <input ngbButton type="radio" (click)="changeView('start')"> Start
+                </label>
+                <label *ngIf="view=='submit'" ngbButtonLabel class="btn btn-warning waves-effect waves-light">
+                    <input ngbButton type="radio" (click)="changeView('submit')"> Submit
+                  </label>
+                <label *ngIf="view!='submit'" ngbButtonLabel class="btn btn-outline-warning waves-effect waves-light">
+                  <input ngbButton type="radio" (click)="changeView('submit')"> Submit
+                </label>
+                <label *ngIf="view!='completed'" ngbButtonLabel class="btn-outline-success">
+                  <input ngbButton type="radio" (click)="changeView('completed')"> Completed
+                </label>
+                <label *ngIf="view=='completed'" ngbButtonLabel class="btn-success">
+                    <input ngbButton type="radio" (click)="changeView('completed')"> Completed
+                </label>
+              </div>  
+        </div>
+
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Goal</th>                       
+                        <th>Review Period</th>
+                        <th>Achievement</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="view=='start'">
+                    <tr *ngFor="let item of reviewCreated | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                        <td>{{item.metricName}} &nbsp;{{item.n1Operator}} &nbsp;{{item.n1Target}}{{item.unitDispSymbol}}</td>
+                        <td>{{item.reviewDt | date:'dd-MM-YYYY'}}({{item.reviewTypeCode}})</td>
+                        <td><input type="number" class="form-control" name="text" [(ngModel)]="item.empAcheivedTarget"></td>
+                        <td><input type="text" class="form-control" name="text" [(ngModel)]="item.empComments"></td>
+                    </tr>
+                    <ngb-pagination 
+						[(page)]="page"
+						[pageSize]="pageSize"
+						[collectionSize]="reviewCreated.length"></ngb-pagination>
+						<pre>Current page: {{page}}</pre>
+                </tbody>
+                
+
+                <tbody *ngIf="view=='submit'">
+                    <tr *ngFor="let item of submitReview | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                        <td>{{item.metricName}} &nbsp;{{item.n1Operator}} &nbsp;{{item.n1Target}}{{item.unitDispSymbol}}</td>
+                        <td>{{item.reviewDt | date:'dd-MM-YYYY'}}({{item.reviewTypeCode}})</td>
+                        <td><input type="number" class="form-control" name="text" [(ngModel)]="item.empAcheivedTarget"></td>
+                        <td><input type="text" class="form-control" name="text" [(ngModel)]="item.empComments"></td>
+                    </tr>
+                    <ngb-pagination 
+						[(page)]="page"
+						[pageSize]="pageSize"
+						[collectionSize]="submitReview.length"></ngb-pagination>
+						<pre>Current page: {{page}}</pre>
+                </tbody>
+                
+
+                <tbody *ngIf="view=='completed'">
+                    <tr *ngFor="let item of completeReview | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                        <td>{{item.metricName}} &nbsp;{{item.n1Operator}} &nbsp;{{item.n1Target}}{{item.unitDispSymbol}}</td>
+                        <td>{{item.reviewDt | date:'dd-MM-YYYY'}}({{item.reviewTypeCode}})</td>
+                        <td><input type="number" class="form-control" name="text" [(ngModel)]="item.empAcheivedTarget"></td>
+                        <td><input type="text" class="form-control" name="text" [(ngModel)]="item.empComments"></td>
+                    </tr>
+                    <ngb-pagination 
+                    [(page)]="page"
+                    [pageSize]="pageSize"
+                    [collectionSize]="completeReview.length"></ngb-pagination>
+                    <pre>Current page: {{page}}</pre>
+                </tbody>
+               
+
+                </table>
+            </div>           
+        </div>        
+        <div class="row">
+            <div *ngIf="view=='start'" class="form-group col-md-1 col-sm-3">
+                <label class="control-label"></label> <br>
+                <button type="button" (click)="save()" class="btn btn-outline-success">Save</button>
+            </div>
+            <div *ngIf="view=='submit'" class="form-group col-md-1 col-sm-3">
+                <label class="control-label"></label> <br>
+                <button type="button" (click)="submit()" class="btn btn-outline-success">Submit</button>
+            </div>                 
+        </div>
+    </div>
+</div>

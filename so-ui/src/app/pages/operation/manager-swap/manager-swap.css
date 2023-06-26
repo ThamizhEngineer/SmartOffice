@@ -1,0 +1,21 @@
+.wrapper{position:relative;}
+.right,.left{width:30%; position:absolute;}
+.right{right:0;}
+.center2{padding-left:20%}
+.left{left:0;}
+.padding{padding: 50px; }
+.padding2{left: 80px; }
+.padding3{position:center }
+.card{
+  padding-top:20px;
+ }
+ .my-custom-scrollbar {
+  height: 200px;
+  overflow: auto;
+  }
+.center {
+    margin: auto;
+    width: 100%;
+    padding: 50px;
+    padding-left: 10%;
+  }

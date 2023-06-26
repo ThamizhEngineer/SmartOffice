@@ -1,0 +1,200 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor"><span>{{incident.vcCode}} &nbsp; {{incident.vcSummary}}</span></h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Recruitment</li>
+                    <li class="breadcrumb-item active">Event</li>
+                    <li class="breadcrumb-item active">Schedule Interview</li>
+                </ol>
+                <button type="button" (click)="navigateToList()" class="btn btn-info d-none d-lg-block m-l-15"> Back</button>
+            </div>
+        </div>
+    </div>
+                            
+                        <div class="card card-body" >  
+                            <flag-alert [message]="saveMsg"></flag-alert>
+                            <h3>Schedule Interview</h3>   
+                            <br/>
+                            <div class="form-group col-md-4 col-sm-6">
+                                <label class="control-label">Search</label>
+                                <input type="text" class="form-control form-control-line" placeholder="search"   (input)="textSearch()"   [(ngModel)]="searchString"  name="searchString">                               
+                            </div>
+                            <br/>
+                            <div class="row">
+                            <div class="form-group col-3 col-md-4">
+                                    <label class="control-label">Level1 Name</label>
+                                    <autocomplete  [placeholder]="'Level 1 Name'"   [value]="incident.firstInterviewerName" (empDetail)="firstInterviewer($event)"> </autocomplete>
+                            </div>
+                            <div class="form-group col-3 col-md-4">
+                                    <label class="control-label">Level2 Name</label>
+                                    <autocomplete  [placeholder]="'Level 2 Name'"   [value]="incident.secondInterviewerName" (empDetail)="secondInterviewer($event)"> </autocomplete>
+                            </div>
+                            <div class="form-group col-3 col-md-4">
+                                    <label class="control-label">Level3 Name</label>
+                                    <autocomplete  [placeholder]="'Level 3 Name'"   [value]="incident.thirdInterviewerName" (empDetail)="thirdInterviewer($event)"> </autocomplete>
+                            </div>
+                        
+                            <div class="form-group col-3 col-md-4" >
+                                    <label class="control-label">Interview Date & Time<font color="red">*</font></label>
+                                    <form [formGroup]="myGroup">
+                                    <!-- <date-picker class="form-control form-control-line" placeholder="currentDate" [(ngModel)]="date" [settings]="settings"></date-picker> -->
+                                    <angular2-date-picker class="form-contro l form-control-line" [(ngModel)]="date" [settings]="settings" formControlName="ScheduleDate">
+                                    </angular2-date-picker>                                      
+                                </form>                               
+                                </div>
+
+                                <div class="form-group col-3 col-md-4" >
+                                    <label class="control-label">Second Interview Date & Time<font color="red">*</font></label>
+                                    <angular2-date-picker class="form-contro l form-control-line" [(ngModel)]="secondDate" [settings]="settings">
+                                    </angular2-date-picker>                                      
+                                                              
+                                </div>
+
+                                <div class="form-group col-3 col-md-4" >
+                                    <label class="control-label">Third Interview Date & Time<font color="red">*</font></label>                                                                        
+                                    <angular2-date-picker class="form-contro l form-control-line" [(ngModel)]="thirdDate" [settings]="settings" >
+                                    </angular2-date-picker>                                                                                                  
+                                </div>
+
+
+                            </div>
+                            
+                            <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+                                <label *ngIf="binding=='true'" ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                                    <input ngbButton type="radio" (click)="changeActive('true')"> Unassigned Applicants
+                                  </label>
+                                <label *ngIf="binding=='false'" ngbButtonLabel class="btn btn-outline-info waves-effect waves-light">
+                                  <input ngbButton type="radio" (click)="changeActive('true')"> Unassigned Applicants
+                                </label>
+                                <label *ngIf="binding=='true'" ngbButtonLabel class="btn-outline-primary">
+                                  <input ngbButton type="radio" (click)="changeActive('false')"> Assigned Applicants
+                                </label>
+                                <label *ngIf="binding=='false'" ngbButtonLabel class="btn-primary">
+                                    <input ngbButton type="radio" (click)="changeActive('false')"> Assigned Applicants
+                                </label>
+                              </div>
+                              <br/>
+
+                              <div *ngIf="binding=='true'" class="table-responsive">
+                                        <table class="table table-sm table-hover table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Email Id</th>
+                                                    <th>Mobile Number</th>
+                                                    <th>Decision</th>
+                                                    <th>Resume</th>
+                                                    <th>Source</th>
+                                                    <th>Reference Name</th>
+                                                    <th>Action 	<input type="checkbox" [(ngModel)]="masterSelected" (change)="checkUncheckAll()"  (change)="changeEvent($event)"/></th>				
+                                                    			
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let user of incidentApplicantsFiltered | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                                                    <td>{{user.firstName}}<applicant-detail-edit
+                                                        [childMessage]="user">
+                                                   </applicant-detail-edit></td>
+                                                    <td>{{user.lastName}}</td>
+                                                    <td>{{user.email}}</td>
+                                                    <td>{{user.mobileNumber}}</td>
+                                                    <td><span class="label label-{{statuses[user.finalInterviewStatus]}}">{{user.finalInterviewStatus}}</span></td>
+                                                    <td>
+                                                        <preview-document [docId]="user.resumeDocId"></preview-document> 
+                                                        <download-document [docId]="user.resumeDocId"></download-document> 
+                                                    </td>
+                                                    <td>{{user.source}}</td>
+                                                    <td *ngIf="user.source!='reference'" >
+                                                        -
+                                                    </td>
+                                                    <td *ngIf="user.source=='reference'">
+                                                        {{user.referredByEmpName}}
+                                                    </td>
+                                                    <td>
+                                                            <div class="custom-control custom-checkbox" >
+                                                          
+                                                              
+                                                                    <input type="checkbox"  class="custom-control-input" id="read[{{i}}]"    (change)="isAllSelected()" (change)="changeEvent($event)" [(ngModel)]="user.isInterviewScheduled">
+                                                                    <label class="custom-control-label" for="read[{{i}}]"></label>
+                                                            </div>                                                   
+                                                    </td>
+                                                                                    
+                                                </tr>						 
+                                            </tbody>
+                                        </table>
+                                        <ngb-pagination 
+                                        [(page)]="page"
+                                        [pageSize]="pageSize"
+                                        [collectionSize]="incidentApplicantsFiltered.length"></ngb-pagination>
+                            
+                                        <pre>Current page: {{page}}</pre>
+                                    </div>
+
+                                    <div *ngIf="binding=='false'" class="table-responsive">
+                                        <table class="table table-sm table-hover table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Email Id</th>
+                                                    <th>Mobile Number</th>
+                                                    <th>Decision</th>
+                                                    <th>Resume</th>
+                                                    <th>Source</th>
+                                                    <th>Reference Name</th>
+                                                    <th>Action</th>								
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let user of completed | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                                                    <td>{{user.firstName}}<applicant-detail-edit
+                                                        [childMessage]="user">
+                                                   </applicant-detail-edit> </td>
+                                                    <td>{{user.lastName}}</td>
+                                                    <td>{{user.email}}</td>
+                                                    <td>{{user.mobileNumber}}</td>
+                                                    <td><span class="label label-{{statuses[user.finalInterviewStatus]}}">{{user.finalInterviewStatus}}</span></td> 
+                                                    <td>  
+                                                        <preview-document [docId]="user.resumeDocId"></preview-document> 
+                                                        <download-document [docId]="user.resumeDocId"></download-document> 
+                                                    </td>
+                                                    <td>{{user.source}}</td>
+                                                    <td *ngIf="user.source!='reference'" >
+                                                        -
+                                                    </td>
+                                                    <td *ngIf="user.source=='reference'">
+                                                        {{user.referredByEmpName}}
+                                                    </td>
+                                                    <td>
+                                                            <div class="custom-control custom-checkbox">                       
+                                                                    <i *ngIf="user.isInterviewScheduled=='Y'" class="fa fa-check text-success m-r-10"></i>                                                                    
+                                                            </div>                                                   
+                                                    </td>
+                                                                                    
+                                                </tr>						 
+                                            </tbody>
+                                        </table>
+                                        <ngb-pagination 
+                                        [(page)]="page"
+                                        [pageSize]="pageSize"
+                                        [collectionSize]="completed.length"></ngb-pagination>
+                            
+                                        <pre>Current page: {{page}}</pre>
+                                    </div>
+
+
+            <div class="modal-footer">    
+            <div class="form-group">
+                    <button type="button" (click)="navigateToList()" class="btn btn-warning d-none d-lg-block m-l-15"> Back</button>
+            </div>
+            <div class="form-group">
+                    <button type="button" [disabled]="!isStillPendingApproval" (click)="submit()" [disabled]="toggleBool" class="btn btn-success d-none d-lg-block m-l-15">Schedule</button>
+            </div>
+           
+            </div>                                                                                                                                                             
+            </div>    

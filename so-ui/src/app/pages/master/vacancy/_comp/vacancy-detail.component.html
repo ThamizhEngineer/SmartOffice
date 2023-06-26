@@ -1,0 +1,71 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Vacancy Detail</h4>
+    </div>
+   
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+    <div class="col-md-12">
+        <div class="card card-body">
+           
+            <form class="form-horizontal">
+                <div class="form-group row">
+                    <label for="inputPosition" class="col-sm-3 text-right control-label col-form-label">Position</label>
+                    <div class="col-sm-9">
+                        <input type="Position" class="form-control" id="inputPosition" placeholder="Position">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputDescription3" class="col-sm-3 text-right control-label col-form-label">Job Description</label>
+                    <div class="col-sm-9">
+                        <input type="email" class="form-control" id="inputJob" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group row">
+                
+               
+                        <label for="inputDate" class="col-sm-3 text-right control-label col-form-label">Last Date Of Application</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control" id="inputDate" placeholder="dd/mm/yyyy">
+                            </div>
+                        </div>
+                <div class="form-group row">
+                    <label for="example-number-input" class="col-sm-3 text-right control-label col-form-label">Number of Vacancies</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="number" id="example-number-input">
+                    </div>
+                </div>
+
+              
+
+                    
+                
+                <!--/span-->
+          
+
+               
+                        <div class="form-group row">
+                            <label for="inputText" class="col-sm-3 text-right control-label text-right col-form-label">Status</label>
+                            <div class="col-sm-9">
+                                <select class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1">
+                                    <option value="Category 1">Open</option>
+                                    <option value="Category 2">Closed</option>
+
+                                </select>
+                            </div>
+                        </div>
+                   
+                <div class="form-group m-b-0">
+                    <div class="offset-sm-3 col-sm-9">
+                        <button type="submit" class="btn btn-info waves-effect waves-light m-t-10" (click)="listVacancy()">Save</button>
+                        <button type="submit" class="btn btn-info waves-effect waves-light m-t-10" (click)="listVacancy()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>

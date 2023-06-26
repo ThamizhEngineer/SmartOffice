@@ -1,0 +1,206 @@
+<section id="wrapper" class="login-register login-sidebar">
+	<div class="login-content">
+		<!-- <h1>Pothigai Power -  Recruitment</h1> -->
+        <img src="./assets/rec01.png" alt="Lights" style="width:100%">
+
+
+	</div>
+	
+	<div class="login-box card">
+		<div class="text-center">
+			<img src="./assets/img/login_logo.jpg" alt="logo image" width="35%" />
+		</div>
+		<div class="card-body">
+			<form class="form-horizontal form-material" (ngSubmit)="f.form.valid && signin()" #f="ngForm" action="" *ngIf="!isRecover">
+				<h3 class="box-title">Sign In</h3>
+				<ng-template #alertSignin></ng-template>
+				<div class="form-group">
+				   <div class="col-xs-12">
+						<input class="form-control" type="text" placeholder="Username" [(ngModel)]="model.email" name="email" #email="ngModel">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-12">
+						<input class="form-control" type="password" placeholder="Password" [(ngModel)]="model.password" name="password" #password="ngModel">
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-12">
+						<div class="custom-control custom-checkbox">
+						   <input type="checkbox" class="custom-control-input" [(ngModel)]="model.remember" name="remember" #remember="ngModel" id="customCheck1"/>
+							<label class="custom-control-label" for="customCheck1">Remember me</label>
+							<a href="javascript:void(0)" (click)="isRecover = !isRecover" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a> 
+						</div>     
+					</div>
+				</div>
+				<div class="form-group row">
+						<div class="col-md-12">
+								<a href="javascript:void(0)" (click)="createUsers()" class="text-dark pull-left"><i class="fa fa-unlock m-r-5"></i>Create User</a>
+								<a href="javascript:void(0)" (click)="createPasswd()" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i>Forgot Password</a>
+					</div>
+					</div>
+				<div class="form-group text-center m-t-20">
+					<div class="col-xs-12">
+						<button class="btn btn-block btn-lg btn-info btn-rounded" [disabled]="loading || status=='Error'" [ngClass]="{'loader-spinner': loading}">Log In</button>
+						<small class="form-control-feedback" *ngIf="status=='Error'"><font color="red">System not ready please contact system administrator.</font></small>
+					</div>
+				</div>
+				
+				<!-- <div class="row"> -->
+					<!-- <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center"> -->
+						<!-- <div class="social"><a href="javascript:void(0)" class="btn  btn-facebook" data-toggle="tooltip" title="Login with Facebook"> <i aria-hidden="true" class="fa fa-facebook"></i> </a> <a href="javascript:void(0)" class="btn btn-googleplus" data-toggle="tooltip" title="Login with Google"> <i aria-hidden="true" class="fa fa-google-plus"></i> </a> </div> -->
+					<!-- </div> -->
+				<!-- </div> -->
+				<!-- <div class="form-group m-b-0"> -->
+					<!-- <div class="col-sm-12 text-center"> -->
+						<!-- Don't have an account? <a href="pages-register2.html" class="text-primary m-l-5"><b>Sign Up</b></a> -->
+					<!-- </div> -->
+				<!-- </div> -->
+			</form>
+			<form class="form-horizontal" id="recoverform" [ngClass]="{'toggle':isRecover}" *ngIf="isRecover">
+				
+				<div class="form-group">
+					<div class="col-xs-12">
+						<h3>Recover Password</h3>
+						<p class="text-muted">Enter your Email and instructions will be sent to you! </p>
+					</div>
+				</div>
+				<ng-template #alertSignin></ng-template>
+				<div class="form-group">
+					<div class="col-xs-12">
+						<input class="form-control" type="text" required [(ngModel)]="recoverUname" placeholder="Email"  [ngModelOptions]="{standalone: true}"/>
+					</div>
+				</div>
+				<div class="row m-b-10 p-r-20 pull-right">
+					<a href="javascript:void(0)" (click)="isRecover = !isRecover" class="text-dark pull-right"><i class="fa fa-unlock m-r-5"></i> Login Again</a> 
+				</div>
+				<div class="form-group text-center m-t-20">
+					<div class="col-xs-12">
+						<button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" (click)="recoverPwd();" type="submit" >Reset</button>
+					</div>
+				</div>
+				
+			</form>
+		</div>
+	</div>
+</section>
+	<ng-template #createUser let-c="close">
+			<div class="modal-header">
+				<h4 class="modal-title">Enter User Details</h4>
+				<button type="button" class="close" aria-label="Close" (click)="c()">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">     
+					<div class="col-md-4 col-sm-6" [ngClass]="{'has-danger': fName.invalid && (fName.dirty || fName.touched)}"> 
+					        <label class="control-label">First Name<font color="red">*</font></label>      
+							<form [formGroup]="myGroup"> 
+							<input type="text" class="form-control form-control-line" placeholder="FirstName" required pattern="[a-zA-Z0-9][a-zA-Z0-9 ]+" [(ngModel)]="applicant.firstName" formControlName="fName" name="empName">
+							<div *ngIf="fName.invalid && (fName.dirty || fName.touched)">
+							<small class="form-control-feedback" *ngIf="fName.errors.required">First Name is required.</small>
+							<small class="form-control-feedback" *ngIf="fName.errors.pattern">Special characters not allowed.</small>
+									</div>
+					</form>   
+					</div>
+
+					<div class="col-md-4 col-sm-6" [ngClass]="{'has-danger': lName.invalid && (lName.dirty || lName.touched)}"> 
+									<label class="control-label">Last Name<font color="red">*</font></label>
+								<form [formGroup]="myGroup">
+											<input type="text" class="form-control form-control-line" placeholder="LastName" required minlength="1" [(ngModel)]="applicant.lastName" formControlName="lName" name="lastName">
+											<div *ngIf="lName.invalid && (lName.dirty || lName.touched)">
+											<small class="form-control-feedback" *ngIf="lName.errors.required">Second Name is required.</small>
+											<small class="form-control-feedback" *ngIf="lName.errors.pattern">Special characters not allowed.</small>
+						   
+									</div>  
+									 </form>                              
+							</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': email.invalid && (email.dirty || email.touched)}">
+										<label class="control-label">Email<font color="red">*</font></label>
+										<form [formGroup]="myGroup">
+											<input type="email" class="form-control form-control-line" placeholder="Email Id" [(ngModel)]="applicant.contactEmailId" formControlName="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email">
+										   <div *ngIf="email.invalid && (email.dirty || email.touched)">
+												   <small class="form-control-feedback" *ngIf="email?.errors.required">Email is required.</small>
+												   <small class="form-control-feedback" *ngIf="email?.errors.pattern">please enter valid email.</small>
+										   </div>
+								   </form>
+								   </div>
+
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': mNumber.invalid && (mNumber.dirty || mNumber.touched)}">
+										<label class="control-label">Mobile Number<font color="red">*</font></label>
+										<form [formGroup]="myGroup">
+										<input type="number" class="form-control form-control-line" [(ngModel)]="applicant.contactMobileNo" formControlName="mNumber" required pattern="[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}"
+										 placeholder="Phone Number"  name="mNumber">  
+										 <div *ngIf="mNumber.invalid && (mNumber.dirty || mNumber.touched)">
+													<small class="form-control-feedback" *ngIf="mNumber?.errors.required">Contact Number is required.</small>
+													<small class="form-control-feedback" *ngIf="mNumber?.errors.pattern">Contact Number must be 10 digits.</small>
+											</div>                                      
+										</form>
+									</div>
+
+									<div class="form-group col-md-4  col-sm-6">
+										<form [formGroup]="myGroup">
+									<label class="control-label">SEX<font color="red">*</font></label>
+									<div class="custom-control custom-radio">
+										<input type="radio" formControlName="gender" required id="male" value="male" name="gender" [(ngModel)]="applicant.gender" class="custom-control-input">
+										<label class="custom-control-label" for="male">Male</label>
+									</div>
+									<div class="custom-control custom-radio">
+										<input type="radio" formControlName="gender" required id="female" value="female"  name="gender" [(ngModel)]="applicant.gender" class="custom-control-input">
+										<label class="custom-control-label" for="female" >Female</label>
+									</div>
+								</form>
+								</div>
+
+										<div class="form-group col-md-4 col-sm-6">
+											<div class="custom-control custom-checkbox ">
+												<label class="control-label">Is Experienced<font color="red">*</font></label>													
+												<input type="checkbox" class="custom-control-input" id="select[{{i}}]" [(ngModel)]="applicant.isExperienced" > 
+												<label class="custom-control-label" for="select[{{i}}]"></label>												
+											</div>
+										</div>
+											
+											
+					</div> 
+			</div>
+			<div class="modal-footer align-self-center">
+									<div class="form-group">
+				<button type="submit" class="btn btn-info waves-effect waves-light m-t-10" [disabled]="!myGroup.valid" (click)="saveUser(applicant)">Create</button>
+									</div>
+									<label class="col-md-12 col-sm-3">Message:
+											<font color="blue">{{message}}</font>
+									</label>
+			</div>
+		</ng-template>
+
+		<ng-template #createPassword let-c="close">
+			<div class="modal-header">
+				<h4 class="modal-title">Enter your email address</h4>
+				<button type="button" class="close" aria-label="Close" (click)="c()">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">   
+						<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': emails.invalid && (emails.dirty || emails.touched)}">
+								<label class="control-label">Email<font color="red">*</font></label>
+								<form [formGroup]="emailForm">
+									<input type="email" class="form-control form-control-line" placeholder="Email Id" [(ngModel)]="applicant.contactEmailId" formControlName="emails" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="emails">
+								   <div *ngIf="emails.invalid && (emails.dirty || emails.touched)">
+										   <small class="form-control-feedback" *ngIf="emails?.errors.required">Email is required.</small>
+										   <small class="form-control-feedback" *ngIf="emails?.errors.pattern">please enter valid email.</small>
+								   </div>
+						   </form>
+						   </div>
+					</div>
+				</div>
+				<div class="modal-footer align-self-center">
+					<div class="form-group">
+					<button type="submit" class="btn btn-info waves-effect waves-light m-t-10" [disabled]="!emailForm.valid" (click)="forgotPswd(applicant.contactEmailId)">Create</button>
+					</div>
+					<label class="col-md-12 col-sm-3">Message:
+							<font color="blue">{{message}}</font>
+					</label>
+				</div>
+		</ng-template>
+	

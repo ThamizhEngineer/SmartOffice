@@ -1,0 +1,43 @@
+[ {
+  "type" : "database",
+  "code" : "SO-DB",
+  "description" : "Database",
+  "status" : "UP",
+  "message" : null,
+  "lastCheckedDate" : "2020-01-21T15:10:03.683"
+}, {
+  "type" : "service",
+  "code" : "so-auth-serv",
+  "description" : "Authorisation Service",
+  "status" : "UP",
+  "message" : null,
+  "lastCheckedDate" : "2020-01-21T15:10:04.014"
+}, {
+  "type" : "service",
+  "code" : "so-doc-serv",
+  "description" : "Document Service",
+  "status" : "UP",
+  "message" : null,
+  "lastCheckedDate" : "2020-01-21T15:10:04.089"
+}, {
+  "type" : "service",
+  "code" : "so-not-serv",
+  "description" : "Notofication Service",
+  "status" : "UP",
+  "message" : null,
+  "lastCheckedDate" : "2020-01-21T15:10:04.190"
+}, {
+  "type" : "service",
+  "code" : "so-bus-serv",
+  "description" : "Business Service",
+  "status" : "UP",
+  "message" : null,
+  "lastCheckedDate" : "2020-01-21T15:10:04.215"
+}, {
+  "type" : "message-broker",
+  "code" : "Kafka",
+  "description" : "Kafka Message Broker",
+  "status" : "DOWN",
+  "message" : "Kafka error",
+  "lastCheckedDate" : "2020-01-21T15:10:09.438"
+} ]

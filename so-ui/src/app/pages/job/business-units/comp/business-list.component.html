@@ -1,0 +1,50 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Business Units</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Business Units</li>
+            </ol>
+            <button type="button" class="btn btn-info d-none d-lg-block m-l-15" [routerLink]="['/job/business-units/busdi']"><i class="fa fa-plus-circle"></i> Create</button>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+           <div class="table-responsive">
+                <table class="table color-bordered-table theme-bordered-table; align=right">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Bu Code</th>
+                            <th>Bu Name</th>
+                            <th>Goods</th>
+                            <th>Has Services</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr *ngFor="let row of rows; let i=index ">
+                                <td>{{i+1}}</td>
+                                <td>{{row.buCode}}</td>
+                                <td>{{row.buName}}</td>
+                                <td *ngIf="row.hasProducts=='Y'">Yes</td>
+                                <td *ngIf="row.hasProducts=='N'">No</td>
+                                <td *ngIf="row.hasServices=='Y'">Yes</td>
+                                <td *ngIf="row.hasServices=='N'">No</td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" [routerLink]="['/job/business-units/busdi', row.id]"><i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <confirm-delete [type]="'icon'" (confirmed)="delete(row.id)"></confirm-delete>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+</div>  

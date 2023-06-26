@@ -1,0 +1,47 @@
+export class WebApplicant {
+
+id?: number;
+jrId?: string;
+jrCode?: string;
+jrSummary?: string;
+jrStatus?: string;
+totalApplnCount?: string;
+validatedCount?: string;
+wsDate?: string;
+firstName?: string;
+lastName?: string;
+dob?: string;
+hr1UsrGrpId?: string;
+hr2UsrGrpId?: string;
+status?: string;
+email?: string;
+mobNum?: string;
+coverLetterNum?: string;
+resumeDocId?: string;
+isValidate?: string;
+validateEmpId?: string;
+validateDt?: string;
+institute?: string;
+course?: string;
+passoutYear?: string;
+historyOfArrears?: string;
+marks?: string;
+currCompany?: string;
+currDesignation?: string;
+currExperience?: string;
+currLocation?: string;
+currSalary?: string;
+degreeName?: string;
+expType?: string;
+otherCollegeName?: string;
+otherCourseName?: string;
+otherDegreeName?: string;
+isEnabled?: string;
+createdBy?: string;
+createdDt?: string;
+modifiedBy?: string;
+modifiedDt?: string;
+select?: string;
+imported?: string;
+applicantId?:string;
+}

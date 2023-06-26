@@ -1,0 +1,10 @@
+.video-fluid {
+    width: 100%;
+    height: auto;
+  }
+
+  @media print {
+    html, body,div,video {
+       display: none;  /* hide whole page */
+    }
+}

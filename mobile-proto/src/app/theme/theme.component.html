@@ -1,0 +1,67 @@
+<ion-menu side="start" menuId="custom" contentId="content" type="overlay">
+    <ion-header>
+        <ion-toolbar>
+            <ion-menu-toggle auto-hide="false">
+                <ion-buttons>
+                    <ion-button class="custom-back-button">
+                        <ion-icon name="arrow-back"></ion-icon>
+                        <ion-title>Back</ion-title>
+                    </ion-button>
+                </ion-buttons>
+            </ion-menu-toggle>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-grid padding>
+            <ion-row>
+                <ion-col text-center>
+                    <img src="assets/imgs/logo-index.png" class="sidemenu-img m-10" />
+                    <h4>{{name}}</h4>
+                    <p>{{role}}</p>
+                    <p>{{email}}</p>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <ion-list lines="lines">
+            <div *ngFor="let p of pages; index as i">
+                <ion-menu-toggle auto-hide="true">
+                    <ion-item [routerDirection]="'root'" (click)="navigateTo(p)" *ngIf="p.visible && !p.subs">
+                        <i slot="start" class="{{p.icon}}" color="isActive(p)"></i>
+                        {{ p.title }} &nbsp;
+                        <!-- <ion-badge *ngIf="p.notifications" id="notifications-badge" color="warning"> {{p.notifications}} </ion-badge> -->
+                    </ion-item>
+                </ion-menu-toggle>
+                <ion-item [routerDirection]="'root'" *ngIf="p.visible && p.subs" (click)="toggleLevel1('idx'+i)"
+                    [ngClass]="{active: isLevel1Shown('idx'+i)}">
+                    <i slot="start" class="{{p.icon}}" color="isActive(p)"></i>
+                    {{ p.title }}
+                    <ion-icon color="warning" slot="end"
+                        [name]="isLevel1Shown('idx'+i) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+                </ion-item>
+                <ion-list *ngIf="p.subs && isLevel1Shown('idx'+i)" class="list-align">
+                    <ion-menu-toggle auto-hide="true">
+                        <ion-item *ngFor="let s of p.subs" text-wrap (click)="navigateTo(s)">
+                                <!-- <i slot="start" class="{{p.icon}}" color="isActive(p)"></i> -->
+                            {{s.title}}
+                        </ion-item>
+                    </ion-menu-toggle>
+                </ion-list>
+            </div>
+            <ion-item padding>
+                <p>Version {{appVer}}</p>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+<ion-router-outlet id="content"></ion-router-outlet>
+<ion-tabs #IonTabs>
+    <ion-tab-bar #myTabBar id="myTabBar" slot="bottom">
+        <ng-container *ngFor="let item of data;let i = index">
+            <ion-tab-button [routerLink]="['/', item.page]" *ngIf="item.visible">
+                <ion-icon [name]="item.icon"></ion-icon>
+				<ion-badge *ngIf="item.notifications" id="notifications-badge" color="warning">{{item.notifications}}</ion-badge>
+                <ion-label>{{item.title}}</ion-label>
+            </ion-tab-button>
+        </ng-container>
+    </ion-tab-bar>
+</ion-tabs>

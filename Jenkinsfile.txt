@@ -1,0 +1,13 @@
+stages {
+    stage ("build - Job1") { //an arbitrary stage name
+       steps {
+          build 'Job 1' //this is where we specify which job to invoke
+        }
+       } 
+        stage ("build - Job2") { //an arbitrary stage name
+         steps {
+         build 'Job 2' 
+          }
+}   
+
+}

@@ -1,0 +1,36 @@
+[
+    {
+        "id": 1,
+        "clientCode": "CP-13",
+        "clientName": "GM",
+        "mobileNo": "9876543210",
+        "emailId": "gm@gmail.com"
+    },
+    {
+        "id": 2,
+        "clientCode": "CP-14",
+        "clientName": "GM-2",
+        "mobileNo": "9876543877"
+    },
+    {
+        "id": 3,
+        "clientCode": "CP-14",
+        "clientName": "Siemens",
+        "mobileNo": "9090348484",
+        "emailId": "akash@siemens.com"
+    },
+    {
+        "id": 4,
+        "clientCode": "CP-15",
+        "clientName": "3M",
+        "mobileNo": "9087654321",
+        "emailId": "prakesh@3m.com"
+    },
+    {
+        "id": 6,
+        "clientCode": "CP-17",
+        "clientName": "Hitachi",
+        "mobileNo": "",
+        "emailId": "ramesh@hitachi.com"
+    }
+]

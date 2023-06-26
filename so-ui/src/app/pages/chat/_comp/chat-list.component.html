@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card m-b-0">
+            <!-- .chat-row -->
+            <div class="chat-main-box">
+                <!-- .chat-left-panel -->
+                <div class="chat-left-aside">
+                    <div class="open-panel"><i class="ti-angle-right"></i></div>
+                    <div class="chat-left-inner">
+                        <div class="form-material">
+                            <input class="form-control p-2" type="text" placeholder="Search Contact">
+                        </div>
+                        <ul class="chatonline style-none ">
+                            <div *ngFor="let item of users">
+                            <li (click)="onSelect(item)">
+                                <a href="javascript:void(0)"><img src="../assets/img/users/1.jpg" alt="user-img"
+                                        class="img-circle"> <span>{{item.firstName}}<small
+                                            class="text-success">{{item.chatAvailability}}</small></span></a>
+                            </li>
+                            <!-- <li class="p-20"></li> -->
+                        </div>
+                        </ul>
+                    </div>
+                </div>
+                <!-- .chat-left-panel -->
+                <!-- .chat-right-panel -->
+                <div class="chat-right-aside">
+                    <div class="chat-main-header">
+                        <div class="p-3 b-b">
+                            <h4 class="box-title">Chat Message</h4>
+                        </div>
+                    </div>
+                    <div class="chat-rbox">
+                        <ul class="chat-list p-3">
+                            <div *ngFor="let msg of messageRes">
+                            <li *ngIf="currentUserId != msg.fromAuthUserId">
+                                <div class="chat-img"><img src="../assets/img/users/1.jpg" alt="user" /></div>
+                                <div class="chat-content">
+                                    <h5>{{msg.fromAuthUserName}}</h5>
+                                    <div class="box bg-light-info">{{msg.messagePayload}}</div>
+                                    <div class="chat-time">{{msg.sentDt | date:'shortTime'}}</div>
+                                </div>
+                            </li>
+                            <li class="reverse" *ngIf="currentUserId == msg.fromAuthUserId">
+                                <div class="chat-content">
+                                    <h5>{{msg.fromAuthUserName}}</h5>
+                                    <div class="box bg-light-info">{{msg.messagePayload}}</div>
+                                    <div class="chat-time">{{msg.sentDt | date:'shortTime'}}</div>
+                                </div>
+                                <div class="chat-img"><img src="../assets/img/users/2.jpg" alt="user" /></div>
+                            </li>
+                        </div>
+                        </ul>
+                    </div>
+                    <div class="card-body border-top">
+                        <div class="row">
+                            <div class="col-8">
+                                <textarea placeholder="Type your message here" [(ngModel)]="currentMessagePayload"  class="form-control border-0"></textarea>
+                            </div>
+                            <div class="col-4 text-right">
+                                <button type="button" class="btn btn-info btn-circle btn-lg" (click)="sendMessage()"><i
+                                        class="fa fa-paper-plane-o"></i> </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- .chat-right-panel -->
+            </div>
+            <!-- /.chat-row -->
+        </div>
+    </div>
+</div>

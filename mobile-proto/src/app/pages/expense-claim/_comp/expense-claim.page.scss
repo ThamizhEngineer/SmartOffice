@@ -1,0 +1,71 @@
+.d-ct{
+	ion-grid{
+		padding:0.45rem;
+	}
+	h2{
+		font-weight:500;
+	}
+	.chevron{
+		padding-top:16%;
+	}
+}
+
+.sub-list{
+	margin:1rem;
+	border:1px solid #CCC;
+}
+
+.img-modal{
+	--background: rgba(44, 39, 45, 0.84);
+	.close-fake {
+		--background: transparent;
+		ion-icon {
+			font-size: 2rem;
+		}
+		margin-top: 40px;
+	}
+	ion-slides {
+		height: 80%;
+	}
+
+	.selector {
+		font-family: SFNSDisplay;
+		font-size: 12px;
+		line-height: 1.2;
+		letter-spacing: 0.1px;
+		color: #29235e;
+		width: 100% !important;
+		max-width: 100% !important;
+		justify-content: center;
+		border: solid 2px #e8ebf0;
+		background-color: #ffffff;
+		text-align: center;
+	  }
+	  .option {
+		font-family: SFNSDisplay;
+		font-size: 8px;
+		line-height: 1.2;
+		letter-spacing: 0.1px;
+		color: #29235e;
+		width: 100% !important;
+		max-width: 100% !important;
+		justify-content: center;
+		height: 20px;
+	  }
+	
+	  ion-option .list{
+		font-family: SFNSDisplay;
+		font-size: 8px !important;
+		max-width: 100% !important;
+	  }
+	  .ion-option-items .item{
+		font-family: SFNSDisplay;
+		font-size: 8px !important;
+		max-width: 100% !important;
+	  }
+	 .select-popover {
+		font-family: SFNSDisplay !important;
+		font-size: 8px !important;
+		max-width: 100% !important;
+	  }
+}

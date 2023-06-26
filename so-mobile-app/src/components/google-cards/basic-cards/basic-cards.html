@@ -1,0 +1,10 @@
+<ion-grid no-padding>
+  <ion-row>
+    <ion-col col-6 no-margin no-padding *ngFor="let item of data;let i = index">
+      <ion-card *ngIf="item.display" padding text-center (click)="onEvent('onItemClick', item, $event)">
+        <h1><i class="{{item.icon}}"></i></h1>
+        <h2 margin-top>{{item.title}}</h2>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>

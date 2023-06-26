@@ -1,0 +1,160 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Apprisal-Reivew</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">My-Task</li>
+                <li class="breadcrumb-item active">Apprisal-Review</li>                
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="form-group col-md-2 col-sm-3">
+                <label class="control-label">Metric Name</label>
+               <input class="form-control form-control-line" type="text">               
+            </div>
+            <div class="form-group col-md-2 col-sm-3">
+                <label class="control-label">Employee Name</label>
+                <input class="form-control form-control-line" type="text">
+            </div>
+            <div class="form-group col-md-2 col-sm-3">
+                <label class="control-label">Review Period</label>
+                <input class="form-control form-control-line" type="text">
+            </div>
+            <div class="form-group col-md-2 col-sm-3">
+                <label class="control-label">Review Date</label>
+                <input class="form-control form-control-line" type="text">
+            </div>
+            <div class="form-group col-md-1 col-sm-3">
+                <label class="control-label"></label> <br>
+                <button type="button" class="btn btn-outline-success">Search</button>
+            </div>
+            <div class="form-group col-md-1 col-sm-3">
+                <label class="control-label"></label><br>
+                <button type="button" class="btn btn-outline-dark">Reset</button>
+            </div>          
+        </div>
+        <flag-alert [message]="Alertmsg"></flag-alert>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+
+            <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+                <label *ngIf="view=='pending'" ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                    <input ngbButton type="radio" (click)="changeView('pending')"> Pending
+                  </label>
+                <label *ngIf="view!='pending'" ngbButtonLabel class="btn btn-outline-info waves-effect waves-light">
+                  <input ngbButton type="radio" (click)="changeView('pending')"> Pending
+                </label>
+                <label *ngIf="view=='over-due'" ngbButtonLabel class="btn btn-warning waves-effect waves-light">
+                    <input ngbButton type="radio" (click)="changeView('over-due')"> Over Due
+                  </label>
+                <label *ngIf="view!='over-due'" ngbButtonLabel class="btn btn-outline-warning waves-effect waves-light">
+                  <input ngbButton type="radio" (click)="changeView('over-due')"> Over Due
+                </label>
+                <label *ngIf="view!='completed'" ngbButtonLabel class="btn-outline-success">
+                  <input ngbButton type="radio" (click)="changeView('completed')"> Completed
+                </label>
+                <label *ngIf="view=='completed'" ngbButtonLabel class="btn-success">
+                    <input ngbButton type="radio" (click)="changeView('completed')"> Completed
+                </label>
+              </div>  
+        </div>
+
+            <div class="table-responsive">
+            <table class="table table-bordered">
+            <thead>
+               <tr>
+                <th>Employee Name</th>
+                <th>Measurement Criteria</th>
+                <th>Employee Achivement</th>
+                <th>Review Period</th>
+                <th>Remarks</th>
+                <th>Score</th>                
+               </tr>
+            </thead>
+            <tbody *ngIf="view=='pending'">
+              
+                    <tr *ngFor="let item of pendingApprisal">                    
+                        <td>{{item.empName}}</td>
+                        <td>{{item.metricName}} &nbsp;{{item.n1Operator}} &nbsp;{{item.n1Target}}{{item.unitDispSymbol}}</td>
+                        <td>{{item.empAcheivedTarget}}</td>
+                        <td>{{item.reviewDt | date:'dd-MM-YYYY'}}({{item.reviewTypeCode}})</td>
+                        <td> <textarea type="text" class="form-control" [(ngModel)]="item.comments"> </textarea></td>
+                        <td><ngb-rating max="5" style="font-size: large;" [readonly]="view=='emp'" [(rate)]="item.reviewScoreCode">
+                        </ngb-rating>
+                        <div class="form-text small">
+                            <label>{{scoreCode[item.reviewScoreCode]}}</label>
+                          </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="6" style="text-align: center;"> Submited Apprisal</th>
+                    </tr>
+                    <tr *ngFor="let item of submitedApprisal">                    
+                        <td>{{item.empName}}</td>
+                        <td>{{item.metricName}} &nbsp;{{item.n1Operator}} &nbsp;{{item.n1Target}}{{item.unitDispSymbol}}</td>
+                        <td>{{item.empAcheivedTarget}}</td>
+                        <td>{{item.reviewDt | date:'dd-MM-YYYY'}}({{item.reviewTypeCode}})</td>
+                        <td> <textarea type="text" class="form-control" [(ngModel)]="item.comments"> </textarea></td>
+                        <td><ngb-rating max="5" style="font-size: large;" [readonly]="view=='emp'" [(rate)]="item.reviewScoreCode">
+                        </ngb-rating>
+                        <div class="form-text small">
+                            <label>{{scoreCode[item.reviewScoreCode]}}</label>
+                          </div>
+                        </td>
+                    </tr>
+            </tbody>
+            <tbody *ngIf="view=='over-due'">
+                <tr *ngFor="let item of overDueApprisal">                    
+                    <td>{{item.empName}}</td>
+                    <td>{{item.metricName}} &nbsp;{{item.n1Operator}} &nbsp;{{item.n1Target}}{{item.unitDispSymbol}}</td>
+                    <td>{{item.empAcheivedTarget}}</td>
+                    <td>{{item.reviewDt | date:'dd-MM-YYYY'}}({{item.reviewTypeCode}})</td>
+                    <td> <textarea type="text" class="form-control" [(ngModel)]="item.comments"> </textarea></td>
+                    <td><ngb-rating max="5" style="font-size: large;" [readonly]="view=='emp'" [(rate)]="item.reviewScoreCode">
+                    </ngb-rating>
+                    <div class="form-text small">
+                        <label>{{scoreCode[item.reviewScoreCode]}}</label>
+                      </div>
+                    </td>
+                </tr>
+            </tbody>                
+                                    
+            <tbody *ngIf="view=='completed'">
+                
+                    <tr  *ngFor="let item of completeApprisal">                    
+                        <td>{{item.empName}}</td>
+                        <td>{{item.metricName}} &nbsp;{{item.n1Operator}} &nbsp;{{item.n1Target}}{{item.unitDispSymbol}}</td>
+                        <td>{{item.empAcheivedTarget}}</td>
+                        <td>{{item.reviewDt | date:'dd-MM-YYYY'}}({{item.reviewTypeCode}})</td>
+                        <td> <textarea type="text" class="form-control" [(ngModel)]="item.comments"></textarea> </td>
+                        <td><ngb-rating max="5" style="font-size: large;" [readonly]="view=='emp'" [(rate)]="item.reviewScoreCode"></ngb-rating>
+                        <div class="form-text small">
+                            <label>{{scoreCode[item.reviewScoreCode]}}</label>
+                        </div>
+                        </td>
+                    </tr>                            
+            </tbody>
+            </table>
+            </div>
+            <div class="row">
+               
+                <div *ngIf="view=='pending'" class="form-group col-md-1 col-sm-3">
+                    <label class="control-label"></label> <br>
+                    <button type="button" (click)="n1Submit()" class="btn btn-outline-success">Submit</button>
+                </div>                 
+            </div>
+
+    </div>
+</div>

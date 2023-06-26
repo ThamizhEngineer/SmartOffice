@@ -1,0 +1,83 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Service Master List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Service Master List </li>
+            </ol>
+			<button type="button" class="btn btn-info m-l-15" (click)="createNew();"><i class="fa fa-plus-circle"></i> Create Service Master</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 card card-body">
+    	<flag-alert [message]="saveMsg"></flag-alert>
+        <div class="table-responsive">
+			<table class="table table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Service Code</th>
+						<th>Service Name</th>
+		
+						<th>Actions</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let row of rows;let i=index ">
+						<td>{{i+1}}</td>
+						<td>{{row.serviceCode}}</td>
+						<td>{{row.serviceName}}</td>
+						
+						<td class="text-nowrap">
+							<a href="javascript:void(0)" (click)="showDetail(row.id);"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+							<confirm-delete [type]="'icon'" (confirmed)="deleteRow(row.id)"></confirm-delete>
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+    </div>
+</div>
+
+<ng-template #vdetail let-c="close">
+	<div class="modal-header">
+		<h3 class="modal-title">Service Master Detail</h3>
+		<button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-6 form-group">
+				<label class="control-label">Service Name</label>
+				<input type="text" class="form-control" placeholder="Service Master Name" (keypress)="commonService.isValidName($event)" #smname="ngModel" [(ngModel)]="serviceMaster.serviceName"> 
+			</div>
+			<div class="col-6 form-group">
+				<label class="control-label">Service Code</label>
+			<br>
+				<span class="label label-default">{{serviceMaster.serviceCode}} 
+				</span>
+			</div>
+			</div>
+		<div class="row">
+			<div class="col-6 form-group" [ngClass]="{'has-danger': sdesc.invalid && (sdesc.dirty || sdesc.touched)}">
+				<label class="control-label">Service Description</label>
+				<textarea type="text" class="form-control" required #sdesc="ngModel" (keypress)="commonService.isValidName($event)" placeholder="Service Master Description" rows="6" [(ngModel)]="serviceMaster.serviceDescription"> </textarea>
+				<div *ngIf="sdesc.invalid && (sdesc.dirty || sdesc.touched)">
+                    <small class="form-control-feedback" *ngIf="sdesc.errors.required">Service Description is Required.</small>
+                </div>
+			</div>
+			
+		</div>	
+	</div>
+	
+	<div class="modal-footer">
+		<button type="button" class="btn btn-warning" (click)="save()">Save</button>
+	</div>
+</ng-template>

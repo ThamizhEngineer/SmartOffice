@@ -1,0 +1,56 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Role Access</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item"><a [routerLink]="['/org-settings/role-access']">Role Access</a></li>
+				<li class="breadcrumb-item active">Detail </li>
+			</ol>
+		</div>
+	</div>
+</div>
+    
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+				<h4>{{isEdit? "Edit" : "Create"}} Role</h4>
+				<flag-alert [message]="saveMsg"></flag-alert>
+			    
+			    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+					<ngb-panel title="Role Access" id="ngb-panel-0">
+						<ng-template ngbPanelContent>
+							<div class="row">
+								<div class="form-group col-md-3 col-sm-6">
+									<label>Role Access</label>
+									<input type="text" class="form-control"/>
+								</div>
+							</div>
+						</ng-template>
+					</ngb-panel>
+					<ngb-panel title="Change Role" id="ngb-panel-1">
+						<ng-template ngbPanelContent>
+							<div class="row">
+								<div class="form-group col-md-3 col-sm-6">
+									<label>Role</label>
+									<input type="text" class="form-control"/>
+								</div>
+							</div>
+						</ng-template>
+					</ngb-panel>
+				</ngb-accordion>
+				
+				<div class="row m-t-10">
+					<div class="form-group col-md-3 col-sm-6">
+						<button type="submit" class="btn btn-info waves-effect waves-light m-t-10" (click)="updateFY()">{{isEdit? "Update" : "Create"}} Role</button>
+					</div>
+				</div>
+				
+				<flag-alert [message]="saveMsg1"></flag-alert>
+			</div>
+		</div>
+	</div>
+</div>

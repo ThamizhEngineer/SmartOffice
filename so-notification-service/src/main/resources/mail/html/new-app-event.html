@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title >Registration Successfull </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <p>
+            Hi  <span th:text="${empName}"></span>
+        </p>
+         <p>
+           Your registration is successfull. Your login user name <span th:text="${userName}"></span> and password <span th:text="${password}"></span>.
+           
+        </p>
+        
+          <p>
+           Please logon to http://172.16.16.102/smart-office/login?returnUrl=%2Findex for further information.
+           
+        </p>
+      
+        <p>
+            Regards, <br />
+            <em>Pothigai Power Solutions Private Limited.</em>
+        </p>
+    </body>
+</html>

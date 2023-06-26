@@ -1,0 +1,435 @@
+<script>
+    $(document).ready(function () {
+
+        $('.textarea_editor').wysihtml5();
+
+    });
+</script>
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Job Report</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item ">Job Report</li>
+                <li class="breadcrumb-item ">
+                    <a [routerLink]="['/job/job-list']">List</a>
+                </li>
+
+                <li class="breadcrumb-item active">Detail</li>
+            </ol>
+            <button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="save()">
+                <i class="fa fa-plus-circle"></i> Save</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="row page-titles">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Client Detail</h4>
+                <br/>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b>Client : </b>
+                    </div>
+                    <div class="col-md-5">{{ job?.clientName}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b>EndClient : </b>
+                    </div>
+                    <div class="col-md-6">{{ job?.endClientName}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b>Location : </b>
+                    </div>
+                    <div class="col-md-6">{{ job?.mapLocationName}}</div>
+                </div>
+
+                <br/>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <b>Job Name : </b>
+                    </div>
+                    <div class="col-md-6">{{ job?.jobName}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b>Contact : </b>
+                    </div>
+                    <div class="col-md-6">{{ job?.contactPhone}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-8">
+        <ngb-tabset>
+            <ngb-tab title="Team">
+                <ng-template ngbTabContent>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Profile</th>
+                                    <th>Engineer</th>
+                                    <th>Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let s of job?.jobEmployees">
+                                    <td>{{s.jobProfileName}}</td>
+                                    <td>{{s.employeeName}}</td>
+                                    <td>{{(s.showStartDt!=undefined && s.showStartDt!=null ?"From "+s.showStartDt:"") + (s.showEndDt!=undefined
+                                        && s.showEndDt!=null ?"to "+s.showEndDt:"")}} </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle>
+                    <b>Job Summary</b>
+                </ng-template>
+                <ng-template ngbTabContent>
+
+                    <div class="form-group">
+                        <textarea class="textarea_editor form-control" rows="15" (keypress)="commonService.isValidName($event)" [(ngModel)]="job.summary" placeholder="Enter text ..."></textarea>
+                    </div>
+                    <!-- <h4><i class="ti-link"></i> Attachment</h4>
+                    <form action="#" class="dropzone">
+                        <div class="fallback">
+                            <input type="file" [(ngModel)]="attachment" (change)="fileChange($event)" name="attachment" class="form-control form-control-line">
+                        </div>
+                    </form> -->
+
+                    <!-- <div class="row">
+                                <div class="col-2">
+                                </div>
+                                <div class="col-3 text-left" *ngIf="job.docAttachedReport1">
+                                    <a href="javascript:void(0)" (click)="download(job.docAttachedReport1);">
+                                        <font color="black">Download</font>
+                                    </a>
+                                </div>
+        
+                            </div>
+                            <div class="row">
+                                    <div class="col-2">
+                                    </div>
+                                    <div class="col-3 text-left" *ngIf="job.docAttachedReport2">
+                                        <a href="javascript:void(0)" (click)="download(job.docAttachedReport2);">
+                                            <font color="black">Download</font>
+                                        </a>
+                                    </div>
+            
+                                </div>
+                                <div class="row">
+                                        <div class="col-2">
+                                        </div>
+                                        <div class="col-3 text-left" *ngIf="job.docAttachedReport3">
+                                            <a href="javascript:void(0)" (click)="download(job.docAttachedReport3);">
+                                                <font color="black">Download</font>
+                                            </a>
+                                        </div>
+                
+                                    </div>
+                                    <div class="row">
+                                            <div class="col-2">
+                                            </div>
+                                            <div class="col-3 text-left" *ngIf="job.docAttachedReport4">
+                                                <a href="javascript:void(0)" (click)="download(job.docAttachedReport4);">
+                                                    <font color="black">Download</font>
+                                                </a>
+                                            </div>
+                    
+                                        </div>
+                                        <div class="row">
+                                                <div class="col-2">
+                                                </div>
+                                                <div class="col-3 text-left" *ngIf="job.docAttachedReport5">
+                                                    <a href="javascript:void(0)" (click)="download(job.docAttachedReport5);">
+                                                        <font color="black">Download</font>
+                                                    </a>
+                                                </div>
+                        
+                                            </div> -->
+                                            <div class="form-group m-t-10">
+                                                    <button class="btn btn-info " (click)="addJobDocsRows()" *ngIf="this.job.jobDocs.length==0"> Add Document</button>
+                                            </div>
+                                    
+                    <table  *ngIf="this.job.jobDocs.length>0" class="table table-striped">
+                            <thead>
+                                    <tr>
+                                        <th>Document Type</th>
+                                        <!-- <th>Document Name</th> -->
+                                        <th>Upload</th>
+                                        <th>Download</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                        <tbody>
+                                
+                            <tr *ngFor="let doc of job.jobDocs;let item=index">
+
+                                <td>
+                                        <select  class="form-control form-control-line" [(ngModel)]="doc.docTypeCode" >
+                                                <option *ngFor="let d of documentTypes" [value]="d.docTypeCode">{{d.docTypeName}}</option>
+                                              
+                                            </select>
+                                </td>
+                                <!-- <td>
+                                    <input type="text" class="form-control form-control-line" [(ngModel)]="doc.docName" > -->
+                                <!-- </td> -->
+                                <td>
+                                    <file-upload [fileDetail]="'JOB-OTHER'" (change)="fileUploadJobSummary($event,doc)"  *ngIf="doc.docTypeCode!=undefined||doc.docTypeCode!=null"></file-upload>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" *ngIf="doc.docId!=null" (click)="download(doc.docId);">
+                                        <font color="black">Download</font>
+                                    </a>
+
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" (click)="addJobDocsRows(doc)">
+                                        <i class="fa fa-plus text-danger m-r-10"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" *ngIf="job.jobDocs.length > 0" (click)="deleteJobDocsRow(item,doc)"><i class="fa fa-close text-danger"></i></a>
+
+                                </td>
+
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </ng-template>
+            </ngb-tab>
+
+            <ngb-tab>
+                <ng-template ngbTabTitle>
+                    <b>Material Used</b>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <form action="#">
+                        <div class="form-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Name</th>
+                                            <th>Quantity</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let m of job?.jobMaterials;let item=index">
+                                            <td>
+                                                <input [(ngModel)]="m.materialTypeOrder" class="form-control" type="text" [ngModelOptions]="{standalone: true}" />
+                                            </td>
+                                            <td>{{m.materialTypeName}}</td>
+                                            <td>
+                                                <input [(ngModel)]="m.materialQuantity" class="form-control" type="text" [ngModelOptions]="{standalone: true}" />
+                                            </td>
+
+                                            <td>
+                                                <a href="javascript:void(0)" (click)="addMaterialRows()">
+                                                    <i class="fa fa-plus text-danger m-r-10"></i>
+                                                </a>
+                                                <a href="javascript:void(0)" *ngIf="job?.jobMaterials.length > 1" (click)="delMaterialRow(item)">
+                                                    <i class="fa fa-close text-danger"></i>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle>
+                    <b>Internal Feedback</b>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div>
+                        <h4 style="margin-top:20px" class="box-title">Feedback on consumer</h4>
+                        <textarea class="form-control" style="margin-top:20px" (keypress)="commonService.isValidName($event)" [(ngModel)]="job.internalFeedback" rows="8"></textarea>
+                    </div>
+
+                    <div>
+                        <h4 style="margin-top:20px" class="box-title">Tips and Tricks</h4>
+                        <!-- <div class="row" *ngFor="let e of job?.jobTips"style="margin-top:20px">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input type="text" [(ngModel)]="e.tips" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-info d-none d-lg-block m-l-15">
+                                        <i class="fa fa-plus-circle"></i> Add</button>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="form-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+
+                                    <tbody>
+                                        <tr *ngFor="let m of job?.jobTips;let item=index">
+                                            <td>
+                                                <textarea class="form-control" style="margin-top:20px" (keypress)="commonService.isValidName($event)" [(ngModel)]="m.tips" rows="8"></textarea>
+                                                <!-- <input [(ngModel)]="m.tips" class="form-control" type="text" [ngModelOptions]="{standalone: true}" /> -->
+                                            </td>
+
+                                            <td>
+                                                <a href="javascript:void(0)" (click)="addTipsRows()">
+                                                    <i class="fa fa-plus text-danger m-r-10"></i>
+                                                </a>
+                                                <a href="javascript:void(0)" *ngIf="job?.jobTips.length > 1" (click)="delTipsRow(item)">
+                                                    <i class="fa fa-close text-danger"></i>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle>
+                    <b>Chat History</b>
+                </ng-template>
+                <ng-template ngbTabContent>
+
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card m-b-0">
+                                <!-- .chat-row -->
+                                <div class="chat-main-box">
+
+                                    <div class="chat-right-aside">
+                                        <div class="chat-main-header">
+                                            <div class="p-3 b-b">
+                                                <h4 class="box-title">Chat Message</h4>
+                                            </div>
+                                        </div>
+                                        <div class="chat-rbox">
+                                            <ul class="chat-list p-3">
+                                                <!--chat Row -->
+
+
+                                                <!--chat Row -->
+                                                <div *ngFor="let c of job?.jobChatHistories">
+
+                                                    <li *ngIf="c.userType=='CLIENT'" class="reverse">
+                                                        <div class="chat-content">
+
+                                                            <div>
+
+                                                                <h5>
+                                                                    <i class="icon-user"></i>{{(c.senderName!=null?c.senderName:c.receiverName)}}</h5>
+
+                                                            </div>
+                                                            <div class="box bg-light-inverse">{{c.message}}</div>
+
+                                                            <div class="bg-light-inverse">{{c.messageTime | date:'shortTime'}}</div>
+                                                        </div>
+
+                                                    </li>
+
+                                                    <li *ngIf="c.userType!='CLIENT'">
+
+
+                                                        <div class="chat-content">
+
+
+                                                            <h5>
+                                                                <i class="icon-user"></i>{{(c.senderName!=null?c.senderName:c.receiverName)}}</h5>
+
+
+                                                            <div class="box bg-light-info">{{c.message}}</div>
+
+                                                            <div class="bg-light-info">{{c.messageTime | date:'shortTime'}}</div>
+                                                        </div>
+
+                                                    </li>
+
+                                                </div>
+                                                <!--chat Row -->
+
+                                                <!--chat Row -->
+                                                <!-- <li>
+                                                                
+                                                                <div class="chat-content">
+                                                                    <h5><i class="icon-user"></i>Poongundran</h5>
+                                                                    <div class="box bg-light-info">Just now completed</div>
+                                                                    <div class="chat-time">11:00 am</div>
+                                                                </div>
+                                                            </li> -->
+                                                <!--chat Row -->
+                                                <!--chat Row -->
+                                                <!-- <li class="reverse">
+                                                                <div class="chat-content">
+                                                                        <div>
+                                                                             
+                                                                           
+                                                                                <h5><i class="icon-user"></i>Kamlesh</h5>
+                                                                   
+                                                                    </div>
+                                                                    <div class="box bg-light-inverse">Thanks</div>
+                                                                  
+                                                                    <div class="chat-time">11:02 am</div>
+                                                                </div>
+                                                                
+                                                            </li> -->
+                                            </ul>
+                                        </div>
+                                        <div class="card-body border-top">
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <textarea placeholder="Type your message here" class="form-control border-0"></textarea>
+                                                </div>
+                                                <div class="col-4 text-right">
+                                                    <button type="button" class="btn btn-info btn-circle btn-lg">
+                                                        <i class="fa fa-paper-plane-o"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- .chat-right-panel -->
+                                </div>
+                                <!-- /.chat-row -->
+                            </div>
+                        </div>
+                    </div>
+
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+
+
+
+
+    </div>

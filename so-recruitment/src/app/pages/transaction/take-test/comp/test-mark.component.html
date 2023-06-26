@@ -1,0 +1,82 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">My Test</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="javascript:void(0)">Home</a>
+                </li>
+                <li class="breadcrumb-item active">My Test </li>
+            </ol>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h2>
+                    <p class="text-center">Your Mark For the Test :{{tests.score}}/100</p>
+                </h2>
+                <div
+                    *ngFor="let testQue of tests.incidentTestQuestions | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                    <h5>Question</h5>
+                    <p>
+                    </p>
+                    <div class="row">
+                        <div class="col-md-12 m-t-10 m-b-20">
+                            <h4>{{testQue.question}}</h4>
+                        </div>
+                    </div>
+
+                    <h5>Answers</h5>
+                    <div class="row m-t-10">
+                        <div class="form-group col-md-12">
+                            <div >
+                                option1 : &nbsp;<label *ngIf="testQue.correctOption!='option1'" class="label label-default"><span>{{testQue.option1}}</span></label>
+                                <label *ngIf="testQue.correctOption=='option1'" class="label label-success"><span>{{testQue.option1}}</span></label>
+                            </div>
+                            <div >
+                                option2 : &nbsp;<label *ngIf="testQue.correctOption!='option2'" class="label label-default"><span>{{testQue.option2}}</span></label>
+                                <label *ngIf="testQue.correctOption=='option2'" class="label label-success"><span>{{testQue.option2}}</span></label>
+                            </div>
+                            <div >
+                                option3 : &nbsp;<label *ngIf="testQue.correctOption!='option3'" class="label label-default"><span>{{testQue.option3}}</span></label>
+                                <label *ngIf="testQue.correctOption=='option3'" class="label label-success"><span>{{testQue.option3}}</span></label>
+                            </div>
+                            <div >
+                                option4 : &nbsp;<label *ngIf="testQue.correctOption!='option4'" class="label label-default"><span>{{testQue.option4}}</span></label>
+                                <label *ngIf="testQue.correctOption=='option4'" class="label label-success"><span>{{testQue.option4}}</span></label>
+                            </div>                            
+                        </div>
+                    </div>
+
+                    <h5>Your Answer</h5>
+                    <div class="row m-t-10">
+                        <div class="form-group col-md-12">
+                            <div >
+                                <label *ngIf="testQue.correctOption!=testQue.userPicked" class="label label-danger"><span>{{testQue.userPicked}}</span></label>
+                                <label *ngIf="testQue.correctOption==testQue.userPicked" class="label label-success"><span>{{testQue.userPicked}}</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ngb-pagination [(page)]="page" [pageSize]="pageSize"
+                        [collectionSize]="tests.incidentTestQuestions.length"></ngb-pagination>
+                </div>
+                <div class="form-group m-b-10">
+
+
+                    <p class="text-center">
+                        <button type="button" class="btn btn-success m-t-10" (click)="navigateToListPage()">Exit
+                            Test</button>
+                    </p>
+                </div>
+            </div>

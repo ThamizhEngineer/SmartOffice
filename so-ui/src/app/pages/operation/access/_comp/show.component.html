@@ -1,0 +1,430 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Application Access Page</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item">Back Office</li>
+				<li class="breadcrumb-item active">Application Access</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+<div class="card">
+	<flag-alert [message]="saveMsg"></flag-alert>
+    <ngb-tabset class="customtab">
+        <ngb-tab title="Employees">
+            <ng-template ngbTabContent>
+                <div class="card-body">
+
+					<div class="table-responsive">
+						<table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Employee</th>
+									<th>Username</th>
+									<th>Email Id</th>
+									<th>Role</th>
+									<th>Access Date</th>
+									<th *ngIf="view=='SU'||view=='ADMIN'">Action</th>
+									<th *ngIf="view=='SU'||view=='ADMIN'">Login Denied</th>						
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr *ngFor="let user of authEmployees | slice: (epage-1) * epageSize : (epage-1) * epageSize + epageSize;let i=index">
+									<td>{{i+1}}</td>
+									<td>{{user.employee}}<br />
+										<span class="label label-{{statuses[user.empStatus]}}">{{user.empStatus}}</span>
+									</td>
+									<td>{{user.userName}}
+										<font color="blue"><i *ngIf="user.authId==null" (click)="createUserAlert('Employee',user.employeeId,user.employee)" class="fa fa-user-plus" aria-hidden="true"></i></font> 
+									</td>
+									<td>{{user.emailId}}</td>
+									<td>
+									<div *ngFor="let item of user.authUserRoles">
+										{{item.authRoleCode}}
+									</div>
+									</td>
+									<td>{{user.loginAccess | date:'dd/MM/yyyy HH:mm'}}</td>
+									<td *ngIf="view=='SU'||view=='ADMIN'" class="text-nowrap">
+										<a href="javascript:void(0)" title="Change Access"   (click)="changeRole(user);"> <i class="fa fa-keyboard-o m-r-10 text-warning"></i> </a>
+										<a href="javascript:void(0)" title="Change Password" (click)="changePassword(user);"> <i class="fa fa-key m-r-10 text-warning"></i> </a>
+	
+										<a *ngIf="view=='SU'" href="javascript:void(0)" title="Change UserName" (click)="changeUser(user);"> <i class="fa fa-user m-r-10 text-warning"></i> </a>
+	
+										<a *ngIf="view=='SU'" href="javascript:void(0)" title="Delete User" (click)="deleteUser(user);"> <i class="fa fa-close text-danger"></i> </a>
+									</td>
+									<td *ngIf="view=='SU'||view=='ADMIN'"> 
+									 <label class="toggle "><input type="checkbox" class="col-md-8" (click)="loginAccess(user)" [(ngModel)]="user.isEnabledFlag" ><span class="handle blocked"></span></label>
+									</td>								
+								</tr>						 
+							</tbody>
+						</table>
+					</div>
+					<div class="row">
+						<div class="col-10">
+							<ngb-pagination 
+							[(page)]="epage"
+							[pageSize]="epageSize"
+							[collectionSize]="authEmployees.length"></ngb-pagination>
+				
+							<pre>Current page: {{epage}}</pre>						
+						</div>						
+					</div>
+					
+					
+				</div>
+			</ng-template>
+		</ngb-tab>
+
+		<ngb-tab title="Applicant">
+            <ng-template ngbTabContent>
+                <div class="card-body">
+
+					<div class="table-responsive">
+						<table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Applicant</th>
+									<th>Username</th>
+									<th>Email Id</th>									
+									<th>Access Date</th>
+									<th *ngIf="view=='SU'||view=='ADMIN'">Action</th>
+									<th *ngIf="view=='SU'||view=='ADMIN'">Login Denied</th>						
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr *ngFor="let user of authApplicants | slice: (apage-1) * apageSize : (apage-1) * apageSize + apageSize;let i=index">
+									<td>{{i+1}}</td>
+									<td>{{user.applicant}}</td>
+									<td>{{user.userName}}
+										<font color="blue"><i *ngIf="user.authId==null" (click)="createUserAlert('Applicant',user.applicantId,user.applicant)" class="fa fa-user-plus" aria-hidden="true"></i></font> 
+									</td>
+									<td>{{user.emailId}}</td>									
+									<td>{{user.loginAccess | date:'dd/MM/yyyy HH:mm'}}</td>
+									<td *ngIf="view=='SU'||view=='ADMIN'" class="text-nowrap">
+										<a href="javascript:void(0)" title="Change Password" (click)="changePassword(user);"> <i class="fa fa-key m-r-10 text-warning"></i> </a>
+	
+										<a *ngIf="view=='SU'"  href="javascript:void(0)" title="Change UserName" (click)="changeUser(user);"> <i class="fa fa-user m-r-10 text-warning"></i> </a>
+	
+										<a *ngIf="view=='SU'" href="javascript:void(0)" title="Delete User" (click)="deleteUser(user);"> <i class="fa fa-close text-danger"></i> </a>
+									</td>
+									<td *ngIf="view=='SU'||view=='ADMIN'"> 
+									 <label class="toggle "><input type="checkbox" class="col-md-8" (click)="loginAccess(user)" [(ngModel)]="user.isEnabledFlag" ><span class="handle blocked"></span></label>
+									</td>								
+								</tr>						 
+							</tbody>
+						</table>
+					</div>
+
+					<div class="row">
+						<div class="col-10">
+							<ngb-pagination 
+							[(page)]="apage"
+							[pageSize]="apageSize"
+							[collectionSize]="authApplicants.length"></ngb-pagination>
+				
+							<pre>Current page: {{apage}}</pre>						
+						</div>					
+					</div>				
+				</div>
+			</ng-template>
+		</ngb-tab>
+
+		<ngb-tab title="Client">
+            <ng-template ngbTabContent>
+				<div class="card-body">
+
+					<div class="table-responsive">
+						<table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Client</th>
+									<th>Client Employee Name</th>
+									<th>Username</th>
+									<th>Email Id</th>									
+									<th>Access Date</th>
+									<th *ngIf="view=='SU'||view=='ADMIN'">Action</th>
+									<th *ngIf="view=='SU'||view=='ADMIN'">Login Denied</th>						
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr *ngFor="let user of authClients | slice: (cpage-1) * cpageSize : (cpage-1) * cpageSize + cpageSize;let i=index">
+									<td>{{i+1}}</td>
+									<td>{{user.client}}</td>
+									<td>{{user.partnerEmpName}}</td>
+									<td>{{user.userName}}
+										<font color="blue"><i *ngIf="user.authId==null" (click)="createUserAlert('Client',user.partnerEmpId,user.partnerEmpName)" class="fa fa-user-plus" aria-hidden="true"></i></font> 
+									</td>
+									<td>{{user.emailId}}</td>
+							
+									<td>{{user.loginAccess | date:'dd/MM/yyyy HH:mm'}}</td>
+									<td *ngIf="view=='SU'||view=='ADMIN'" class="text-nowrap">
+										<a href="javascript:void(0)" title="Change Password" (click)="changePassword(user);"> <i class="fa fa-key m-r-10 text-warning"></i> </a>
+	
+										<a  *ngIf="view=='SU'" href="javascript:void(0)" title="Change UserName" (click)="changeUser(user);"> <i class="fa fa-user m-r-10 text-warning"></i> </a>
+	
+										<a *ngIf="view=='SU'" href="javascript:void(0)" title="Delete User" (click)="deleteUser(user);"> <i class="fa fa-close text-danger"></i> </a>
+									</td>
+									<td *ngIf="view=='SU'||view=='ADMIN'"> 
+									 <label class="toggle "><input type="checkbox" class="col-md-8" (click)="loginAccess(user)" [(ngModel)]="user.isEnabledFlag" ><span class="handle blocked"></span></label>
+									</td>								
+								</tr>						 
+							</tbody>
+						</table>
+					</div>
+					<div class="row">
+						<div class="col-10">
+							<ngb-pagination 
+						[(page)]="cpage"
+						[pageSize]="cpageSize"
+						[collectionSize]="authClients.length"></ngb-pagination>
+			
+						<pre>Current page: {{cpage}}</pre>					
+						</div>						
+					</div>
+				
+				</div>
+			</ng-template>
+		</ngb-tab>
+
+		<ngb-tab title="Vendor">
+            <ng-template ngbTabContent>
+				<div class="card-body">
+
+					<div class="table-responsive">
+						<table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Vendor</th>
+									<th>Vendor Employee Name</th>
+									<th>Username</th>
+									<th>Email Id</th>									
+									<th>Access Date</th>
+									<th *ngIf="view=='SU'||view=='ADMIN'">Action</th>
+									<th *ngIf="view=='SU'||view=='ADMIN'">Login Denied</th>						
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr *ngFor="let user of authVendors | slice: (vpage-1) * vpageSize : (vpage-1) * vpageSize + vpageSize;let i=index">
+									<td>{{i+1}}</td>
+									<td>{{user.vendor}}</td>
+									<td>{{user.partnerEmpName}}</td>
+									<td>{{user.userName}}
+										<font color="blue"><i *ngIf="user.authId==null" (click)="createUserAlert('Vendor',user.partnerEmpId,user.partnerEmpName)" class="fa fa-user-plus" aria-hidden="true"></i></font> 
+									</td>
+									<td>{{user.emailId}}</td>							
+									<td>{{user.loginAccess | date:'dd/MM/yyyy HH:mm'}}</td>
+									<td *ngIf="view=='SU'||view=='ADMIN'" class="text-nowrap">
+										<a href="javascript:void(0)" title="Change Password" (click)="changePassword(user);"> <i class="fa fa-key m-r-10 text-warning"></i> </a>
+	
+										<a *ngIf="view=='SU'" href="javascript:void(0)" title="Change UserName" (click)="changeUser(user);"> <i class="fa fa-user m-r-10 text-warning"></i> </a>
+	
+										<a *ngIf="view=='SU'" href="javascript:void(0)" title="Delete User" (click)="deleteUser(user);"> <i class="fa fa-close text-danger"></i> </a>
+									</td>
+									<td *ngIf="view=='SU'||view=='ADMIN'">  
+									 <label class="toggle "><input type="checkbox" class="col-md-8" (click)="loginAccess(user)" [(ngModel)]="user.isEnabledFlag" ><span class="handle blocked"></span></label>
+									</td>								
+								</tr>						 
+							</tbody>
+						</table>
+					</div>
+					<div class="row">
+						<div class="col-10">
+							<ngb-pagination 
+						[(page)]="vpage"
+						[pageSize]="vpageSize"
+						[collectionSize]="authVendors.length"></ngb-pagination>		
+						<pre>Current page: {{vpage}}</pre>					
+						</div>					
+					</div>					
+				</div>
+			</ng-template>
+		</ngb-tab>
+	</ngb-tabset>
+</div>
+
+<ng-template #cdelete let-c="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Are you sure want to Delete?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+ <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="confirmDelete(modalData)">OK</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #cpassword let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">Update Password</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+			<div   class="row">
+				<div class="col-md-8">
+					<div class="form-group">
+						<label class="control-label"> <font color="blue">Current Password:</font></label>
+						<span> <b>{{currentPwd}} </b></span>						
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8">
+					<div class="form-group" [ngClass]="{'has-danger': d_newPword && d_newPword.invalid && (d_newPword.dirty || d_newPword.touched)}">
+						<label class="control-label">New Password</label>
+						<input type="password" class="form-control" [(ngModel)]="newPword" placeholder="New Password" autocomplete="off" #d_newPword="ngModel" required minlength="8" name="v_newPword"/>
+						<small [hidden]="d_newPword.valid || d_newPword.pristine" class="form-control-feedback" *ngIf="d_newPword.errors?.required">New password is required.</small>
+						<small [hidden]="d_newPword.valid || d_newPword.pristine" class="form-control-feedback" *ngIf="d_newPword.errors?.minlength">Password must be atleast 8 characters long.</small>
+					</div>
+				</div>
+			</div>
+			<div class="row">	
+				<div class="col-md-8">
+					<div class="form-group" [ngClass]="{'has-danger': d_cnewPword && d_cnewPword.invalid && (d_cnewPword.dirty || d_cnewPword.touched)}">
+						<label class="control-label">Confirm New Password</label>
+						<input type="password" class="form-control" [(ngModel)]="cnewPword" placeholder="New Password" autocomplete="off" #d_cnewPword="ngModel" required [pattern]="newPword" name="v_cnewPword"/>
+						<small [hidden]="d_cnewPword.valid || d_cnewPword.pristine" class="form-control-feedback" *ngIf="d_cnewPword.errors?.required">New password is required.</small>
+						<small [hidden]="d_cnewPword.valid || d_cnewPword.pristine" class="form-control-feedback" *ngIf="d_cnewPword.errors?.pattern">New Password is not matching.</small>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="updatePassword(modalData)">Update Password</button>
+		<button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+	</div>
+</ng-template>
+
+
+<ng-template #cuser let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">Update User Name</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+			<div class="row">
+				<div class="col-md-8">
+					<div class="form-group" [ngClass]="{'has-danger': d_newusr && d_newusr.invalid && (d_newusr.dirty || d_newusr.touched)}">
+						<label class="control-label">New User Name</label>
+						<input type="test" class="form-control" [(ngModel)]="newUserName" placeholder="New User Name" autocomplete="off" #d_newusr="ngModel" required minlength="4" name="v_newPword"/>
+						<small [hidden]="d_newusr.valid || d_newusr.pristine" class="form-control-feedback" *ngIf="d_newusr.errors?.required">New User Name is required.</small>
+						<small [hidden]="d_newusr.valid || d_newusr.pristine" class="form-control-feedback" *ngIf="d_newusr.errors?.minlength">User Name must be atleast 4 characters long.</small>
+					</div>
+				</div>
+			</div>
+			<div class="row">	
+				<div class="col-md-8">
+					<div class="form-group" [ngClass]="{'has-danger': d_cnewusr && d_cnewusr.invalid && (d_cnewusr.dirty || d_cnewusr.touched)}">
+						<label class="control-label">Confirm New User Name</label>
+						<input type="text" class="form-control" [(ngModel)]="cnewUserName" placeholder="New User Name" autocomplete="off" #d_cnewusr="ngModel" required [pattern]="newUserName" name="v_cnewPword"/>
+						<small [hidden]="d_cnewusr.valid || d_cnewusr.pristine" class="form-control-feedback" *ngIf="d_cnewusr.errors?.required">New User Name is required.</small>
+						<small [hidden]="d_cnewusr.valid || d_cnewusr.pristine" class="form-control-feedback" *ngIf="d_cnewusr.errors?.pattern">New User Name is not matching.</small>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="updateUser(modalData)">Update User Name</button>
+		<button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+	</div>
+</ng-template>
+
+
+
+
+<ng-template #crole let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">Update Role</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+					<table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table">
+						<thead>
+							<tr>
+								
+								<th>Role Name</th>
+								<th>Action</th>
+															
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let e of authRole?.authUserRoles;let item=index">
+								
+								<td>	
+									<select  class="form-control"[(ngModel)]="e.authRoleId"  >
+									<option *ngFor="let r of roles" [value]="r.id">{{r.roleName}}</option>
+								</select>
+							</td>
+							
+								<td class="text-nowrap">
+									<a href="javascript:void(0)" (click)="addRoles()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+									<a href="javascript:void(0)"   (click)="delRoles(item)"><i class="fa fa-close text-danger"></i></a> 
+								</td>								
+							</tr>						 
+						</tbody>
+					</table>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer" >
+		<button type="button" class="btn btn-outline-dark" (click)="assignRole(modalData.id)">Update Role</button>
+		<button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+	</div>
+</ng-template>
+
+
+<ng-template #alert let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">{{type}} User Creation</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<p>Create Login Access For {{userName}}</p>
+	</div>
+	<div class="modal-footer">
+		<div *ngIf="type=='Employee'">
+			<button type="button" class="btn btn-outline-dark" (click)="createAuthEmployee()">Create {{type}}</button>
+		</div>	
+		<div *ngIf="type=='Applicant'">
+			<button type="button" class="btn btn-outline-dark" (click)="createAuthApplicant()">Create {{type}}</button>
+		</div>
+		<div *ngIf="type=='Vendor'">
+			<button type="button" class="btn btn-outline-dark" (click)="createAuthVendor()">Create {{type}}</button>
+		</div>
+		<div *ngIf="type=='Client'">
+			<button type="button" class="btn btn-outline-dark" (click)="createAuthClient()">Create {{type}}</button>
+		</div>		
+		<button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+	</div>
+</ng-template>

@@ -1,0 +1,47 @@
+{
+  "name": "smart-office",
+  "description": "smart-office ui",
+  "version": "0.0.0",
+  "license": "SIDSYNC",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve -o --poll=2000",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
+  "private": true,
+  "dependencies": {
+    "@agm/core": "^1.0.0-beta.5",
+    "@angular/animations": "^5.2.11",
+    "@angular/common": "^5.2.11",
+    "@angular/compiler": "^5.2.11",
+    "@angular/core": "^5.2.11",
+    "@angular/forms": "^5.2.11",
+    "@angular/http": "^5.2.11",
+    "@angular/platform-browser": "^5.2.11",
+    "@angular/platform-browser-dynamic": "^5.2.11",
+    "@angular/router": "^5.2.11",
+    "@ng-bootstrap/ng-bootstrap": "^1.1.2",
+    "angular-sortablejs": "^2.6.0",
+    "angular2-wizard": "^0.4.0",
+    "core-js": "^2.5.7",
+    "crypto-js": "^4.0.0",
+    "file-saver": "^2.0.0",
+    "fullcalendar": "3.7.0",
+    "ng-fullcalendar": "^1.6.2",
+    "ngx-perfect-scrollbar": "^5.3.5",
+    "node-sass": "^4.13.0",
+    "rxjs": "^5.5.12",
+    "sortablejs": "^1.7.0",
+    "zone.js": "^0.8.26"
+  },
+  "devDependencies": {
+    "@angular-devkit/core": "0.0.28",
+    "@angular/cli": "1.5.0",
+    "@angular/compiler-cli": "^5.2.11",
+    "@angular/language-service": "^5.2.11",
+    "typescript": "~2.4.2"
+  }
+}

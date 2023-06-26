@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/leave-req/list" routerDirection="forward"></ion-back-button>
+      </ion-buttons>
+    <ion-title>Create</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label position="floating">
+        <h2>Leave Type</h2>
+      </ion-label>
+      <ion-select okText="Okay" cancelText="Dismiss" [(ngModel)]="leaveApp.leaveTypeId">
+        <ion-select-option *ngFor="let j of leaveTypes" [value]="j.id">{{j.leaveTypeName}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">From Date</ion-label>
+      <ion-datetime displayFormat="MM/DD/YYYY" min="{{minDate}}" max="{{maxDate}}" [(ngModel)]="leaveApp.startDt">
+      </ion-datetime>
+    </ion-item>
+
+    <ion-list>
+      <ion-radio-group [(ngModel)]="leaveApp.startSession">
+        <ion-item>
+          <ion-label>Forenoon</ion-label>
+          <ion-radio slot="start" value="FN" checked></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Afternoon</ion-label>
+          <ion-radio slot="start" value="AN"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+    <ion-item>
+      <ion-label position="floating">To Date</ion-label>
+      <ion-datetime displayFormat="MM/DD/YYYY" min="{{minDate}}" max="{{maxDate}}" [(ngModel)]="leaveApp.endDt">
+      </ion-datetime>
+    </ion-item>
+    <ion-list>
+      <ion-radio-group [(ngModel)]="leaveApp.endSession">
+        <ion-item>
+          <ion-label>Forenoon</ion-label>
+          <ion-radio slot="start" value="FN" checked></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Afternoon</ion-label>
+          <ion-radio slot="start" value="AN"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+    <ion-item>
+      <ion-label position="floating">Reason</ion-label>
+      <ion-textarea [(ngModel)]="leaveApp.reason"></ion-textarea>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" disabled={{isDisabled}} size="large" (click)="createLeave();">Apply</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

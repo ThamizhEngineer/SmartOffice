@@ -1,0 +1,66 @@
+[
+	{
+		"startDate": "2018-04-20",
+		"endDate": "2018-04-28",
+		"title": "Visit #011, Gujarat, Field check...",
+		"code": "#011",
+		"location": "Gujarat",
+		"type": "Field Engineer test",
+		"colorCode": "red",
+		"status" : "Not Started",
+		"tasks": [
+			{"no": 1, "name": "Pre Inspection", "date": "2018-03-31", "status": "completed", "remarks": "Done"},
+			{"no": 2, "name": "Grid Inspection", "date": "2018-04-01", "status": "completed", "remarks": "Done"},
+			{"no": 3, "name": "Grid Installation", "date": "2018-04-02", "status": "Progress", "remarks": "Pending"},
+			{"no": 4, "name": "Post Inspection", "date": "2018-04-06", "status": "Pending", "remarks": ""}
+		]
+	},
+	{
+		"startDate": "2018-04-18",
+		"endDate": "2018-04-23",
+		"title": "Visit #022, Gujarat, Grid check...",
+		"code": "#022",
+		"location": "Gujarat",
+		"type": "Field Engineer visit check",
+		"colorCode": "green",
+		"status" : "Pre Inspection check in progress",
+		"tasks": [
+			{"no": 1, "name": "Pre Inspection", "date": "2018-03-31", "status": "completed", "remarks": "Done"},
+			{"no": 2, "name": "Grid Inspection", "date": "2018-04-01", "status": "completed", "remarks": "Done"},
+			{"no": 3, "name": "Grid Installation", "date": "2018-04-02", "status": "Progress", "remarks": "Pending"},
+			{"no": 4, "name": "Post Inspection", "date": "2018-04-06", "status": "Pending", "remarks": ""}
+		]
+	},
+	{
+		"startDate": "2018-03-31",
+		"endDate": "2018-04-05",
+		"title": "Visit #033, Chennai, Plant Inspection...",
+		"code": "#033",
+		"location": "Chennai",
+		"type": "Surveillance Engineer visit check",
+		"colorCode": "blue",
+		"status" : "Progress",
+		"tasks": [
+			{"no": 1, "name": "Pre Inspection", "date": "2018-03-31", "status": "completed", "remarks": "Done"},
+			{"no": 2, "name": "Grid Inspection", "date": "2018-04-01", "status": "completed", "remarks": "Done"},
+			{"no": 3, "name": "Grid Installation", "date": "2018-04-02", "status": "Progress", "remarks": "Pending"},
+			{"no": 4, "name": "Post Inspection", "date": "2018-04-06", "status": "Pending", "remarks": ""}
+		]
+	},
+	{
+		"startDate": "2018-04-02",
+		"endDate": "2018-04-12",
+		"title": "Visit #044, Ahmedabad, Plant Installation...",
+		"code": "#044",
+		"location": "GE Ahmedabad",
+		"type": "Project Engineer visit check",
+		"colorCode": "yellow",
+		"status" : "Started",
+		"tasks": [
+			{"no": 1, "name": "Pre Inspection", "date": "2018-03-31", "status": "completed", "remarks": "Done"},
+			{"no": 2, "name": "Grid Inspection", "date": "2018-04-01", "status": "completed", "remarks": "Done"},
+			{"no": 3, "name": "Grid Installation", "date": "2018-04-02", "status": "Progress", "remarks": "Pending"},
+			{"no": 4, "name": "Post Inspection", "date": "2018-04-06", "status": "Pending", "remarks": ""}
+		]
+	}
+]

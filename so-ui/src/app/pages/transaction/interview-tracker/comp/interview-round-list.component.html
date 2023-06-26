@@ -1,0 +1,126 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Interview</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="javascript:void(0)">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Recruitment</li>
+                <li class="breadcrumb-item active">Interview</li>
+            </ol>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+                            <label ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                              <input ngbButton type="radio" (click)="changeActive('true')"> Pending
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                              <input ngbButton type="radio" (click)="changeActive('false')"> Complete
+                            </label>
+                          </div>
+
+                <div *ngIf="binding=='true'" class="table-responsive m-t-40">
+                    <table class="display nowrap table table-hover table-striped table-bordered"
+                        cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th data-sort-initial="true" data-toggle="true">#</th>
+                                <th data-sort-initial="true" data-toggle="true">Candidate Name</th>
+
+                                <th data-sort-initial="true" data-toggle="true">Round Name</th> 
+                                <th data-sort-initial="true" data-toggle="true">Interview Date time</th>
+                                <th data-sort-initial="true" data-toggle="true">Interview Name</th>
+                                <th data-sort-initial="true" data-toggle="true">Decision</th>  
+                                <th data-sort-initial="true" data-toggle="true"></th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let item of interviewRounds | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index ">
+                                <td>{{i+1}}</td>
+                                <td>
+                                    {{item.applicantName}}<applicant-detail-edit
+                                    [childMessage]="item.applicant"></applicant-detail-edit>
+                                </td>
+                                <td>{{item.roundName}} </td>
+                                <td>{{item.roundDateTime | date: 'dd-MM-yyyy hh:mm:ss'}}</td>
+                                <td>{{item.interviewEmpName}} </td>
+                                <td><span class="label label-{{statuses[item.decision]}}">{{item.decision}}</span></td> 
+                                <td>
+                                    <a *ngIf="isHr==true" ngbTooltip="View All Rounds" [routerLink]="['/recruitment/interview/hr-view', item.interviewId]" data-toggle="tooltip" data-original-title="Edit" class="btn btn-info">View</a>
+                                    <a *ngIf="item.interviewEmpId==this.user.employeeId" ngbTooltip="Conduct Interview" [routerLink]="['/recruitment/interview/conduct-interview', item.interviewId]" data-toggle="tooltip" data-original-title="Edit" class="btn btn-info">Interview</a>
+                                </td>  
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination 
+						[(page)]="page"
+						[pageSize]="pageSize"
+						[collectionSize]="interviewRounds.length"></ngb-pagination>
+						<pre>Current page: {{page}}</pre>
+                </div>   
+                
+                
+
+                <div *ngIf="binding=='false'" class="table-responsive m-t-40">
+                    <table class="display nowrap table table-hover table-striped table-bordered"
+                    cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th data-sort-initial="true" data-toggle="true">#</th>
+                            <th data-sort-initial="true" data-toggle="true">Candidate Name</th>
+
+                            <th data-sort-initial="true" data-toggle="true">Round Name</th> 
+                            <th data-sort-initial="true" data-toggle="true">Interview Date time</th>
+                            <th data-sort-initial="true" data-toggle="true">Interview Name</th>
+                            <th data-sort-initial="true" data-toggle="true">Decision</th>
+                            <th   *ngIf="isHr==true"data-sort-initial="true" data-toggle="true">Final Decision</th>
+                            <th  *ngIf="isHr==true"></th>
+                            
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let item of completedRounds | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index ">
+                            <td>{{i+1}}</td>
+                            <td>
+                                {{item.applicantName}}<applicant-detail-edit
+                                [childMessage]="item.applicant"></applicant-detail-edit>
+                            </td>
+                            <td>{{item.roundName}} </td>
+                            <td>{{item.roundDateTime | date: 'dd-MM-yyyy hh:mm:ss'}}</td>
+                            <td>{{item.interviewEmpName}} </td>
+                            <td><span class="label label-{{statuses[item.decision]}}">{{item.decision}}</span></td> 
+                            <td  *ngIf="isHr==true"><span class="label label-{{statuses[item.finalDecision]}}">{{item.finalDecision}}</span></td> 
+                            <td  *ngIf="isHr==true">
+                                <a ngbTooltip="View all the Interview rounds for this candidate" [routerLink]="['/recruitment/interview/hr-view', item.interviewId]" data-toggle="tooltip" data-original-title="Edit" class="btn btn-info">View Interview Process</a>
+                            </td> 
+                        </tr>
+                    </tbody>
+                    </table>
+                    <ngb-pagination 
+                        [(page)]="page"
+                        [pageSize]="pageSize"
+                        [collectionSize]="completedRounds.length"></ngb-pagination>
+                        <pre>Current page: {{page}}</pre>
+                </div> 
+
+            </div>
+        </div>
+    </div>
+</div>

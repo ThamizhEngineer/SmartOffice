@@ -1,0 +1,24 @@
+[
+  {
+    "name": "GE",
+    "id": 1001,
+    "SO": 1201,
+    "contact": 9876543210,
+    "phone": 123456790,
+    "visitor": "Rajesh",
+    "visitor_contact": 6546546540,
+    "date": "26-Mar-2018",
+	"address": "Gujarat Solar Park, Gujarat, India"
+  },
+  {
+    "name": "Mittal",
+    "id": 1002,
+    "SO": 1201,
+    "contact": 9876543211,
+    "phone": 87878787,
+    "visitor": "Vineeth",
+    "visitor_contact": 9878978878,
+    "date": "05-Mar-2018",
+	"address": "Ahmedabad Solar Park, Gujarat, India"
+  }
+]

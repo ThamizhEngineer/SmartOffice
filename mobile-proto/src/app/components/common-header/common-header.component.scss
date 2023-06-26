@@ -1,0 +1,23 @@
+
+i.primary{
+    color:#0071BB;
+}
+#notifications-badge {
+    position: absolute;
+    top:0;
+    right:6px;
+    border-radius: 50px;
+    font-size: 10px;
+}
+ion-button i{
+    font-size: 1.2rem;
+}
+
+.subtitle {
+    position: absolute;
+    top: 10px;
+    font-size: 13px;
+}
+ion-button {
+    --color: #e5f1f8;
+}

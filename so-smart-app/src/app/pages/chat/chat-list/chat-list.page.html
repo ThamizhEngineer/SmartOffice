@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Chat</ion-title>
+  </ion-toolbar>
+  <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="Individual">
+      <ion-label>Friends</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Group">
+      <ion-label>Groups</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="isGroup==false">
+    <div *ngFor="let item of users">
+      <ion-item button (click)="onIndSelect(item)">
+        <ion-avatar slot="start">
+          <img src="../../../../assets/icon/usericon.png">
+        </ion-avatar>
+        <ion-label>{{item.id}} : {{item.firstName}}</ion-label>
+        <ion-icon name="chatbubbles" [color]="item.chatColor" slot="end">5</ion-icon>
+      </ion-item>
+    </div>
+  </ion-list>
+
+  <ion-list *ngIf="isGroup==true">
+      <div *ngFor="let item of users">
+        <ion-item button (click)="onGrpSelect(item)">
+          <ion-avatar slot="start">
+            <img src="../../../../assets/icon/usericon.png">
+          </ion-avatar>
+          <ion-label>{{item.chatGroupName}}</ion-label>
+          <ion-icon name="radio-button-on" color="success" slot="end">5</ion-icon>
+        </ion-item>
+      </div>
+    </ion-list>
+
+</ion-content>

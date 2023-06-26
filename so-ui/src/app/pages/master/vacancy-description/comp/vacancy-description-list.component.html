@@ -1,0 +1,58 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Job Description List</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Recruitment</li >
+				<li class="breadcrumb-item active">Job Description List </li>
+			</ol>
+
+			<button type="button" class="btn btn-info d-none d-lg-block m-l-15" [routerLink]="['/recruitment/job-description/new']"><i class="fa fa-plus-circle"></i> Create New</button>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive m-t-10">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th data-sort-initial="true" data-toggle="true">#</th>
+                                <th data-sort-initial="true" data-toggle="true">Code</th>
+                                <th data-sort-initial="true" data-toggle="true">Summary</th>
+                                <th data-sort-initial="true" data-toggle="true">Location</th>
+                                <th data-sort-initial="true" data-toggle="true">Salary</th>
+                                <th data-sort-initial="true" data-toggle="true">Action</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of list | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i=index">
+                             <td>{{i+1}}</td>
+                             <td>{{item.vcCode}}</td>
+                             <td>{{item.summary}}</td>
+                             <td>{{item.location}}</td>
+                             <td>{{item.salary}}</td>                            
+                             <td>
+                                    <i (click)="navigateToDetailPage(item.id)" class="fa fa-eye"></i>
+                                    <!-- <a (click)="navigateToDetailPage(item.id)"><font color="orange">Detail</font> </a> -->
+                            </td>
+                           </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination 
+						[(page)]="page"
+						[pageSize]="pageSize"
+						[collectionSize]="list?.length"></ngb-pagination>
+						<pre>Current page: {{page}}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

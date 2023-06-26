@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title >User Name Changed </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <p>
+            Hi  <span th:text="${empName}"></span>
+        </p>
+         <p>
+           Your User Name has changed. Your new  login user name <span th:text="${userName}">.
+           
+        </p>
+        
+          <p>
+           Please logon to http://35.198.238.141/smart-office/login for further information.
+           
+        </p>
+      
+        <p>
+            Regards, <br />
+            <em>Pothigai Power Solutions Private Limited.</em>
+        </p>
+    </body>
+</html>

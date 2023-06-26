@@ -1,0 +1,109 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Upload Progress</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item">HR Operation</li>
+				<li class="breadcrumb-item active">Upload Payslips</li>
+			</ol>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12 card card-body">
+		<h4>Upload Progress</h4>
+		<div class="row">
+			<div class="form-group col-md-4 col-sm-6">
+				<label class="textColor">Upload Code</label><br />
+				<span class="text">{{uploadPayslipHdr.id}}</span>
+			</div>
+			<div class="form-group col-md-4 col-sm-6">
+				<label class="textColor">Upload Date</label><br />
+				<span class="text">{{uploadDate}}</span>
+			</div>
+
+			<div class="form-group col-md-4 col-sm-6">
+				<label class="textColor">Process Status</label><br />
+				<span class="text">{{uploadPayslipHdr.process_status}}</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-4 col-sm-6">
+				<label class="textColor">Success Count</label><br />
+				<span class="text">{{uploadPayslipHdr.success_count}}</span>
+			</div>
+			<div class="form-group col-md-4 col-sm-6">
+				<label class="textColor">Records Uploaded</label><br />
+				<span class="text">{{uploadPayslipHdr.records_uploaded}}</span>
+			</div>
+
+			<div class="form-group col-md-1 col-sm-6">
+				<label class="textColor">Salary month</label><br />
+				<span class="text">{{uploadPayslipHdr.payMonth}}</span>
+			</div>
+
+			<div class="form-group col-md-2 col-sm-6">
+				<label class="textColor">Salary Year</label><br />
+				<span class="text">{{uploadPayslipHdr.payYear}}</span>
+			</div>
+
+
+		</div>
+		<div class="row">
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Employee Code</th>
+							<th>Employee Name</th>
+							<th>Pay Month</th>
+							<th>Status</th>
+							<th>Remarks</th>
+							<th>Overwrite</th>
+
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let row of uploadPayslipHdr?.uploadPayslipLines;let i = index">
+							<td>{{i+1}}</td>
+							<td>{{row.employeeCode}}</td>
+							<td>{{row.employeeName}}</td>
+							<td>{{row.salaryMonth}} - {{row.salaryYear}}</td>
+							<td>{{row.status}}</td>
+							<td>{{row.remarks}}</td>
+							<td>
+								<div class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input" value="option2" id="isSelect"
+										(click)="overWrite(uploadPayslipHdr.id,row.id)">
+									<label class="custom-control-label" for="isSelect"></label>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="form-actions">
+				<progress-processor [command]="progressProcessorCommand" [payload]="progressProcessorPayload"
+					[config]="progressProcessorConfig" (responseEvent)="receiveResponse($event)"
+					(click)="progressProcessorInit()"></progress-processor>
+				<button type="submit" class="btn btn-outline-dark"
+					[routerLink]="['/operation/upload-payslips/list']">Back</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<style>
+	.textColor {
+		color: rgb(11, 15, 243);
+	}
+</style>

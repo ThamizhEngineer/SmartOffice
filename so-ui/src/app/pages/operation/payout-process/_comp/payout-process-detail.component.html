@@ -1,0 +1,210 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Payout Process Detail</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a [routerLink]="['/index']">Home</a></li>
+				<li class="breadcrumb-item"><a  [routerLink]="['/operation/payout-process/list']">Payout Process list</a></li>
+                <li class="breadcrumb-item active">Payout Process Detail</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card  p-20">
+		
+		<form>
+<div class="card-body">
+    
+ 
+        <div class="row">
+
+                
+            <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-6">Status:</label>
+                        <div class="col-md-6">
+                            <p class="form-control-static"> {{payoutProcess.processStatus}} </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-6">Month:</label>
+                        <div class="col-md-6">
+                            <p class="form-control-static"> {{payoutProcess.month}} </p>
+                            <!-- <input type="date" id="lastName"  class="form-control" [(ngModel)]="payoutProcess.startDt" [ngModelOptions]="{standalone: true}" placeholder="Payout Date"> -->
+                        </div>
+                    </div>
+                </div>
+             
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-6">Year:</label>
+                        <div class="col-md-6">
+                            <p class="form-control-static"> {{payoutProcess.year}} </p>
+                        </div>
+                    </div>
+                </div>
+        
+    
+            </div>
+
+            <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-6">Success Count:</label>
+                            <div class="col-md-6">
+                                <p class="form-control-static"> {{payoutProcess.successCount}} </p>
+                            </div>
+                        </div>
+                    </div>
+                 
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-6">Failure Count:</label>
+                            <div class="col-md-6">
+                                <p class="form-control-static"> {{payoutProcess.failureCount}} </p>
+                            </div>
+                        </div>
+                    </div>
+                 
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-6">Overwrite:</label>
+                            <div class="col-md-6">
+                                <p class="form-control-static"> {{payoutProcess.overWrite}} </p>
+                            </div>
+                        </div>
+                    </div>
+            
+          
+            </div>
+    
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">                      
+                            
+                            <div class="table-responsive">
+                                <table class="table color-bordered-table theme-bordered-table">
+                                    <thead>
+                                        <tr>
+                                               
+                                            <th style="width:20%">Employee Code</th>
+                                            <th style="width:20%">Employee Name</th>
+                                            <th style="width:20%">Result Code</th>
+                                            <th style="width:40%">Result Description</th>                                               
+                                            
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let payoutProcessLine of payoutProcess.payoutProcessLines;">
+                                          
+                                            <td style="width:20%">{{payoutProcessLine.empCode}}</td>
+                                            <td style="width:20%">{{payoutProcessLine.empName}}</td>
+                                            <td style="width:20%">{{payoutProcessLine.resultCode}}</td>
+                                            <td style="width:40%">{{payoutProcessLine.resultDesc}}</td>
+                                                             
+                                           
+                                        </tr>
+                                     
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                </div>
+    
+
+ <!-- 
+
+        <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-6">From Date:</label>
+                        <div class="col-md-6">
+                            <p class="form-control-static"> {{payoutProcess.fromDt}} </p>
+                        </div>
+                    </div>
+                </div>
+          
+                
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-6">To Date:</label>
+                        <div class="col-md-6">
+                            <p class="form-control-static"> {{payoutProcess.toDt}} </p>
+                        </div>
+                    </div>
+                </div>
+         
+    
+                <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-6">Pay Date:</label>
+                            <div class="col-md-6">
+                                <p class="form-control-static"> {{payoutProcess.payDt}} </p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+    
+
+    <div class="row">
+            <div class="form-group col-md-6 col-sm-6" >
+            <table class="table table-bordered" >
+                <thead>
+                    <tr>                      
+                        <th>Earnings</th>               
+                        <th>Ytd</th>
+                        <th>Amount</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr *ngFor="let lines of earningEmpPayoutLines">                        
+                                <td>{{lines.dPayTypeName}}</td>                              
+                                <td>{{lines.ytdAmt}}</td>
+                                <td>{{lines.lineAmt}}</td>
+                            </tr>    
+               </tbody>
+            </table>
+
+            </div>
+            <div class="form-group col-md-6 col-sm-6">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Deductions</th>                      
+                                <th>Ytd</th>
+                                <th>Amount</th>                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr *ngFor="let lines of deductionEmpPayoutLines">
+                                        <td>{{lines.dPayTypeName}}</td>                                   
+                                        <td>{{lines.ytdAmt}}</td>
+                                        <td>{{lines.lineAmt}}</td>
+                                    </tr>                   
+                        </tbody>
+                    </table>
+        
+                    </div>
+           
+        </div> -->
+
+</div>
+
+</form>
+</div>
+</div>
+</div>

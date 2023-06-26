@@ -1,0 +1,90 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Authorisation</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Functionality</li>
+            </ol>
+            <button type="button" class="btn btn-info m-l-15" (click)="createNew();">
+                <i class="fa fa-plus-circle"></i>Create</button>
+                <button type="button" class="btn btn-info d-none d-lg-block m-l-15" [routerLink]="['/authorisation/setup']">Back</button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                    <flag-alert [message]="saveMsg"></flag-alert>
+                <div class="table-responsive">
+                    <table class="table color-bordered-table info-bordered-table">
+                        <thead>
+                            <tr >
+                                <th data-sort-initial="true" data-toggle="true">#</th>
+                                <th data-sort-initial="true" data-toggle="true">Functionality Code</th>
+                                <th data-sort-initial="true" data-toggle="true">Functionality Name</th>
+                                <th data-sort-initial="true" data-toggle="true">Description</th>
+                                <th data-sort-initial="true" data-toggle="true">Action</th>
+                            </tr>
+                            
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let f of fun | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                                <td>{{f.id}}</td>
+                                <td>{{f.functionalityCode}}</td>
+                                <td>{{f.functionalityName}}</td>
+                                <td>{{f.description}}</td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="showDetail(f.id);">
+                                        <i class="fa fa-pencil text-inverse m-r-10"></i>
+                                    </a>
+                                    <confirm-delete [type]="'icon'" (confirmed)="deleteRow(f.id)"></confirm-delete>
+                                </td>
+                            </tr>
+                          
+                        </tbody>
+                    </table>
+                    <ngb-pagination 
+                    [(page)]="page"
+                    [pageSize]="pageSize"
+                    [collectionSize]="fun.length"></ngb-pagination>
+                    <pre>Current page: {{page}}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #popup let-c="close">
+    <div class="modal-header">
+        <h4 class="modal-title"> Functionality Detail</h4>
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">                                 
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">Functionality Code<font color="red">*</font></label>
+                    <input type="text" class="form-control form-control-line" [(ngModel)]="funs.functionalityCode" placeholder="Functionality Code"  name="functionalityCode"> 
+                </div>    
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">Functionality Name<font color="red">*</font></label>
+                    <input type="text" class="form-control form-control-line" [(ngModel)]="funs.functionalityName" placeholder="Functionality Name"  name="functionalityName"> 
+                </div>         
+            </div>    
+            <div class="row">
+                <div class="form-group col-md-7 col-sm-15">
+                    <label class="control-label">Description<font color="red">*</font></label>
+                    <textarea type="text" class="form-control form-control-line" [(ngModel)]="funs.description" placeholder="Description"  name="description"></textarea>
+                </div> 
+            </div>         
+    </div>
+    <div class="modal-footer align-self-center">
+        <button type="button" class="btn btn-warning" (click)="save()">Save</button>
+    </div>
+</ng-template>

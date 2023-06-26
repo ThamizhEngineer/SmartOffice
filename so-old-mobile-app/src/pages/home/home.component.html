@@ -1,0 +1,32 @@
+<ion-menu [content]="content">
+   
+  <ion-header>
+    <ion-toolbar>
+      <button ion-button menuToggle>
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col text-center>
+          <img src="assets/imgs/logo-150x150.png" class="sidemenu-img"/>
+          <h4>{{fullName}}</h4>
+          <p>{{designation}}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-list no-lines>
+      <button menuClose icon-left ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon [name]="p.icon"></ion-icon>
+        {{p.title}}
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus --> 
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

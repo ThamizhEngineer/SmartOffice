@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title >Purchase order for <span th:text="${vendorName}"></span> </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <p>
+            Hi  <span th:text="${vendorName}"></span>
+        </p>
+         <p>
+             <span th:text="${emailBody}"></span> 
+        </p>
+        <p>
+            Please find the attached purchase order.
+        </p>
+        <p>
+            Regards, <br />
+            <em>Pothigai Power Solutions Private Limited.</em>
+        </p>
+    </body>
+</html>

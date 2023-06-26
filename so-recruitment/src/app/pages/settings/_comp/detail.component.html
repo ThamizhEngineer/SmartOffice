@@ -1,0 +1,72 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Account Settings</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">Account Settings</li>
+				<li class="breadcrumb-item active">Details</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card p-15" *ngIf="currentUser.appToken;else loginContent">
+		
+			<ngb-tabset>
+				<ngb-tab title="Change Password">
+					<ng-template ngbTabContent>
+						<form #myNgForm="ngForm">
+						<!--<div class="row m-t-20">
+							<div class="col-md-4">
+								<div class="form-group" [ngClass]="{'has-danger': d_pword.invalid && (d_pword.dirty || d_pword.touched)}">
+									<label class="control-label">Old Password</label>
+									<input type="password" class="form-control" [(ngModel)]="pword" placeholder="Old Password" autocomplete="off" #d_pword="ngModel"  required [pattern]="currentUser.pword" name="pword"/>
+									<small [hidden]="d_pword.valid || d_pword.pristine" class="form-control-feedback" *ngIf="d_pword.errors?.required">Old password is required.</small>
+									<small [hidden]="d_pword.valid || d_pword.pristine" class="form-control-feedback" *ngIf="d_pword.errors?.pattern">Old password must be matched.</small>
+								</div>
+							</div>
+						</div>-->
+						
+						<div class="row m-t-20">
+							<div class="col-md-4">
+								<div class="form-group" [ngClass]="{'has-danger': d_newPword && d_newPword.invalid && (d_newPword.dirty || d_newPword.touched)}">
+									<label class="control-label">New Password</label>
+									<input type="password" class="form-control" [(ngModel)]="newPword" placeholder="New Password" autocomplete="off" #d_newPword="ngModel" required minlength="8" name="v_newPword"/>
+									<small [hidden]="d_newPword.valid || d_newPword.pristine" class="form-control-feedback" *ngIf="d_newPword.errors?.required">New password is required.</small>
+									<small [hidden]="d_newPword.valid || d_newPword.pristine" class="form-control-feedback" *ngIf="d_newPword.errors?.minlength">Password must be atleast 8 characters long.</small>
+								</div>
+							</div>
+						</div>
+						<div class="row">	
+							<div class="col-md-4">
+								<div class="form-group" [ngClass]="{'has-danger': d_cnewPword && d_cnewPword.invalid && (d_cnewPword.dirty || d_cnewPword.touched)}">
+									<label class="control-label">Confirm New Password</label>
+									<input type="password" class="form-control" [(ngModel)]="cnewPword" placeholder="New Password" autocomplete="off" #d_cnewPword="ngModel" required [pattern]="newPword" name="v_cnewPword"/>
+									<small [hidden]="d_cnewPword.valid || d_cnewPword.pristine" class="form-control-feedback" *ngIf="d_cnewPword.errors?.required">New password is required.</small>
+									<small [hidden]="d_cnewPword.valid || d_cnewPword.pristine" class="form-control-feedback" *ngIf="d_cnewPword.errors?.pattern">New Password is not matching.</small>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-md-4"> 
+								<button class="btn btn-warning" [disabled]="d_cnewPword.invalid || d_newPword.invalid" (click)="updatePassword();myNgForm.reset();">Update Password</button> 
+							</div>
+						</div>
+						
+						<flag-alert [message]="saveMsg"></flag-alert>
+						</form>
+					</ng-template>
+				</ngb-tab>
+			</ngb-tabset>
+			
+			
+		</div>
+		<ng-template #loginContent>Please Login...</ng-template>
+	</div>
+</div>

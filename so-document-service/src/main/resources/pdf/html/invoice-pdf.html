@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://www.w3.org/2005/10/profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style>
+@page {
+	size: A4;
+	margin: 5px;
+	margin-left: 15px;
+	padding-top: 1px;
+	font-family: "Times";
+	padding-left: 15px;
+	size: portrait;
+}
+
+body {
+	font-size: 8px;
+	font-family: "Times";
+	width: 842px;
+}
+
+th {
+	background-color: #efefef;
+}
+</style>
+<title>Invoice</title>
+</head>
+<body align="center">
+<div style="text-align:center;font-size:20px"><span ><strong>Invoice</strong></span></div>
+<br/>
+	<table border="1"
+		style="border: 1px solid #CCC; border-collapse: collapse; width: 725px; font-size: 12px">
+
+		<tr>
+			<td rowspan="3">
+				<div th:if="${logo=='logo-pothigai.png'}" style="float: left;padding-left: 10px">
+					<img th:src="'/opt/so/data/images/'+${logo}"
+						height="90px"></img>
+				</div>
+				<div th:if="${logo!='logo-pothigai.png'}" style="float: left;padding-left: 10px">
+					<img th:src="'/opt/so/data/images/'+${logo}"
+						height="80px" width="150px"></img>
+				</div>
+				<div style="margin-left: 200px;font-size: 10px;">
+			
+						Invoice To <br /> <span
+							style="font-size: 12px; font-weight: bold" th:text="${companyName}"> </span> <span  style="white-space: pre;" th:utext="${companyAddress}"></span>
+						GSTIN/UIN: <span th:text="${gstin}"></span> <br /> State Name:<span th:text="${stateName}"></span>,Code:<span th:text="${stateCode}"></span>, <br /> CIN: <span th:text="${cin}"></span> 
+				
+				</div>
+			</td>
+
+			<td style="width: 100px;">
+			Voucher No. <br /><span th:text="${poRefNumber}"></span>  
+			</td>
+			<td style="width: 100px;">
+				Dated <br /><span th:text="${#temporals.format(poDt, 'dd-MMMM-yyyy')}"></span>  
+			</td>
+		</tr>
+		<tr>
+
+
+			<td style="width: 200px;">
+	
+
+			</td>
+			<td style="width: 200px;">
+				Mode/Terms of Payment<br />
+ 				
+			</td>
+		</tr>
+		<tr>
+
+			<td style="width: 200px;">
+				Client Ref./Order No.<br />  <span th:text="${supplierRefNumber}"></span>
+			</td>
+			<td style="width: 200px;">
+				Other Reference(s) <br />  <span th:text="${otherRefNumber}"></span>
+			</td>
+		</tr>
+
+
+	
+		<tr>
+			<td rowspan="2" style="width: 425px;">
+
+				
+
+					Client <br /> 
+					 <span th:text="${clientName}"></span>
+					 <br/>
+					 <span th:text="${address}"></span>
+				
+			</td>
+
+			<td style="width: 200px;">
+				Despatch through <br />  <span th:text="${despatchThrough}"></span>
+			</td>
+			<td style="width: 200px;">
+				Destination <br />  <span th:text="${destination}"></span>
+			</td>
+		</tr>
+		<tr>
+
+
+			<td colspan="2" style="width: 200px;">
+				Terms of Delivery <br /> <span th:text="${deliveryTerms}"></span>
+
+			</td>
+			
+
+		</tr>
+		
+
+
+
+	</table>
+	<table border="1"
+		style="border: 1px solid #CCC; border-collapse: collapse; width: 725px; text-align: left; font-size: 12px">
+
+		<thead>
+			<tr>
+	
+				<th>Product/Service</th>
+				<th>Description</th>
+				<th>HSN/SAC</th>
+				<th>Price</th>
+				<th>Qty</th>
+				<th>Discount</th>
+				<th>Subtotal (Rs.)</th>
+			</tr>
+		</thead>
+		<tbody >
+
+			<tr th:each="poLine : ${poLines}">
+				<td th:text="${poLine.itemName}"></td>
+				<td th:text="${poLine.itemDescription}"></td>
+				<td th:text="${poLine.itemHsnOrSac}"></td>
+				<td th:text="${poLine.itemRate}"></td>
+				<td th:text="${poLine.itemQty}"></td>
+				<td th:text="${poLine.lineDiscountAmt}"></td>
+				<td th:text="${poLine.itemTotal}"></td>
+			</tr>
+
+
+			<tr>
+				<td th:if="${buyerHasGst!='Y'}" style="font-size: 12px;padding:10px" colspan="6" align="right">
+		
+				<br/>
+				Total
+			</strong>
+			</td>
+			<td th:if="${buyerHasGst=='Y'}" style="font-size: 12px;padding:10px" colspan="6" align="right">
+			<strong>
+			CGST
+				<br/>
+			SGST
+				<br/>
+			IGST
+				<br/>
+				Total
+			</strong>
+			</td>
+			<td th:if="${buyerHasGst=='Y'}" align="left">
+			<span th:text="${cgst}"></span>
+			<br/>
+			<span th:text="${sgst}"></span>
+			<br/>
+			<span th:text="${igst}"></span>
+			<br/>
+			<span th:text="${grossPoAmt}"></span>
+			</td>
+			
+			<td th:if="${buyerHasGst!='Y'}" align="left">		
+			<span th:text="${grossPoAmt}"></span>
+			</td>
+			</tr>
+	
+			<tr>
+			<td  colspan="7" align="left">
+			
+				Amount Chargeable (in words)
+				<br/> <span th:text="${grossPoAmtWords}"></span>
+			<br/>
+			<br/>
+			<br/>
+			Client VAT TIN: <span th:text="${tinNumber}"></span>
+			<br/>
+				Company's PAN : <span th:text="${panNumber}"></span>
+					
+				</td>
+			
+			</tr>
+			<tr>
+			
+				<td colspan="7" align="right"><strong>for Pothigai
+						Power Solutions Pvt Ltd</strong>
+						<br/>
+						<br/>
+					
+						<br/> Authorised Signatory</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
+ 

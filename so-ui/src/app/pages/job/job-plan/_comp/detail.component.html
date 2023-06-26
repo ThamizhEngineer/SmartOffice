@@ -1,0 +1,677 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Job Planning</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item"><a [routerLink]="['/job/job-plan']">Job Planning</a></li>
+				<li class="breadcrumb-item active">Detail</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12 card card-body">
+		<ngb-tabset class="customtab">
+			<ngb-tab>
+				<ng-template ngbTabTitle><i class="ti-flag-alt"></i> Job</ng-template>
+				<ng-template ngbTabContent>
+					<div class="row">
+						<div class="col-5">
+							<div class="row form-group m-t-25">
+								<div class="col-4 text-right"><label>Job # :</label></div>
+								<div class="col-8"><b>{{job.jobCode}}</b></div>
+							</div>
+							<div class="row form-group ">
+								<div class="col-4 text-right"><label>Sale Order :</label></div>
+								<div class="col-8"><b><a href="javascript:void(0);"
+									(click)="openSaleOrderModel(job.saleOrderId)">{{job.saleOrderCode}}</a></b>
+								</div>
+							</div>
+							<div class="row form-group ">
+								<div class="col-4 text-right"><label>Job Type :</label></div>
+								<div class="col-8"><b>{{job.jobTypeName}}</b></div>
+							</div>
+							<!-- <div class="row form-group ">
+								<div class="col-4 text-right"><label>&nbsp;</label></div>
+								<div class="col-8"><b><a href="javascript:void(0);" (click)="saleOrderDetail()">Sale Order</a></b></div>
+							</div> -->
+							<div class="row form-group m-t-25">
+								<div class="col-4 text-right"><label>Client :</label></div>
+								<div class="col-8"><b>{{job.endClientName}}</b></div>
+							</div>
+							<div class="row form-group m-t-25">
+								<div class="col-8 text-center"><label><b><a href="javascript:void(0);"
+												(click)="notifiContent();">Confirmation Content: </a></b></label> <span
+										class="label label-primary m-l-10">Send</span></div>
+							</div>
+							<div class="row form-group m-10">
+								<div class="col-11"><label>Client Remarks</label> <textarea placeholder="Remarks" (keypress)="commonService.isValidName($event)"
+										[(ngModel)]="job.clientRemarks" rows=3 class="form-control"></textarea></div>
+							</div>
+						</div>
+						<div class="col-7">
+							<div class="row col-6 form-group m-t-25">
+								<!-- <label>Project :</label>
+								<input type="text" class="form-control" [ngbTypeahead]="projectAC" [resultTemplate]="rt1"  [inputFormatter]="project_formatter" (selectItem)="projectSelected($event)" [value]="job.projName">
+
+								<ng-template #rt1 let-r="result" let-t="term">
+							
+										{{r.projName}}
+									</ng-template> -->
+								<!-- <input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+									class="form-control" [ngbTypeahead]="projectAC"
+									[resultTemplate]="projectResultTemplate" [inputFormatter]="project_formatter"
+									placeholder="Search product" (selectItem)="projectSelected($event)"
+									[value]="job.projName" [editable]='false' ngbtypeaheadpopup>
+								<ng-template #projectResultTemplate let-r="result" let-t="term">
+									{{r.projName}}
+								</ng-template> -->
+								<input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+									class="form-control" [ngbTypeahead]="projectAC"
+									[resultTemplate]="pResultTemplate"
+									[inputFormatter]="project_formatter" placeholder="Project Name"
+									(selectItem)="projectSelected($event)" [value]="job.projName"
+									[editable]='false' ngbtypeaheadpopup>
+								<ng-template #pResultTemplate let-r="result" let-t="term">
+									{{r.projName}}
+								</ng-template>
+							</div>
+							<!-- <div class="row col-6 form-group m-t-25">
+								<label>Location :</label>
+								<input type="text" class="form-control" value="Selda, MadhyaPradesh" readonly="readonly"
+									[(ngModel)]="job.mapLocationName">
+							</div> -->
+							<div class="row col-6 form-group">
+								<label>Start Date :</label>
+								<!-- <so-datepicker [(model)]="job.startDt" (change)="job.startDt = $event"></so-datepicker> -->
+
+								<input type="date" class="form-control" [(ngModel)]="job.startDt">
+							</div>
+							<div class="row col-6 form-group">
+								<label>End Date :</label>
+								<!-- <so-datepicker [(model)]="job.endDt" (change)="job.endDt = $event"></so-datepicker> -->
+								<input type="date" class="form-control" [(ngModel)]="job.endDt">
+							</div>
+							<div class="row col-6 form-group">
+								<label class="control-label">Shift Timing</label>
+								<select class="form-control" [(ngModel)]="job.shiftId">
+									<option *ngFor="let v of shifts" [value]="v.id">
+										{{v.shiftName}}({{v.fromTime  | slice:0:5}}-{{v.toTime  | slice:0:5}})</option>
+								</select>
+							</div>
+
+						</div>
+					</div>
+				</ng-template>
+			</ngb-tab>
+			<ngb-tab>
+				<ng-template ngbTabTitle><i class="ti-user"></i> Team</ng-template>
+				<ng-template ngbTabContent>
+					<h4 class="m-t-25">Profile Management</h4>
+					<ng-template #rt1 let-r="result" let-t="term">
+						{{ r.profileName}}
+					</ng-template>
+					<div class="m-t-10">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th style="width: 35%;">Profile</th>
+									<th style="width: 10%;">Skill</th>
+									<th style="width: 10%;">Headcount</th>
+									<th style="width: 25%;">Notes</th>
+									<th style="width: 6%;">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let pr of profileRows;let i = index">
+									<!-- <td><input class="form-control" placeholder="Profile" [resultTemplate]="rt1" [inputFormatter]="profile_formatter" [ngbTypeahead]="profileAC" [(ngModel)]="pr.profile" (ngModelChange)="profileOnChage(pr);"></td> -->
+									<td>
+										<input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+											class="form-control" [ngbTypeahead]="profileAC"
+											[resultTemplate]="rt6"
+											[inputFormatter]="profile_formatter" placeholder="Search Profile"
+											(selectItem)="profileOnChage($event,pr)" [value]="pr.profileName"
+											[editable]='false' ngbtypeaheadpopup>
+										<ng-template #rt6 let-r="result" let-t="term">
+											{{r.profileName}}
+										</ng-template>
+									</td>
+									<td>
+										<ng-container *ngIf="pr.profile && pr.profile.id">
+											<span class="mytooltip tooltip-effect-4">
+												<span class="tooltip-item">{{pr.profile.profileLines.length}}</span>
+												<span class="tooltip-content tooltip-text"
+													*ngIf="pr.profile.profileLines.length">
+													<ng-container *ngFor="let l of pr.profile.profileLines">
+														<span
+															class="m-r-10 label label-default">{{l.productName}}</span><span
+															class="m-r-10 label label-indicator">{{l.serviceName}}</span>
+														<span class="label label-warning"><i class="fa fa-star"
+																*ngFor="let x of l.skillLevel | starFill"></i></span>
+														<br />
+													</ng-container>
+												</span>
+											</span>
+										</ng-container>
+									</td>
+									<td><input class="form-control" placeholder="Headcount" [(ngModel)]="pr.headCount">
+									</td>
+									<td><textarea class="form-control" rows="2" placeholder="Notes"
+										(keypress)="commonService.isValidName($event)" [(ngModel)]="pr.notes"></textarea></td>
+									<td>
+										<a href="javascript:void(0)" (click)="addProfileRows();"><i
+												class="fa fa-plus text-warning m-r-10"></i></a>
+										<a href="javascript:void(0)" *ngIf="profileRows.length > 1"
+											(click)="profileRows.splice(i, 1);deleteProfileRow(pr);"><i
+												class="fa fa-close text-danger m-r-10"></i></a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="row">
+
+					</div>
+					<h4>Team Management</h4>
+					<p></p>
+					<div class="">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th style="width:15%">Profile</th>
+									<th style="width:20%">Engineer</th>
+									<th style="width:10%">Compatibility</th>
+									<th style="width:18%">From</th>
+									<th style="width:18%">To</th>
+									<th>Proximity</th>
+									<th style="width:14%">Commitments</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let team of teamRows;let i = index">
+									<td>{{team.profileName}}</td>
+									<td>{{team.employeeName}}<a href="javascript:void(0);" (click)="multiRes(i,team)"><i
+												class="m-l-10 fa fa-search"></i></a></td>
+									<td>
+										<span class="mytooltip tooltip-effect-4">
+											<span
+												class="tooltip-item">{{(team.comptabilityScore==null?'0':team.comptabilityScore)+"%"}}</span>
+											<span class="tooltip-content clearfix">
+
+												<span *ngFor="let s of team.jobPlanEmpSkills">
+
+													<span *ngIf="s.isMatched=='Y'" class="tooltip-text">Matched Skill:
+														{{(s.productName==null?"":s.productName)+"-"+(s.serviceName==null?"":s.serviceName)}}
+													</span>
+													<span *ngIf="s.isMatched=='N'" class="tooltip-text">Unmatched Skill:
+														{{(s.productName==null?"":s.productName) +"-"+(s.serviceName==null?"":s.serviceName)}}
+													</span>
+												</span>
+
+											</span>
+										</span>
+									</td>
+									<td><input type="date" class="form-control" [(ngModel)]="team.startDt"></td>
+									<td><input type="date" class="form-control" [(ngModel)]="team.endDt"></td>
+									<td><i>{{team.distanceToLocation | number:0}}</i></td>
+									<td>
+										<div *ngIf="team.jobPlanEmpCommitments.length>0">
+											<div *ngFor="let c of team.jobPlanEmpCommitments">
+
+								<tr style="border-style:hidden;" *ngIf="c.leaveName!=null && c.leaveName!='' ">
+
+									<td style="border-style:hidden;">{{c.leaveName | uppercase}}
+										<br />({{c.fromDt | date : "dd-MM-yy"}} to
+										{{c.toDt | date : "dd-MM-yy"}})</td>
+								</tr>
+								<tr style="border-style:hidden;" *ngIf="c.holidayName!=null && c.holidayName!='' ">
+									<td style="border-style:hidden;">{{c.holidayName | uppercase}}
+										<br />({{c.fromDt | date : "dd-MM-yy"}} to
+										{{c.toDt | date : "dd-MM-yy"}})</td>
+								</tr>
+
+					</div>
+	</div>
+	</td>
+	</tr>
+	</tbody>
+	</table>
+</div>
+</ng-template>
+</ngb-tab>
+<ngb-tab>
+	<ng-template ngbTabTitle><i class="ti-hummer"></i> Service - Additional</ng-template>
+	<ng-template ngbTabContent>
+		<div class="row m-t-25">
+			<div class="col-5 table-responsive">
+				<h4>Material Used</h4>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th style="width:30%">Name</th>
+							<th style="width:30%">Code</th>
+							<th style="width:25%">Quantity</th>
+							<th style="width:15%">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let m of materialRows;let i = index">
+							<!-- <td><input [(ngModel)]="m.materialCode" class="form-control" type="text"/></td> -->
+							<td>
+								<!-- <input class="form-control" placeholder="Material" [value]="m.materialName"
+									[resultTemplate]="rt1" (selectItem)="materialSelected($event,m)"
+									[inputFormatter]="material_formatter" [ngbTypeahead]="materialAC">
+								<ng-template #rt1 let-r="result" let-t="term">
+
+									{{r.materialName}}
+								</ng-template> -->
+
+								<input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+									class="form-control" [ngbTypeahead]="materialAC"
+									[resultTemplate]="materialNameResultTemplate" [inputFormatter]="material_formatter"
+									placeholder="Material Name" (selectItem)="materialSelected($event,m)"
+									[value]="m.materialName" [editable]='false' ngbtypeaheadpopup>
+								<ng-template #materialNameResultTemplate let-r="result" let-t="term">
+									{{r.materialName}}
+								</ng-template>
+							</td>
+							<td>{{m.materialCode}}</td>
+							<td><input [(ngModel)]="m.materialQuantity" class="form-control" type="number" /></td>
+							<td>
+								<a href="javascript:void(0)" (click)="addMaterialRows();"><i
+										class="fa fa-plus text-warning m-r-10"></i></a>
+								<a href="javascript:void(0)" *ngIf="materialRows.length > 1"
+									(click)="materialRows.splice(i, 1);deleteMaterialRow(m);"><i
+										class="fa fa-close text-danger m-r-10"></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-5 table-responsive">
+				<h4>Stages Involved</h4>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th style="width:45%">Stage</th>
+							<th style="width:25%">Weightage</th>
+							<th style="width:15%">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let t of taskTypeRows;let i = index">
+							<td>
+
+								<select class="form-control" style="width:100%" [(ngModel)]="t.taskTypeId">
+									<option *ngFor="let d of taskTypes" [value]="d.id">
+										{{d.taskTypeName}}
+									</option>
+								</select>
+								<!-- <input class="form-control" placeholder="Stage"  [value]="t.taskTypeName" [resultTemplate]="rt1" (selectItem)="taskTypeSelected($event,t)" [inputFormatter]="tasktype_formatter" [ngbTypeahead]="taskTypeAC" >
+											<ng-template #rt1 let-r="result" let-t="term">
+							
+												{{r.taskTypeName}}
+											</ng-template> -->
+
+							</td>
+							<td><input [(ngModel)]="t.weightage" class="form-control" type="number" /></td>
+							<td>
+								<a href="javascript:void(0)" (click)="addStageRows();"><i
+										class="fa fa-plus text-warning m-r-10"></i></a>
+								<a href="javascript:void(0)" *ngIf="taskTypeRows.length > 1"
+									(click)="taskTypeRows.splice(i, 1);deleteStageRow(t)"><i
+										class="fa fa-close text-danger m-r-10"></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<div *ngIf="findWeightage==false">
+					<small class="form-control-feedback text-danger">Weightage should be in 100%.</small>
+
+				</div>
+			</div>
+		</div>
+	</ng-template>
+</ngb-tab>
+</ngb-tabset>
+
+<div class="row">
+	<div class="form-group col-12">
+		<button type="submit" class="btn btn-outline-dark waves-effect waves-light mr-1"
+			(click)="cancel();">Cancel</button>
+		<button type="submit" class="btn btn-info waves-effect waves-light mr-1" [disabled]="findWeightage==false"
+			(click)="saveJob();">Save</button>
+		<button type="submit" class="btn btn-primary waves-effect waves-light mr-1" [disabled]="findWeightage==false"
+			(click)="startResourcing();">Start Resourcing</button>
+		<button type="submit" class="btn btn-primary waves-effect waves-light mr-1" [disabled]="findWeightage==false"
+			(click)="confirmJob();">Confirm</button>
+	</div>
+</div>
+</div>
+
+</div>
+
+<!-- <ng-template #mMulti let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">Select Resource for Profile 1</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body card card-body">
+			<div class="row">
+					<div class="col-4 form-group">
+							<label class="control-label">Department Code</label>
+							<select class="form-control" style="width:100%" [(ngModel)]="searchDeptId" >
+									<option *ngFor="let d of this.departments" [value]="d.id" >
+										{{d.deptName}}
+									</option>
+								</select>
+						</div>
+				<div class="col-4 form-group">
+					<label class="control-label">Employee Code</label>
+					
+					<select class="form-control" style="width:100%" [(ngModel)]="searchEmployeeId" >
+							<option *ngFor="let e of employeeSearch" [value]="e.id" >
+								{{e.empName}}
+							</option>
+						</select>
+	
+				
+				</div>
+				<div class="col-4">
+					<label style="visibility:hidden;">Search</label><br/>
+					<button class="btn btn-info" (click)="searchEmployee();">Search</button>
+				</div>
+			</div>
+		<div class="m-t-15">
+			<table class="table table-sm table-bordered color-bordered-table theme-bordered-table">
+				<thead>
+					<tr>
+						<th></th>						
+						<th>Resource</th>
+						<th>Designation</th>
+						<th>Compatibility</th>
+						<th>Proximity</th>
+								
+					</tr>
+				</thead>
+				<tbody>
+						<tr *ngFor="let e of employees">
+							<td><button type="button" class="btn btn-primary" (click)="selectEmp(e)">Choose</button></td>						
+							<td>{{e.empName}}</td>
+							<td>{{e.desigName}}</td>
+							<td>
+								<span class="mytooltip tooltip-effect-4">
+									<span class="tooltip-item">{{(e.comptabilityScore==null?'0':e.comptabilityScore)+"%"}}</span> 
+									
+								</span>
+							</td>
+							<td><span class="mytooltip tooltip-effect-4">
+									<span class="tooltip-item">{{(e.distanceToLocation==null?'0':e.distanceToLocation)}}</span> 
+
+								</span>
+							</td>
+				
+						</tr>
+					</tbody>
+			</table>
+		</div>
+	</div>
+</ng-template>  -->
+
+
+<ng-template #mMulti let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">Select Resource for {{profileName}}</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body card card-body">
+
+
+		<div class="row">
+			<div class="col-4 form-group">
+				<label class="control-label">Department Code</label>
+				<!-- <input type="text" class="form-control" placeholder="Employee Code"/> -->
+				<select class="form-control" style="width:100%" [(ngModel)]="searchDeptId">
+					<option *ngFor="let d of this.departments" [value]="d.id">
+						{{d.deptName}}
+					</option>
+				</select>
+			</div>
+			<div class="col-4 form-group">
+				<label class="control-label">Employee Code</label>
+
+				<select class="form-control" style="width:100%" [(ngModel)]="searchEmployeeId">
+					<option *ngFor="let e of employees" [value]="e.id">
+						{{e.empName}}
+					</option>
+				</select>
+
+				<!-- <input type="text" class="form-control form-control-line"  [(ngModel)]="employee.id" [ngbTypeahead]="employeeAC" [resultTemplate]="rt1" [inputFormatter]="formatter"  placeholder="Employee">
+							<ng-template #rt1 let-r="result" let-t="term">
+								{{r.empName}}
+							</ng-template> -->
+			</div>
+			<div class="col-4">
+				<label style="visibility:hidden;">Search</label><br />
+				<button class="btn btn-info" (click)="searchEmployee();">Search</button>
+			</div>
+		</div>
+		<div class="m-t-15">
+			<table class="table table-sm table-bordered color-bordered-table theme-bordered-table">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Resource</th>
+						<th>Designation</th>
+						<th>Compatibility</th>
+						<th>Proximity</th>
+						<th>Availability</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let e of employeeListProfileFinder">
+						<td><button type="button" class="btn btn-primary" (click)="selectEmp(e)">Choose</button></td>
+						<td>{{e.mEmployeeName}}</td>
+						<td>{{e.designationName}}</td>
+						<td>
+
+
+							<span class="mytooltip tooltip-effect-4">
+								<span
+									class="tooltip-item">{{(e.comptabilityScore==null?'0':e.comptabilityScore)+"%"}}</span>
+								<span class="tooltip-content clearfix">
+
+									<span *ngFor="let s of e.matchedSkills">
+
+										<span *ngIf="s.isMatched=='Y'" class="tooltip-text">Matched Skill:
+											{{(s.productName==null?"":s.productName)+"-"+(s.serviceName==null?"":s.serviceName)}}
+										</span>
+										<span *ngIf="s.isMatched=='N'" class="tooltip-text">Unmatched Skill:
+											{{(s.productName==null?"":s.productName) +"-"+(s.serviceName==null?"":s.serviceName)}}
+										</span>
+									</span>
+
+								</span>
+							</span>
+
+						</td>
+						<td><span class="mytooltip tooltip-effect-4">
+								<span
+									class="tooltip-item">{{(e.distanceToLocation==null?'0':e.distanceToLocation | number:0)}}</span>
+								<!-- <span class="tooltip-item">{{e.employeeLocations.length}}</span>  -->
+								<!-- <span class="tooltip-content clearfix" *ngIf="e.employeeLocations.length"> -->
+								<!-- <span class="tooltip-text"></span> </span> -->
+							</span>
+						</td>
+						<td>
+							<div *ngIf="e.employeeCommitments.length>0">
+								<div *ngFor="let c of e.employeeCommitments">
+
+					<tr style="border-style:hidden;" *ngIf="c.leaveName!=null && c.leaveName!='' ">
+
+						<td style="border-style:hidden;">{{c.leaveName | uppercase}}</td>
+						<td style="border-style:hidden;">From {{c.fromDt | date : "dd-MM-yy"}}</td>
+						<td style="border-style:hidden;">To {{c.toDt | date : "dd-MM-yy"}}</td>
+					</tr>
+					<tr style="border-style:hidden;" *ngIf="c.holidayName!=null && c.holidayName!='' ">
+						<td style="border-style:hidden;">{{c.holidayName | uppercase}}</td>
+						<td style="border-style:hidden;">From {{c.fromDt | date : "dd-MM-yy"}}</td>
+						<td style="border-style:hidden;">To {{c.toDt | date : "dd-MM-yy"}}</td>
+					</tr>
+
+		</div>
+	</div>
+	</td>
+	</tr>
+	</tbody>
+	</table>
+	</div>
+	</div>
+</ng-template>
+
+<ng-template #saleOrder let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">Sale Order</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body card card-body">
+		<div class="row">
+			<div class="col-4">
+				<p><label>Purchase Order: </label> <b>{{so.purchaseOrder}}</b></p>
+				<p><label>Sale Order: </label> <b><span class="label label-default">{{so.saleOrderCode}}</span></b></p>
+				<p><label>Immediate Client: </label> <b>{{job.immediateClient}}</b></p>
+
+			</div>
+			<div class="col-5">
+				<p><label>GST #: </label> <b>{{so.gstNo}}</b></p>
+				<p><label>Location: </label> <b>{{so.location}}</b></p>
+				<p><label>Handling SBU: </label> <b>{{so.handlingSbu}}</b></p>
+			</div>
+			<div class="col-3">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="customCheck1" readonly [checked]="sg" />
+					<label class="custom-control-label" for="customCheck1">Service</label>
+				</div>
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="customCheck2" readonly [checked]="ss" />
+					<label class="custom-control-label" for="customCheck2">Goods</label>
+				</div>
+			</div>
+		</div>
+
+		<ng-container *ngIf="ss">
+			<h4>Service - Scope</h4>
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th width="18%">Service</th>
+							<th width="8%">SAC Code</th>
+							<th width="18%">Service Description</th>
+							<th width="18%">Additional Notes</th>
+							<th width="5%">Headcount</th>
+							<th width="18%">Internal Remarks</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let s of so.saleServices">
+							<td>{{s.serviceName}}</td>
+							<td><span class="label label-default">{{s.sacCode}}</span></td>
+							<td>{{s.serviceDescription}}</td>
+							<td>{{s.serviceAdditionalNotes}}</td>
+							<td>{{s.headCount}}</td>
+							<td>{{s.internalRemarks}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</ng-container>
+		<ng-container *ngIf="sg">
+			<h4>Goods Required</h4>
+			<div class="">
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th width="20%">Goods</th>
+							<th width="8%">HSN Code</th>
+							<th width="7%">Qty</th>
+							<th width="8%">Unit Price</th>
+							<th width="10%">Due On</th>
+							<th width="20%">Additional Notes</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let s of so.saleGoods">
+							<td>{{s.goodsName}}</td>
+							<td>{{s.hsnCode}}</td>
+							<td>{{s.goodQty}}</td>
+							<td>{{s.goodUnitPrice}}</td>
+							<td>{{s.goodDueOn}}</td>
+							<td>{{s.goodAdditionalNotes}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</ng-container>
+		<div class="row">
+			<div class="col-6 form-group">
+				<label>Shipping Address</label>
+				<textarea rows=4 class="form-control" placeholder="Shipping Address"
+					[(ngModel)]="so.shippingAddress"></textarea>
+			</div>
+			<div class="col-6 form-group">
+				<label>Internal Remarks</label>
+				<textarea rows=4 class="form-control" placeholder="Internal Remarks"
+					[(ngModel)]="so.internalRemarks"></textarea>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6 form-group">
+				<label>Payment Terms <span class="text-danger">*</span></label>
+				<textarea rows=4 class="form-control" placeholder="Payment Terms"
+					[(ngModel)]="so.paymentTerms"></textarea>
+			</div>
+			<div class="col-6 form-group">
+				<label>Delivery Terms <span class="text-danger">*</span></label>
+				<textarea rows=4 class="form-control" placeholder="Delivery Terms"
+					[(ngModel)]="so.deleiveryTerms"></textarea>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6 form-group">
+				<label>Delivery Schedule</label>
+				<textarea rows=4 class="form-control" placeholder="Delivery Schedule"
+					[(ngModel)]="so.deleiverySchedule"></textarea>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #notify let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">Confirmation Content</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body card card-body">
+		<div class="form-group">
+			<label>Confirmation Content</label>
+			<textarea class="form-control" rows=4></textarea>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" (click)="c()">Save</button>
+	</div>
+</ng-template>

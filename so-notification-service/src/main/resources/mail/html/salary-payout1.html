@@ -1,0 +1,404 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://www.w3.org/2005/10/profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Salary Slip</title>
+</head>
+<body>
+<table border="1" cellpadding="15" style="border:1px solid #CCC;border-collapse:collapse;width:800px;font-size:0.95rem;"><tr><td><center><div style="background:url('./logo.png');width:183px;height:45px;  background-size:cover;background-repeat:   no-repeat;background-position: center center; "> &nbsp;</div></center></td><td style="width:150px;"><div><strong><center>PAY SLIP </center></strong></div></td><td><strong>Pothigai Power Solutions Pvt.Ltd.</strong><br/> Pothigai Bhavan<br/>Gandhi Nagar, Urappakkam - 603210</td></tr></table>
+        
+        <table border="1" cellpadding="6" style="border:1px solid #CCC;border-collapse:collapse;width:800px;margin-top:15px;text-align: left;font-size:0.925rem;">
+            <tr>
+                <th>Employee Code</th>
+				<td>1063</td>
+				  <td th:text="${empCode}"></td>
+ 				<th>BANK</th>
+				<td>ICICI</td>
+				  <td th:text="${bank}"></td>
+				
+ 				<th>Salary Month</th>
+				<td>Jul-18</td>
+				 <td th:text="${salaryForMonth}"></td>
+            </tr>
+            <tr>
+                <th>Employee Name</th>
+                <td>Karthick Mani</td>
+                <th>IFSC CODE</th>
+                <td>ICIC0000456</td>
+                <th>Paid On</th>
+                <td>23-Aug-2018</td>
+            </tr>
+            <tr>
+                <th>DOB</th>
+                <td>26-Mar-1985</td>
+                <th>Account No</th>
+                <td>20123456</td>
+                <th>Period Days</th>
+                <td>31</td>
+            </tr>
+            <tr>
+                <th>DOJ</th>
+                <td>20-Jan-2016</td>
+                <th>UAN No</th>
+                <td>106356656363</td>
+                <th>Period Holidays</th>
+                <td>1</td>
+            </tr>
+            <tr>
+                <th>Designation</th>
+                <td>Assistant Engineer</td>
+                <th>EPF No</th>
+                <td>B12/34/56/7</td>
+                <th>Worked Days</th>
+                <td>26</td>
+            </tr>
+            <tr>
+                <th>Grade</th>
+                <td>-</td>
+                <th>EPS No</th>
+                <td>ABCD1235</td>
+                <th>LOP Days</th>
+                <td>0</td>
+            </tr>
+            <tr>
+                <th>Spl. Designation</th>
+                <td>-</td>
+                <th>ESI No</th>
+                <td>CDED1334</td>
+                <th>Arrear Days</th>
+                <td>1</td>
+            </tr>
+            <tr>
+                <th>Skill</th>
+                <td>-</td>
+                <th>PAN No</th>
+                <td>AAAAAA1234A</td>
+                <th>Late Days Deduction</th>
+                <td>0</td>
+            </tr>
+            <tr>
+                <th>Business</th>
+                <td>-</td>
+                <th>Aadhar No</th>
+                <td>1234564563156</td>
+                <th>Overtime Hours</th>
+                <td>0</td>
+            </tr>
+            <tr>
+                <th>Nature of Position</th>
+                <td>-</td>
+                <th>Currency</th>
+                <td>INR</td>
+                <th>Wage Days</th>
+                <td>0</td>
+            </tr>
+        </table>
+        
+        <table border="1" cellpadding="6" style="border:1px solid #CCC;border-collapse:collapse;width:800px;margin-top:15px;text-align: left;font-size:0.925rem;">
+            <thead>
+                <tr>
+                    <th width="30%">Pay Heads</th>
+                    <th width="10%">Earning Period</th>
+                    <th width="5%">Arrears</th>
+                    <th width="10%">Current Period</th>
+                    <th width="10%">YTD Earnings</th>
+                    <th width="20%">Deduction</th>
+                    <th width="5%">Current Period</th>
+                    <th width="10%">YTD Deduction</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+            <tr style="background-color:#efefef">
+                <td><i>A1. Fixed Benefits</i></td>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <td><i>Deductions</i></td>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>Basic</td>
+                <td>5828</td>
+                <td>-</td>
+                <td>5828</td>
+                <td>-</td>
+                <td>EPF by Employee</td>
+                <td>1800</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>HRA</td>
+                <td>4662</td>
+                <td>-</td>
+                <td>4662</td>
+                <td>-</td>
+                <td>ESI by Employee</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Local Conveyance</td>
+                <td>1166</td>
+                <td>534</td>
+                <td>1700</td>
+                <td>-</td>
+                <td>Addl.EPF </td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Medical Allowance</td>
+                <td>1166</td>
+                <td>-</td>
+                <td>1166</td>
+                <td>-</td>
+                <td>Advance Deduction</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Communication Allowance</td>
+                <td>1399</td>
+                <td>-</td>
+                <td>1399</td>
+                <td>-</td>
+                <td>Additional Deduction1</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Leave Travel Allowance</td>
+                <td>1500</td>
+                <td>-</td>
+                <td>1500</td>
+                <td>-</td>
+                <td>AdditionalDeduction2</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Special Allowance</td>
+                <td>7693</td>
+                <td>1200</td>
+                <td>8893</td>
+                <td>-</td>
+                <td>Income Tax</td>
+                <td>200</td>
+                <td>-</td>
+            </tr>
+            <tr style="background-color:#efefef">
+                <td><i>A2. Additional Fixed Benefit</i></td>
+                <th></th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <th></th>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Leave Wage</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <th></th>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Bonus</td>
+                <td>1200</td>
+                <td>-</td>
+                <td>1200</td>
+                <td>-</td>
+                <th></th>
+                <td></td>
+                <td></td>
+            </tr>
+             <tr>
+                <td>Special Bonus</td>
+                <td></td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <th></th>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Incentives</td>
+                <td>765</td>
+                <td>-</td>
+                <td>765</td>
+                <td>-</td>
+                <th></th>
+                <td></td>
+                <td></td>
+            </tr>
+             <tr>
+                <td>Special Incentives</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <th></th>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr style="background-color:#efefef">
+                <td><i>B.Variable Benefit</i></td>
+                <th></th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <th></th>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Site Allowance</td>
+                <td>1900</td>
+                <td>-</td>
+                <td>1900</td>
+                <td>-</td>
+                <th></th>
+                <td></td>
+                <td></td>
+            </tr>
+             <tr>
+                <td>Performance Incentives</td>
+                <td>800</td>
+                <td>-</td>
+                <td>800</td>
+                <td>-</td>
+                <th></th>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+            
+        </table>
+<table  border="1" cellpadding="6" style="border:1px solid #CCC;border-collapse:collapse;width:800px;margin-top:15px;text-align: left;font-size:0.925rem;">
+            <thead>
+                <tr style="background-color:#efefef">
+                    <th width="20%">PF Accumulation By Employer</th>
+                    <th width="15%">Opening</th>
+                    <th width="15%">Current</th>
+                    <th width="15%">Balance</th>
+                </tr>
+            </thead>
+            <tr>
+                <td>Employer Contribution</td>
+                <td>1300</td>
+                <td>1300</td>
+                <td>2800</td>    
+            </tr>
+          
+                 
+        </table>
+        
+        <table border="1" cellpadding="6" style="border:1px solid #CCC;border-collapse:collapse;width:800px;margin-top:15px;text-align: left;font-size:0.95rem;">
+         <tr>
+                <th width="30%">Total Fixed Benefits (A1+A2)</th>
+                <td width="20%">27632</td>
+                <th width="30%">Total Deduction</th>
+                <td width="20%">1800</td>
+            </tr>
+            <tr>
+                <th>Total Variable Benefit</th>
+                <td>1900</td>
+                <th>Total Tax</th>
+                <td>200</td>
+            </tr>
+            <tr>
+                <th>Gross Salary</th>
+                <td>27632</td>
+                <th>Net Salary</th>
+                <td>25532</td>
+            </tr>
+             <tr>
+                <td><b>Net Salary In Words</b>  </td>
+                <td colspan="3">Twenty Thousand six hundred and thirty two Rupees Only</td>    
+            </tr>
+        </table>
+        
+        <table border="0" cellpadding="5" style="border:1px solid #CCC;border-collapse:collapse;width:800px;margin-top:10px;text-align: left;font-size:0.95rem;">
+            <tr>
+                <td width="65%"><div style="min-height:80px;"><b>Remarks:</b> <br/> Bonus and incentives for your remarkable work </div></td>
+                <td width="20%"> <p style="clear:both;text-align:right;margin-top:50px;">Signature</p></td>
+            </tr>
+        </table>
+        
+        
+<table border="1" cellpadding="15" style="border:1px solid #CCC;border-collapse:collapse;width:800px;font-size:0.95rem;"><tr><td><center><div style="background:url('./logo.png');width:183px;height:45px;  background-size:cover;background-repeat:   no-repeat;background-position: center center; ">&nbsp;</div></center></td><td style="width:150px;"><div><strong><center>LEAVE COUNTER </center></strong></div></td><td><strong>Pothigai Power Solutions Pvt.Ltd.</strong><br/> Pothigai Bhavan<br/>Gandhi Nagar, Urappakkam - 603210</td></tr></table>
+        
+        <table border="1" cellpadding="6" style="border:1px solid #CCC;border-collapse:collapse;width:800px;margin-top:15px;text-align: left;font-size:0.925rem;">
+            <tr>
+                <th>Employee Code</th>
+                <td>1063</td>
+                <th>Employee Name</th>
+                <td>Karthick Mani</td>
+                <th>Salary Month</th>
+                <td>Jul-18</td>
+            </tr>
+        </table>
+<table  border="1" cellpadding="6" style="border:1px solid #CCC;border-collapse:collapse;width:800px;margin-top:15px;text-align: left;font-size:0.925rem;">
+            <thead>
+                <tr>
+                    <th width="20%">Leave Heads</th>
+                    <th width="15%">Opening</th>
+                    <th width="15%">Accured</th>
+                    <th width="15%">Availed</th>
+                    <th width="15%">Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>CL</td>
+                <td>12</td>
+                <td>3</td>
+                <td>1</td>
+                <td>8</td>
+                 
+            </tr>
+            <tr>
+                <td>SL</td>
+                <td>4</td>
+                <td>-</td>
+                <td>-</td>
+                <td>4</td>
+                 
+            </tr>
+            <tr>
+                <td>PL</td>
+                <td>2</td>
+                <td>-</td>
+                <td>-</td>
+                <td>2</td>
+                 
+            </tr>
+             <tr>
+                <td>RH</td>
+                <td>2</td>
+                <td>-</td>
+                <td>-</td>
+                <td>2</td>
+                 
+            </tr>
+         <tr style="background-color:#efefef">
+         <td><i>Total</i></td>
+                <th>18</th>
+                <th>3</th>
+                <th>1</th>
+                <th>14</th>
+            </tr>  
+        </tbody>
+        </table>
+        </body>
+</html>

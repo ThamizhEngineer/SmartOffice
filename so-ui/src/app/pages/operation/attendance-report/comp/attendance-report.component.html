@@ -1,0 +1,113 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Attendance Report</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Attendance Report</li>
+            </ol>                
+        </div>
+    </div>
+</div>
+
+<div class="card card-body">
+    <div class="form-body">
+        <div class="form-body">
+               
+                    <div class="row p-t-20">
+                    <div class="col-3 form-group">
+                        <label>Employee Name</label>
+                          <autocomplete  [placeholder]="'Employee Name'"   [value]="empName" (empDetail)="projectSelected($event)"> </autocomplete>
+                    </div> 
+
+                    <div class="col-3 form-group">
+                        <label>Manager Name</label>
+                        <autocomplete  [placeholder]="'Manager Name'"   [value]="n1Name" (empDetail)="n1Selected($event)"> </autocomplete>
+                    </div> 
+
+            <div class="form-group col-md-2">
+                <label>Start Date</label>
+                <input type="date" style="width:162px" id="datepicker" class="form-control" [(ngModel)]="startDate"  name="startDate"> 
+     </div>
+                <div class="form-group col-md-2">
+                    <label>End Date</label>
+                    <input type="date" style="width:162px" id="datepicker" class="form-control" [(ngModel)]="endDate"  name="endDate"> 
+            </div>
+
+                                    <div class="form-group col-md-2">
+                                        <label></label>
+                                            <button type="button" style="width:50%" class="btn btn-info d-block m-l-15" (click)="search()"> Search</button>
+                                    </div>
+                                        <!-- <div class="form-group col-md-2">
+                                                <label></label>
+                                            <button type="button" style="width:50%" class="btn btn-success d-block m-l-15" (click)="reset()"> Reset</button>
+                                        </div> -->
+                                        
+                                
+                </div>
+            </div>
+</div>
+</div>
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <!-- <h4 class="card-title">Info Table</h4> -->
+
+            <div class="table-responsive">
+                    <table class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Year</th>
+                                <th>Month</th>
+                                <th>Date</th>
+                                <th>Employee Name</th>
+                                <!-- <th>Employee Name</th> -->
+                                <th>Checkin Time</th>
+                                <th>Checkout Time</th>
+                                <th>First Session</th>
+                                <th>Second Session</th>
+                                <th>Office Name</th>
+                                <th>Manager Name</th>
+                                <th>Date</th>
+                                <th>In long</th>
+                                <th>Out long</th>
+                                <!-- <th>Address</th> -->
+                                <th>Location</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let r of report | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                <td>{{r.id}}</td>
+                                <td>{{r.attendanceYear}}</td>
+                                <td>{{r.attendanceMonth}}</td> 
+                                <td>{{r.attendanceDt | date: 'dd/MM/yyyy'}}</td>    
+                                <td>{{r.empCode}} - {{r.firstName}}{{r.lastName}}</td>           
+                                <!-- <td>{{r.employeeName}}</td>   -->
+                                <td>{{r.checkIn}}</td>   
+                                <td>{{r.checkOut}}</td>     
+                                <td>{{r.firstSession}}</td>  
+                                <td>{{r.secondSession}}</td> 
+                                <td>{{r.officeName}}</td>    
+                                <td>{{r.n1EmpCode}} - {{r.n1EmpFName}}{{r.n1EmpLName}}</td>    
+                                <td>{{r.startDt}}</td>    
+                                <td>{{r.inLongs}}</td>
+                                <td>{{r.outLongs}}</td>
+                                <td>{{r.inLocName}}</td> 
+                                <!-- <td>{{r.e}}</td>                            -->
+                            </tr>                                 
+                        </tbody>
+                    </table>
+                    <ngb-pagination 
+                    [(page)]="page"
+                    [pageSize]="pageSize"
+                    [collectionSize]="report.length"></ngb-pagination>
+                    <pre>Current page: {{page}}</pre>
+                </div>
+        </div>
+    </div>
+</div>     
+

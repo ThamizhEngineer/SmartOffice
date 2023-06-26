@@ -1,0 +1,159 @@
+
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Invoice Payment View</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Home</li>
+                <li class="breadcrumb-item active">Invoice Payment View</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 card card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-left">
+                    <font size="5">
+                        <strong>Payment</strong>
+                    </font>
+                </div>
+                
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-sm-4">                    
+                    <address>
+                    <label>Customer
+                        <font color="red">*</font>
+                    </label>
+                    <input style="border: 1px solid grey;" id="typeahead-focus1" type="text" class="form-control"
+                    [ngbTypeahead]="clientsAC" [resultTemplate]="clientResultTemplate" [inputFormatter]="client_formatter"
+                    placeholder="Client" (selectItem)="onClientSelected($event)" [value]="payment.clientName"
+                    [editable]='false' ngbtypeaheadpopup>
+                <ng-template #clientResultTemplate let-r="result" let-t="term">
+                    {{r.clientName}}
+                </ng-template>                    <br>
+                    <label>Amount Received
+                        <font color="red">*</font>
+                    </label>
+                    <textarea cols="4" rows="5" class="form-control" [(ngModel)]="payment.amountReceived"></textarea>
+                    <br>
+                    <label>Payment Date
+                        <font color="red">*</font>
+                    </label>
+                    <input type="date" class="form-control" [(ngModel)]="payment.paymentDt" >
+                </address>
+
+                    
+                </div>
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-4">
+                    <h3>Payment Code        <span class="label label-info"> {{payment.paymentCode}}</span></h3>
+                    <br>
+                    <b>Payment Ref No:
+                        <font color="red">*</font>
+                    </b>
+                    <textarea cols="4" rows="5" class="form-control" [(ngModel)]="payment.paymentRefNo"></textarea>
+                    <br>
+                    <b>payMent Mode:
+                        <font color="red">*</font>
+                    </b>
+                    <select class="form-control" [(ngModel)]="payment.paymentMode">
+                        <option value="BankRemittance" >BankRemittance</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="Cheque">Cheque</option>
+                    </select>
+                    <br>
+                    
+                </div>
+            </div>
+
+            <h3 *ngIf="payment.paymentLine.length!=0">Unpaid Invoice</h3>
+            <div *ngIf="payment.paymentLine.length!=0" class="table-responsive">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>Date</th>
+                            <th>Invoice</th>
+                            <th>Invoice Amount</th>
+                            <th>Pay Amount</th>
+                            <th>Amount Due</th>
+                            <th>Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody>                      
+                        <tr *ngFor="let row of payment.paymentLine;let i=index">
+                            <td>{{i+1}}</td>
+                            <td>{{row.date | date:"dd/MM/yyyy"}}</td>
+                            <td>{{row.invoiceCode}}</td>
+                            <td>{{row.invoiceAmount}}</td>
+                            <td *ngIf="payment.id==null">
+                                <input type="number" min="0" class="form-control" [(ngModel)]="row.paidAmt" >
+                            </td>
+                            <td *ngIf="payment.id!=null">
+                                {{row.paidAmt}}
+                            </td>
+                            <td>{{row.invoiceAmount-row.paidAmt-row.invoicePaidAmt}}</td>
+                            <td>
+                                <textarea class="form-control" [(ngModel)]="row.paymentNote"  rows="4"></textarea>
+                            </td>
+                           
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Payment Note</label>
+                    <textarea class="form-control" [(ngModel)]="payment.paymentNote" cols="5"  rows="4"></textarea> 
+                </div>
+                <div class="col-sm-4">
+                    <label></label>
+                    <file-upload [fileDetail]="'INVOICE-PAYMENT'" (change)="fileChanged($event,'INVOICE-PAYMENT')"></file-upload>
+                    <a *ngIf="payment.docId!=null" href="javascript:void(0)" >
+                        <font color="Green">View Upload Document</font>
+                    </a>    
+                </div>
+            </div>
+            
+           
+            
+        
+
+            <div class="row no-print">
+                <div class="col-md-12">
+                
+                    <div *ngIf="payment.id==null">
+                        <button type="button" class="btn btn-success pull-right" (click)="save()" > Save</button>
+                    </div>
+
+                    <div *ngIf="payment.id!=null">
+                        <button type="button" class="btn btn-warning pull-right" (click)="update()" > Update</button>
+                    </div>
+                    <div>
+                         <button type="button" class="btn btn-info pull-right"
+                        [routerLink]="['/client/invoice-payment/']"> <i class="fa fa-chevron-circle-left"></i>Back</button>
+                    </div>
+                      
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+               
+    .textAlign{
+        text-align: right;
+    }
+</style>

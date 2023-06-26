@@ -1,0 +1,38 @@
+[
+  {
+    "question": "Conventional flow assumes charges flow from?",
+    "answers": [ "Positive to negative ", "Positive to positive ", "Negative to positive ", "Negative to negative" ]
+  },
+  {
+    "question": "Electron flow assumes charges flow from",
+    "answers": [ "Negative to positive ", "Negative to negative", "Positive to negative ", "Positive to positive " ]
+  },
+  {
+    "question": "Series resonance occurs when ",
+    "answers": [ "XL = Xc", "XL=R", "Z=R", "Both A and C" ]
+  },
+  {
+    "question": "The symbol Q refers to",
+    "answers": [ "Resonance quotient", "Quality factor","Power quotient ","Qualification test " ]
+  },
+  {
+    "question": "At what frequency will an inductor of 5mH have the same reactance as a capacitor of 0.1 µF ",
+    "answers": [ "7.12 KHz ", "7.12 Hz " ,"7.12MHz ","7.12 GHz "]
+  },
+  {
+    "question": "VL = Vc in a series RLC circuit when",
+    "answers": [ "The value of the impedance is minimum ", "The power factor is zero ","The current leads the total voltage by 90° ","The total voltage is zero " ]
+  },
+  {
+    "question": "The ratio of W/VA in an AC circuit means",
+    "answers": [ "Power Factor ", "Reactive factor", "Quality factor ", "Load factor " ]
+  },
+  {
+    "question": "What is the reciprocal of quality factor",
+    "answers": [ "Power factor ", "Dissipation Factor ","Reactive factor ","1 /Q factor" ]
+  },
+  {
+    "question": "In liquids and gases, ionization current results from a flow of",
+    "answers": [ "Positive or negative ions ", "Free Electrons  ", "Ions that are lighter in weight than electrons", "Protons" ]
+  }
+]

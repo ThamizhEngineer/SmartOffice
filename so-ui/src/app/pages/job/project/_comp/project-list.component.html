@@ -1,0 +1,57 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Project List </h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Project List </li>
+            </ol>
+            <button type="button" class="btn btn-info d-none d-lg-block m-l-15" [routerLink]="['/job/project/project-new']"><i class="fa fa-plus-circle"></i> Create Project</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive m-t-40">
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th data-sort-initial="true" data-toggle="true">#</th>
+                                <th data-sort-initial="true" data-toggle="true">Project Code</th>
+                                <th data-sort-initial="true" data-toggle="true">Project Name</th>
+                                <th data-sort-initial="true" data-toggle="true">Remarks</th>
+                                <th data-sort-initial="true" data-toggle="true">Actions</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let project of rows;let i=index">
+                              <td>{{i+1}}</td>
+                                <td>{{project.projCode}}</td>
+                                <td>{{project.projName}}</td>
+                                <td>{{project.remarks}}</td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="editProject(project.id)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a href="javascript:void(0)" (click)="deleteProject(project.id)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

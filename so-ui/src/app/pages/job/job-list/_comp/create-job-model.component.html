@@ -1,0 +1,84 @@
+<div class="modal-header">
+    <h4 class="modal-title">Create Job</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <flag-alert [message]="validation"></flag-alert>
+    <div class="row">
+        <div class="col-4 form-group">
+            <label>Client <span class="text-danger">*</span></label>
+            <input style="border: 1px solid grey;" id="typeahead-focus1" type="text" class="form-control"
+                [ngbTypeahead]="clientsAC" [resultTemplate]="clientResultTemplate" [inputFormatter]="client_formatter"
+                placeholder="Client" (selectItem)="onClientSelected($event,job)" [value]="job.endClientName"
+                [editable]='false' ngbtypeaheadpopup>
+            <ng-template #clientResultTemplate let-r="result" let-t="term">
+                {{r.clientName}}
+            </ng-template>
+        </div>
+        <div class="col-4 form-group">
+            <label>Sale Order <span class="text-danger">*</span></label>
+            <input style="border: 1px solid grey;" id="typeahead-focus2" type="text" class="form-control"
+                [ngbTypeahead]="saleOrderAC" [resultTemplate]="saleResultTemplate" [inputFormatter]="sale_formatter"
+                placeholder="sale code" (selectItem)="onSaleOrderSelected($event)" [value]="job.saleOrderCode"
+                [editable]='false' ngbtypeaheadpopup>
+            <ng-template #saleResultTemplate let-r="result" let-t="term">
+                {{r.saleOrderCode}}
+            </ng-template>
+        </div>
+        <div class="col-4 form-group">
+            <label>Site Location <span class="text-danger">*</span></label>
+            <input style="border: 1px solid grey;" id="typeahead-focus3" type="text" class="form-control"
+                [ngbTypeahead]="siteLocationAC" [resultTemplate]="siteResultTemplate"
+                [inputFormatter]="site_location_formatter" placeholder="site"
+                (selectItem)="onSiteLocationSelected($event)" [value]="job.siteLocationName" [editable]='false'
+                ngbtypeaheadpopup>
+            <ng-template #siteResultTemplate let-r="result" let-t="term">
+                {{r.siteName}}
+            </ng-template>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-4 form-group">
+            <label>Job Type <span class="text-danger">*</span></label>
+            <input style="border: 1px solid grey;" id="typeahead-focus4" type="text" class="form-control"
+                [ngbTypeahead]="jobTypeAC" [resultTemplate]="jobTypeResultTemplate" [inputFormatter]="jobType_formatter"
+                placeholder="JobType" (selectItem)="onJobTypeSelected($event)" [value]="job.jobTypeName"
+                [editable]='false' ngbtypeaheadpopup>
+            <ng-template #jobTypeResultTemplate let-r="result" let-t="term">
+                {{r.jobTypeName}}
+            </ng-template>
+        </div>
+        <div class="col-4 form-group">
+            <label>Job Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Job Name" (keypress)="commonService.isValidName($event)" [(ngModel)]="job.jobName" />
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-4 form-group">
+            <label>Start Date <span class="text-danger">*</span></label>
+            <input type="date" [max]="cjp.endDt"  class="form-control form-control-line" [(ngModel)]="cjp.startDt">
+        </div>
+        <div class="col-4 form-group">
+            <label>End Date <span class="text-danger">*</span></label>
+            <input type="date" [min]="cjp.startDt" class="form-control form-control-line" [(ngModel)]="cjp.endDt">
+        </div>
+
+        <div class="form-group col-sm-6 col-md-4">
+            <label class="control-label">Shift Timing<font color="red">*</font></label>
+            <select class="form-control" [(ngModel)]="cjp.shiftId">
+                <option *ngFor="let v of shifts" [value]="v.id">
+                    {{v.shiftName}}({{v.fromTime  | slice:0:5}}-{{v.toTime  | slice:0:5}})</option>
+            </select>
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="save()">Start Job</button>
+    <button type="button" class="btn btn-outline-dark" (click)="close()">Close</button>
+</div>

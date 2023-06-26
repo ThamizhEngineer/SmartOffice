@@ -1,0 +1,81 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Job Feedback</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">Job Feedback</li>
+				<li class="breadcrumb-item active">Details</li>
+			</ol>
+			<button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="save()"><i class="fa fa-plus-circle"></i> Save</button>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-4">
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title">Job Detail</h4>
+				<div class="row">
+					<div class="col-md-6"><b>ID : </b></div>
+					<div class="col-md-5">{{ job.jobCode}}</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6"><b>Name : </b></div>
+					<div class="col-md-5">{{ job.jobName}}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6"><b>Customer : </b></div><div class="col-md-6">{{ job.clientName}}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6"><b>Job Location : </b></div><div class="col-md-6">{{ job?.jobLocation}}</div>
+				</div>
+			
+				<div class="row">
+					<div class="col-md-6"><b>Type : </b></div><div class="col-md-6">{{ job?.jobTypeName}}</div>
+				</div><br/>
+			</div>
+		</div>
+
+	</div>
+	
+	
+	<div class="col-8">
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title">Feedbacks</h4><br/>
+				
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-12"><h5>Overall Feedback : </h5></div>
+							<div class="col-md-6"><textarea class="form-control" rows="3" placeholder="Review" [(ngModel)]="job.clientFeedbackRemarks"></textarea></div><div class="col-md-3"><input type="range" min="1" max="10" [(ngModel)]="job.clientFeedbackScore" class="slider"/></div>
+						</div><br/>
+						<div class="row" *ngFor="let emp of job?.jobEmployees;let i=index">
+							<div class="col-md-12"><h5>Engineer {{i+1}} : </h5></div>
+							<div class="col-md-6"><textarea class="form-control" rows="3" placeholder="Review" [(ngModel)]="emp.clientFeedbackRemarks"></textarea></div><div class="col-md-3"><input type="range" min="1" max="10" [(ngModel)]="emp.clientFeedbackScore" class="slider"/></div>
+						</div><br/>
+						<!-- <div class="row">
+							<div class="col-md-12"><h5>Engineer 2 : </h5></div>
+							<div class="col-md-6"><textarea class="form-control" rows="3" placeholder="Review">Helped to handle major issues</textarea><b></b></div><div class="col-md-3"><input type="range" min="1" max="10" value="9" class="slider"/></div>
+						</div><br/>
+						<div class="row">
+							<div class="col-md-12"><h5>Engineer 3 : </h5></div>
+							<div class="col-md-6"><textarea class="form-control" rows="3" placeholder="Review">Average</textarea></div><div class="col-md-3"><input type="range" min="1" max="10" value="6" class="slider"/></div>
+						</div><br/>
+						<div class="row">
+							<div class="col-md-12"><h5>Engineer 4 : </h5></div>
+							<div class="col-md-6"><textarea class="form-control" rows="3" placeholder="Review">Bad. Could be more useful</textarea></div><div class="col-md-3"><input type="range" min="1" max="10" value="7" class="slider"/></div>
+						</div> -->
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,100 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor"> Assign Responsibility </h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+				<li class="breadcrumb-item active"> Responsibility List </li>
+			</ol>
+			<button type="button" class="btn btn-info m-l-15" (click)="createNew();">
+				<i class="fa fa-plus-circle"></i> Map Responsibility  </button>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-12 card card-body">
+		<flag-alert [message]="saveMsg"></flag-alert>
+		<div class="table-responsive">
+			<table class="table table-sm table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col" sortable="userGroupName" (sort)="onSort($event)">Responsibility Name<a ng-click="sort_by('userGroupName')"><i class="fa fa-sort"></i></a></th>
+						
+						<th scope="col" sortable="employeeName" (sort)="onSort($event)">Employee Name<a ng-click="sort_by('employeeName')"><i class="fa fa-sort"></i></a></th>
+						
+						<th>Actions</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let dts of userGroupEmps | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index ">
+						<td scope="row">{{i+1}}</td>
+						<td>{{dts.userGroupName}}</td>
+						<td>{{dts.employeeName}}</td>
+					
+						
+						<td class="text-nowrap">
+							<a href="javascript:void(0)" (click)="showDetail(dts.id);">
+								<i class="fa fa-pencil text-inverse m-r-10"></i>
+							</a>
+							<confirm-delete [type]="'icon'" (confirmed)="deleteRow(dts.id)"></confirm-delete>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+			<ngb-pagination 
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="userGroupEmps.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>
+		</div>
+	</div>
+</div>
+
+<ng-template #vdetail let-c="close">
+	<div class="modal-header">
+		<h3 class="modal-title">User Group Employee Mapping</h3>
+		<button type="button" class="close" (click)="c()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<flag-alert [message]="errorMsg"></flag-alert>
+	<div class="modal-body">
+		<div class="row">
+
+			<div class="col-6 form-group">
+				<label class="control-label">User Group Name</label>
+				<input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                            class="form-control" [ngbTypeahead]="userGroupNameAC"
+                                            [resultTemplate]="UR1" [inputFormatter]="userGroupNameFormatter"
+                                            placeholder="User Group Name" (selectItem)="userGroupNameSelect($event)"
+                                            [value]="userGroupEmp.userGroupName" [editable]='false' ngbtypeaheadpopup>
+                                        <ng-template #UR1 let-r="result" let-t="term">
+                                            {{r.userGroupName}}
+                                        </ng-template>
+                <!-- <select  class="form-control" [(ngModel)]="userGroupEmp.userGroupId">
+                    <option *ngFor="let v of userGroups" [value]="v.id">{{v.userGroupName}}</option>
+                </select> -->
+			</div>
+			<div class="col-6 form-group" >
+				<label class="control-label">Employee Name</label>
+				<autocomplete  [placeholder]="'Employee Name'"   [value]="userGroupEmp.employeeName" (empDetail)="empNameSelected($event)"> </autocomplete>
+			</div>
+		</div>
+	
+		
+	</div>
+
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-warning" (click)="save();">Save</button>
+	</div>
+</ng-template>

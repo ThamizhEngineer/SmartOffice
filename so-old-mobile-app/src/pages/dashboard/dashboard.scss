@@ -1,0 +1,55 @@
+page-dashboard {
+    ion-col{
+      color: black
+    }
+
+    background-color: #e2dede;
+
+    ion-datetime{
+      padding:0 !important;
+    }
+
+    .dash-title{
+      padding: 14px 0 0 0;
+    }
+
+    ion-header ion-navbar{
+      padding: 0 !important;
+    }
+
+    ion-navbar ion-grid{
+      padding: 0 !important;
+    }
+    .dash-search{
+      background-color: #6610f2;
+      box-shadow: none;
+      font-size: 1.8rem;
+    }
+    .dash-search:hover{
+      background-color: #6610f2;
+    }
+
+    ion-card-content p{
+      color: #c51d1d !important;
+    }
+
+    ion-card-title{
+      color: #257705 !important;
+    }
+
+    ion-row {
+      color:#000;
+
+      ion-col:first-child{
+          font-weight: bold;
+      }
+    }
+
+    .menu-pos{
+      margin-top: 5px;
+    }
+    .custom-opacity>ion-datetime{
+      opacity: 1 !important;
+    }
+
+}

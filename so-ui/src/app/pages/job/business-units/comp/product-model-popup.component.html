@@ -1,0 +1,63 @@
+<div class="modal-header">
+    <h3 class="modal-title">Product Details</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+
+        <div class="col-3 form-group">
+            <label>Goods</label>
+            <input style="border: 1px solid grey;" id="typeahead-focus" type="text" class="form-control"
+                [ngbTypeahead]="filterProduct" [resultTemplate]="goodsResultTemplate"
+                [inputFormatter]="product_formatter" placeholder="Goods" (selectItem)="onProductSelect($event)"
+                [value]="materialCode" [editable]='false' ngbtypeaheadpopup>
+            <ng-template #goodsResultTemplate let-r="result" let-t="term">
+                {{r.materialCode}} - {{r.materialName}}
+            </ng-template>
+        </div>
+
+        <div class="col-3 form-group">
+            <label>Remarks</label>
+            <textarea type="text" class="form-control form-control-line" [(ngModel)]="remarks"
+                [ngModelOptions]="{standalone: true}" placeholder="Remarks" rows="3"></textarea>
+        </div>
+        <div class="col-3 form-group">
+            <label>Add new good</label>
+            <button type="submit" style="width:125px; height:50px" class="btn btn-info waves-effect waves-light mr-1" (click)="addProduct()">
+                <i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Goods</th>
+                    <th>Goods Name</th>
+                    <th>Remarks</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let p of productNames; let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{p.materialCode}}</td>
+                    <td>{{p.materialName}}</td>
+                    <td>{{p.remarks}}</td>
+                    <td>
+                        <confirm-delete [type]="'icon'" (confirmed)="delete(i)"></confirm-delete>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="addProductNamesToDivision()">Save</button>
+  </div>

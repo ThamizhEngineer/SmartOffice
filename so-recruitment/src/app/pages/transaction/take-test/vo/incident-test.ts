@@ -1,0 +1,59 @@
+export class IncidentTest {
+    id:                    number;
+    endTime:               string;
+    invigilatorComments:   string;
+    invigilatorId:         string;
+    isEnabled:             string;
+    noOfQuestions:         string;
+    participantComment:    string;
+    participantId:         number;
+    startTime:             string;
+    testDate:              string;
+    testStatus:            string;
+    totalCorrect:          string;
+    totalUnAttended:       string;
+    showScore:             string;
+    totalWrong:            string;
+    totalResult:           string;
+    score:                 string;
+    incidentId:            number;
+    incidentType:          string;
+    createdBy:             string;
+    createdDt:             string;
+    modifiedBy:            string;
+    modifiedDt:            string;
+    remainingTime:         string;
+    incidentTtId:          string;
+    applicantId:           string;
+    testTempLateId:        string;
+    tincidentTestId:        number;
+    totalQuestions:         string;
+    incidentTestQuestions: IncidentTestQuestion[];
+}
+
+export class IncidentTestQuestion {
+    id:              number;
+    tincidentTestId: number;
+    correctOption:   string;
+    option1:         string;
+    option2:         string;
+    option3:         string;
+    option4:         string;
+    userPicked:      string;
+    difficultyLevel: string;
+    markPerQuestion: string;
+    marksAwarded:    string;
+    negativeMarks:   string;
+    questionId:      number;
+    createdBy:       string;
+    createdDt:       string;
+    modifiedBy:      string;
+    modifiedDt:      string;
+    remainingTime:   string;
+    duration:        string;
+    testStatus:      string;
+    questionOrder:   number;
+    question:        string;
+    optionsCorrect:  string;
+    totalQuestions:         string;
+}

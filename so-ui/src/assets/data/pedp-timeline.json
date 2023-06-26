@@ -1,0 +1,59 @@
+[
+    {
+        "id":1,
+        "objResult":"Employee Objective submit",
+        "postion":"right",
+        "icon": "fa-user-circle",
+        "view":"emp",
+        "note":null,
+        "content":"Objectives - Submission"
+        
+    },
+    {
+        "id":2,
+        "objResult":"Manager Objective submit",
+        "postion":"left",
+        "icon": "fa-user-circle",
+        "view":"n1",
+        "note":null,
+        "content":"Objectives - Review"
+    },
+    {
+        "id":3,
+        "objResult":"Employee Accept Manager Objective ",
+        "postion":"right",
+        "icon": "fa-user-circle",
+        "note":"if employee rejects Manager's review, then the flow will go to N2 manager for review for resolution",
+        "content":"Objectives - Acceptance description"        
+    },
+    {
+        "id":4,
+        "objResult":"Active Appraisal",
+        "postion":"left",
+        "icon": "fa-user-circle",
+        "note":null,
+        "content":"Appraisal is active with goals finalised"
+    },
+    {
+        "id":5,
+        "objResult":"Achievement Submission",
+        "postion":"right",
+        "icon": "fa-user-circle",
+        "note":null,
+        "content":"Employee will enter his/her objective results with remarks"
+    },
+    {
+        "id":6,
+        "objResult":"Achievement Review",
+        "postion":"left",
+        "icon": "fa-user-circle",
+        "content":"Manager will review employees objective results with remarks"
+    },
+    {
+        "id":7,
+        "objResult":"Apprasial Completion",
+        "postion":"right",
+        "icon": "fa-user-circle",
+        "content":"Appraisal is complete"
+    }
+]

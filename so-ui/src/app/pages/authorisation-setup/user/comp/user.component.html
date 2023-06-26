@@ -1,0 +1,91 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">User</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">User</li>
+            </ol>
+            <button type="button" class="btn btn-info m-l-15" (click)="createNew();">
+                <i class="fa fa-plus-circle"></i>Create</button>
+                <button type="button" class="btn btn-info d-none d-lg-block m-l-15" [routerLink]="['/authorisation/setup']">Back</button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                    <flag-alert [message]="saveMsg"></flag-alert>
+                <div class="table-responsive">
+                    <table class="table color-bordered-table info-bordered-table">
+                        <thead>
+                            <tr >
+                                <th data-sort-initial="true" data-toggle="true">User Name</th>
+                                <th data-sort-initial="true" data-toggle="true">User Type</th>
+                                <th data-sort-initial="true" data-toggle="true">Email Id</th>
+                                <th data-sort-initial="true" data-toggle="true">Mobile Number</th>
+                                <th data-sort-initial="true" data-toggle="true">Action</th>
+                            </tr>
+                            
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let u of user | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                                <td>{{u.userName}}</td>
+                                <td>{{u.userType}}</td>
+                                <td>{{u.emailId}}</td>
+                                <td>{{u.mobileNumber}}</td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="showDetail(u.id);">
+                                        <i class="fa fa-pencil text-inverse m-r-10"></i>
+                                    </a>
+                                    <confirm-delete [type]="'icon'" (confirmed)="deleteRow(u.id)"></confirm-delete>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination 
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="user.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #popup let-c="close">
+    <div class="modal-header">
+        <h4 class="modal-title"> User Detail</h4>
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">                              
+            <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">User Name<font color="red">*</font></label>
+                    <input type="text" class="form-control form-control-line" [(ngModel)]="users.userName" placeholder="User Name"  name="userName"> 
+                </div>   
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">User Type<font color="red">*</font></label>
+                    <input type="text" class="form-control form-control-line" [(ngModel)]="users.userType" placeholder="User Type"  name="userType"> 
+                </div>
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">Email Id<font color="red">*</font></label>
+                    <input type="text" class="form-control form-control-line" [(ngModel)]="users.emailId" placeholder="Email Id"  name="emailId"> 
+                </div>  
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">Mobile Number<font color="red">*</font></label>
+                    <input type="text" class="form-control form-control-line" [(ngModel)]="users.mobileNumber" placeholder="Mobile Number"  name="mobileNumber"> 
+                </div>               
+            </div>          
+    </div>
+    <div class="modal-footer align-self-center">
+        <button type="button" class="btn btn-warning" (click)="save()">Save</button>
+    </div>
+</ng-template>

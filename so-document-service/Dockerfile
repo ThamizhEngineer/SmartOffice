@@ -1,0 +1,4 @@
+FROM openjdk:8-jdk-alpine
+ARG JAR_FILE=target/*.war
+COPY ${JAR_FILE} app.war
+ENTRYPOINT ["java","-Xmx256m","-XX:+UseG1GC","-XX:-UseGCOverheadLimit","-jar","-Dspring.datasource.hikari.driver-class-name=com.mysql.jdbc.Driver","-Dspring.datasource.type=com.zaxxer.hikari.HikariDataSource","-Dspring.datasource.hikari.connection-timeout=30000","-Dspring.datasource.hikari.leak-detection-threshold=300000","-Dspring.datasource.hikari.minimum-idle=2","-Dspring.datasource.hikari.maximum-pool-size=10","-Dspring.datasource.hikari.idle-timeout=600000","-Dspring.datasource.hikari.max-lifetime=2800000","-Dlogging.level.com.zaxxer.hikari=debug","-Dspring.datasource.hikari.auto-commit=true","/app.war"]

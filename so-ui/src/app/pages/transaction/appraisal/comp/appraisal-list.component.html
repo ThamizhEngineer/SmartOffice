@@ -1,0 +1,422 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 *ngIf="view=='n1' || view=='n2' || view=='hr'" class="text-themecolor"> Appraisal List</h4>
+        <h4 *ngIf="view=='emp'" class="text-themecolor"> My Appraisal</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li *ngIf="view=='n1' || view=='n2' || view=='hr'" class="breadcrumb-item active"> Appraisal List </li>
+                <li *ngIf="view=='emp'" class="breadcrumb-item active"> My Appraisal</li>
+            </ol>           
+            
+        </div>
+    </div>
+</div>
+
+<!-- N1 & N2 View -->
+
+<div *ngIf="view=='n1' || view =='n2'" class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="form-group col-md-2 col-sm-3">
+                <label class="control-label">Year</label>
+                <select class="form-control form-control-line" [(ngModel)]="yearId" name="yearId" id="yearId">
+                    <option *ngFor="let item of fyYears" [value]="item.id">{{item.fiscalCode}}</option>                           
+                </select>                
+            </div>
+            <div class="form-group col-md-2 col-sm-3">
+                <label class="control-label">Employee</label>
+                <autocomplete  [placeholder]="'Employee'"   [value]="empName" (empDetail)="empSelected($event)"> </autocomplete>
+            </div>
+            <div class="form-group col-md-1 col-sm-3">
+                <label class="control-label"></label><br>
+                <button type="button" (click)="advSearch(empId)" [disabled]="yearId==null" class="btn btn-outline-success">Search</button>
+            </div>
+            <div class="form-group col-md-1 col-sm-3">
+                <label class="control-label"></label><br>
+                <button type="button" (click)="reset()" class="btn btn-outline-dark">Reset</button>
+            </div>
+          
+        </div>
+       
+    </div>
+</div>
+
+<div *ngIf="view=='n1' || view =='n2' " class="row">   
+        <div class="col-12">
+            <div *ngIf="search==true" class="card">
+                <div class="card-body">
+                        <div class="modal-footer">    
+                                <div class="form-group">
+                                    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+                                        <label *ngIf="view=='n1'" ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                                            <input ngbButton type="radio" (click)="view='n1'"> N1
+                                          </label>
+                                        <label *ngIf="view=='n2'" ngbButtonLabel class="btn btn-outline-info waves-effect waves-light">
+                                          <input ngbButton type="radio" (click)="view='n1'"> N1
+                                        </label>
+                                        <label *ngIf="view=='n1'" ngbButtonLabel class="btn-outline-primary">
+                                          <input ngbButton type="radio" (click)="view='n2'"> N2
+                                        </label>
+                                        <label *ngIf="view=='n2'" ngbButtonLabel class="btn-primary">
+                                            <input ngbButton type="radio" (click)="view='n2'"> N2
+                                        </label>
+                                      </div>                                      
+                                </div>
+                        </div>
+                    <div class="table-responsive m-t-40">
+                        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th data-sort-initial="true" data-toggle="true">#</th>
+                                    <th data-sort-initial="true" data-toggle="true">Employee Name</th>
+                                    <th data-sort-initial="true" data-toggle="true">Office</th>
+                                    <th data-sort-initial="true" data-toggle="true">Designation</th>
+                                    <th data-sort-initial="true" data-toggle="true">Status</th>
+                                    <th data-sort-initial="true" data-toggle="true">To Detail</th>                               
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="view=='n1'">
+                                <tr *ngFor="let item of N1list;let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.empFName}}&nbsp;{{item.empLName}}</td>
+                                    <td>{{item.officeName}}</td>
+                                    <td>{{item.designationName}}</td>
+                                    <td><span class="label label-{{statues[item.appraisalTargetStatusCode]}}">{{item.appraisalTargetStatusCode}}</span></td>
+                                    <td> <i (click)="navigateToDetailPage(item.id)" class="fa fa-eye btn btn-success"></i> </td>                               
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="view=='n2'">
+                                <tr *ngFor="let item of N2list;let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.empFName}}&nbsp;{{item.empLName}}</td>
+                                    <td>{{item.officeName}}</td>
+                                    <td>{{item.designationName}}</td>
+                                    <td><span class="label label-{{statues[item.appraisalTargetStatusCode]}}">{{item.appraisalTargetStatusCode}}</span></td>
+                                    <td> <i (click)="navigateToDetailPage(item.id)" class="fa fa-eye btn btn-success"></i> </td>                               
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div> 
+
+<!-- N1 & N2 View End Here -->
+
+
+<!-- DIR View -->
+
+<div *ngIf="view=='dir'" class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="form-group col-md-2 col-sm-3">
+                <label class="control-label">Year</label>
+                <select class="form-control form-control-line" [(ngModel)]="yearId" name="yearId" id="yearId">
+                    <option *ngFor="let item of fyYears" [value]="item.id">{{item.fiscalCode}}</option>                           
+                </select>                
+            </div>
+            <div class="form-group col-md-2 col-sm-3">
+                <label class="control-label">Employee</label>
+                <autocomplete  [placeholder]="'Employee'"   [value]="empName" (empDetail)="empSelected($event)"> </autocomplete>
+            </div>
+            <div class="form-group col-md-1 col-sm-3">
+                <label class="control-label"></label><br>
+                <button type="button" (click)="advSearch()" [disabled]="yearId==null" class="btn btn-outline-success">Search</button>
+            </div>
+            <div class="form-group col-md-1 col-sm-3">
+                <label class="control-label"></label><br>
+                <button type="button" (click)="reset()" class="btn btn-outline-dark">Reset</button>
+            </div>
+          
+        </div>
+       
+    </div>
+</div>
+
+<div *ngIf="view=='dir'" class="row">   
+        <div class="col-12">
+            <div *ngIf="search==true" class="card">
+                <div class="card-body">
+                        <div class="modal-footer">    
+                                <div class="form-group">
+                                    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+                                        <label *ngIf="checkView=='PENDING'" ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                                            <input ngbButton type="radio" (click)="checkView='PENDING'"> PENDING
+                                          </label>
+                                        <label *ngIf="checkView=='APPROVED'" ngbButtonLabel class="btn btn-outline-info waves-effect waves-light">
+                                          <input ngbButton type="radio" (click)="checkView='PENDING'"> PENDING
+                                        </label>
+                                        <label *ngIf="checkView=='PENDING'" ngbButtonLabel class="btn-outline-primary">
+                                          <input ngbButton type="radio" (click)="checkView='APPROVED'"> APPROVED
+                                        </label>
+                                        <label *ngIf="checkView=='APPROVED'" ngbButtonLabel class="btn-primary">
+                                            <input ngbButton type="radio" (click)="checkView='APPROVED'"> APPROVED
+                                        </label>
+                                      </div>                                      
+                                </div>
+                        </div>
+                    <div class="table-responsive m-t-40">
+                        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th data-sort-initial="true" data-toggle="true">#</th>
+                                    <th data-sort-initial="true" data-toggle="true">Employee Name</th>
+                                    <th data-sort-initial="true" data-toggle="true">Office</th>
+                                    <th data-sort-initial="true" data-toggle="true">N+1 Manager</th>
+                                    <th data-sort-initial="true" data-toggle="true">N+2 Manager</th>
+                                    <th data-sort-initial="true" data-toggle="true">Designation</th>
+                                    <th data-sort-initial="true" data-toggle="true">Status</th>
+                                    <th data-sort-initial="true" data-toggle="true">To Detail</th>                               
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="checkView=='PENDING'">                                
+                                <tr *ngFor="let item of apprisals;let i=index">                                   
+                                    <td *ngIf="item.appraisalTargetStatusCode=='EMP-ACCEPTANCE'" >{{i+1}}</td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='EMP-ACCEPTANCE'">{{item.empFName}}&nbsp;{{item.empLName}}</td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='EMP-ACCEPTANCE'">{{item.officeName}}</td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='EMP-ACCEPTANCE'">{{item.n1EmpFName}}&nbsp;{{item.n1EmpFName}}</td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='EMP-ACCEPTANCE'">{{item.n2EmpFName}}&nbsp;{{item.n2EmpFName}}</td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='EMP-ACCEPTANCE'">{{item.designationName}}</td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='EMP-ACCEPTANCE'"><span class="label label-{{statues[item.appraisalTargetStatusCode]}}">{{item.appraisalTargetStatusCode}}</span></td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='EMP-ACCEPTANCE'"> <i (click)="navigateToDetailPage(item.id)" class="fa fa-eye btn btn-success"></i> </td>                                                                                                   
+                                </tr>                            
+                            </tbody>
+                            <tbody *ngIf="checkView=='APPROVED'">                                
+                                <tr *ngFor="let item of apprisals;let i=index">                                   
+                                    <td *ngIf="item.appraisalTargetStatusCode=='APPROVED'" >{{i+1}}</td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='APPROVED'">{{item.empFName}}&nbsp;{{item.empLName}}</td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='APPROVED'">{{item.officeName}}</td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='APPROVED'">{{item.n1EmpFName}}&nbsp;{{item.n1EmpFName}}</td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='APPROVED'">{{item.n2EmpFName}}&nbsp;{{item.n2EmpFName}}</td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='APPROVED'">{{item.designationName}}</td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='APPROVED'"><span class="label label-{{statues[item.appraisalTargetStatusCode]}}">{{item.appraisalTargetStatusCode}}</span></td>
+                                    <td *ngIf="item.appraisalTargetStatusCode=='APPROVED'"> <i (click)="navigateToDetailPage(item.id)" class="fa fa-eye btn btn-success"></i> </td>                                                                                                   
+                                </tr>                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div> 
+
+<!-- Dir View End Here -->
+
+<!-- employee View -->
+
+
+    <div *ngIf="view=='emp'" class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body"> 
+                    <flag-alert [message]="msg"></flag-alert>                     
+                    <div class="form-group col-md-2 col-sm-3">
+                        <label class="control-label">Year</label>
+                        <select class="form-control form-control-line" [(ngModel)]="yearId" name="yearId" id="yearId">
+                            <option *ngFor="let item of fyYears" [value]="item.id">{{item.fiscalCode}}</option>                           
+                        </select>                
+                    </div>
+
+                    <div class="form-group col-md-1 col-sm-3">
+                        <label class="control-label"></label><br>
+                        <button type="button" (click)="empDetailPage()" class="btn btn-outline-success">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>  
+
+<!-- employee View Here-->
+
+<!-- HR View -->
+
+<div *ngIf="view=='hr'" class="card card-body">
+<div class="form-body">            
+<div  class="row p-t-20">
+
+        <div class="form-group col-md-2">
+                <label>Year</label>
+                <select class="form-control form-control-line" [(ngModel)]="yearId" name="yearId" id="yearId">
+                    <option *ngFor="let item of fyYears" [value]="item.id">{{item.fiscalCode}}</option>                           
+                </select>   
+            </div>
+
+<div class="form-group col-md-2">
+    <label class="control-label">Office</label>
+    <select class="form-control" name="office"  [(ngModel)]="officename" id="office">
+        <option *ngFor="let off of offices" [value]="off.officeName">{{off.officeName}}
+        </option>
+    </select>
+</div>  
+
+<div class="form-group col-md-2">
+        <label class="control-label">Designation</label>
+        <select class="form-control" name="designames"  [(ngModel)]="desName" id="designames" >
+            <option *ngFor="let item of designames" [value]="item.desigName">{{item.desigName}}
+            </option>
+        </select>
+    </div>
+
+<div class="form-group col-md-2">
+        <label class="control-label">Employee</label>
+        <autocomplete  [placeholder]="'Employee'"   [value]="empName" (empDetail)="empSelected($event)"> </autocomplete>								
+    </div>
+<div class="form-group col-md-2">
+        <label class="control-label">N+1 Manager 1</label>
+        <autocomplete  [placeholder]="'Manager'"   [value]="n1Name" (empDetail)="n1Selected($event)"> </autocomplete>								
+    </div>
+
+    <div class="form-group col-md-2">
+            <label class="control-label">N+2 Manager</label>
+            <autocomplete  [placeholder]="'Manager'"   [value]="n2Name" (empDetail)="n2Selected($event)"> </autocomplete>																
+     </div>
+   
+                                                                                                                         
+                <div class="form-group col-md-2">
+                    <label></label>
+                        <button type="button" style="width:70%" class="btn btn-info d-block m-l-15" [disabled]="yearId==null" (click)="searches()"> Search</button>
+                    </div>
+                    <div class="form-group col-md-2">
+                            <label></label>
+                        <button type="button" style="width:70%" class="btn btn-success d-block m-l-15" (click)="reset()"> Reset</button>
+                    </div>
+                <div class="form-group col-md-2">
+                    <label></label>
+                    <button type="button" style="width:70%" class="btn btn-info d-block m-l-15" (click)="searchFisCode()">Setting</button>
+                </div>
+            
+</div>
+</div>
+
+<flag-alert [message]="msg"></flag-alert> 
+<div *ngIf="search==true" class="table-responsive">
+      
+<table class="table table-sm table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Office</th>
+            <th>Designation</th>
+            <th>N+1 Manager</th>
+            <th>N+2 Manager</th>
+            <th>Select</th>
+            <th>Achievement</th>                
+            <th>Details</th>							
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let emp of employeesList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+            <td>{{emp.empName}}</td>
+            <td>{{emp.officeName}}</td>
+            <td>{{emp.desigName}}</td>
+            <td>{{emp.managerName}}</td>
+            <td>{{emp.reviewManagerName}}</td>
+            <td *ngIf="emp.isIniteated==true" style="color: rgb(9, 162, 173);">Initiated &nbsp; <i *ngIf="emp.reIniteated==false" (click)="initiateProcess(emp)" class="fa fa-refresh btn btn-success"></i></td>    
+            <td *ngIf="emp.isIniteated==false || emp.isIniteated==null "  style="color: rgb(238, 109, 24);">
+                <button type="button" style="width:70%" class="btn btn-warning d-block m-l-15" (click)="initiateProcess(emp)"> Initiate</button>
+            </td>           
+            <!-- <td *ngIf="emp.isIniteated==false">
+                <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="select[{{i}}]" (click)="initiateProcess(emp)" [(ngModel)]="emp.isIniteated">
+                        <label class="custom-control-label" for="select[{{i}}]"></label>
+                </div>
+            </td>  -->
+            <td *ngIf="emp.isAchvmt==true" style="color: rgb(9, 162, 173);">Initiated</td> 
+            <td *ngIf="emp.isAchvmt==null"> - </td>
+            <td *ngIf="emp.isAchvmt==false" style="color: rgb(238, 109, 24);">
+                <button type="button" style="width:70%" class="btn btn-warning d-block m-l-15" (click)="initiateAchivement(emp)"> Initiate</button>
+            </td>   
+            <td *ngIf="emp.isIniteated==false || emp.isIniteated==null "> - </td>        
+            <td *ngIf="emp.isIniteated==true"><i (click)="hrDetailView(emp.id)" class="fa fa-eye btn btn-success"></i></td>     
+        </tr>						 
+    </tbody>
+</table>
+<ngb-pagination 
+[(page)]="page"
+[pageSize]="pageSize"
+[collectionSize]="employeesList.length"></ngb-pagination>
+<pre>Current page: {{page}}</pre>
+<flag-alert [message]="msg"></flag-alert> 
+</div>
+<!-- <div class="modal-footer">    
+    <div class="form-group">
+            <button type="button" (click)="navigateToReviewPage()" class="btn btn-info d-none d-lg-block m-l-15"> Review</button>
+    </div>
+</div> -->
+</div>
+
+<ng-template #alert let-c="close">
+    <div class="modal-header">
+		<h4 class="modal-title">Are You Sure To Initiate Appraisal For {{employee.empName}}</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+    </div>
+    <div class="modal-footer">
+                   
+                <button type="button" (click)="initiate()" class="btn btn-outline-success">Yes</button>
+           
+           
+                <button type="button" (click)="c()" class="btn btn-outline-danger">No</button>
+          
+   
+        
+    </div>
+</ng-template>
+<ng-template #appSettings let-c="close">
+    <div class="modal-header">
+        <h4 class="modal-title" *ngIf="appraisalSetting!=null">Appraisal By FiscalYear-{{fiscalCode}}</h4>
+        <h4 class="modal-title" *ngIf="appraisalSetting==null">Appraisal By FiscalYear</h4>
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="card card-body" *ngIf="appraisalSetting!=null">
+        <div class="row">
+            <div class="form-group col-md-5">
+                <label>Minimum Organisation Goal -UM</label>
+                <input type="text" class="form-control form-control-line" placeholder="minOrgGoalsUm" [(ngModel)]="appraisalSetting.minOrgGoalsUm" name="minOrgUm">
+            </div>
+            <div class="form-group col-md-5">
+                <label>Minimum Organisation Goal -MM</label>
+                <input type="text" class="form-control form-control-line" placeholder="minOrgGoalsMm" [(ngModel)]="appraisalSetting.minOrgGoalsMm" name="minOrgMm">
+            </div>
+            <div class="form-group col-md-5">
+                <label>Minimum Organisation Goal -Others</label>
+                <input type="text" class="form-control form-control-line" placeholder="minOrgGoalsOthers" [(ngModel)]="appraisalSetting.minOrgGoalsOthers" name="minOrgOthers">
+            </div>
+
+        </div>
+    </div>
+    <div class="card card-body" *ngIf="appraisalSetting==null">
+        <div class="row">
+            <div class="form-group col-md-5">
+                <label>Minimum Organisation Goal -UM</label>
+                <input type="text" class="form-control form-control-line" placeholder="minOrgGoalsUm" [(ngModel)]="minOrgGoalsUm" name="minOrgUm">
+            </div>
+            <div class="form-group col-md-5">
+                <label>Minimum Organisation Goal -MM</label>
+                <input type="text" class="form-control form-control-line" placeholder="minOrgGoalsMm" [(ngModel)]="minOrgGoalsMm" name="minOrgMm">
+            </div>
+            <div class="form-group col-md-5">
+                <label>Minimum Organisation Goal -Others</label>
+                <input type="text" class="form-control form-control-line" placeholder="minOrgGoalsOthers" [(ngModel)]="minOrgGoalsOthers" name="minOrgOthers">
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group col-md-2" *ngIf="appraisalSetting!=null">
+            <label></label>
+            <button type="button" style="width:70%" class="btn btn-info d-block m-l-15" (click)="updateAppSetting(appraisalSetting.id,appraisalSetting)">Save</button>
+        </div>
+        <div class="form-group col-md-2" *ngIf="appraisalSetting==null">
+            <label></label>
+            <button type="button" style="width:70%" class="btn btn-info d-block m-l-15" (click)="createAppSetting()">Save</button>
+        </div>
+    </div>
+</ng-template>

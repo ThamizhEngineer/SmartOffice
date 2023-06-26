@@ -1,0 +1,268 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Job Types</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="javascript:void(0)">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Job Type</li>
+            </ol>
+            <button type="button" class="btn btn-info m-l-15" (click)="createNew();">
+                <i class="fa fa-plus-circle"></i> Create Job Type</button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 card card-body">
+        <flag-alert [message]="saveMsg"></flag-alert>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table">
+                <thead>
+                    <tr>
+                        <th data-sort-initial="true" data-toggle="true">#</th>
+                        <th data-sort-initial="true" data-toggle="true">Job Type Name</th>
+                        <th data-sort-initial="true" data-toggle="true">Job Type Code</th>
+                        <th data-sort-initial="true" data-toggle="true">Profiles Involved</th>
+                        <th data-sort-initial="true" data-toggle="true">Stages Involved</th>
+                        <th data-sort-initial="true" data-toggle="true">Materials Involved</th>
+                        <th data-sort-initial="true" data-toggle="true">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of rows;let i=index ">
+                        <td>{{i+1}}</td>
+                        <td>{{row.jobTypeName}}</td>
+                        <td>{{row.jobTypeCode}}</td>
+                        <td>{{row.jobTypeProfileCount}}</td>
+                        <td>{{row.jobTypeTaskTypeCount}}</td>
+                        <td>{{row.jobTypeMaterialCount}}</td>
+                        <td class="text-nowrap">
+                            <a href="javascript:void(0)" (click)="showDetail(row.id);">
+                                <i class="fa fa-pencil text-inverse m-r-10"></i>
+                            </a>
+                            <confirm-delete [type]="'icon'" (confirmed)="deleteRow(row.id)"></confirm-delete>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #vdetail let-c="close">
+    <div class="modal-header">
+        <h3 class="modal-title">Job Type</h3>
+        <button type="button" class="close" (click)="c()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <flag-alert [message]="errorMsg"></flag-alert>
+        <div class="row form-group">
+            <div class="col-4">
+                <label>Job Type Name</label>
+                <input type="text" class="form-control form-control-line" placeholder="Job Type Name" (keypress)="commonService.isValidName($event)" #jbname="ngModel" [(ngModel)]="jt.jobTypeName" />
+            </div>
+            <div class="col-4">
+                <label>Job Type Code</label>
+                <br>
+                <span class="label label-default">{{jt.jobTypeCode}} </span>
+               
+            </div>
+            <div class="col-4">
+                 <!-- [ngClass]="{'has-danger': jbdesc.invalid && (jbdesc.dirty || jbdesc.touched)}" > -->
+                <label>Job Description </label>
+                <textarea class="form-control" placeholder="Description" rows="3" (keypress)="commonService.isValidName($event)" #jbdesc="ngModel" [(ngModel)]="jt.jobDesc"></textarea>
+                <!-- <div *ngIf="jbdesc.invalid && (jbdesc.dirty || jbdesc.touched)">
+                    <small class="form-control-feedback" *ngIf="jbdesc.errors.pattern">Job Description must be alphabetic.</small>
+                </div> -->
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="row form-group">
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 35%;">Profile</th>
+                            <th style="width: 10%;">Skill</th>
+                            <th style="width: 10%;">Headcount</th>
+                            <th style="width: 25%;">Notes</th>
+                            <th style="width: 6%;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pr of profileRows;let i = index">
+                            <td>
+                                <!-- <input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                 class="form-control" placeholder="Profile" [resultTemplate]="rt1" [inputFormatter]="profile_formatter"
+                                    [ngbTypeahead]="profileAC" [(ngModel)]="pr.profile" (ngModelChange)="profileOnChage(pr);">
+                                <ng-template #rt1 let-r="result" let-t="term">
+
+                                    {{r.profileName}}
+                                </ng-template> -->
+                                <input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                            class="form-control" [ngbTypeahead]="profileAC"
+                                            [resultTemplate]="profileResultTemplate" [inputFormatter]="profile_formatter"
+                                            placeholder="Profile Name" (selectItem)="profileOnChage($event,pr)"
+                                            [value]="pr.profileName" [editable]='false' ngbtypeaheadpopup>
+                                        <ng-template #profileResultTemplate let-r="result" let-t="term">
+                                            {{r.profileName}}
+                                        </ng-template>
+                            </td>
+                            <td>
+                                <ng-container *ngIf="pr.profile && pr.profile.id">
+                                    <span class="mytooltip tooltip-effect-4">
+                                        <span class="tooltip-item">{{pr.profile.profileLines.length}}</span>
+                                        <span class="tooltip-content tooltip-text" *ngIf="pr.profile.profileLines.length">
+                                            <ng-container *ngFor="let l of pr.profile.profileLines">
+                                                <span class="m-r-10 label label-default">{{l.productName}}</span>
+                                                <span class="m-r-10 label label-indicator">{{l.serviceName}}</span>
+                                                <span class="label label-warning">
+                                                    <i class="fa fa-star" *ngFor="let x of l.skillLevel | starFill"></i>
+                                                </span>
+                                                <br/>
+                                            </ng-container>
+                                        </span>
+                                    </span>
+                                </ng-container>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" min="1" placeholder="Headcount" [(ngModel)]="pr.headCount">
+                            </td>
+                            <td>
+                                <textarea class="form-control" rows="2" placeholder="Notes" (keypress)="commonService.isValidName($event)" [(ngModel)]="pr.notes"></textarea>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0)" (click)="addProfileRows();">
+                                    <i class="fa fa-plus text-warning m-r-10"></i>
+                                </a>
+                                <a href="javascript:void(0)" *ngIf="profileRows.length > 1" (click)="profileRows.splice(i, 1);deleteProfileRow(pr);">
+                                    <i class="fa fa-close text-danger m-r-10"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-6">
+                <h4>Stages</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%">Stage</th>
+                                <th style="width: 30%">Weightage</th>
+                                <th style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let t of taskTypeRows;let i = index">
+                                <!-- <td>
+                                    <input class="form-control" placeholder="Stage" [value]="t.taskTypeName" [resultTemplate]="rt1"
+                                  (selectItem)="taskTypeSelected($event,t)" [inputFormatter]="tasktype_formatter" [ngbTypeahead]="taskTypeAC">
+                                     <ng-template #rt1 let-r="result" let-t="term">
+                                  {{r.taskTypeName}}
+                                  </ng-template>
+                               </td> -->
+                               <td>
+                                <input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                    class="form-control" [ngbTypeahead]="taskTypeProduct"
+                                    [resultTemplate]="taskTypeResultTemplate" [inputFormatter]="tasktype_formatter"
+                                    placeholder="Search stage" (selectItem)="taskTypeSelected($event,t)"
+                                    [value]="t.taskTypeName" [editable]='false' ngbtypeaheadpopup>
+                                <ng-template #taskTypeResultTemplate let-r="result" let-t="term">
+                                    {{r.taskTypeName}}
+                                </ng-template>
+                            </td>
+                                <td>
+
+
+                                    <input type="number" class="form-control form-control-line" min="1" max="{{max}}" [(ngModel)]="t.weightage" [ngModelOptions]="{standalone: true}">
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" (click)="addStageRows()">
+                                        <i class="fa fa-plus text-danger m-r-10"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" *ngIf="taskTypeRows.length > 1" (click)="taskTypeRows.splice(i, 1)">
+                                        <i class="fa fa-close text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="findWeightage==false">
+                        <small class="form-control-feedback text-danger" >Weightage should be in 100%.</small>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <h4>Materials Used</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Code</th>
+                                <th>Quantity</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let m of materialRows;let i = index">
+                                <!-- <td><input class="form-control" type="text" [(ngModel)]="m.jobTypeCode"/></td>
+                                <td>{{m.materialTypeOrder}}</td>
+                                <td><input [(ngModel)]="m.materialQuantity" class="form-control" type="text"/></td> -->
+
+                                <!-- <td>
+                                    <input class="form-control" placeholder="Material" [value]="m.materialName" [resultTemplate]="rt1"
+                                        (selectItem)="materialSelected($event,m)" [inputFormatter]="material_formatter" [ngbTypeahead]="materialAC">
+                                    <ng-template #rt1 let-r="result" let-t="term">
+
+                                        {{r.materialName}}
+                                    </ng-template>
+
+                                </td> -->
+                                <td>
+                                    <input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                                        class="form-control" [ngbTypeahead]="materialProduct"
+                                        [resultTemplate]="materialResultTemplate" [inputFormatter]="material_formatter"
+                                        placeholder="Search material used" (selectItem)="materialSelected($event,m)"
+                                        [value]="m.materialName" [editable]='false' ngbtypeaheadpopup>
+                                    <ng-template #materialResultTemplate let-r="result" let-t="term">
+                                        {{r.materialName}}
+                                    </ng-template>
+                                </td>
+                                <td>{{m.materialCode}}</td>
+                                <td>
+                                    <input [(ngModel)]="m.materialQuantity" class="form-control" type="number" />
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" (click)="addMaterialRows()">
+                                        <i class="fa fa-plus text-danger m-r-10"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" *ngIf="materialRows.length > 1" (click)="materialRows.splice(i, 1)">
+                                        <i class="fa fa-close text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" [disabled]="findWeightage==false || checkProfile.length!=0" (click)="save()">Save</button>
+    </div>
+</ng-template>

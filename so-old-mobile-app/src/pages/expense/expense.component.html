@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Expense</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+
+
+      
+      <ion-col text-center>
+        <button ion-button icon-left color="default" (click)="takePicture()"><ion-icon name="camera"></ion-icon> Take Picture</button>
+        <button ion-button icon-left color="danger" (click)="attachMedia()"><ion-icon name="attach"></ion-icon> Attach Media</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-4 *ngFor="let photo of photos; let id = index">
+        <ion-card icon-right text-right>
+          <ion-icon name="close" class="deleteIcon" (click)="deletePhoto(id)"></ion-icon>
+          <img [src]="photo" *ngIf="photo"/>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="photos.length>0">
+      <ion-col text-center>
+        <button ion-button icon-left color="default" (click)="createPDF()"><ion-icon name="create"></ion-icon> Create PDF</button>
+        <button ion-button icon-left color="secondary" (click)="uploadPDF()"><ion-icon name="cloud-upload"></ion-icon> Upload PDF</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

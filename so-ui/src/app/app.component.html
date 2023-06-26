@@ -1,0 +1,13 @@
+<!-- begin::Page loader -->
+<div class="loader-dull" *ngIf="!loaded"></div>
+<div class="loader-blockui"  *ngIf="!loaded">
+	<span>
+		Please wait...
+	</span>
+	<span>
+		<div class="loader-spinner"></div>
+	</span>
+</div>
+
+<router-outlet></router-outlet>
+

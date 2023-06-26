@@ -1,0 +1,380 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Job Logistics</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">Job Logistics</li>
+				<li class="breadcrumb-item active">Dashboard</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12 card card-body">	
+		<div class="row">
+			<div class="col-5">
+				<div class="row form-group">
+					<div class="col-4 text-right"><label>Job Code :</label></div>
+					<div class="col-8"><b>{{job.jobCode}}</b></div>
+				</div>
+				<div class="row form-group ">
+					<div class="col-4 text-right"><label>Job Type :</label></div>
+					<div class="col-8"><b>{{job.jobCode}}</b></div>
+				</div>
+				<div class="row form-group ">
+					<div class="col-4 text-right"><label>Sale Order :</label></div>
+					<div class="col-8"><b><a href="javascript:void(0);" (click)="saleOrderDetail(job.saleOrderId)">{{job.saleOrderCode}}</a></b></div>
+				</div>
+				<div class="row form-group">
+					<div class="col-4 text-right"><label>Client :</label></div>
+					<div class="col-8"><b>{{job.clientName}}</b></div>
+				</div>
+				<div class="row form-group">
+					<div class="col-4 text-right"><label>End Client :</label></div>
+					<div class="col-8"><b>{{job.endClientName}}</b></div>
+				</div>
+			</div>
+			<div class="col-7">
+				<!-- <div class="row col-6 form-group m-t-25"> -->
+					<!-- <label>Project :</label> -->
+					<!-- <input type="text" class="form-control" [ngbTypeahead]="projectAC"> -->
+				<!-- </div> -->
+				<!-- <div class="row col-6 form-group">
+					<label>Location :</label>
+					<input type="text" class="form-control" value="{{job.mapLocationName}}" >
+				</div> -->
+				<div class="row col-6 form-group">
+					<label>Start Date :</label>
+					<div class="input-group">
+						<!-- <input type="text" class="form-control form-control-line" placeholder="Start Date" ngbDatepicker #d1="ngbDatepicker"  [(ngModel)]="job.startDt"  (ngModelChange)="selectDate();" >
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+						</div>	
+						 -->
+						
+						
+						 <input type="text" class="form-control form-control-line" [value]="job.startDt | date: 'dd/MM/yyyy'" >
+						 <!-- <so-datepicker [(model)]="job.startDt"   (modelChange)="job.startDt = $event;"></so-datepicker> -->
+						 <!-- <input type="date" class="form-control form-control-line" placeholder="Start Date"   [(ngModel)]="job.startDt"  (ngModelChange)="selectDate();" > -->
+						<!-- <div class="input-group-append">
+							<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+
+						</div>	 -->
+
+						<!-- <button class="btn btn-outline-secondary" (click)="selectDate()" type="button"><i class="fa fa-calendar"></i></button> -->
+					</div>
+				</div>
+				<div class="row col-6 form-group">
+					<label>End Date :</label>
+					<div class="input-group">
+						<!-- <input type="text" class="form-control form-control-line" placeholder="End Date" ngbDatepicker #d2="ngbDatepicker"value="{{job.endDt}}">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+						</div>	 -->
+
+						<input type="text" class="form-control form-control-line" [value]="job.endDt | date: 'dd/MM/yyyy'" >
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="table-responsive">
+			<table class="table table-sm table-striped">
+				<thead>
+					<tr>
+						<th rowspan=2>Profile</th>
+						<th rowspan=2>Resource</th>
+						<th rowspan=2>Start_Dt</th>
+						<th rowspan=2>End_Dt</th>
+						<th rowspan=2>Travel</th>
+						<th rowspan=2>Accomodation</th>
+						<th colspan=2 class="text-center">Report status</th>
+					</tr>
+					<tr>
+						<th>Reported</th>
+						<th>Departed</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let j of job?.jobEmployees">
+						<!-- <td><input class="form-control" placeholder="Profile" [ngbTypeahead]="profileAC"></td> -->
+						<td><input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+							class="form-control" [ngbTypeahead]="profile"
+							[resultTemplate]="rt1" [inputFormatter]="formatter"
+							placeholder="Profile" (selectItem)="itemSelected($event,j)"
+							[value]="j.jobProfileName" [editable]='false' ngbtypeaheadpopup>
+						<ng-template #rt1 let-r="result" let-t="term">
+							{{r.profileName}}
+						</ng-template>
+								<!-- <input type="text" class="form-control form-control-line"  [(ngModel)]="jobEmployee.tJobProfileId" [ngbTypeahead]="profile" (selectItem)="itemSelected($event)" [resultTemplate]="rt1" [inputFormatter]="formatter" (ngModelChange)="selectProfile(jobEmployee,jobEmployee.tJobProfileId,$event);"  placeholder="Profile"> -->
+								<!-- <input type="text" class="form-control form-control-line"  [value]="jobEmployee.jobProfileName" 
+								[ngbTypeahead]="profile" (selectItem)="itemSelected($event,jobEmployee)" [resultTemplate]="rt1" [inputFormatter]="formatter"   placeholder="Profile">
+								<ng-template #rt1 let-r="result" let-t="term">
+							
+								{{r.profileName}}
+							</ng-template></td>  -->
+						<td>{{j.employeeName}} <a href="javascript:void(0);" (click)="multiRes(j)"><i class="m-l-10 fa fa-search"></i></a></td>
+						<!-- <td><span class="mytooltip tooltip-effect-4">
+							<span class="tooltip-item">100%</span> <span class="tooltip-content clearfix">
+							<span class="tooltip-text">Matched Skill: Designing, Retrofitting, Lathe-cutting, Test & Commisioning</span> </span>
+						</span></td> -->
+						<td><input type="date" class="form-control form-control-line" [(ngModel)]="j.expStartDt" (change)="selectEmpDt(j)" ></td>
+						<td><input type="date" class="form-control form-control-line" [(ngModel)]="j.expEndDt" (change)="selectEmpDt(j)" ></td>
+						<td class="text-center"><a href="javascript:void(0);" style="font-size: 1.2rem;" (click)="travelDetail(j);"><i class="fa m-r-10 {{(j.isJobTravelComplete=='Y')?'fa-check-circle text-success' : 'fa-times-circle'}}"></i></a></td>
+						<td class="text-center"><a href="javascript:void(0);" style="font-size: 1.2rem;" (click)="accomodationDetail(j);"><i class="fa m-r-10 {{(j.isJobAccComplete=='Y')?'fa-check-circle text-success' : 'fa-times-circle'}}"></i></a></td>
+						<td class="text-center"><a href="javascript:void(0);" style="font-size: 1.2rem;" (click)="reportDetail(j,'REPORTED');"><i class="fa m-r-10 {{(j.reportedRemarks=='REPORTED')?'fa-check-circle text-success' : 'fa-times-circle'}}"></i></a></td>
+						<td class="text-center"><a href="javascript:void(0);" style="font-size: 1.2rem;" (click)="reportDetail(j,'DEPARTED');"><i class="fa m-r-10 {{(j.departedRemarks=='DEPARTED')?'fa-check-circle text-success' : 'fa-times-circle'}}"></i></a></td>
+						<td>
+							<a href="javascript:void(0)" (click)="addProfile()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+							<a href="javascript:void(0)" *ngIf="job?.jobEmployees.length > 1" (click)="delProfile(j)"><i class="fa fa-close text-danger"></i></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<ng-template #maccomodation let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">{{empName}} - Accomodation Details</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="table-responsive">
+			<table class="table table-bordered table-sm table-striped color-bordered-table theme-bordered-table">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th>name</th>
+						<th>Date</th>
+						<th>Booking ID</th>
+						<th>Pickup</th>
+						<th *ngIf="!isJobAccComplete">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let s of jobAccomdations;let i = index">
+						<td><input class="form-control" [(ngModel)]="s.accType"/></td>
+						<td><input class="form-control" [(ngModel)]="s.accName"/></td>
+						<td><input type="date" class="form-control" [(ngModel)]="s.accDate" (change)="selectaccDate(s)" ></td>
+						<td><input class="form-control" [(ngModel)]="s.bookingId"/></td>
+						<td><input class="form-control" [(ngModel)]="s.pickUp"/></td>
+						<td *ngIf="!isJobAccComplete">
+							<a href="javascript:void(0)" (click)="addRows()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+							<a href="javascript:void(0)" *ngIf="jobAccomdations.length > 1" (click)="delRow(s)"><i class="fa fa-close text-danger"></i></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer" *ngIf="!isJobAccComplete">
+			<button type="button" class="btn btn-primary" (click)="saveAccomdation()">Save</button>
+		<button type="button" class="btn btn-primary" (click)="completeAccomdation()">Booking Completed</button>
+	</div>
+</ng-template>
+
+<ng-template #mtravel let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">{{empName}} - Travel Details</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="table-responsive">
+			<table class="table table-bordered table-sm table-striped color-bordered-table theme-bordered-table">
+				<thead>
+					<tr>
+							<th>#</th>
+						<th>Travel Type</th>
+						<th>Number</th>
+						<th>Date</th>
+						<th>PNR</th>
+						<th>Boading Point</th>
+						<th>Dropping At</th>
+						<th *ngIf="!isJobTravelComplete" >Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let s of jobTravels ;let i=index">
+						<td>{{i+1}}</td>
+						<td><input class="form-control" [(ngModel)]="s.travelType"/></td>
+						<td><input class="form-control" [(ngModel)]="s.travelNumber"/></td>
+						<td><input type="date" class="form-control" [(ngModel)]="s.travelTime" (change)="selectTravelTime(s)"></td>
+						<td><input class="form-control" [(ngModel)]="s.pnrNo"/></td>
+						<td><input class="form-control" [(ngModel)]="s.boardingPoint"/></td>
+						<td><input class="form-control" [(ngModel)]="s.droppingAt"/></td>
+						<td *ngIf="!isJobTravelComplete">
+							<a href="javascript:void(0)" (click)="addTRows()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+							<a href="javascript:void(0)" *ngIf="jobTravels.length > 1" (click)="delTRow(s)"><i class="fa fa-close text-danger"></i></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer" *ngIf="!isJobTravelComplete" >
+			<button type="button" class="btn btn-primary" (click)="saveTravel()">Save</button>
+		<button type="button" class="btn btn-primary" (click)="completeTravel()">Booking Completed</button>
+	</div>
+</ng-template>
+
+<ng-template #reportStatus let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">{{empName}}- Modify Report Status</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="row" *ngIf="this.reportedFlag=='REPORTED'">
+			<div class="form-group col-md-3 col-sm-6" >
+				<label>Reporting Date</label>
+				<div class="input-group">
+					<input type="text" class="form-control form-control-line" placeholder="Reporting Date" value="{{jobEmployee.reportedDt}}" ngbDatepicker #d1="ngbDatepicker">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+					</div>	
+				</div>				
+			</div>
+			<div class="form-group col-md-7 col-sm-6">
+				<label>Remarks</label>
+				<input type="text" placeholder="Remarks" value="{{jobEmployee.reportedRemarks}}" class="form-control" >				
+			</div>	
+		</div>
+		<div class="row" *ngIf="this.reportedFlag=='DEPARTED'">
+			<div class="form-group col-md-3 col-sm-6" >
+				<label>Departing Date</label>
+				<div class="input-group">
+					<input type="text" class="form-control form-control-line" placeholder="Departing Date" value="{{jobEmployee.departedDt}}" ngbDatepicker #d2="ngbDatepicker">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+					</div>	
+				</div>				
+			</div>
+			<div class="form-group col-md-7 col-sm-6">
+				<label>Remarks</label>
+				<input type="text" placeholder="Remarks" value="{{jobEmployee.departedRemarks}}" class="form-control" >				
+			</div>	
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary m-r-10" (click)="reportedSave(jobEmployee.id)">Save</button>
+		<button type="button" class="btn btn-outline-dark" (click)="c()">Cancel</button>
+	</div>
+</ng-template>
+
+<ng-template #mMulti let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">Select Resource for {{profileName}}</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body card card-body">
+
+			<div class="row">
+					<div class="col-4 form-group">
+							<label class="control-label">Start Date</label>
+							<!-- <input type="text" class="form-control" [value]="empStartDt | date : 'dd-MM-yyyy'" placeholder="Start Date"/> -->
+							<input type="date" class="form-control" [value]="empStartDt">
+						</div>
+				<div class="col-4 form-group">
+					<label class="control-label">End Date</label>
+					<input type="date" class="form-control" [value]="empEndDt">
+					<!-- <input type="text" class="form-control" [value]="empEndDt | date : 'dd-MM-yyyy'" placeholder="End Date"/> -->
+	
+					
+				</div>
+				
+			</div>
+		<div class="row">
+				<div class="col-4 form-group">
+						<label class="control-label">Department Code</label>
+						<!-- <input type="text" class="form-control" placeholder="Employee Code"/> -->
+						<select class="form-control" style="width:100%" [(ngModel)]="searchDeptId" >
+								<option *ngFor="let d of this.departments" [value]="d.id" >
+									{{d.deptName}}
+								</option>
+							</select>
+					</div>
+			<div class="col-4 form-group">
+				<label class="control-label">Employee Code</label>
+				<autocomplete  [placeholder]="'Employee Name'"   [value]="empName" (empDetail)="employeeSelected($event)"> </autocomplete>
+				
+					<!-- <input type="text" class="form-control form-control-line"  [(ngModel)]="employee.id" [ngbTypeahead]="employeeAC" [resultTemplate]="rt1" [inputFormatter]="formatter"  placeholder="Employee">
+							<ng-template #rt1 let-r="result" let-t="term">
+								{{r.empName}}
+							</ng-template> -->
+			</div>
+			<div class="col-4">
+				<label style="visibility:hidden;">Search</label><br/>
+				<button class="btn btn-info" (click)="searchEmployee();">Search</button>
+			</div>
+		</div>
+		<div class="m-t-15">
+			<table class="table table-sm table-bordered color-bordered-table theme-bordered-table">
+				<thead>
+					<tr>
+						<th></th>						
+						<th>Resource</th>
+						<th>Designation</th>
+						<th>Compatibility</th>
+						<th>Proximity</th>
+						<th>Availability</th>						
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let e of employeeListProfileFinder">
+						<td><button type="button" class="btn btn-primary" (click)="selectEmp(e)">Choose</button></td>						
+						<td>{{e.mEmployeeName}}</td>
+						<td>{{e.designationName}}</td>
+						<td>
+							<span class="mytooltip tooltip-effect-4">
+								<span class="tooltip-item">{{(e.comptabilityScore==null?'0':e.comptabilityScore)+"%"}}</span> 
+								 <span class="tooltip-content clearfix">
+								<span class="tooltip-text">Matched Skill:
+								<span  class="tooltip-text" *ngFor="let s of e.matchedSkills">{{s.productName +"-"+s.serviceName}}</span> 							
+							</span> 
+							</span> 
+							</span>
+						</td>
+						<td><span class="mytooltip tooltip-effect-4">
+								<span class="tooltip-item">{{(e.distanceToLocation==null?'0':e.distanceToLocation | number:0)}}</span> 
+								<!-- <span class="tooltip-item">{{e.employeeLocations.length}}</span>  -->
+								<!-- <span class="tooltip-content clearfix" *ngIf="e.employeeLocations.length"> -->
+								<!-- <span class="tooltip-text"></span> </span> -->
+							</span>
+						</td>
+						<td>	
+							<div *ngIf="e.employeeCommitments.length>0">
+								<div  *ngFor="let c of e.employeeCommitments">
+									
+										<tr style="border-style:hidden;" *ngIf="c.leaveName!=null && c.leaveName!='' ">
+												
+											<td style="border-style:hidden;">{{c.leaveName | uppercase}}</td>
+											<td style="border-style:hidden;">From {{c.fromDt | date : "dd-MM-yy"}}</td>
+											<td style="border-style:hidden;">To {{c.toDt | date : "dd-MM-yy"}}</td>
+										</tr>
+											<tr  style="border-style:hidden;"   *ngIf="c.holidayName!=null && c.holidayName!='' ">
+													<td style="border-style:hidden;">{{c.holidayName | uppercase}}</td>
+													<td style="border-style:hidden;">From {{c.fromDt | date : "dd-MM-yy"}}</td>
+													<td style="border-style:hidden;">To {{c.toDt | date : "dd-MM-yy"}}</td>
+										</tr>
+									
+									</div> 	
+								</div>						
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</ng-template> 

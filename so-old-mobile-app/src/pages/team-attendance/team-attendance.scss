@@ -1,0 +1,16 @@
+page-team-attendance {
+    ion-col{
+        color: black;
+    }
+    .heading ion-col{
+        font-weight: bold;
+    }
+    .datetime-text{
+        color: black;
+    }
+    ion-datetime{
+        width: 100%;
+        opacity: 1 !important;
+    }
+    
+}

@@ -1,0 +1,19 @@
+basic-table {
+    ion-row{
+        height: 87vh;
+    }
+    ion-col{
+        border-bottom:7px solid #F7F7F7; 
+        height: 25%;
+        color: #393E46;
+    }
+    ion-col:nth-child(odd){
+        border-right:7px solid #F7F7F7; 
+    }
+    .font-30{
+        font-size: 30px !important;
+    }
+    .font-19{
+        font-size: 19px !important;
+    }
+}

@@ -1,0 +1,10 @@
+
+.ps-logo{
+	float: right;
+	background: url('./../../../../assets/img/cert/logo.png');
+	width:180px;
+	height:45px;
+}
+table.ps-bordered th {
+	font-weight: 500;
+}

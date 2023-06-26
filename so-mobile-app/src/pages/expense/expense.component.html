@@ -1,0 +1,56 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>My Expenses</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+ 
+     <ion-grid no-padding>
+          <ion-row  >
+          <ion-col col-12 m-b-10 no-padding *ngFor="let data of expensesData">
+     
+        <ion-card >
+          <ion-card-header p-10 (click)="viewPage(data.id)" >
+            Status 
+            <span float-right><button ion-button color="getColor()" round> {{data.expenseClaimStatus}} </button> </span>
+           
+         
+            
+         
+          </ion-card-header>
+          <ion-card-content >
+            <ion-list >
+                <ion-item no-padding no-margin >
+                    <h2 item-start no-margin>Bill Date</h2>
+                    <h2 item-end> {{data.expenseClaimBills[0]?.billDt |date:'mediumDate'}}</h2>
+                  </ion-item>
+              <ion-item no-padding no-margin>
+                <h2 item-start no-margin>Claim Amount</h2>
+                <h2 item-end>{{data.expenseClaimAmount}}</h2>
+              </ion-item>
+              <ion-item no-padding no-margin>
+                <h2 item-start no-margin>Cost Code/Job Code</h2>
+                <h2 item-end>{{data.costCenterCode || data.jobCode}}</h2>
+              </ion-item>
+             
+            </ion-list>
+          
+          </ion-card-content>
+        </ion-card>
+       
+
+
+      
+     </ion-col>
+    </ion-row>
+    <ion-col >
+      <button ion-button  round  (click)="expenseCreateClaimPage()"> Add Claim</button>
+     
+    </ion-col>
+  </ion-grid>
+</ion-content>

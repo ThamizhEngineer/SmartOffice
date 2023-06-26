@@ -1,0 +1,27 @@
+<!--
+  Generated template for the PayslipPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Payslip</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row class="header" *ngIf="payslipData.length>0">
+      <ion-col col-3 text-center>Month</ion-col>
+      <ion-col col-2 text-center>Year</ion-col>
+      <ion-col col-4 text-center>Net Salary</ion-col>
+      <ion-col col-3 text-center>Options</ion-col>
+    </ion-row>
+    <ion-row *ngFor="let data of payslipData;let i = index" class="content">
+      <ion-col col-3 text-center>{{data.dSalaryForMonth}}</ion-col>
+      <ion-col col-2 text-center>{{data.dSalaryForYear}}</ion-col>
+      <ion-col col-4 text-center><i class="fas fa-rupee-sign"></i> {{data.netPayAmt}}</ion-col>
+      <ion-col col-3 text-center><i class="fas fa-lg fa-download" (click)="downloadPayslip()"></i></ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

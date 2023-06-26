@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Notifications</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngFor="let d of data; let i = index">
+    <ion-item>
+      <ion-label text-wrap>
+        <!-- <h2>{{d.eventName}}</h2>
+        <h3>{{d.userName}}</h3> -->
+        <p>{{d.notfnMessage}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

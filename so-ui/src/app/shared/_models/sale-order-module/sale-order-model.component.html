@@ -1,0 +1,214 @@
+<div class="modal-header">
+    <h4 class="modal-title">Sale Order</h4>
+    <button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body card card-body">
+    <div class="row">
+        <div class="col-4">
+
+            <p><label>Sale Order: </label> <b><span class="label label-default">{{saleOrder.saleOrderCode}}</span></b>
+            </p>
+            <p><label>Immediate Client: </label> <b>{{saleOrder.saleOrderCode}}</b></p>
+
+        </div>
+        <div class="col-5">
+            <p><label>Customer Name: </label> <b>{{saleOrder.customerName}}</b></p>
+            <p><label>Location: </label> <b>{{saleOrder.location}}</b></p>
+
+        </div>
+        <div class="col-3">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customCheck1" checked=true readonly />
+                <label class="custom-control-label" for="customCheck1">Service</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customCheck2" checked=true readonly />
+                <label class="custom-control-label" for="customCheck2">Goods</label>
+            </div>
+        </div>
+    </div>
+
+    <ng-container>
+        <h4>Service - Scope</h4>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th width="18%">Service</th>
+                        <th width="8%">SAC Code</th>
+                        <th width="18%">Service Description</th>
+                        <th width="18%">Additional Notes</th>
+                        <th width="5%">Headcount</th>
+                        <th width="18%">Internal Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let s of saleOrder?.saleServices">
+                        <td>{{s.serviceName}}</td>
+                        <td>{{s.sacCode}}</td>
+                        <td>{{s.serviceDescription}}</td>
+                        <td>{{s.serviceAdditionalNotes}}</td>
+                        <td>{{s.headCount}}</td>
+                        <td>{{s.internalRemarks}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-container>
+    <ng-container>
+        <h4>Goods Required</h4>
+        <div class="">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th width="20%">Goods</th>
+                        <th width="8%">HSN Code</th>
+                        <th width="7%">Qty</th>
+                        <th width="8%">Unit Price</th>
+                        <th width="10%">Due On</th>
+                        <th width="20%">Additional Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let s of saleOrder?.saleGoods">
+                        <td>{{s.goodsName}}</td>
+                        <td>{{s.hsnCode}}</td>
+                        <td>{{s.goodQty}}</td>
+                        <td>{{s.goodUnitPrice}}</td>
+                        <td>{{s.goodDueOn}}</td>
+                        <td>{{s.goodAdditionalNotes}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-container>
+    <div class="row">
+        <div class="col-6 form-group">
+            <label>Shipping Address</label>
+            <textarea rows=4 class="form-control"
+                placeholder="Shipping Address">{{saleOrder.shippingAddress}}</textarea>
+        </div>
+        <div class="col-6 form-group">
+            <label>Internal Remarks</label>
+            <textarea rows=4 class="form-control"
+                placeholder="Internal Remarks">{{saleOrder.internalRemarks}}</textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 form-group">
+            <label>Payment Terms <span class="text-danger">*</span></label>
+            <textarea rows=4 class="form-control" placeholder="Payment Terms">{{saleOrder.paymentTerms}}</textarea>
+        </div>
+        <div class="col-6 form-group">
+            <label>Delivery Terms <span class="text-danger">*</span></label>
+            <textarea rows=4 class="form-control" placeholder="Delivery Terms">{{saleOrder.deleiveryTerms}}</textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 form-group">
+            <label>Delivery Schedule</label>
+            <textarea rows=4 class="form-control"
+                placeholder="Delivery Schedule">{{saleOrder.deleiverySchedule}}</textarea>
+        </div>
+    </div>
+
+
+    <table *ngIf="isClient=='Y'" class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Job Code</th>
+                <th scope="col">Job Name</th>
+                <th scope="col">Job Type</th>
+                <th scope="col">Client Name</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">View</th>                
+            </tr>
+        </thead>
+        <tbody>
+            <tr
+                *ngFor="let job of saleOrder.jobs  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i">
+                <th scope="row">{{ i+1 }}</th>
+                <td>{{job.jobCode}}</td>
+                <td>{{job.jobName}}</td>
+                <td>{{job.mJobTypeName}}</td>
+                <td>{{job.endClientName}}</td>
+                <td>{{job.startDt | date: 'dd-MMM-yyyy'}}</td>
+                <td>        
+                    <a href="javascript:void(0)" (click)="ProgressBar(job.id)" > <i class="fa fa-eye text-inverse m-r-10"></i> </a>           
+                </td>
+                
+            </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="isClient=='Y'" class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+            aria-label="Default pagination"></ngb-pagination>       
+    </div>
+
+</div>
+
+
+
+<ng-template #viewSatus let-c="close">
+	<div *ngIf="isMileStone" class="modal-header">
+		<span><label><b>Job #:</b></label> <b>{{jobMilestones[0].jobCode}}</b></span>
+		<button type="button" class="close" (click)="c()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+    </div>
+    <div style="background-color: red;" *ngIf="!isMileStone" class="modal-header">
+		<span><label ><b>Milestone Have Not Created For This Job</b></label> </span>
+		<button type="button" class="close" (click)="c()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+    </div>
+    <div *ngIf="isMileStone" class="modal-body">
+        <div class="row form-group">
+            <div class="modal-body">
+                <div class="col-12 card card-body">
+                    <div *ngFor="let jobMilestone of jobMilestones;let i=index">
+                        <div class="row">
+                            <div class="col-2">
+                                <a href="javascript:void(0)" (click)="hide(i)"> Milestone
+                                    #:{{jobMilestone.milestoneName}}</a>
+                            </div>
+                            <div class="col-6">
+                                <div class="progress">
+                                    <p class="progress-bar progress-bar-striped wow  progress-bar-animated bg-success"
+                                        role="progressbar" aria-valuenow="75" [attr.aria-valuenow]="jobMilestone.progress"
+                                        aria-valuemin="0" aria-valuemax="100" [style.width.%]="jobMilestone.progress">
+                                        {{(jobMilestone.progress==null?"0":jobMilestone.progress)+"%"}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngFor="let jobTaskList of jobMilestone.jobTaskList">
+                            <div class="row card-group" *ngIf="bayHide">
+                                <div class="col-12 card card-body">
+                                    <div class="row">
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-2">
+                                            <a href="javascript:void(0);">{{jobTaskList.taskListName}}</a>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped wow  progress-bar-animated bg-success"
+                                                    role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                                                    aria-valuemax="100" [style.width.%]="jobTaskList.progress">
+                                                    {{(jobTaskList.progress==null?"0":jobTaskList.progress)+"%"}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>    

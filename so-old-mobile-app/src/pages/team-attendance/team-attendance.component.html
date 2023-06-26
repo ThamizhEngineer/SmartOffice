@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Team Attendance</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-1>
+        <button ion-button (click)="previousDay()">
+          <ion-icon name="arrow-back"></ion-icon>
+        </button> 
+      </ion-col>
+      <ion-col col-10 text-center>
+        <ion-datetime disabled displayFormat="DD-MMMM-YYYY" [(ngModel)]="todayDate"></ion-datetime>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button (click)="nextDay()">
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button> 
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-row class="heading">
+      <ion-col col-offset-4></ion-col>
+      <ion-col text-center col-3>In</ion-col>
+      <ion-col text-center col-3>Out</ion-col>
+      <ion-col text-center col-2>Hours</ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngFor="let data of attendanceData">
+    <ion-row *ngIf="data.checkIn; else leave_content">
+      <ion-col col-4>{{data.employeeName}}</ion-col>
+      <ion-col text-center col-3>{{data.checkIn}}</ion-col>
+      <ion-col text-center col-3>{{data.checkOut}}</ion-col>
+      <ion-col text-center col-2>{{data.totalTimeLogged}}</ion-col>
+    </ion-row>
+    <ng-template #leave_content>
+    <ion-row>
+      <ion-col col-4>{{data.employeeName}}</ion-col>
+      <ion-col text-center col-8>{{data.firstSessionCodeDesription}}</ion-col>
+    </ion-row>
+  </ng-template>
+  </ion-grid>
+
+</ion-content>

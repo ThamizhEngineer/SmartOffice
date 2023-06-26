@@ -1,0 +1,411 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head profile="http://www.w3.org/2005/10/profile">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	
+	<style>
+     @page {
+           size: A4;
+           margin: 1px;
+           padding-top: 1px;
+       }
+body {
+			font-size: 14px;
+			font-family: "Times";
+			width: 750px;
+		}
+    </style>
+	<title>Employee Profile</title>
+</head>
+<body>
+<table border="0" cellpadding="0" style="border:1px solid #CCC;border-collapse:collapse;width:750px;margin-bottom:15px;height:1100px;">
+    <tr>
+        <td style="width:140px;" align="top">
+			<table border="0" cellpadding="0" style="border:0px solid #CCC;border-collapse:collapse;">
+			<tr><td><img src="/opt/so/data/images/bg1.png" width="140" height="1000"/></td></tr></table>
+		</td>
+        <td style="vertical-align:top;padding-left:60px;">
+            <table border="0" cellpadding="0" style="border-bottom:2px solid #B88C00;border-collapse:collapse;margin-top:150px;"><tr><td>
+				<table border="1" cellpadding="15" style="border:1px solid #CCC;border-collapse:collapse;border-style: dotted;border-bottom:0px;">
+					<tr>
+						<td style="width:230px;border-right:2px solid #B88C00"><strong><center>Profile Reference</center></strong>
+							<br /><center><i><span th:text="${internalId}"></span></i></center>
+						</td>
+						<td style="width:230px;">
+							<strong><center>Date</center></strong>
+							<br /><center><i>16-Jul-2019</i></center>
+						</td>
+					</tr>
+				</table>
+			</td></tr></table>
+			
+			<table border="1" cellpadding="15" style="border:1px solid #CCC;border-collapse:collapse;border-style: dotted;margin-top:30px;">
+				<tr>
+					<td style="width:490px;" align="right"><div style="margin-top:-25px;"><i style="padding-right:35px;">Title</i></div>
+						<br /><center><b style="font-size:1.5rem">Profile of Technical Person</b></center>
+					</td>
+				</tr>
+			</table>
+			
+			<table border="1" cellpadding="15" style="border:1px solid #CCC;border-collapse:collapse;border-style: dotted;margin-top:30px;border-top:2px solid #B88C00;">
+				<tr>
+					<td style="width:490px;">
+						<br /><center><b style="font-size:2rem"><span th:text="${empName}"></span></b></center>
+					</td>
+				</tr>
+			</table>
+			
+			<table border="0" cellpadding="15" style="border:0px solid #CCC;border-collapse:collapse;margin-top:250px;border-top:2px solid #B88C00;">
+				<tr>
+					<td style="width:490px;text-align:justify;"><b>Notes:</b><br/>
+						<span style="font-size:0.75rem;">This Document (including attachments) contains information that may be Pothigai Power’s confidential, be protected by the attorney-client or other applicable privileges and may constitute non-public information. It is intended to be conveyed only to the designated recipient(s). If you are not an intended recipient of this Document, please notify return to the sender and then delete it from your system. Use, dissemination, distribution, or reproduction of this Document by unintended recipients is not authorized and may be unlawful.</span>
+					</td>
+				</tr>
+			</table>
+			
+			<table border="0" cellpadding="0" style="margin-top:50px;">
+				<tr>
+					<td style="width:320px;" align="right">
+						<img src="/opt/so/data/images/qr.png" width="60" height="60"/>
+					</td>
+					<td style="width:180px;" align="right">
+						www.pothigai-power.com
+					</td>
+				</tr>
+			</table>
+			
+			<table border="0" cellpadding="10" style="border:0px solid #CCC;border-collapse:collapse;margin-top:25px;">
+				<tr>
+					<td style="width:140px;border-right:2px solid #333;" align="center">
+						<img src="/opt/so/data/images/certificate.png" width="80" height="80"/>
+					</td>
+					<td style="width:140px;border-right:2px solid #333;" align="center">
+						<img src="/opt/so/data/images/ohsas.png" width="60" height="60"/>
+					</td>
+					<td style="width:140px;" align="center">
+						<img src="/opt/so/data/images/crsil.png" width="60" height="60"/>
+					</td>
+				</tr>
+			</table>
+        </td>
+    </tr>
+</table>
+
+<table border="1" cellpadding="15" style="border:1px solid #CCC;border-collapse:collapse;width:750px;">
+    <tr>
+        <td><strong>Pothigai Power Solutions Pvt.Ltd.</strong><br /> Pothigai Bhavan<br />Gandhi Nagar, Urappakkam -
+            603210</td>
+        <td style="width:230px;">
+            <div><strong>
+                    <center>EMPLOYEE DETAILS </center>
+                </strong></div>
+        </td>
+        <td>
+            <center>
+                <img src="/opt/so/data/images/logo-text.png" width="189"/>
+            </center>
+        </td>
+    </tr>
+</table>
+
+<table border="1" cellpadding="6"
+    style="border:1px solid #CCC;border-collapse:collapse;width:750px;margin-top:15px;text-align: left;">
+        <td rowspan="6" columnspan="6" style="width:200px;height:200px">
+			<img th:src="${empPhoto}" width="200" height="200"/>
+        </td>
+    <tr style="width:100%;">
+        <th style="background-color:#efefef;width:25% ">Name </th>
+        <td><i><span th:text="${empName}"></span></i></td>
+    </tr>
+	<tr>
+        <th style="background-color:#efefef">Email</th>
+        <td><i><span th:text="${emailId}"></span></i></td>
+    </tr>
+	<tr>
+        <th style="background-color:#efefef">DOB</th>
+        <td><i><span th:text="${dob}"></span> </i></td>
+    </tr>
+    <tr>
+        <th style="background-color:#efefef">Mobile Number</th>
+        <td><i><span th:text="${mobNo}"></span></i></td>
+    </tr>
+	<tr>
+        <th style="background-color:#efefef">Sex</th>
+        <td><i><span th:text="${sex}"></span> </i></td>
+    </tr>
+</table>
+<table border="1" cellpadding="6"
+    style="border:1px solid #CCC;border-collapse:collapse;width:750px;margin-top:15px;text-align: left;">
+    <tr>
+        <th style="background-color:#efefef; width:22%">Current Address</th>
+        <td ><i><span th:text="${curAddress}"></span> </i></td>
+        <th style="background-color:#efefef;">Permanent Address</th>
+        <td ><i><span th:text="${permAddress}"></span> </i></td>
+
+
+    </tr>
+    <tr>
+        <th style="background-color:#efefef">Martial Status</th>
+        <td><i><span th:text="${maritalStatus}"></span> </i></td>
+        <th style="background-color:#efefef">Passport Number</th>
+        <td><i><span th:text="${passport}"></span> </i></td>
+
+
+    </tr>
+    <tr>
+        <th style="background-color:#efefef">Driving License Number</th>
+        <td><i><span th:text="${drivingLicence}"></span> </i></td>
+        <th style="background-color:#efefef">Interest/Hobbies</th>
+        <td><i><span th:text="${hobbies}"></span></i></td>
+
+    </tr>
+
+</table>
+
+<table border="1" cellpadding="6"
+    style="border:1px solid #CCC;border-collapse:collapse;width:750px;margin-top:15px;text-align: left;">
+    <thead>
+        <tr style="background-color:#efefef">
+            <th colspan="6">Physical Fitness</th>
+          
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th width="20%">Height</th>
+            <td><i> <span th:text="${height}"></span></i></td>
+            <th>Weight</th>
+            <td><i><span th:text="${weight}"></span></i></td>
+            <th>Blood Group</th>
+            <td><i><span th:text="${bloodGroup}"></span></i></td>
+        </tr>
+        <tr>
+            <th>Eye Sight</th>
+            <td><i><span th:text="${eyePower}"></span></i></td>
+            <th>Left power</th>
+            <td><i><span th:text="${eyeLeftPower}"></span></i></td>
+            <th>Right Power</th>
+            <td><i><span th:text="${eyeRightPower}"></span></i></td>
+
+        </tr>
+    </tbody>
+</table>
+
+<table border="1" cellpadding="6"
+    style="border:1px solid #CCC;border-collapse:collapse;width:750px;margin-top:15px;text-align: left;">
+    <thead>
+          <tr style="background-color:#efefef">
+            <th colspan="6">Official Info</th>
+          
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th width="20%">Employee</th>
+            <td> <span th:text="${empName}"></span></td>
+            <th>Grade</th>
+            <td><span th:text="${gradeName}"></span></td>
+            <th>Designation</th>
+            <td><span th:text="${designation}"></span></td>
+        </tr>
+        <tr>
+            <th>N+1 Manager</th>
+            <td><i><span th:text="${n1Manager}"></span></i></td>
+            <th>N+2 Manager</th>
+            <td><i><span th:text="${n2Manager}"></span></i></td>
+            <th>Hr-1 Manager</th>
+            <td><i><span th:text="${hr1Manager}"></span></i></td>
+
+        </tr>
+        <tr>
+            <th>Hr-2 Manager</th>
+            <td><i><span th:text="${hr2Manager}"></span></i></td>
+            <th>Accounts-1 Manager</th>
+            <td><i><span th:text="${acc1Manager}"></span></i></td>
+            <th>Accounts-2 Manager</th>
+            <td><i><span th:text="${acc2Manager}"></span></i></td>
+
+        </tr>
+        <tr>
+            <th>PF Number</th>
+            <td><i><span th:text="${pfNo}"></span></i></td>
+            <th>ESI Number</th>
+            <td><i><span th:text="${esiNo}"></span></i></td>
+            <th>UAN Number</th>
+            <td><i><span th:text="${uanNo}"></span></i></td>
+
+        </tr>
+        <tr>
+            <th>Office</th>
+            <td><i><span th:text="${officeName}"></span></i></td>
+            <th>Department</th>
+            <td><i><span th:text="${deptName}"></span></i></td>
+            <th>is Middle Level Manger</th>
+            <td><i></i></td>
+
+        </tr>
+        <tr>
+            <th>is High Level Manger</th>
+            <td><i></i></td>
+            <th>Employee category</th>
+            <td><i><span th:text="${empCategory}"></span></i></td>
+            <th>Internal Id</th>
+            <td><i><span th:text="${internalId}"></span></i></td>
+        </tr>
+    </tbody>
+</table>
+ <div>
+		<table border="1" cellpadding="6"
+    style="border:1px solid #CCC;border-collapse:collapse;width:750px;margin-top:15px;text-align: left;">
+                <tr style="background-color:#efefef">
+            <th colspan="6">Family Info</th>
+          
+        </tr>
+			<tr style="background-color:#efefef">
+				<th>Name</th>
+				<th>Relationship</th>
+				<th>Occupation</th>
+				<th>Contact Number</th>
+				<th>Email</th>
+			</tr>
+			<tr style="height: 30px" th:each="familyinfo : ${familyinfos}">
+				<td th:text="${familyinfo.name}"></td>
+				<td th:text="${familyinfo.relation}"></td>
+				<td th:text="${familyinfo.occupation}"></td>
+				<td th:text="${familyinfo.contactNo}"></td>
+				<td th:text="${familyinfo.email}"></td>
+			</tr>
+			
+					</table>
+	</div>
+	<table border="1" cellpadding="6"
+    style="border:1px solid #CCC;border-collapse:collapse;width:750px;margin-top:15px;text-align: left;">
+    <thead>
+           <tr style="background-color:#efefef">
+            <th colspan="6">Emergency Contact Details</th>
+          
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th width="20%">Name</th>
+            <td> <span th:text="${empName}"></span></td>
+            <th>RelationShip</th>
+            <td><span th:text="${relation}"></span></td>
+            <th>Contact Number</th>
+            <td><span th:text="${contactNo}"></span></td>
+        </tr>
+        <tr>
+            <th>Contact Number 2 </th>
+            <td><i><span th:text="${relaContNo2}"></span></i></td>
+            <th>Email ID</th>
+            <td colspan="4"><i><span th:text="${emailId}"></span></i></td>
+           
+        </tr>
+  </tbody>
+</table>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<div>
+		<table border="1" cellpadding="6"
+    style="border:1px solid #CCC;border-collapse:collapse;width:750px;margin-top:15px;text-align: left;">
+    
+       <tr style="background-color:#efefef">
+            <th colspan="6">Educational Info</th>
+          
+        </tr>
+
+			<tr style="background-color:#efefef">
+				<th>Name of Exam/ Degree/ Diploma</th>
+				<th>School/ College/ University</th>
+				<th>Year of Passing</th>
+				<th>Specialization/ Branch</th>
+				<th>Grade/ Percentage	</th>
+			</tr>
+			<tr style="height: 30px" th:each="educationalinfo : ${educationinfos}">
+				<td th:text="${educationalinfo.examName}"></td>
+				<td th:text="${educationalinfo.place}"></td>
+				<td th:text="${educationalinfo.yearOfPassing}"></td>
+				<td th:text="${educationalinfo.specialization}"></td>
+				<td th:text="${educationalinfo.score}"></td>
+			</tr>
+	</table>
+	</div>
+	<div>
+		<table border="1" cellpadding="6"
+    style="border:1px solid #CCC;border-collapse:collapse;width:750px;margin-top:15px;text-align: left;">
+      <tr style="background-color:#efefef">
+            <th colspan="6">Previous Employment Details</th>
+          
+        </tr>
+
+			<tr style="background-color:#efefef">
+				<th>Organization</th>
+				<th>Position</th>
+				<th>From Date</th>
+				<th>To Date</th>
+				<th>Brief Job Description</th>
+			</tr>
+			<tr style="height: 30px" th:each="previousemploymentdetail : ${previousemploymentdetails}">
+				<td th:text="${previousemploymentdetail.orgName}"></td>
+				<td th:text="${previousemploymentdetail.orgPosition}"></td>
+				<td th:text="${previousemploymentdetail.fromDt}"></td>
+				<td th:text="${previousemploymentdetail.toDt}"></td>
+				<td th:text="${previousemploymentdetail.jobDesc}"></td>
+			</tr>
+	</table>
+	</div>
+	
+	<table border="1" cellpadding="6"
+    style="border:1px solid #CCC;border-collapse:collapse;width:750px;margin-top:15px;text-align: left;">
+    <thead>
+           <tr style="background-color:#efefef">
+            <th colspan="6">Employment History</th>
+          
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th width="20%">Last PF Number</th>
+            <td> <span th:text="${prePfNo}"></span></td>
+            <th>Last ESI Number</th>
+            <td><span th:text="${preEsiNo}"></span></td>
+            <th>Last UAN Number</th>
+            <td><span th:text="${preUanNo}"></span></td>
+        </tr>
+  </tbody>
+</table>
+
+	
+	<div>
+		<table border="1" cellpadding="6"
+    style="border:1px solid #CCC;border-collapse:collapse;width:750px;margin-top:15px;text-align: left;">
+              <tr style="background-color:#efefef">
+            <th colspan="6">Bank Details</th>
+          
+        </tr>
+
+			<tr style="background-color:#efefef">
+				<th>Name of Bank</th>
+				<th>Account Number</th>
+				<th>IFSC Code</th>
+			</tr>
+			<tr style="height: 30px" th:each="bankdetail : ${bankdetails}">
+				<td th:text="${bankdetail.bankName}"></td>
+				<td th:text="${bankdetail. accNo}"></td>
+				<td th:text="${bankdetail.ifscCode}"></td>
+			</tr>
+	</table>
+	</div>
+	
+
+	
+
+</body>
+
+</html>

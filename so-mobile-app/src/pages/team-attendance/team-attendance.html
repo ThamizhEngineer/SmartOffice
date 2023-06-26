@@ -1,0 +1,69 @@
+<!--
+  Generated template for the TeamAttendancePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Team Attendance</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+          <ion-col col-3 text-center (click)="previousDay()"> 
+            <button ion-button >
+              <ion-icon name="arrow-back"></ion-icon>
+            </button> 
+          </ion-col>
+          <ion-col col-6 text-center>
+            <ion-datetime disabled displayFormat="DD-MMM-YYYY" [(ngModel)]="todayDate"></ion-datetime>
+          </ion-col>
+          <ion-col col-3 text-center (click)="nextDay()">
+            <button ion-button >
+              <ion-icon name="arrow-forward"></ion-icon>
+            </button> 
+          </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-grid no-padding>
+      <ion-row>
+        <ion-col col-12 m-b-10 no-padding *ngFor="let data of attendanceData;let i = index" >
+          <ion-card *ngIf="data.checkIn;else leave_content">
+              <ion-card-header p-10>
+               {{data.employeeName}} <span float-right>Emp. Code: {{data.employeeId}}</span>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-list>
+                  <ion-item no-padding no-margin>
+                    <h2 item-start no-margin>Check-in Time</h2>
+                    <h2 item-end>{{data.checkIn}}</h2>
+                  </ion-item>
+                  <ion-item no-padding no-margin>
+                    <h2 item-start no-margin>Check-out Time</h2>
+                    <h2 item-end>{{data.checkOut}}</h2>
+                  </ion-item>
+                  <ion-item no-padding no-margin>
+                    <h2 item-start no-margin>Total Time Logged</h2>
+                    <h2 item-end>{{data.totalTimeLogged}}</h2>
+                  </ion-item>
+                  <ion-item no-padding no-margin>
+                    <h2 item-start no-margin>1st Sess.,2nd Sess.</h2>
+                    <h2 item-end>{{data.firstSession}} , {{data.secondSession}}</h2>
+                  </ion-item>
+                </ion-list>
+              </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ng-template #leave_content>
+          <ion-card>
+            <ion-card-header>{{data.employeeName}}</ion-card-header>
+            <ion-card-content>{{data.firstSessionCodeDesription}}</ion-card-content>
+          </ion-card>
+        </ng-template>
+      </ion-row>
+    </ion-grid>
+</ion-content>

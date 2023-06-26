@@ -1,0 +1,170 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Job</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <a type="href" style="padding-right: 20px;cursor: pointer;" (click)="openHelp()" placement="bottom"
+                ngbTooltip="Tooltip on bottom">
+                <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i>
+            </a>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Home</li>
+                <li class="breadcrumb-item active">Job</li>
+            </ol>
+            <button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="createJob();"><i
+                    class="fa fa-plus-circle"></i> Create Job</button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="displayHelp" class="card">
+    <div class="card-body">
+        <div class="d-flex">
+            <div class="p-2">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+                    content.
+                    This content is a little bit longer.</p>
+                <p class="card-text">Last updated 3 mins ago</p>
+            </div>
+            <div class="ml-auto p-2">
+                <a type="href" style="padding-right: 20px;cursor: pointer;" (click)="closeHelp()" placement="bottom"
+                    ngbTooltip="Tooltip on bottom">
+                    <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isAdvSearch" class="card">
+    <div class="card-body">
+
+
+        <div class="row p-t-20">
+            <div class="form-group col-3">
+                <label>Client Name</label>
+                <input style="border: 1px solid grey;" id="typeahead-focus" type="text" class="form-control"
+                    [ngbTypeahead]="searchClient" [resultTemplate]="client" [inputFormatter]="clientFormatter"
+                    placeholder="Client" (selectItem)="onClientSelect($event)" [value]="partnerName" [editable]='false'
+                    ngbtypeaheadpopup>
+                <ng-template #client let-r="result" let-t="term">
+                    {{r.clientName}}
+                </ng-template>
+            </div>
+            <div class="form-group col-md-2">
+                <label>Job Code</label>
+                <input type="text" class="form-control form-control-line" placeholder="jobCode" [(ngModel)]="jobCode"
+                    name="course">
+            </div>
+            <div class="form-group col-md-2">
+                <label>Job Name</label>
+                <input type="text" class="form-control form-control-line" placeholder="jobName" [(ngModel)]="jobName"
+                    name="marks">
+            </div>
+            <div class="form-group col-md-2">
+                <label>Job Type</label>
+                <input style="border: 1px solid grey;" id="typeahead-focus" type="text" class="form-control"
+                    [ngbTypeahead]="jobTypeAC" [resultTemplate]="jobType" [inputFormatter]="jobType_formatter"
+                    placeholder="job" (selectItem)="onJobSelect($event)" [value]="jobTypeName" [editable]='false'
+                    ngbtypeaheadpopup>
+                <ng-template #jobType let-r="result" let-t="term">
+                    {{r.jobTypeName}}
+                </ng-template>
+            </div>
+
+
+
+
+            <div class="form-group col-md-2">
+                <label></label>
+                <button type="button" style="width:70%" class="btn btn-info d-block m-l-15" (click)="advanceSearch()">
+                    Search</button>
+            </div>
+            <div class="form-group col-md-2">
+                <label></label>
+                <button type="button" style="width:70%" class="btn btn-success d-block m-l-15" (click)="reset()">
+                    Reset</button>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="form-group col-md-4 col-sm-4 ">
+                <label class="control-label">Search</label>
+                <input type="text" class="form-control form-control-line" placeholder="search" (input)="textSearch()"
+                    [(ngModel)]="searchString" name="searchString">
+            </div>
+
+            <div class="form-group col-md-4 col-sm-4 ">
+                <br>
+                <button class="btn btn-sm btn-outline-success" (click)="isAdvSearch = !isAdvSearch">
+                    Advance Search
+                </button>
+            </div>
+
+            <flag-alert [message]="saveMsg"></flag-alert>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Job Code</th>
+                        <th scope="col">Job Name</th>
+                        <th scope="col">Job Type</th>
+                        <th scope="col">Client Name</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let job of jobs  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i">
+                        <th scope="row">{{ i+1 }}</th>
+                        <td>{{job.jobCode}}</td>
+                        <td>{{job.jobName}}</td>
+                        <td>{{job.jobTypeName}}</td>
+                        <td>{{job.endClientName}}</td>
+                        <td>{{job.startDt | date: 'dd-MMM-yyyy'}}</td>
+                        <td>
+                            <div ngbDropdown class="d-inline-block">
+                                <i class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                </i>
+                                <div ngbDropdownMenu aria-labelledby="sortMenu"
+                                    class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" (click)="routeHelper('plan',job.id)">Job Plan</a>
+                                    <a class="dropdown-item" (click)="routeHelper('logistics',job.id)">Job Logistics</a>
+                                    <a class="dropdown-item" (click)="routeHelper('tracker',job.id)">Job Tracker</a>
+                                    <a class="dropdown-item" (click)="routeHelper('status',job.id)">Job Status</a>
+                                    <a class="dropdown-item" (click)="routeHelper('report',job.id)">Job Report</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                                <!-- <a href="javascript:void(0)" (click)="deleteRow(job,job.id)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a><br/> -->
+                            <confirm-delete [type]="'icon'"  (confirmed)="deleteRow(job,job.id)"></confirm-delete>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                    aria-label="Default pagination"></ngb-pagination>
+
+                <!-- <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize">
+            </ngb-pagination> -->
+
+
+            </div>
+        </div>
+    </div>
+</div>

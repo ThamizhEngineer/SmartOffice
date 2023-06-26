@@ -1,0 +1,110 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Authorisation</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">user-menu</li>
+            </ol>
+            <button type="button" class="btn btn-info m-l-15" (click)="createNew();">
+                <i class="fa fa-plus-circle"></i>Create</button>
+                <button type="button" class="btn btn-info d-none d-lg-block m-l-15" [routerLink]="['/authorisation/setup']">Back</button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                    <flag-alert [message]="saveMsg"></flag-alert>
+                <div class="table-responsive">
+                    <table class="table color-bordered-table info-bordered-table">
+                        <thead>
+                            <tr >
+                                <th data-sort-initial="true" data-toggle="true">Id</th>
+                                <th data-sort-initial="true" data-toggle="true">authMenuId</th>
+                                <th data-sort-initial="true" data-toggle="true">name</th>
+                                <th data-sort-initial="true" data-toggle="true">state</th>
+                                <th data-sort-initial="true" data-toggle="true">type</th>
+                                <th data-sort-initial="true" data-toggle="true">Action</th>
+                            </tr>
+                            
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let f of subMenu | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{f.authMenuId}}</td>
+                                <td>{{f.name}}</td>
+                                <td>{{f.state}}</td>
+                                <td>{{f.type}}</td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="showDetail(f.id);">
+                                        <i class="fa fa-pencil text-inverse m-r-10"></i>
+                                    </a>
+                                    <confirm-delete [type]="'icon'" (confirmed)="deleteRow(f.id)"></confirm-delete>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination 
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="subMenu.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #popup let-c="close">
+    <div class="modal-header">
+        <h4 class="modal-title"> Sub-Menu Detail</h4>
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">                              
+            <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">Auth MenuId<font color="red">*</font></label>
+                    <input type="text" class="form-control form-control-line" [(ngModel)]="subMenus.authMenuId" placeholder="Auth MenuId"  name="authMenuId"> 
+                </div>   
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">Name<font color="red">*</font></label>
+                    <input type="text" class="form-control form-control-line" [(ngModel)]="subMenus.name" placeholder="Name"  name="name"> 
+                </div>  
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">State<font color="red">*</font></label>
+                    <input type="text" class="form-control form-control-line" [(ngModel)]="subMenus.state" placeholder="State"  name="state"> 
+                </div>
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">Type<font color="red">*</font></label>
+                    <input type="text" class="form-control form-control-line" [(ngModel)]="subMenus.type" placeholder="Type"  name="type"> 
+                </div>  
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">Auth Feature<font color="red">*</font></label>
+                    <input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+                    class="form-control" [ngbTypeahead]="searchFeatures"
+                    [resultTemplate]="featureResultTemplate" [inputFormatter]="featuresFormatter"
+                    placeholder="Search Feature" (selectItem)="onFeatureSelect($event)"
+                    [value]="subMenus.authFeature" [editable]='false' ngbtypeaheadpopup>
+                <ng-template #featureResultTemplate let-r="result" let-t="term">
+                    {{r.functionalityName}} - {{r.featureName}}
+                </ng-template>
+                </div>        
+            </div>   
+            <div>
+                <div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="customCheck2" [(ngModel)]="subMenus.isEnabled" />
+					<label class="custom-control-label" for="customCheck2">Is Enabled</label>
+				</div>
+            </div>        
+    </div>
+    <div class="modal-footer align-self-center">
+        <button type="button" class="btn btn-warning" (click)="save()">Save</button>
+    </div>
+</ng-template>

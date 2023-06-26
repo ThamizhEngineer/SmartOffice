@@ -1,0 +1,149 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Metric List</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+				<li class="breadcrumb-item active">Metric List </li>
+			</ol>
+			<button type="button" class="btn btn-info m-l-15" (click)="createNew();">
+				<i class="fa fa-plus-circle"></i> Create Metric</button>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-12 card card-body">
+		<flag-alert [message]="saveMsg"></flag-alert>
+		<div class="table-responsive">
+			<table class="table table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Metric Category Code</th>
+						<th>Unit Type</th>
+						<th>Metric Category Name</th>
+						
+						<th>Actions</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let row of rows | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index ">
+						<td>{{i+1}}</td>
+						<td>{{row.metricName}}</td>
+						<td>{{row.unitTypeId}}</td>
+						<td>{{row.metricCatName}}</td>
+						
+						<td class="text-nowrap">
+							<a href="javascript:void(0)" (click)="showDetail(row.id);">
+								<i class="fa fa-pencil text-inverse m-r-10"></i>
+							</a>
+							<confirm-delete [type]="'icon'" (confirmed)="deleteRow(row.id)"></confirm-delete>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		<ngb-pagination 
+		[(page)]="page"
+		[pageSize]="pageSize"
+		[collectionSize]="rows.length"></ngb-pagination>
+		<pre>Current page: {{page}}</pre>
+	</div>
+</div>
+
+<ng-template #vdetail let-c="close">
+	<div class="modal-header">
+		<h3 class="modal-title">Add Metric</h3>
+		<button type="button" class="close" (click)="c()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+
+			<div class="col-6 form-group"  [ngClass]="{'has-danger': mCat.invalid && (mCat.dirty || mCat.touched)}">
+				<label class="control-label">MetricCategory <font color="red">*</font></label>
+				<form [formGroup]="myGroup">
+				<select  class="form-control" [(ngModel)]="metric.smetricCategoryId" formControlName="mCat">
+					<option *ngFor="let v of categoryList" required [value]="v.id">{{v.metricCategoryName}}</option>
+				</select>		
+				<div *ngIf="mCat.invalid && (mCat.dirty || mCat.touched)">
+					<small class="form-control-feedback" *ngIf="mCat.errors.required">Required Data.</small>
+				</div>
+				</form>
+			</div>
+			
+        </div>
+        <div class="row">
+			<div class="col-3 form-group" [ngClass]="{'has-danger': mname.invalid && (mname.dirty || mname.touched)}">
+				<label class="control-label">Metric Name <font color="red">*</font></label>
+				<form [formGroup]="myGroup">
+				<input class="form-control" placeholder="metricName" required pattern="[a-zA-Z][a-zA-Z0-9]+" formControlName="mname" [(ngModel)]="metric.metricName">
+				<div *ngIf="mname.invalid && (mname.dirty || mname.touched)">
+						<small class="form-control-feedback" *ngIf="mname.errors.pattern">Special Characters Not Allowed.</small>
+						<small class="form-control-feedback" *ngIf="mname.errors.required">Required Data.</small>
+				</div>
+				</form>
+			</div>
+			
+			<div class="col-3 form-group" [ngClass]="{'has-danger': better.invalid && (better.dirty || better.touched)}">
+				<label class="control-label">better <font color="red">*</font></label>
+				<form [formGroup]="myGroup">
+				<select name="select" [(ngModel)]="metric.better" required class="form-control" formControlName="better"  id="select">
+					<option *ngFor="let item of operator" [value]="item.configDtlValue">{{item.configDtlValue}}</option>
+				  </select>
+				<!-- <input class="form-control" placeholder="better" required pattern="[a-zA-Z][a-zA-Z0-9]+" #refno="ngModel" [(ngModel)]="metric.better"> -->
+				<div *ngIf="better.invalid && (better.dirty || better.touched)">						
+						<small class="form-control-feedback" *ngIf="better.errors.required">Required Data.</small>
+				</div>
+				</form>
+			</div>
+			<div class="col-3 form-group" [ngClass]="{'has-danger': threshold.invalid && (threshold.dirty || threshold.touched)}">
+				<label class="control-label">Threshold <font color="red">*</font></label>
+				<form [formGroup]="myGroup">
+				<input type="number" class="form-control" placeholder="Threshold" required formControlName="threshold" [(ngModel)]="metric.threshold">
+				<div *ngIf="threshold.invalid && (threshold.dirty || threshold.touched)">					
+						<small class="form-control-feedback" *ngIf="threshold.errors.required">Required Data.</small>
+				</div>
+				</form>
+			</div>
+			<div class="col-3 form-group" >
+				<label class="control-label">Unit Type <font color="red">*</font></label>
+				<select  class="form-control" [(ngModel)]="metric.unitTypeId">
+                    <option *ngFor="let v of unitsList" [value]="v.unitCode">{{v.unitName}}</option>
+                </select>	
+            </div>
+          
+            
+		</div>
+		<div class="row">
+			<div class="col-6 form-group" [ngClass]="{'has-danger': desc.invalid && (desc.dirty || desc.touched)}">
+				<label class="control-label">Description <font color="red">*</font></label>
+				<form [formGroup]="myGroup">
+				<textarea class="form-control" rows="4" placeholder="Description" required pattern="[a-zA-Z][a-zA-Z0-9]+" formControlName="desc" [(ngModel)]="metric.descp"></textarea>
+				<div *ngIf="desc.invalid && (desc.dirty || desc.touched)">
+						<small class="form-control-feedback" *ngIf="desc.errors.required">Required Data.</small>
+				</div>
+				</form>
+            </div>
+            </div>
+	</div>
+
+
+	<div class="modal-footer">
+		<div *ngIf="metric.id==null">
+			<button type="button" class="btn btn-success" [disabled]="!myGroup.valid" (click)="save();">Save</button>
+		</div>
+		<div *ngIf="metric.id!=null">
+			<button type="button" class="btn btn-warning" [disabled]="!myGroup.valid" (click)="update();">Update</button>
+		</div>
+	</div>
+</ng-template>

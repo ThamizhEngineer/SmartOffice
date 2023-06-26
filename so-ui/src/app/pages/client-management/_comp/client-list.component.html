@@ -1,0 +1,84 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Client List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Client</li>
+            </ol>
+            <button type="button" [routerLink]="['/client/new']" class="btn btn-info d-block m-l-15"><i
+                    class="fa fa-plus-circle"></i> Add Client</button>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="#">
+                    <div class="form-body">
+                        <div class="row p-t-20">
+                            <div class="form-group col-md-4">
+                                <input type="text" id="firstName" class="form-control" [(ngModel)]="clientCode" placeholder="Client Code" name="Client Code">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" id="lastName" class="form-control" [(ngModel)]="companyName" placeholder="Company Name" name="Company Name">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select class="form-control form-control-line" [(ngModel)]="countryName" placeholder="Company Name" name="Country Name" >
+                                    <option *ngFor="let c of country" [value]="c.countryName">{{c.countryName}}</option>                           
+                                </select>                
+                            </div>
+                            <div class="form-group col-md-3">
+                                <button type="button" style="width:70%" class="btn btn-info d-block m-l-15" (click)="search()">
+                                    Search</button>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <button type="button" style="width:70%" class="btn btn-info d-block m-l-15" (click)="reset()">
+                                    Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 card card-body">
+        <flag-alert [message]="saveMsg"></flag-alert>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Client Code</th>
+                        <th>Client Name</th>
+                        <th>Transaction Currency</th>
+                        <th>Country</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr href="javascript:void(0)" *ngFor="let client of clients | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index"> 
+                        <td [routerLink]="['/client/view', client.id]"><a href="javascript:void(0)">{{i+1}}</a></td>
+                        <td [routerLink]="['/client/view', client.id]"><a href="javascript:void(0)" style="color:#6a5acd;"><u>{{client.clientCode}}</u></a></td>
+                        <td [routerLink]="['/client/view', client.id]"><a href="javascript:void(0)" style="color:#6a5acd;"><u>{{client.companyName}}</u></a></td>
+                        <td [routerLink]="['/client/view', client.id]"><a href="javascript:void(0)" style="color:#6a5acd;"><u>{{client.transactionCurrId}}</u></a></td>
+                        <td [routerLink]="['/client/view', client.id]"><a href="javascript:void(0)" style="color:#6a5acd;"><u>{{client.countryName}}</u></a></td>
+                        <td class="text-nowrap">
+                            <a href="javascript:void(0)" [routerLink]="['/client/edit', client.id]" placement="top"
+                                ngbTooltip="Edit Profile"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                            <confirm-delete [type]="'icon'" (confirmed)="deleteRow(client.id)"></confirm-delete>
+                            <!-- <a href="javascript:void(0)" (click)="deleteRow(client.id)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a> -->
+                        </td>
+                        <!-- </a> -->
+                    </tr>
+                </tbody>
+            </table>
+            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="clients.length"></ngb-pagination>
+        </div>
+    </div>
+</div>

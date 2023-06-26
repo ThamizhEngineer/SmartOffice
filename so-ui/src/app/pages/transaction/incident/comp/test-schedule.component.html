@@ -1,0 +1,252 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor"><span>{{incident.vcCode}} &nbsp; {{incident.vcSummary}}</span></h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Recruitment</li>
+                <li class="breadcrumb-item active">Event</li>
+                <li class="breadcrumb-item active">Test Schedule </li>
+            </ol>
+            <button type="button" (click)="navigateToList()" class="btn btn-info d-none d-lg-block m-l-15"> Back</button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="advSearch==true" class="card card-body">
+    <div class="form-body">
+        <div class="form-body">
+               
+                    <div  class="row p-t-20">
+                <div class="form-group col-3">
+                        <label>Event</label>
+                        <input type="text" class="form-control form-control-line" placeholder="institute"    [(ngModel)]="institute"  name="institute"> 
+                    </div>  
+                    <div class="form-group col-md-2">
+                            <label>Course Name</label>
+                            <input type="text" class="form-control form-control-line" placeholder="course"    [(ngModel)]="course"  name="course"> 
+                    </div>
+                    <div class="form-group col-md-2">
+                            <label>CGPA / Marks</label>
+                            <input type="text" class="form-control form-control-line" placeholder="marks"    [(ngModel)]="marks"  name="marks"> 
+                    </div>
+                    <div class="form-group col-md-2">
+                            <label>Passed Out</label>
+                            <select class="form-control" [(ngModel)]="passoutYear" placeholder=" passed Out">                                           
+                                <option value="2015" >2015</option>
+                                <option value="2016" >2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <label>History Of Arrears</label>
+                            <select class="form-control" [(ngModel)]="historyOfArrears" placeholder="historyOfArrears">                                           
+                                <option value="1" >1</option>
+                                <option value="2" >2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">6</option>
+                                <option value="8">8</option>                                           
+                            </select>
+                        </div>                                                                                                                      
+                                    <div class="form-group col-md-2">
+                                        <label></label>
+                                            <button type="button" style="width:70%" class="btn btn-info d-block m-l-15" (click)="search()"> Search</button>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                                <label></label>
+                                            <button type="button" style="width:70%" class="btn btn-success d-block m-l-15" (click)="reset()"> Reset</button>
+                                        </div>
+                                
+                </div>
+            </div>
+</div>
+</div>
+
+    <div class="card card-body">
+        <h2>Schedule Test</h2>
+        <!-- <h5><span>{{incident.jrCode}} &nbsp; {{incident.jrSummary}}</span></h5>    -->
+        
+                        
+                       
+
+        <br/>
+        <div class="row">
+            <div class="form-group col-md-4 col-sm-6">
+                <label class="control-label">Search</label>
+                <input type="text" class="form-control form-control-line" placeholder="search"   (input)="textSearch()"   [(ngModel)]="searchString"  name="searchString">                               
+            </div>
+            <div (click)="advanceSearch()" ngbTooltip="Advance Search">
+                <label></label><br/>                                                
+                <a class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i></a>
+            </div>
+        </div>
+       
+        <br/>
+
+        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+            <label *ngIf="binding=='true'" ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                <input ngbButton type="radio" (click)="changeActive('true')"> Unassigned Applicants
+              </label>
+            <label *ngIf="binding=='false'" ngbButtonLabel class="btn btn-outline-info waves-effect waves-light">
+              <input ngbButton type="radio" (click)="changeActive('true')"> Unassigned Applicants
+            </label>
+            <label *ngIf="binding=='true'" ngbButtonLabel class="btn-outline-primary">
+              <input ngbButton type="radio" (click)="changeActive('false')"> Assigned Applicants
+            </label>
+            <label *ngIf="binding=='false'" ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" (click)="changeActive('false')"> Assigned Applicants
+            </label>
+          </div>
+          <br/>
+
+          <flag-alert [message]="Alertmsg"></flag-alert>
+
+          <div *ngIf="binding=='true'" class="table-responsive">
+        <div class="table-responsive">
+            <table class="table table-sm table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" sortable="firstName" (sort)="onSort($event)">Canditate<a ng-click="sort_by('firstName')"><i class="fa fa-sort"></i></a></th>
+                        <th scope="col" sortable="institute" (sort)="onSort($event)">Instution<a ng-click="sort_by('institute')"><i class="fa fa-sort"></i></a></th>
+                        <th scope="col" sortable="passoutYear" (sort)="onSort($event)">Passed Out<a ng-click="sort_by('passoutYear')"><i class="fa fa-sort"></i></a></th>                                            
+                        <th scope="col" sortable="course" (sort)="onSort($event)">Course<a ng-click="sort_by('course')"><i class="fa fa-sort"></i></a></th>
+                        <th scope="col" sortable="isEligibleForTest" (sort)="onSort($event)">IsEligible<a ng-click="sort_by('isEligibleForTest')"><i class="fa fa-sort"></i></a></th>
+                        <th scope="col" sortable="select" (sort)="onSort($event)">ReAllocate</th>
+                        <th scope="col" sortable="testEligibilityStatus" (sort)="onSort($event)">Status<a ng-click="sort_by('testEligibilityStatus')"><i class="fa fa-sort"></i></a></th>
+                        <th scope="col" sortable="testScheduledDt" (sort)="onSort($event)">ScheduleDate<a ng-click="sort_by('testScheduledDt')"><i class="fa fa-sort"></i></a></th>
+                        <th scope="col" sortable="isTestScheduled" (sort)="onSort($event)">Schedule   
+                           <input type="checkbox"  [(ngModel)]="masterSelected" (change)="checkUncheckAll()" (change)="changeEvent($event)">
+                        </th>
+                    </tr>
+                </thead>
+                    <tbody>
+                    <tr *ngFor="let dt of incidantApplicantsFiltered | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                        <th scope="row">{{ i+1 }}</th>
+                        <td>{{dt.firstName}} <applicant-detail-edit
+                            [childMessage]="dt">
+                        </applicant-detail-edit></td>
+                        <td>{{dt.institute}}</td>
+                        <td>{{dt.passoutYear}}</td>                       
+                        <td>{{dt.course}}</td>
+                        <td>{{dt.isEligibleForTest}}</td>
+                        
+                        <td>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="read[{{i}}]" [(ngModel)]="dt.select">
+                                <label class="custom-control-label" for="read[{{i}}]"></label>
+                            </div>
+                        </td>
+                        <!-- <td>{{dt.testScheduledStatus}}</td> -->
+                        <td><ng-template #tipContent> <b>Message : </b>{{dt.errorMessage}}</ng-template>
+                            <span [ngbTooltip]="tipContent" class="label label-{{statuses[dt.testScheduledStatus]}}">{{dt.testScheduledStatus}}</span></td> 
+                        <td>{{dt.testScheduledDt | date:'dd/MM/yyyy hh:mm'}}</td>
+                        <!-- <td>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="Schedule[{{i}}]" [(ngModel)]="dt.dummyisTestScheduled">
+                                <label class="custom-control-label" for="Schedule[{{i}}]"></label>
+                            </div>
+                        </td> -->
+                        <td>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" [(ngModel)]="dt.dummyisTestScheduled" (change)="isAllSelected()" ></div>
+                            </td> 
+                    </tr>
+                </tbody>
+            </table>
+            <ngb-pagination 
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="incidantApplicantsFiltered.length"></ngb-pagination>
+
+            <pre>Current page: {{page}}</pre>
+        </div>
+</div>
+        <div *ngIf="binding=='false'" class="table-responsive">
+        <div class="table-responsive">
+            <table class="table table-sm table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" sortable="firstName" (sort)="onSort($event)">Canditate<a ng-click="sort_by('firstName')"><i class="fa fa-sort"></i></a></th>
+                        <th scope="col" sortable="institute" (sort)="onSort($event)">Instution<a ng-click="sort_by('institute')"><i class="fa fa-sort"></i></a></th>
+                        <th scope="col" sortable="passoutYear" (sort)="onSort($event)">Passed Out<a ng-click="sort_by('passoutYear')"><i class="fa fa-sort"></i></a></th>
+                        <th scope="col" sortable="course" (sort)="onSort($event)">Course<a ng-click="sort_by('course')"><i class="fa fa-sort"></i></a></th>
+                        <th scope="col" sortable="isEligibleForTest" (sort)="onSort($event)">IsEligible<a ng-click="sort_by('isEligibleForTest')"><i class="fa fa-sort"></i></a></th>
+                        <th scope="col" sortable="select" (sort)="onSort($event)">ReAllocate</th>
+                        <th scope="col" sortable="testEligibilityStatus" (sort)="onSort($event)">Status<a ng-click="sort_by('testEligibilityStatus')"><i class="fa fa-sort"></i></a></th>
+                        <th scope="col" sortable="testScheduledDt" (sort)="onSort($event)">ScheduleDate<a ng-click="sort_by('testScheduledDt')"><i class="fa fa-sort"></i></a></th>
+                        <th scope="col" sortable="isTestScheduled" (sort)="onSort($event)">Schedule</th>
+                        <th scope="col" sortable="unassigned" (sort)="onSort($event)">Unassigned</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                    <tr *ngFor="let dt of completed | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                        <th scope="row">{{ i+1 }}</th>
+                        <td>{{dt.firstName}} <applicant-detail-edit
+                            [childMessage]="dt">
+                        </applicant-detail-edit></td>
+                        <td>{{dt.institute}}</td>
+                        <td>{{dt.passoutYear}}</td>
+                        <td>{{dt.course}}</td>
+                        <td>{{dt.isEligibleForTest}}</td>
+                        <td>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="read[{{i}}]" [(ngModel)]="dt.dummyisReallocate">
+                                <label class="custom-control-label" for="read[{{i}}]"></label>
+                            </div>
+                        </td>
+                        <!-- <td>{{dt.testScheduledStatus}}</td> -->
+                        <td><ng-template #tipContent> <b>Message : </b>{{dt.errorMessage}}</ng-template>
+                            <span [ngbTooltip]="tipContent">{{dt.testScheduledStatus}}</span></td> 
+                        <td>{{dt.testScheduledDt | date:'dd/MM/yyyy hh:mm'}}</td>
+                        <td>
+                            <div class="custom-control custom-checkbox">
+                                <i *ngIf="dt.isTestScheduled=='Y'" class="fa fa-check text-success m-r-10"></i>                                
+                            </div>
+                        </td>
+                        <td>
+                            <confirm-delete [type]="'submit'" [typeString]="'Test & move to Unassigned'" (confirmed)="moveToUnassigned(incident.id,dt.id)"></confirm-delete>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <ngb-pagination 
+                    [(page)]="page"
+                    [pageSize]="pageSize"
+                    [collectionSize]="completed.length"></ngb-pagination>
+
+                    <pre>Current page: {{page}}</pre>
+
+        </div>
+        </div>
+        <div class="modal-footer">    
+            <flag-alert [message]="Alertmsg"></flag-alert>
+            
+                <div class="form-group">
+                        <button type="button" (click)="navigateToList()" class="btn btn-warning d-none d-lg-block m-l-15"> Back</button>
+                </div>
+                <div *ngIf="binding=='false'" class="form-group">
+                    <button type="button" (click)="reallocate()" class="btn btn-info d-none d-lg-block m-l-15"> ReAllocate</button>
+             </div>
+                <div *ngIf="binding=='true'" class="form-group">
+                        <button type="button" (click)="submit()" [disabled]="toggleBool" class="btn btn-success d-none d-lg-block m-l-15"> Submit</button>
+                </div>
+               
+
+        </div>
+    </div>

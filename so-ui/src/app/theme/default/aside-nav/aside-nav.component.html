@@ -1,0 +1,35 @@
+<aside class="left-sidebar" #asidePanel>
+	<perfect-scrollbar class="scroll-sidebar" *ngIf="!minibar">
+		<ng-container *ngTemplateOutlet="asideMenus"></ng-container>
+	</perfect-scrollbar>
+	
+	<div *ngIf="minibar">
+		<ng-container *ngTemplateOutlet="asideMenus"></ng-container>
+	</div>
+</aside>
+
+<ng-template #asideMenus>
+	<nav class="sidebar-nav">
+		<ul id="sidebarnav">
+			<li *ngFor="let menu of menuData; let i = index">
+				<a class="waves-effect waves-dark" *ngIf="menu.type == 'link'" [routerLink]="['/', menu.state]" routerLinkActive="active">
+					<i [class]="menu.icon"></i><span class="hide-menu">{{menu.name}}</span>
+				</a>
+				
+				<a class="has-arrow waves-effect waves-dark" href="javascript:void(0);" *ngIf="menu.type == 'sub'" (click)="expandBar($event, i)" [ngClass]="{'active': menu.state == parentState}" (mouseover)="menuMouseOver(i);" (mouseout)="menuMouseOut(i);">
+					<i [class]="menu.icon"></i><span class="hide-menu">{{menu.name}}</span>
+				</a>
+				<ul *ngIf="menu.type == 'sub'" [@slideInOut]="animationState[i]"  (mouseover)="menuMouseOver(i);" (mouseout)="menuMouseOut(i);">
+					<li *ngFor="let child of menu.children">
+						<a *ngIf="child.type == 'link'" [routerLink]="['/', menu.state, child.state]" routerLinkActive="active">
+							{{child.name}}
+						</a>
+						<a *ngIf="child.type == 'array'" [routerLink]="['/', menu.state, child.state, child.subState]" routerLinkActive="active">
+							{{child.name}}
+						</a>						
+					</li>
+				</ul>					
+			</li>
+		</ul>
+	</nav>
+</ng-template>

@@ -1,0 +1,942 @@
+[
+    {
+        "id": 0,
+        "functionality": "Dashboard",
+        "name": "Dashboard",
+        "purpose": "",
+        "state": "index",
+        "selected": false,
+        "feature": []
+    },
+    {
+        "id": 1,
+        "functionality": "Jobs",
+        "name": "Jobs",
+        "purpose": "Job related",
+        "state": "job",
+        "selected": false,
+        "feature": [
+            {
+                "id": 1986,
+                "name": "Job Type Master",
+                "state": "job-type",
+                "purpose": ""
+            },
+            {
+                "id": 1987,
+                "name": "Service Master",
+                "state": "service-master",
+                "purpose": ""
+            },
+            {
+                "id": 1988,
+                "name": "Service Types for SO",
+                "state": "service-bundle",
+                "purpose": ""
+            },
+            {
+                "id": 1989,
+                "name": "Manufacturer",
+                "state": "manufacturer",
+                "purpose": "This screen used to maintain the details of manufacture of a product"
+            },
+            {
+                "id": 1990,
+                "name": "Material Master",
+                "state": "material-master",
+                "purpose": "This Screen is used to maintain the records of Product,goods, Asset and Consumables"
+            },
+            {
+                "id": 1991,
+                "name": "Profile Master",
+                "state": "profile-master",
+                "purpose": "Profile Master : this screen is used to maintain the records of product and service handled by the profile"
+            },
+            {
+                "id": 1992,
+                "name": "Job Codes",
+                "state": "temp-job",
+                "purpose": "temp screen have to delete"
+            },
+            {
+                "id": 1993,
+                "name": "Business Units",
+                "state": "business-units",
+                "purpose": "Business Units : is used to main the records of Business units has handle the service and goods"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "functionality": "Job Management",
+        "name": "Job Management",
+        "purpose": "Job management related",
+        "state": "job",
+        "selected": false,
+        "feature": [
+            {
+                "id": 1994,
+                "name": "Job List",
+                "state": "job-list",
+                "purpose": "Job List : this screen is maintain the details on going jobs and to create a new job based on sale order"
+            },
+            {
+                "id": 1995,
+                "name": "Client Purchase Orders",
+                "state": "client-po",
+                "purpose": "Client PO : this i a master screen used to handle the client Purchase Orders Records"
+            },
+            {
+                "id": 1996,
+                "name": "Sale Order",
+                "state": "sale-order",
+                "purpose": "Sale Order : based on the purchase Order the sale order will be created"
+            },
+            {
+                "id": 1997,
+                "name": "Project",
+                "state": "project",
+                "purpose": "Project : this screen is maintain the project details"
+            },
+            {
+                "id": 1998,
+                "name": "Job Plan",
+                "state": "job-plan",
+                "purpose": "Job Plan : After the saleOder have been complete the Job plan will be created based on saleOrder.. In this screen Manager will arange the employee for the job "
+            },
+            {
+                "id": 1999,
+                "name": "Job Logistics",
+                "state": "resource-scheduler",
+                "purpose": "Job Logistics : this screen is used to Report status of the employee Travel, Accomodation,Reported,Departed to the client site"
+            },
+            {
+                "id": 2000,
+                "name": "Job Tracker",
+                "state": "track-jobs",
+                "purpose": "Job Tracker : this screen is used to create and maintain the task of the job"
+            },
+            {
+                "id": 2001,
+                "name": "Job Status",
+                "state": "job-status",
+                "purpose": "Job Logistics : this screen is used to Report status of the employee Travel, Accomodation,Reported,Departed to the client site"
+            },
+            {
+                "id": 2002,
+                "name": "Job Report",
+                "state": "job-report",
+                "purpose": "Job Report is used maintain the work flow of the job in the Client site"
+            },
+            {
+                "id": 2003,
+                "name": "Job Feedback",
+                "state": "job-feedback",
+                "purpose": "Job Feedback: this screen will open end of the Job completion "
+            },
+            {
+                "id": 2004,
+                "name": "Site Location",
+                "state": "site-location",
+                "purpose": "Site Location : is a master screen to maintain the location of client site in lat an longs "
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "functionality": "My Space",
+        "name": "My Space",
+        "purpose": "User space related",
+        "state": "my-space",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2005,
+                "name": "My Profiles",
+                "state": "my-profile",
+                "purpose": "A screen for employee to maintain his/her information and used to check Official information"
+            },
+            {
+                "id": 2006,
+                "name": "My Skills",
+                "state": "my-skill",
+                "purpose": "this screen is used to maintain skill of a employee"
+            },
+            {
+                "id": 2007,
+                "name": "My Calendar",
+                "state": "calendar",
+                "purpose": ""
+            },
+            {
+                "id": 2008,
+                "name": "My Payslips",
+                "state": "payslips",
+                "purpose": "This screen used to make a track of a employee paySlip"
+            },
+            {
+                "id": 2009,
+                "name": "My Leaves",
+                "state": "my-leave",
+                "purpose": "My Leave screen used to apply leave, while applying leave it will check any job assigned for that particular day"
+            },
+            {
+                "id": 2010,
+                "name": "My Claims",
+                "state": "expense-claim",
+                "purpose": "this screen used to apply expense-claim of a job visit"
+            },
+            {
+                "id": 2011,
+                "name": "My Advance Requests",
+                "state": "my-tar-request",
+                "purpose": "this screen is used to get advance money request to visit a job"
+            },
+            {
+                "id": 2012,
+                "name": "My Appraisal",
+                "state": "appraisal",
+                "purpose": "Appraisal : For track of yearly impovement of a employee"
+            },
+            {
+                "id": 2013,
+                "name": "My Trainings",
+                "state": "training",
+                "purpose": "Training : Show list of training program in conduct organization... he or she can apply for the training or manager can assign to the training"
+            },
+            {
+                "id": 2014,
+                "name": "My Shift Request",
+                "state": "shift-request",
+                "purpose": "Shift Request : this for apply changing Shift (eg: from Indain to UEA timing )"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "functionality": "Director",
+        "name": "Director",
+        "purpose": "director related",
+        "state": "director",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2015,
+                "name": "Employee Profile",
+                "state": "on-board-profile",
+                "purpose": "This screen only view for DIR to check newly on-board employee and approve it "
+            },
+            {
+                "id": 2016,
+                "name": "Travel Advance",
+                "state": "tar-list",
+                "purpose": "Travel Advance : To make a track of Approved Travel Advance Request "
+            },
+            {
+                "id": 2017,
+                "name": "Job Request-Approval",
+                "state": "job-request",
+                "purpose": ""
+            },
+            {
+                "id": 2018,
+                "name": "Employee Service Record",
+                "state": "employee-service-record",
+                "purpose": "Travel Advance : To make a track of Approved Travel Advance Request "
+            },
+            {
+                "id": 2019,
+                "name": "Appraisal",
+                "state": "appraisal",
+                "purpose": "Appraisal : The final screen to Approve Appaisal "
+            },
+            {
+                "id": 2020,
+                "name": "Appraisal-review",
+                "state": "appraisal-review",
+                "purpose": "Appraisal Review: the final screen approve the Appraisal-review "
+            },
+            {
+                "id": 2021,
+                "name": "Skill Matrix",
+                "state": "skill-analysis",
+                "purpose": "Skill Matrix : this screen to check gap-analysis and eng-assiment of the organization"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "functionality": "My Task",
+        "name": "My Task",
+        "purpose": "",
+        "state": "my-task",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2022,
+                "name": "Travel Advances - Approval",
+                "state": "my-tar-n1",
+                "purpose": "TAR : this screen for approve Travel Advance  Request by N2 Manager"
+            },
+            {
+                "id": 2023,
+                "name": "Leaves - Approval",
+                "state": "leave-approvel",
+                "purpose": "Leave Approve : this screen view only for n1 & n2 manager to approve and reject leave "
+            },
+            {
+                "id": 2024,
+                "name": "Claims - Approval",
+                "state": "n1-expense-approval",
+                "purpose": ""
+            },
+            {
+                "id": 2025,
+                "name": "Team skills - Validation",
+                "state": "my-team-skill",
+                "purpose": "Team Skill : for approve employee skill and to validate the skill"
+            },
+            {
+                "id": 2026,
+                "name": "Appraisal",
+                "state": "appraisal",
+                "purpose": "Appraisal : The final screen to Approve Appaisal "
+            },
+            {
+                "id": 2020,
+                "name": "Appraisal-review",
+                "state": "appraisal-review",
+                "purpose": "Appraisal Review: the final screen approve the Appraisal-review "
+            },
+            {
+                "id": 2021,
+                "name": "Assign Trainings",
+                "state": "training",
+                "purpose": "assign Training : this screen is used to assign employee to a training prograam"
+            },
+            {
+                "id": 2022,
+                "name": "Shift Change Request",
+                "state": "shift-request",
+                "purpose": "This screen is used to change a employee shift and approve the shift request "
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "functionality": "Vendor Manageme",
+        "name": "Vendor Manageme",
+        "purpose": "",
+        "state": "job",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2023,
+                "name": "Vendor Purchase Order",
+                "state": "purchase-order",
+                "purpose": "This screen is used to Mantain the records of Product and service get From the Vendors"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "functionality": "Client Management",
+        "name": "Client Management",
+        "purpose": "",
+        "state": "client",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2024,
+                "name": "Client Profile",
+                "state": "client-profile",
+                "purpose": "Client Profile : used to maintain Client Details like gst,email etc"
+            },
+            {
+                "id": 2025,
+                "name": "Job Feedback",
+                "state": "job-feedback",
+                "purpose": "Job Feedback: this screen will open end of the Job completion"
+            },
+            {
+                "id": 2026,
+                "name": "Item Master",
+                "state": "item-master",
+                "purpose": "Item Master : this screen for Maintain the records of Products And service Hsn/Sac codes,gst and unit price"
+            },
+            {
+                "id": 2027,
+                "name": "Invoice",
+                "state": "invoice",
+                "purpose": "This screen is used to generate the invoice for the client based on the saleOrder"
+            },
+            {
+                "id": 2028,
+                "name": "Invoice Payment",
+                "state": "invoice-payment",
+                "purpose": "Invoice Payment: is used to payment records of Invoice"
+            },
+            {
+                "id": 2029,
+                "name": "Job Feedback",
+                "state": "job-feedback",
+                "purpose": "Job Feedback: this screen will open end of the Job completion this will be filled by client or Hr "
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "functionality": "Vendor",
+        "name": "Vendor",
+        "purpose": "",
+        "state": "vendor",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2030,
+                "name": "Vendor Profile",
+                "state": "vendor-profile",
+                "purpose": "Vendor Profile : This screen is used to maintain the records of vendors handled by the Organization"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "functionality": "VendOrganization Setupor",
+        "name": "Organization Setup",
+        "purpose": "",
+        "state": "org-settings",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2031,
+                "name": "Fiscal Year",
+                "state": "fiscal-year",
+                "purpose": "this Screen is used to create Fiscal Year for "
+            },
+            {
+                "id": 2032,
+                "name": "Declare Holidays",
+                "state": "holidays",
+                "purpose": "This screen is to maintain the Holidays List of the organization"
+            },
+            {
+                "id": 2033,
+                "name": "Grades & Designations",
+                "state": "grades",
+                "purpose": "This screen is used to maintain record of Grades & Designations which was used in employee records"
+            },
+            {
+                "id": 2034,
+                "name": "Leave Balance",
+                "state": "leave-balance",
+                "purpose": "Leave Balance : this screen is used to check log of leaves applied by employee"
+            },
+            {
+                "id": 2035,
+                "name": "Role Access",
+                "state": "role-access",
+                "purpose": ""
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "functionality": "CTC Setup",
+        "name": "CTC Setup",
+        "purpose": "",
+        "state": "ctc-settings",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2036,
+                "name": "Definition",
+                "state": "definition",
+                "purpose": ""
+            },
+            {
+                "id": 2037,
+                "name": "Employee Compensation",
+                "state": "compensation",
+                "purpose": ""
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "functionality": "Knowledge Assess",
+        "name": "Knowledge Assess",
+        "purpose": "",
+        "state": "knowledge-assessment",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2038,
+                "name": "Training Tracker",
+                "state": "training-tracker",
+                "purpose": ""
+            },
+            {
+                "id": 2039,
+                "name": "Certificate Tracker",
+                "state": "certificate-tracker",
+                "purpose": ""
+            },
+            {
+                "id": 2040,
+                "name": "Learning Track",
+                "state": "learning-track",
+                "purpose": ""
+            },
+            {
+                "id": 2041,
+                "name": "Learning Track PDF",
+                "state": "learning-track-pdf",
+                "purpose": ""
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "functionality": "Accounts",
+        "name": "Accounts",
+        "purpose": "",
+        "state": "account",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2042,
+                "name": "Travel Advances - Accounts Approval",
+                "state": "my-tar-acc2",
+                "purpose": "TAR : this screen for approve Travel Advance  Request by Acc2 Manager"
+            },
+            {
+                "id": 2043,
+                "name": "Claims - Settlement",
+                "state": "acc-expense",
+                "purpose": "Expense Claim Final stage Approve screen by the Account 2 manager"
+            },
+            {
+                "id": 2044,
+                "name": "Claims - Validation",
+                "state": "expense-approval",
+                "purpose": "Expense Claim validate by The account 1 manager and the send to N1 manager for approve"
+            },
+            {
+                "id": 2045,
+                "name": "Cash Balance",
+                "state": "cash-balance",
+                "purpose": "Cash Balance : is master Screen to maintain a invidual cash amount of Manager Teams"
+            },
+            {
+                "id": 2046,
+                "name": "Bank Advise Report",
+                "state": "bank-advise-report",
+                "purpose": "Bank Advise Report : This screen is to check the log of approved expence salary "
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "functionality": "Recruitment",
+        "name": "Recruitment",
+        "purpose": "",
+        "state": "recruitment",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2047,
+                "name": "Job Description",
+                "state": "job-description",
+                "purpose": "Job Description : Its a master screen for recruitment process.<br /> This screen used to details of desc that need for organization"
+            },
+            {
+                "id": 2048,
+                "name": "Job Request (HR)",
+                "state": "job-request",
+                "purpose": "Job Request : this screen is used to create for job Opening.. <br /> this screen will open once the DIR have approved for the Request"
+            },
+            {
+                "id": 2049,
+                "name": "Job Opening",
+                "state": "job-opening",
+                "purpose": "Job Opening : this will be shown in Recruitment portal ..  where applicant can apply the Job"
+            },
+            {
+                "id": 2050,
+                "name": "Web Site Applications",
+                "state": "web-applicants",
+                "purpose": "Web Site Applications : this is used to filter the duplicate and spam data "
+            },
+            {
+                "id": 2051,
+                "name": "Recruitment Event",
+                "state": "event",
+                "purpose": "Recruitment Event : its used for Recruitment Progress for the Applicants"
+            },
+            {
+                "id": 2052,
+                "name": "Training Event",
+                "state": "event",
+                "purpose": "Training Event : this screen is used to Training Program for Apllicant and Employees"
+            },
+            {
+                "id": 2053,
+                "name": "Interview",
+                "state": "interview",
+                "purpose": "this screen for conducting interview for Applicant "
+            },
+            {
+                "id": 2054,
+                "name": "Question Bank",
+                "state": "test-category",
+                "purpose": "Question Bank : this screen use to maintain set of questions banks"
+            },
+            {
+                "id": 2055,
+                "name": "Test Template",
+                "state": "test-template",
+                "purpose": "Test Template : used to maintain the records of Question banks and exam timing and score details"
+            },
+            {
+                "id": 2056,
+                "name": "Certificate Tracker",
+                "state": "certificate-tracker",
+                "purpose": "Test Template : Master Screen "
+            },
+            {
+                "id": 2057,
+                "name": "Recruitment Master",
+                "state": "recruitment-master",
+                "purpose": "Certificate Tracker : To genereate Certificate for applicant who participated in Training Program"
+            },
+            {
+                "id": 2058,
+                "name": "Applicant Profile",
+                "state": "applicant",
+                "purpose": "Application Profile : To maintain the detail of applicant applied for recruitment process"
+            }
+        ]
+    },
+    {
+        "id": 14,
+        "functionality": "HR Operations",
+        "name": "HR Operations",
+        "purpose": "",
+        "state": "operation",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2059,
+                "name": "Employee Profiles",
+                "state": "employee",
+                "purpose": "Employee Profile: this screen for HR to maintain Employees Detail and Official Info "
+            },
+            {
+                "id": 2060,
+                "name": "Appraisal Review",
+                "state": "appraisal",
+                "purpose": "Appraisal Review : In this screen Hr willl initiate the Appraisal Process for Individual Employee"
+            },
+            {
+                "id": 2061,
+                "name": "Assign Responsibility",
+                "state": "user-group-emp",
+                "purpose": "Assign Responsibility : this screen is used to assign employee to the corresponding Responsibilities"
+            },
+            {
+                "id": 2062,
+                "name": "Announcement",
+                "state": "announcement",
+                "purpose": "Announcement : this screen is used to announcement over brach or all over the brach for News or greeting  "
+            },
+            {
+                "id": 2063,
+                "name": "Employee Convention",
+                "state": "employee-convention",
+                "purpose": ""
+            },
+            {
+                "id": 2064,
+                "name": "Leave Settlement",
+                "state": "hr-leave-approval",
+                "purpose": "Leave Settlement : After Manager approved for the leave Hr will noted the leave Records"
+            },
+            {
+                "id": 2065,
+                "name": "Shift Change Request",
+                "state": "shift-request",
+                "purpose": "This screen is used to change a employee shift and approve the shift request "
+            },
+            {
+                "id": 2066,
+                "name": "Exit Interview",
+                "state": "exit-interview",
+                "purpose": "Exit Interview : this screen for the Employee Who applied to paper "
+            },
+            {
+                "id": 2067,
+                "name": "Contractor Profile",
+                "state": "contractor",
+                "purpose": "Contractor Profile : this screen is used to maintain the records of the Contractors"
+            },
+            {
+                "id": 2068,
+                "name": "Direct Attendance",
+                "state": "direct-attendance",
+                "purpose": ""
+            },
+            {
+                "id": 2069,
+                "name": "Attendance Report",
+                "state": "attendance-report",
+                "purpose": "Attendance Report : To track Records of attendance of employee check-in and check-out"
+            },
+            {
+                "id": 2070,
+                "name": "Department Master",
+                "state": "department-master",
+                "purpose": "Department Maste :this Screen for Master Record of Department over the organization "
+            },
+            {
+                "id": 2071,
+                "name": "Employee Service Record",
+                "state": "employee-service-record",
+                "purpose": "This screen for Maintain a records of service handled by employee"
+            },
+            {
+                "id": 2072,
+                "name": "Skill Matrix",
+                "state": "skill-analysis",
+                "purpose": " <u>Based on the research, Sales and Marketing team will provide the markets needs in terms of following</u> <br /> 1. Skills needed <br /> 2. Engineers needed for each skill <br /> <u>Here we can find</u> <br /> a. Existing Engineers within the organisation matching the martket need. <br /> b. Engineer-Shortages for each skill needed in market. <br /> c. Skill-Shortages - where no engineer has the skills needed in market."
+            }
+        ]
+    },
+    {
+        "id": 15,
+        "functionality": "Attendance",
+        "name": "Attendance",
+        "purpose": "",
+        "state": "attendance",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2073,
+                "name": "Attendance Shift",
+                "state": "attendance-shift",
+                "purpose": "Attendance Shift : its a Master screen to handled the records of Shifts"
+            }
+        ]
+    },
+    {
+        "id": 16,
+        "functionality": "Back Office",
+        "name": "Back Office",
+        "purpose": "",
+        "state": "operation",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2074,
+                "name": "Office Master",
+                "state": "office-master",
+                "purpose": "This screen maintain the Branches of the organization"
+            },
+            {
+                "id": 2075,
+                "name": "Employee Profiles",
+                "state": "admin-profile-list",
+                "purpose": "Employee Profile: this screen for HR to maintain Employees Detail and Official Info "
+            },
+            {
+                "id": 2076,
+                "name": "Manager Swap",
+                "state": "manager-swap",
+                "purpose": "Manager Swap:For Change N1 And N2 to bulk of employee"
+            },
+            {
+                "id": 2077,
+                "name": "Appraisal Master",
+                "state": "appraisal-master",
+                "purpose": "Appraisal Master : Is used to maintain the records of Units and Metric Categrories"
+            },
+            {
+                "id": 2078,
+                "name": "Responsibilities",
+                "state": "Responsibilities : this screen is master record for organization responsibility",
+                "purpose": "user-group"
+            },
+            {
+                "id": 2079,
+                "name": "Assign Responsibility",
+                "state": "user-group-emp",
+                "purpose": "Assign Responsibility : this screen is used to assign employee to the corresponding Responsibilities"
+            },
+            {
+                "id": 2080,
+                "name": "Application Access",
+                "state": "access",
+                "purpose": "This screen is used to Maintain the login access of employee and applicant "
+            },
+            {
+                "id": 2081,
+                "name": "Leave Balance",
+                "state": "leave-balances",
+                "purpose": "Leave Balance : this screen is used to check log of leaves applied by employee"
+            },
+            {
+                "id": 2082,
+                "name": "Leave Type",
+                "state": "leave-type",
+                "purpose": "Leave Type : its a Master sceen used to maintain the records of leaves and maxium Duration of a leave"
+            },
+            {
+                "id": 2083,
+                "name": "Bank Info",
+                "state": "bank-info",
+                "purpose": "Bank Info : Its a master screen used to maintain the records of Bank details  "
+            },
+            {
+                "id": 2084,
+                "name": "Day Range",
+                "state": "day-range",
+                "purpose": "Day Range : its a master screen for maintain the travel Advance expense amount for travel and stay"
+            },
+            {
+                "id": 2085,
+                "name": "Document Management",
+                "state": "document-management",
+                "purpose": "Document Management : its used to check the log files uploaded in the server"
+            },
+            {
+                "id": 2086,
+                "name": "Doc Type",
+                "state": "doc-type",
+                "purpose": "Its a Master Data used for upoading document "
+            },
+            {
+                "id": 2087,
+                "name": "Expense Category",
+                "state": "expense-category",
+                "purpose": "Expense Category is a seed data used in expense claim"
+            },
+            {
+                "id": 2088,
+                "name": "Notification Rule",
+                "state": "notification-rule",
+                "purpose": "Notification Rule : is a controller of send mails the user. In this user can stop sending mails for a corresponding operation"
+            },
+            {
+                "id": 2089,
+                "name": "Fiscal Year",
+                "state": "fiscal-year",
+                "purpose": "Fiscal year : Its a master screen to maintain the year records"
+            },
+            {
+                "id": 2090,
+                "name": "Office Calendar",
+                "state": "office-calendar",
+                "purpose": "Office Calendar : its a master sceen used to maintain the leave and working days of individual office"
+            },
+            {
+                "id": 2091,
+                "name": "Function Group",
+                "state": "function-group",
+                "purpose": "Function Groups : is used to maintain the records of service or goods Function"
+            }
+        ]
+    },
+    {
+        "id": 17,
+        "functionality": "Pay Roll",
+        "name": "Pay Roll",
+        "purpose": "",
+        "state": "operation",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2092,
+                "name": "Employee Payslips",
+                "state": "employee-payout",
+                "purpose": "This screen is used to check corresponding employee payslip have been generated or not"
+            },
+            {
+                "id": 2093,
+                "name": "Salary Process - Logs",
+                "state": "payout-process",
+                "purpose": "This screen is used to maintain the log payslip progress for employee"
+            },
+            {
+                "id": 2094,
+                "name": "Upload Payslips",
+                "state": "upload-payslips",
+                "purpose": "Upload Payslip : this screen is used to generate Payslip for employee.. By uploading csv"
+            },
+            {
+                "id": 2095,
+                "name": "Process Salary",
+                "state": "process-salary",
+                "purpose": ""
+            }
+        ]
+    },
+    {
+        "id": 18,
+        "functionality": "Appraisal",
+        "name": "Appraisal",
+        "purpose": "",
+        "state": "appraisal",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2096,
+                "name": "Metrics",
+                "state": "metrics",
+                "purpose": "Matrics : this screen is used to maintain a set matics used for Organisational Goal and  for apprisal"
+            },
+            {
+                "id": 2097,
+                "name": "Organisational Goal",
+                "state": "org-goal",
+                "purpose": "this Screen is used to create and update the organisational goal for the corresponding fiscal year"
+            },
+            {
+                "id": 2098,
+                "name": "Organisational Analysis",
+                "state": "org-analysis",
+                "purpose": "this screen is used to check corresponding fiscal Year Apprisal targeted applied by employee"
+            }
+        ]
+    },
+    {
+        "id": 19,
+        "functionality": "Report",
+        "name": "Report",
+        "purpose": "",
+        "state": "reports",
+        "selected": false,
+        "feature": [
+            {
+                "id": 2099,
+                "name": "Order report",
+                "state": "order-report",
+                "purpose": "This screen for Showing the Order Report from the saleOder"
+            },
+            {
+                "id": 2100,
+                "name": "Revenue report",
+                "state": "revenue-report",
+                "purpose": "This screen is used to show the revenue report of the organization "
+            }
+        ]
+    },
+    {
+        "id": 20,
+        "functionality": "File Manager",
+        "name": "File Manager",
+        "purpose": "",
+        "state": "file-manager",
+        "selected": false,
+        "feature": []
+    }
+]

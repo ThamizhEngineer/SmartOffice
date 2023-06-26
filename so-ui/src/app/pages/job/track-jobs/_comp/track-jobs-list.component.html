@@ -1,0 +1,95 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Onsite Job Tracking</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Onsite Job Tracking - List Jobs </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive m-t-40">
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th data-sort-initial="true" data-toggle="true">#</th>
+                                <th data-sort-initial="true" data-toggle="true">Job Code</th>
+                                <!-- <th data-sort-initial="true" data-toggle="true">Sales Order</th> -->
+                                <th data-sort-initial="true" data-toggle="true">Project Location </th>
+                                <th data-sort-initial="true" data-toggle="true">Start Survey</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr>
+                                <td>1</td>
+                                <td>J-20-10</td>
+                                <td>12345</td>
+                                <td>Ahmedabad Powerplant</td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>J-10-10</td>
+                                <td>23333</td>
+                                <td> Guwahati GE Substation</td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>J-18-10</td>
+                                <td>33445</td>
+                                <td>Qatar-Ras Laffan</td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>J-18-10</td>
+                                <td>33445</td>
+                                <td>Selda, MadhyaPradesh</td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+                            </tr> -->
+
+                            <tr *ngFor="let job of jobs;let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{job.jobCode}}</td>
+                                <td>{{job.mapLocationName}}</td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="navigateToDetailPage(job.id)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

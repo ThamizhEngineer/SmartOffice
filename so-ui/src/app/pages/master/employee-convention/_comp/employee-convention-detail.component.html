@@ -1,0 +1,400 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Employee Convention &nbsp;&nbsp;&nbsp; <span class="label label-{{statuses[employee.empStatus]}}">{{employee.empStatus}}</span> </h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+				<li class="breadcrumb-item active">Employee Convention List</li>
+			</ol>
+		
+			<div >
+					<button type="button" class="btn btn-warning d-none d-lg-block m-l-15" [disabled]="!form.valid" (click)="OnBoardEmployee('profile-update')">Update</button>
+			</div>
+			
+			<div>
+		<button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="listEmployee()">Back</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="card  p-20">
+				<flag-alert [message]="msg"></flag-alert>
+			<ngb-tabset class="customtab">		
+				
+				<ngb-tab title="Personal Info">
+					<ng-template ngbTabContent>
+						<div class="profiletimeline">
+							<div class="sl-item">
+								<div class="card-body" id="printSection">									
+									<div class="sl-right">											
+										<div class="row m-t-10">
+											<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': ename.invalid && (ename.dirty || ename.touched)}">
+												<label class="control-label">First Name<font color="red">*</font></label>
+												<form [formGroup]="form">
+												<input type="text" class="form-control form-control-line" placeholder="FirstName" required pattern="[a-zA-Z0-9][a-zA-Z0-9 ]+" [(ngModel)]="employee.firstName" formControlName="ename" name="empName">
+												<div *ngIf="ename.invalid && (ename.dirty || ename.touched)">
+													<small class="form-control-feedback" *ngIf="ename.errors.required">First Name is required.</small>
+													<small class="form-control-feedback" *ngIf="ename.errors.pattern">Special characters not allowed.</small>
+												</div>
+											</form>
+											</div>
+											<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': lename.invalid && (lename.dirty || lename.touched)}">
+												<label class="control-label">Last Name<font color="red">*</font></label>
+												<form [formGroup]="form">
+												<input type="text" class="form-control form-control-line" placeholder="LastName" required minlength="1" pattern="[a-zA-Z0-9]+" [(ngModel)]="employee.lastName" formControlName="lename" name="empName">
+												<div *ngIf="lename.invalid && (lename.dirty || lename.touched)">
+													<small class="form-control-feedback" *ngIf="lename.errors.required">LastName is required.</small>
+													<small class="form-control-feedback" *ngIf="lename.errors.pattern">Special characters not allowed.</small>
+												</div>
+											</form>
+											</div>
+											<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': cno.invalid && (cno.dirty || cno.touched)}">
+												<label class="control-label">Current Mobile Number<font color="red">*</font></label>
+												<form [formGroup]="form">
+												<input type="text" class="form-control form-control-line" placeholder="Contact Number" [(ngModel)]="employee.contactMobileNo"
+												 required pattern="[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}" formControlName="cno" name="currentNumber">
+												<div *ngIf="cno.invalid && (cno.dirty || cno.touched)">
+													<small class="form-control-feedback" *ngIf="cno?.errors.required">Contact Number is required.</small>
+													<small class="form-control-feedback" *ngIf="cno?.errors.pattern">Contact Number must be 10 digits.</small>
+												</div>
+												</form>
+											</div>
+										
+											<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': dob.invalid && (dob.dirty || dob.touched)}">
+												<label class="control-label">DOB<font color="red">*</font></label>
+												<div class="input-group">
+													<input type="text" class="form-control form-control-line" placeholder="dd-mm-yyyy" [(ngModel)]="employee.vDob" ngbDatepicker
+													 #d="ngbDatepicker" ngbDatepicker #d="ngbDatepicker" [minDate]="{year: 1900, month: 1, day: 1}" (ngModelChange)="updateDate($event, employee, 'dob');isDateModified = true;"
+													#dob="ngModel" name="dob">		
+													<div class="input-group-append">
+														<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+															<i class="fa fa-calendar"></i>
+														</button>
+													</div>
+												</div>
+												<div *ngIf="dob.invalid && (dob.dirty || dob.touched)">
+													<small class="form-control-feedback" *ngIf="dob?.errors.required">Date of Birth is required.</small>													
+												</div>
+											</div>
+
+											<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': emailId.invalid && (emailId.dirty || emailId.touched)}">
+												<label class="control-label">Email<font color="red">*</font></label>
+												<form [formGroup]="form">
+												<input type="email" class="form-control form-control-line" placeholder="Email Id" [(ngModel)]="employee.contactEmailId" required
+												 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" formControlName="emailId" name="emailId">
+												<div *ngIf="emailId.invalid && (emailId.dirty || emailId.touched)">
+													<small class="form-control-feedback" *ngIf="emailId?.errors.required">Email is required.</small>
+													<small class="form-control-feedback" *ngIf="emailId?.errors.pattern">please enter valid email.</small>													
+												</div>
+											</form>
+											</div>
+
+											<div class="form-group col-md-4  col-sm-6">
+													<form [formGroup]="form">
+												<label class="control-label">SEX<font color="red">*</font></label>
+												<div class="custom-control custom-radio">
+													<input type="radio" formControlName="gender" required id="male" value="male" name="gender" [(ngModel)]="employee.gender" class="custom-control-input">
+													<label class="custom-control-label" for="male">Male</label>
+												</div>
+												<div class="custom-control custom-radio">
+													<input type="radio" formControlName="gender" required id="female" value="female"  name="gender" [(ngModel)]="employee.gender" class="custom-control-input">
+													<label class="custom-control-label" for="female" >Female</label>
+												</div>
+											</form>
+											</div>
+
+											<div class="form-group col-md-4 col-sm-6">
+												<label class="control-label">Current Address</label>
+												<textarea type="text" class="form-control form-control-line" placeholder="Current Address" [(ngModel)]="employee.curAddress"
+												 [ngModelOptions]="{standalone: true}" rows="4"></textarea>
+											</div>
+											<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': padd.invalid && (padd.dirty || padd.touched)}">
+												<label class="control-label">Permanent Address</label>
+												<textarea type="text" class="form-control form-control-line" placeholder="Permanent Address" rows="4" [(ngModel)]="employee.permAddress"
+												 required pattern="[#.0-9a-zA-Z\s,-@()]+" #padd="ngModel" name="permanentaddress"></textarea>
+												<div class="custom-control custom-checkbox">
+													<input type="checkbox" class="custom-control-input" id="read[{{item}}]" (click)="onSameCurrentAddress($event)"> Same as Current Address
+													<label class="custom-control-label" for="read[{{item}}]"></label>
+												</div>
+												<div *ngIf="padd.invalid && (padd.dirty || padd.touched)">
+													<small class="form-control-feedback" *ngIf="padd?.errors.required">Address is required.</small>
+													<small class="form-control-feedback" *ngIf="padd?.errors.pattern">Address must be correct value.</small>
+												</div>
+											</div>
+											
+											<div class="form-group col-md-4  col-sm-6">
+												<label class="control-label">Maritial Status</label>
+												<div class="custom-control custom-radio">
+													<input type="radio" id="married" value="Y" name="maritial" [(ngModel)]="employee.maritalStatus" class="custom-control-input">
+													<label class="custom-control-label" (click)="valueIsMarried()" for="married">Married</label>
+												</div>
+												<div class="custom-control custom-radio">
+													<input type="radio" id="single" value="N" name="maritial" [(ngModel)]="employee.maritalStatus" class="custom-control-input">
+													<label class="custom-control-label" for="single" (click)="valueIsSingle()">Single</label>
+												</div>
+											</div>
+											
+
+											<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': passport.invalid && (passport.dirty || passport.touched)}">
+												<label class="control-label">Passport Number</label>
+												<input type="text" class="form-control form-control-line" required #passport="ngModel" [(ngModel)]="employee.passport" [ngModelOptions]="{standalone: true}">
+												<div *ngIf="passport.invalid && (passport.dirty || passport.touched)">
+													<small class="form-control-feedback" *ngIf="passport?.errors.required">Data is required.</small>
+												</div>
+											</div>
+
+											<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': driveLic.invalid && (driveLic.dirty || driveLic.touched)}">
+												<label class="control-label">Driving license number</label>
+												<input type="text" class="form-control form-control-line" required #driveLic="ngModel" [(ngModel)]="employee.drivingLicense" [ngModelOptions]="{standalone: true}">
+												<div *ngIf="driveLic.invalid && (driveLic.dirty || driveLic.touched)">
+													<small class="form-control-feedback" *ngIf="driveLic?.errors.required">Data is required.</small>
+												</div>
+											</div>
+
+											<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': ghobbi.invalid && (ghobbi.dirty || ghobbi.touched)}">
+												<label class="control-label">Interest / Hobbies</label>
+												<textarea type="text" class="form-control form-control-line" required #ghobbi="ngModel" [(ngModel)]="employee.hobbies" [ngModelOptions]="{standalone: true}"
+												 rows="4"></textarea>
+												<div *ngIf="ghobbi.invalid && (ghobbi.dirty || ghobbi.touched)">
+													<small class="form-control-feedback" *ngIf="ghobbi?.errors.required">Data is required.</small>
+												</div>
+											</div>
+										</div>
+									
+										<h4>Physical Fitness</h4>
+										<div class="row">
+											<div class="form-group col-md-4 col-sm-6">
+												<label class="control-label">Height</label>
+												<input type="number" class="form-control form-control-line" [(ngModel)]="employee.height" [ngModelOptions]="{standalone: true}"
+												 placeholder="Height">
+												<small class="form-control-feedback">In cms</small>
+											</div>
+											<div class="form-group col-md-4 col-sm-6">
+												<label class="control-label">Weight</label>
+												<input type="number" class="form-control form-control-line" [(ngModel)]="employee.weight" [ngModelOptions]="{standalone: true}"
+												 placeholder="Weight">
+												<small class="form-control-feedback">In Kgs</small>
+											</div>
+											<div class="form-group col-md-4 col-sm-6">
+												<label class="control-label">Blood group</label>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="employee.bloodGroup" [ngModelOptions]="{standalone: true}"
+												 placeholder="Blood group">
+											</div>
+											<div class="form-group col-md-4 col-sm-6">
+												<label class="control-label">Eye Sight</label>
+												<select class="form-control form-control-line">
+													<option>Normal</option>
+													<option>Corrected</option>
+												</select>
+											</div>
+											<div class="form-group col-md-4 col-sm-6">
+												<label class="control-label">Left Power</label>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="employee.eyeLeftPower" [ngModelOptions]="{standalone: true}"
+												 placeholder="Left Power">
+											</div>
+											<div class="form-group col-md-4 col-sm-6">
+												<label class="control-label">Right Power</label>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="employee.eyeRightPower" [ngModelOptions]="{standalone: true}"
+												 placeholder="Right Power">
+											</div>
+										
+										</div>
+										
+									</div>
+								</div>
+								<div class="row m-t-20">
+										
+									<div class="form-group col-md-3 col-sm-6">
+										<div class="col-12 text-left">
+											<label>Please Upload Photo of you.</label>
+										</div>
+										<div class="col-12">
+											<file-upload [fileDetail]="'EMP-OTHER'" (change)="fileChange($event,'EMP-OTHER')"></file-upload>
+										</div>										
+										<a href="javascript:void(0)" *ngIf="employee.docId!=null" (click)="download(employee.docId,'');">
+											<font color="Green">Download</font>
+										</a>																		
+									</div>	
+									
+									<div class="form-group col-md-1 col-sm-6">
+										<div class="col-12 text-left">
+											<label></label>
+										</div>
+											<button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="printEmpProfile('onboard')">Print</button>
+									</div>
+									<div *ngIf="employee.empProfilePdfId!=null" class="form-group col-md-2 col-sm-6">
+										<div class="col-12 text-left">
+											<label></label>
+										</div>
+										<button type="button" class="btn btn-warning d-none d-lg-block m-l-15" (click)="download(employee.empProfilePdfId,employee.empCode+'  '+employee.empName)">Download Employee Pdf</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</ng-template>
+				</ngb-tab>
+
+
+				<ngb-tab title="Official Info" [disabled]="hideOfficial">
+					<ng-template ngbTabContent>
+						<div class="card-body">
+							<div class="row">
+							<div class="form-group col-sm-6 col-md-4">
+											<label class="control-label">Internal Id</label>
+											<br />
+											<span class="label label-default">{{employee.internalId}} </span>
+								</div>
+								<div class="form-group col-sm-6 col-md-4">
+									<label class="control-label">Employee Code</label>
+									<br />
+									<span class="label label-default">{{employee.empCode}} </span>
+								</div>							
+								<div class="form-group col-sm-6 col-md-4">
+									<label class="control-label">Designation<font color="red">*</font></label>
+									<form [formGroup]="form">	
+									<select class="form-control" formControlName="design" [(ngModel)]="employee.designationId">
+										<option *ngFor="let v of designations" [value]="v.id">{{v.desigName}}</option>
+									</select>
+								</form>
+								</div>							
+								<div class="form-group col-sm-6 col-md-4" [ngClass]="{'has-danger': managerName.invalid && (managerName.dirty || managerName.touched)}">
+									<label class="control-label">N+1 Manager<font color="red">*</font></label><form [formGroup]="form">									
+									<input type="text" class="form-control form-control-line" [ngbTypeahead]="profileAC" [resultTemplate]="rt1" [inputFormatter]="formatter"
+									 (ngModelChange)="selEmp();" placeholder="Manager" (selectItem)="projectSelected($event)" [value]="employee.managerName" formControlName="managerName" name="managerName">
+
+									<ng-template #rt1 let-r="result" let-t="term">
+										{{r.empCode}} - {{ r.empName}}
+									</ng-template>
+									<div *ngIf="managerName.invalid && (managerName.dirty || managerName.touched)">
+										<small class="form-control-feedback" *ngIf="managerName.errors.required">Manager Name is required.</small>
+									</div>
+									</form>
+								</div>
+								<div class="form-group col-sm-6 col-md-4" [ngClass]="{'has-danger': reviewManagerName.invalid && (reviewManagerName.dirty || reviewManagerName.touched)}">
+									<label class="control-label">N+2 Manager<font color="red">*</font></label>								
+									<form [formGroup]="form">
+									<input type="text" class="form-control form-control-line" [ngbTypeahead]="profileAC" [resultTemplate]="rt1" [inputFormatter]="formatter"
+									 (ngModelChange)="selEmp();" placeholder="Manager" (selectItem)="projectSelected1($event)" [value]="employee.reviewManagerName" formControlName="reviewManagerName" name="reviewManagerName">
+
+									<ng-template #rt1 let-r="result" let-t="term">
+										{{r.empCode}} - {{ r.empName}}
+									</ng-template>	
+									<div *ngIf="reviewManagerName.invalid && (reviewManagerName.dirty || reviewManagerName.touched)">
+										<small class="form-control-feedback" *ngIf="reviewManagerName.errors.required">Review Manager Name is required.</small>
+									</div>
+									</form>									
+								</div>
+								<div class="form-group col-sm-6 col-md-4">
+									<label class="control-label">Hr-1 Manager<font color="red">*</font></label>
+									<form [formGroup]="form">
+									<select class="form-control" formControlName="hrgroup1" [(ngModel)]="employee.hr1UsrGrpId">
+										<option *ngFor="let v of hr1" [value]="v.id">{{v.userGroupName}}</option>
+									</select>
+								</form>
+								</div>
+								<div class="form-group col-sm-6 col-md-4">
+									<label class="control-label">Hr-2 Manager<font color="red">*</font></label>
+									<form [formGroup]="form">
+									<select class="form-control" formControlName="hrgroup2" [(ngModel)]="employee.hr2UsrGrpId">
+										<option *ngFor="let v of hr2" [value]="v.id">{{v.userGroupName}}</option>
+									</select>
+								</form>
+								</div>
+								<div class="form-group col-sm-6 col-md-4">
+									<label class="control-label">Accounts-1 Manager<font color="red">*</font></label>
+									<form [formGroup]="form">
+									<select class="form-control" formControlName="accgroup1" [(ngModel)]="employee.acc1UsrGrpId">
+										<option *ngFor="let v of acc1" [value]="v.id">{{v.userGroupName}}</option>
+									</select>
+								</form>
+								</div>
+								<div class="form-group col-sm-6 col-md-4">
+									<label class="control-label">Accounts-2 Manager<font color="red">*</font></label>
+									<form [formGroup]="form">
+									<select class="form-control" formControlName="accgroup2" [(ngModel)]="employee.acc2UsrGrpId">
+										<option *ngFor="let v of acc2" [value]="v.id">{{v.userGroupName}}</option>
+									</select>
+								</form>
+								</div>
+								<div class="form-group col-sm-6 col-md-4">
+									<label class="control-label">Director<font color="red">*</font></label>
+									<form [formGroup]="form">
+									<select class="form-control" formControlName="director" [(ngModel)]="employee.dirUsrGrpId">
+										<option *ngFor="let v of dir" [value]="v.id">{{v.userGroupName}}</option>
+									</select>
+								</form>
+								</div>
+
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': pfNo.invalid && (pfNo.dirty || pfNo.touched)}">
+									<label class="control-label">PF Number<font color="red">*</font></label>
+									<form [formGroup]="form">
+									<input type="text" class="form-control form-control-line" required formControlName="pfNo" [(ngModel)]="employee.pfNo"
+									 placeholder="PF Number">
+									 <div *ngIf="pfNo.invalid && (pfNo.dirty || pfNo.touched)">
+											<small class="form-control-feedback" *ngIf="pfNo.errors.required">PF Number is required.</small>
+										</div>
+									</form>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': esiNo.invalid && (esiNo.dirty || esiNo.touched)}">
+									<label class="control-label">ESI Number<font color="red">*</font></label>
+									<form [formGroup]="form">
+									<input type="text" class="form-control form-control-line" required	formControlName="esiNo" [(ngModel)]="employee.esiNo" 
+									 placeholder="ESI Number">
+									 <div *ngIf="esiNo.invalid && (esiNo.dirty || esiNo.touched)">
+											<small class="form-control-feedback" *ngIf="esiNo.errors.required">ESI Number is required.</small>
+										</div>
+									</form>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': uanNo.invalid && (uanNo.dirty || uanNo.touched)}">
+									<label class="control-label">UAN Number<font color="red">*</font> </label>
+									<form [formGroup]="form">
+									<input type="text" class="form-control form-control-line" required formControlName="uanNo" [(ngModel)]="employee.uanNo" 
+									 placeholder="UAN Number">
+									 <div *ngIf="uanNo.invalid && (uanNo.dirty || uanNo.touched)">
+											<small class="form-control-feedback" *ngIf="uanNo.errors.required">UAN Number is required.</small>
+										</div>
+									</form>
+								</div>
+
+								<div class="form-group col-sm-6 col-md-4">
+									<label class="control-label">Office<font color="red">*</font></label>
+									<form [formGroup]="form">
+									<select class="form-control" formControlName="office" [(ngModel)]="employee.officeId">
+										<option *ngFor="let v of offices" [value]="v.id">{{v.officeName}}</option>
+									</select>	
+								</form>
+								</div>
+
+								<div class="form-group col-sm-6 col-md-4">
+									<label class="control-label">Department<font color="red">*</font></label>
+									<form [formGroup]="form">
+									<select class="form-control" 	formControlName="dept" [(ngModel)]="employee.deptId">
+										<option *ngFor="let v of department" [value]="v.id">{{v.deptName}}-{{v.deptCode}}</option>
+									</select>	
+								</form>
+								</div>
+								<div class="form-group col-sm-6 col-md-4">
+									<label class="control-label">Employee Category<font color="red">*</font></label>
+									<select class="form-control" [(ngModel)]="employee.empCategory">
+										<option value='Regular'>Regular</option>
+										<option value='Middle-Management'>Middle-Management</option>
+										<option value='Senior-Management'>Senior-Management</option>
+									</select>
+								</div>								
+							</div>
+						</div>
+					</ng-template>
+				</ngb-tab>
+				
+			</ngb-tabset>
+		</div>
+	</div>
+</div>
+
+

@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-icon slot="icon-only" (click)="chatListClicked()" name="list"></ion-icon>
+    </ion-buttons>
+    <ion-title>Chat Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isTypeGrp==false">
+    <ion-list no-lines class="msgbubble" *ngFor="let msg of messageRes">
+      <div class="innermsg left" *ngIf="currentUserId != msg.fromAuthUserId">
+        {{ msg.messagePayload }}
+      </div>
+      <div class="innerTime left" *ngIf="currentUserId != msg.fromAuthUserId">{{msg.sentDt | date:'shortTime'}}</div>
+      <div class="innermsg right" *ngIf="currentUserId == msg.fromAuthUserId">
+        {{ msg.messagePayload }}
+      </div>
+      <div class="innerTime right" *ngIf="currentUserId == msg.fromAuthUserId">{{msg.sentDt | date:'shortTime'}}</div>
+    </ion-list>
+  </div>
+  <div *ngIf="isTypeGrp==true">
+    <ion-list no-lines class="msgbubble" *ngFor="let msg of messageRes">
+      <div class="innermsg left" *ngIf="currentUserId != msg.authUserId">
+      <b> {{msg.authUserName}} : </b> {{ msg.messagePayload }}
+      </div>
+      <div class="innermsg right" *ngIf="currentUserId == msg.authUserId">
+        {{ msg.messagePayload }}
+      </div>
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="10">
+          <ion-item>
+            <ion-label position="floating">Message</ion-label>
+            <ion-textarea [(ngModel)]="currentMessagePayload"></ion-textarea>
+          </ion-item>
+        </ion-col>
+        <ion-col *ngIf="isTypeGrp==false" size="2">
+          <ion-icon name="send" (click)="sendMessage()"></ion-icon>
+        </ion-col>
+        <ion-col *ngIf="isTypeGrp==true" size="2">
+          <ion-button (click)="sendGroupMessage()">
+          <ion-icon name="send" ></ion-icon>
+        </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

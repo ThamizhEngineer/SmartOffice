@@ -1,0 +1,651 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">{{(addScreen?"New Applicant":flowType)}}</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item active">{{(addScreen?"New Applicant":flowType)}}</li>
+			</ol>
+			<button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="saveApplicant()">Save</button>
+
+			<button type="button" class="btn btn-info d-none d-lg-block m-l-15" (click)="listApplicant()">Back</button>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="card  p-20">
+			<ngb-tabset>
+				<!-- <ngb-tab title="Timeline">
+				<ng-template ngbTabContent>
+	
+					<div class="card-body">
+						<div class="profiletimeline">
+							<div class="sl-item">
+								<div class="sl-left"> <img src="./assets/img/users/en1.png" alt="user" class="img-circle" /> </div>
+								<div class="sl-right">
+									<div><a href="javascript:void(0)" class="link">Palani Ananthan</a> <span class="sl-date">5 minutes ago</span>
+										<p>created a new project <a href="javascript:void(0)">Jindal-Bellary Solar Plant</a></p>
+										<div class="row">
+											<div class="col-lg-3 col-md-6 m-b-20"><img src="./assets/img/users/solar.jpeg" class="img-responsive radius" /></div>
+											
+										</div>
+										<div class="like-comm"> <a href="javascript:void(0)" class="link m-r-10">2 comment</a>  </div>
+									</div>
+								</div>
+							</div>
+							<hr>
+							<div class="sl-item">
+								<div class="sl-left"> <img src="./assets/img/users/en2.jpg" alt="user" class="img-circle" /> </div>
+								<div class="sl-right">
+									<div> <a href="javascript:void(0)" class="link">L Perumal</a> <span class="sl-date">15 minutes ago</span>
+										<div class="m-t-20 row">
+											<div class="col-md-3 col-xs-12"><img src="./assets/img/client/5.jpg" alt="user" class="img-responsive radius" /></div>
+											<div class="col-md-9 col-xs-12">
+												<p> Feasability Study Report-Draft for Seder Group Project Completed and pending for review </p> <a href="javascript:void(0)" class="btn btn-success"> View Report</a></div>
+										</div>
+										<div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10">2 comment</a> </div>
+									</div>
+								</div>
+							</div>
+							<hr>
+						
+							<div class="sl-item">
+								<div class="sl-left"> <img src="./assets/img/users/en2.jpg" alt="user" class="img-circle" /> </div>
+								<div class="sl-right">
+								
+
+									<div><a href="javascript:void(0)" class="link">Chokkalinga Pandian</a> <span class="sl-date">57 minutes ago</span>
+										<p class="m-t-10">   Commercial Operations Plan for 2018-2019 submitted for revision </p>
+									</div>
+									<div><a href="javascript:void(0)" class="link">Palani Ananthan</a> <span class="sl-date">5 minutes ago</span>
+									<blockquote class="m-t-10">
+										Lets discuss this next week and finalize...
+									</blockquote>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			
+				</ng-template>
+				</ngb-tab> -->
+				<ngb-tab title="Personal Info">
+					<ng-template ngbTabContent>
+						<div class="card-body" id="printSection">
+							<div class="row m-t-10">
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': firstName.invalid && (firstName.dirty || firstName.touched)}">
+									<label class="control-label">First Name</label>
+									<input type="text" class="form-control form-control-line" placeholder="Name" required pattern="[a-zA-Z][a-zA-Z ]+" [(ngModel)]="applicant.firstName" #firstName="ngModel" name="firstName">
+									<div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+										<small class="form-control-feedback" *ngIf="firstName.errors.required">Name is required.</small>
+										<small class="form-control-feedback" *ngIf="firstName.errors.pattern">Name must be alphabetic.</small>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': lastName.invalid && (lastName.dirty || lastName.touched)}">
+									<label class="control-label">Last Name</label>
+									<input type="text" class="form-control form-control-line" placeholder="Name" required pattern="[a-zA-Z][a-zA-Z ]+" [(ngModel)]="applicant.lastName" #lastName="ngModel" name="firstName">
+									<div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+										<small class="form-control-feedback" *ngIf="lastName.errors.required">Name is required.</small>
+										<small class="form-control-feedback" *ngIf="lastName.errors.pattern">Name must be alphabetic.</small>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': cpno.invalid && (cpno.dirty || cpno.touched)}">
+									<label class="control-label">Permanent Contact Number</label>
+									<input type="text" class="form-control form-control-line" placeholder="Contact Number" [(ngModel)]="applicant.contactMobileNo" required pattern="[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}" #cpno="ngModel" name="permanentNumber">
+									<div *ngIf="cpno.invalid && (cpno.dirty || cpno.touched)">
+										<small class="form-control-feedback" *ngIf="cpno.errors.required">Contact Number is required.</small>
+										<small class="form-control-feedback" *ngIf="cpno.errors.pattern">Contact Number must be 10 digits.</small>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': dob.invalid && (dob.dirty || dob.touched)}">
+									<label class="control-label">DOB</label>
+									<div class="input-group">
+										<input type="text" class="form-control form-control-line" placeholder="mm-dd-yyyy" [(ngModel)]="applicant.vDob" ngbDatepicker #d="ngbDatepicker" [minDate]="{year: 1900, month: 1, day: 1}" (ngModelChange)="updateDate($event, applicant, 'dob');isDateModified = true;" #dob="ngModel" name="dob">
+										<div class="input-group-append">
+											<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+										</div>	
+									</div>
+									<div *ngIf="dob.invalid && (dob.dirty || dob.touched)">
+										<small class="form-control-feedback" *ngIf="dob.errors.required">Date of Birth is required.</small>
+										<!-- <small class="form-control-feedback" *ngIf="email.errors.pattern">Contact Number must be 10 digits.</small> -->
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Current Address</label>
+									<textarea type="text" class="form-control form-control-line" placeholder="Current Address" [(ngModel)]="applicant.curAddress"  [ngModelOptions]="{standalone: true}"rows="4"></textarea>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': padd.invalid && (padd.dirty || padd.touched)}">
+									<label class="control-label">Permanent Address</label>
+									<textarea type="text" class="form-control form-control-line" placeholder="Permanent Address" rows="4" [(ngModel)]="applicant.permAddress" required pattern="[#.0-9a-zA-Z\s,-@()]+" #padd="ngModel" name="permanentaddress"></textarea>
+									<div *ngIf="padd.invalid && (padd.dirty || padd.touched)">
+										<small class="form-control-feedback" *ngIf="padd.errors.required">Address is required.</small>
+										<small class="form-control-feedback" *ngIf="padd.errors.pattern">Address must be correct value.</small>
+									</div>
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input"  id="read[0]" (click)="onSameCurrentAddress($event)" >
+										Same as Current Address
+										<label class="custom-control-label" for="read[0]"></label>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': emailId.invalid && (emailId.dirty || emailId.touched)}">
+									<label class="control-label">Email</label>
+									<input type="text" class="form-control form-control-line" placeholder="Email Id" [(ngModel)]="applicant.emailId" required  #emailId="ngModel" name="emailId">
+									<div *ngIf="emailId.invalid && (emailId.dirty || emailId.touched)">
+										<small class="form-control-feedback" *ngIf="emailId.errors.required">Email is required.</small>
+										<!-- <small class="form-control-feedback" *ngIf="emailId.errors.pattern">Invalid email address.</small> -->
+									</div>
+								</div>
+								<div class="form-group col-md-4  col-sm-6">
+									<label class="control-label">Maritial Status</label>
+									<div class="custom-control custom-radio">
+										<input type="radio" id="married" value="Y" name="maritial" [(ngModel)]="applicant.maritalStatus" class="custom-control-input">
+										<label class="custom-control-label" (click)="valueIsMarried()" for="married">Married</label>
+									</div>
+									<div class="custom-control custom-radio">
+										<input type="radio" id="single" value="N"  name="maritial" [(ngModel)]="applicant.maritalStatus" class="custom-control-input" (ngModelChange)="valueIsSingle()" (click)="valueIsSingle()">
+										<label class="custom-control-label" for="single" (click)="valueIsSingle()" >Single</label>
+									</div>
+								</div>
+								<div class="form-group col-md-4  col-sm-6">
+									<label class="control-label">Spouse Name</label>
+									<input type="text" class="form-control form-control-line" [(ngModel)]="applicant.spouseName" [disabled]="isSingle" [ngModelOptions]="{standalone: true}" placeholder="Spouse Name">
+								</div>
+								<div class="form-group col-md-4  col-sm-6">
+									<label class="control-label">Spouse Occupation</label>
+									<input type="text" class="form-control form-control-line" [(ngModel)]="applicant.spouseOccup" [disabled]="isSingle" [ngModelOptions]="{standalone: true}" placeholder="Spouse Occupation">
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Number of Children</label>
+									<input type="number" class="form-control form-control-line"  [(ngModel)]="applicant.noOfChildren" [disabled]="isSingle" [ngModelOptions]="{standalone: true}" placeholder="Number of Children" (ngModelChange)="childrenCount($event);">
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Number of Dependant</label>
+									<input type="number" class="form-control form-control-line" [(ngModel)]="applicant.noOfDependant" [disabled]="isSingle" [ngModelOptions]="{standalone: true}"placeholder="Number of Dependant">
+								</div>
+							</div>
+							<div class="table-responsive" *ngIf="children?.length">
+								<h4>Children Details</h4>
+								<table class="table table-striped table-hover table-bordered" >
+									<thead>
+										<tr>
+											<th>Age</th>
+											<th>Gender</th>
+											<th>Name</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let item of children">
+											<td>
+												<input type="text" class="form-control form-control-line" placeholder="Age">
+											</td>
+											<td>
+												<select  class="form-control form-control-line">
+												<option>Male</option>
+												<option>Female</option>
+												</select>
+											</td>
+											<td>
+												<input type="text" class="form-control form-control-line" placeholder="Name">
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h4>Physical Fitness</h4>
+							<div class="row">
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Height</label>
+									<input type="number" class="form-control form-control-line"  [(ngModel)]="applicant.height" [ngModelOptions]="{standalone: true}"placeholder="Height">
+									<small class="form-control-feedback">In cms</small>
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Weight</label>
+									<input type="number" class="form-control form-control-line" [(ngModel)]="applicant.weight" [ngModelOptions]="{standalone: true}" placeholder="Weight">
+									<small class="form-control-feedback">In Kgs</small>
+								</div>
+								<!-- <div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Blood group</label>
+									<input type="text" class="form-control form-control-line" [(ngModel)]="applicant.bloodGroup" [ngModelOptions]="{standalone: true}"  placeholder="Blood group">
+								</div> -->
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Blood group</label>
+									<select type="text" class="form-control form-control-line" [(ngModel)]="applicant.bloodGroup" [ngModelOptions]="{standalone: true}"
+									 placeholder="Blood group">
+									 <option *ngFor="let b of blood" [value]="b.configDtlCode">{{b.configDtlName}}</option>
+									 </select>
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Eye Sight</label>
+									<select  class="form-control form-control-line">
+										<option>Normal</option>
+										<option>Corrected</option>
+									</select>
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Left Power</label>
+									<input type="text" class="form-control form-control-line" [(ngModel)]="applicant.eyeLeftPower" [ngModelOptions]="{standalone: true}"  placeholder="Left Power">
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Right Power</label>
+									<input type="text" class="form-control form-control-line" [(ngModel)]="applicant.eyeRightPower" [ngModelOptions]="{standalone: true}"  placeholder="Right Power">
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Identification Marks</label>
+									<input type="text" class="form-control form-control-line" [(ngModel)]="applicant.identifnMrk1" [ngModelOptions]="{standalone: true}"  placeholder="Mark 1">
+									<small class="form-control-feedback">Mark 1</small>
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Identification Marks</label>
+									<input type="text" class="form-control form-control-line" [(ngModel)]="applicant.identifnMrk2" [ngModelOptions]="{standalone: true}"  placeholder="Mark 2">
+									<small class="form-control-feedback">Mark 2</small>
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">State Physical Challenges if any</label>
+									<textarea type="text" class="form-control form-control-line" [(ngModel)]="applicant.physicalChalng" [ngModelOptions]="{standalone: true}"  placeholder="Challenges" rows="4"></textarea>
+								</div>
+							</div>
+							<div class="table-responsive">
+								<h4>Languages Known</h4>
+								<table class="table table-striped table-hover table-bordered" >
+									<thead>
+										<tr>
+											<th>Language</th>
+											<th>Read</th>
+											<th>Write</th>
+											<th>Speak</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>	
+										<tr *ngFor="let e of applicant?.languages;let item=index">
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.language" [ngModelOptions]="{standalone: true}" placeholder="Language">
+											</td>
+											<td>
+												<div class="custom-control custom-checkbox">
+													<input type="checkbox" class="custom-control-input" [(ngModel)]="e.langRead" [ngModelOptions]="{standalone: true}" id="read[{{item}}]">
+													<label class="custom-control-label" for="read[{{item}}]"></label>
+												</div>
+											</td>
+											<td>
+												<div class="custom-control custom-checkbox">
+													<input type="checkbox" class="custom-control-input" [(ngModel)]="e.langWrite" [ngModelOptions]="{standalone: true}" id="write[{{item}}]">
+													<label class="custom-control-label" for="write[{{item}}]"></label>
+												</div>
+											</td>
+											<td>
+												<div class="custom-control custom-checkbox">
+													<input type="checkbox" class="custom-control-input" [(ngModel)]="e.langSpeak" [ngModelOptions]="{standalone: true}" id="speak[{{item}}]">
+													<label class="custom-control-label" for="speak[{{item}}]"></label>
+												</div>
+											</td>
+											<td>
+												<a href="javascript:void(0)" (click)="addLanguageRows()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+												<a href="javascript:void(0)" *ngIf="applicant?.languages.length > 1" (click)="delLanguageRow(item)"><i class="fa fa-close text-danger"></i></a>
+											</td>
+									
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-12 m-l-15">
+								
+									<div class="col-12 text-left"><label>Please Upload Photo of you.</label></div>
+									<div class="col-12"><file-upload [fileDetail]="'APPLICANT-PHOTO'" (change)="fileChange($event,'APPLICANT-PHOTO')"></file-upload></div>
+							<!-- <button type="submit" class="btn btn-info waves-effect waves-light m-t-10" (click)="printPage()">Print Info</button> -->
+							<a href="javascript:void(0)" *ngIf="applicant.docId!=null" (click)="download(applicant.docId);"><font  color="Green">Download</font></a>	
+							</div>
+						
+							
+								
+							
+						</div>
+						
+					</ng-template>
+				</ngb-tab>
+	
+				<ngb-tab title="Family Info">
+					<ng-template ngbTabContent>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-striped table-hover table-bordered" >
+									<thead>
+										<tr>
+											<th>Name</th>
+											<th>Relationship</th>
+											<th>Occupation</th>
+											<th>Contact Number</th>
+											<th>Email</th>
+											<th>Action</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let e of applicant?.familyInfo;let item=index">
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.name" [ngModelOptions]="{standalone: true}" placeholder="Name">
+											</td>
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.relation" [ngModelOptions]="{standalone: true}" placeholder="Relationship">
+											</td>
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.occupation" [ngModelOptions]="{standalone: true}" placeholder="Occupation">
+											</td>
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.contactNo" [ngModelOptions]="{standalone: true}" placeholder="Contact Number">
+											</td>
+											<td>
+												<input type="text" class="form-control form-control-line"  [(ngModel)]="e.email" [ngModelOptions]="{standalone: true}" placeholder="Email">
+											</td>
+											<td>
+												<a href="javascript:void(0)" (click)="addFamilyRows()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+												<a href="javascript:void(0)" *ngIf="applicant?.familyInfo.length > 1" (click)="delFamilyRow(item)"><i class="fa fa-close text-danger"></i></a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h4>Emergency Contact Details</h4>
+							<div class="row">
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Name</label>
+									<input type="text" class="form-control form-control-line"  [(ngModel)]="applicant.name" [ngModelOptions]="{standalone: true}" placeholder="Name">
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Relationship</label>
+									<input type="text" class="form-control form-control-line"  [(ngModel)]="applicant.relations" [ngModelOptions]="{standalone: true}"  placeholder="Relationship">
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">Contact Number</label>
+									<input type="text" class="form-control form-control-line"  [(ngModel)]="applicant.contactNo" [ngModelOptions]="{standalone: true}" placeholder="Contact Number">
+								</div>
+							</div>
+							<h4>General</h4>
+							<div class="row">
+								<div class="form-group col-md-4 col-sm-6">
+									<small>1. Do you have any relatives working in Pothigai Power? If Yes, Please give the details</small>
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input"  [(ngModel)]="applicant.relInPodhigai" [ngModelOptions]="{standalone: true}" id="isRel">
+										<label class="custom-control-label" for="isRel"></label>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" *ngIf="applicant.relInPodhigai">
+									<label class="control-label">Name</label>
+									<input type="text" class="form-control form-control-line" [(ngModel)]="applicant.relName" [ngModelOptions]="{standalone: true}" placeholder="Name">
+								</div>
+								<div class="form-group col-md-4 col-sm-6" *ngIf="applicant.relInPodhigai">
+									<label class="control-label">Relationship</label>
+									<input type="text" class="form-control form-control-line" [(ngModel)]="applicant.relation" [ngModelOptions]="{standalone: true}" placeholder="Relationship">
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">2. How do you know Pothigai Power Job Openings?</label>
+									<textarea type="text" class="form-control form-control-line"[(ngModel)]="applicant.jobOpening" [ngModelOptions]="{standalone: true}" rows="4"></textarea>
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<label class="control-label">3. Interest / Hobbies:</label>
+									<textarea type="text" class="form-control form-control-line" [(ngModel)]="applicant.hobbies" [ngModelOptions]="{standalone: true}" rows="4"></textarea>
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<small>4. Have you been convicted for any offences in civil / criminal proceedings? If yes Please give the details:</small>
+									<textarea type="text" class="form-control form-control-line"  [(ngModel)]="applicant.offences" [ngModelOptions]="{standalone: true}" rows="4"></textarea>
+								</div>
+							</div>
+							<h4>References</h4>
+							<div class="row">
+								<div class="form-group col-md-4 col-sm-6">
+									<textarea type="text" class="form-control form-control-line" [(ngModel)]="applicant.reference1" [ngModelOptions]="{standalone: true}" rows="4" placeholder="References 1"></textarea>
+								</div>
+								<div class="form-group col-md-4 col-sm-6">
+									<textarea type="text" class="form-control form-control-line"  [(ngModel)]="applicant.reference2" [ngModelOptions]="{standalone: true}" rows="4" placeholder="References 2"></textarea>
+								</div>
+							</div>
+						</div>
+					</ng-template>
+				</ngb-tab>		
+				<ngb-tab title="Educational Info">
+					<ng-template ngbTabContent>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-striped table-hover table-bordered" >
+									<thead>
+										<tr>
+											<th>Name of Exam/ Degree/ Diploma</th>
+											<th>School/ College/ University</th>
+											<th>Year of Passing</th>
+											<th>Specialization/ Branch</th>
+											<th>Grade/ Percentage</th>
+											<th>Type</th>
+											<th>Action</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+											<tr *ngFor="let e of applicant?.educationalInfo;let item=index">
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.examName" [ngModelOptions]="{standalone: true}" placeholder="Exam">
+											</td>
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.place" [ngModelOptions]="{standalone: true}"  placeholder="University">
+											</td>
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.yearOfPassing" [ngModelOptions]="{standalone: true}"  placeholder="Year">
+											</td>
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.specialization" [ngModelOptions]="{standalone: true}"  placeholder="Specialization">
+											</td>
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.score" [ngModelOptions]="{standalone: true}"  placeholder="Grade">
+											</td>
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.type" [ngModelOptions]="{standalone: true}"  placeholder="Type">
+											</td>
+											<td>
+												<a href="javascript:void(0)" (click)="addEduRows()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+												<a href="javascript:void(0)" *ngIf="applicant?.educationalInfo.length > 1" (click)="delEduRow(item)"><i class="fa fa-close text-danger"></i></a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h4>Academic Achievements (Training – Professional Course / vocational Course Project Work)</h4>
+							<div class="table-responsive m-t-20">
+								<table class="table table-striped table-hover table-bordered" >
+									<thead>
+										<tr>
+											<th>Organization</th>
+											<th>Details of Training \ Projects</th>
+											<th>From Date</th>
+											<th>To Date</th>
+											<th>Action</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+											<tr *ngFor="let e of applicant?.academicAcheiv;let item=index">
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.organization" [ngModelOptions]="{standalone: true}" placeholder="Organization">
+											</td>
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.trainDetails" [ngModelOptions]="{standalone: true}" placeholder="Details of Training \ Projects">
+											</td>
+											<td>
+												<div class="input-group">
+													<input type="date" class="form-control form-control-line" [(ngModel)]="e.fromDt"  placeholder="From Date"  >													
+												</div>
+											</td>
+											<td>
+												<div class="input-group">
+													<input type="date" class="form-control form-control-line" [(ngModel)]="e.toDt" placeholder="To Date" >
+													
+												</div>
+											</td>
+											<td>
+												<a href="javascript:void(0)" (click)="addAccRows()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+												<a href="javascript:void(0)" *ngIf="applicant?.academicAcheiv.length > 1" (click)="delAccRow(item)"><i class="fa fa-close text-danger"></i></a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</ng-template>
+				</ngb-tab>
+				<ngb-tab title="Employment History">
+					<ng-template ngbTabContent>
+						<div class="card-body">
+							<h4>Present Remuneration Drawn</h4>
+							<div class="row m-t-10">
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': monthly.invalid && (monthly.dirty || monthly.touched)}">
+									<label class="control-label">Monthly </label>
+									<input type="text" class="form-control form-control-line" placeholder="Monthly" required [(ngModel)]="applicant.monthlyRemun" [ngModelOptions]="{standalone: true}" #monthly="ngModel" name="monthly">
+									<div *ngIf="monthly.invalid && (monthly.dirty || monthly.touched)">
+										<small class="form-control-feedback" *ngIf="monthly.errors.required">Data is required.</small>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': annually.invalid && (annually.dirty || annually.touched)}">
+									<label class="control-label">Annually </label>
+									<input type="text" class="form-control form-control-line" placeholder="Annually" required [(ngModel)]="applicant.annualRemun" [ngModelOptions]="{standalone: true}" #annually="ngModel" name="annually">
+									<div *ngIf="annually.invalid && (annually.dirty || annually.touched)">
+										<small class="form-control-feedback" *ngIf="annually.errors.required">Data is required.</small>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': other.invalid && (other.dirty || other.touched)}">
+									<label class="control-label">Other Terminal Benefits </label>
+									<input type="text" class="form-control form-control-line" placeholder="Other" required [(ngModel)]="applicant.benefitsRemun" [ngModelOptions]="{standalone: true}" #other="ngModel" name="Other">
+									<div *ngIf="other.invalid && (other.dirty || other.touched)">
+										<small class="form-control-feedback" *ngIf="other.errors.required">Data is required.</small>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': grosspa.invalid && (grosspa.dirty || grosspa.touched)}">
+									<label class="control-label">Gross P.a </label>
+									<input type="text" class="form-control form-control-line" placeholder="Monthly" required [(ngModel)]="applicant.grossRemun" [ngModelOptions]="{standalone: true}" #grosspa="ngModel" name="grosspa">
+									<div *ngIf="grosspa.invalid && (grosspa.dirty || grosspa.touched)">
+										<small class="form-control-feedback" *ngIf="grosspa.errors.required">Data is required.</small>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': goth.invalid && (goth.dirty || goth.touched)}">
+									<label class="control-label">Any Other Perks Not included in Gross  </label>
+									<input type="text" class="form-control form-control-line" placeholder="Gross other" required [(ngModel)]="applicant.grossOtherRemun" [ngModelOptions]="{standalone: true}" #goth="ngModel" name="goth">
+									<div *ngIf="goth.invalid && (goth.dirty || goth.touched)">
+										<small class="form-control-feedback" *ngIf="goth.errors.required">Data is required.</small>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': mth.invalid && (mth.dirty || mth.touched)}">
+									<label class="control-label">Monthly Take home </label>
+									<input type="text" class="form-control form-control-line" placeholder="Monthly Take home" required [(ngModel)]="applicant.takeHomeRemun" [ngModelOptions]="{standalone: true}" #mth="ngModel" name="mth">
+									<div *ngIf="mth.invalid && (mth.dirty || mth.touched)">
+										<small class="form-control-feedback" *ngIf="mth.errors.required">Data is required.</small>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': ddn.invalid && (ddn.dirty || ddn.touched)}">
+									<label class="control-label">Due date of Next Increment</label>
+									<div class="input-group">
+										<input type="text" class="form-control form-control-line" placeholder="mm-dd-yyyy" required [(ngModel)]="applicant.vNextIncrRemun" [ngModelOptions]="{standalone: true}" #ddn="ngModel" name="ddn" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="updateDate($event, applicant, 'nextIncrRemun');isDateModified = true;">
+										<div class="input-group-append">
+											<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+										</div>
+									</div>
+									<div *ngIf="ddn.invalid && (ddn.dirty || ddn.touched)">
+										<small class="form-control-feedback" *ngIf="ddn.errors.required">Data is required.</small>
+									</div>
+								</div>
+							</div>
+							<div class="table-responsive m-t-20">
+								<h4>Previous Employment</h4>
+								<table class="table table-striped table-hover table-bordered" >
+									<thead>
+										<tr>
+											<th>Organization</th>
+											<th>Position</th>
+											<th>From Date</th>
+											<th>To Date</th>
+											<th>Brief Job Description</th>
+											<th>Action</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+											<tr *ngFor="let e of applicant?.previousEmployDetails;let item=index">
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.orgName" [ngModelOptions]="{standalone: true}" placeholder="Organization">
+											</td>
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.orgPosition" [ngModelOptions]="{standalone: true}" placeholder="Position">
+											</td>
+											<td>
+												<div class="input-group">
+													<input type="date" class="form-control form-control-line" [(ngModel)]="e.fromDt" placeholder="From Date">													
+												</div>
+											</td>
+											<td>
+												<div class="input-group">
+													<input type="date" class="form-control form-control-line" [(ngModel)]="e.toDt" placeholder="To Date" >
+												
+												</div>
+											</td>
+											<td>
+												<input type="text" class="form-control form-control-line" [(ngModel)]="e.jobDesc" [ngModelOptions]="{standalone: true}" placeholder="Job Description">
+											</td>
+											<td>
+												<a href="javascript:void(0)" (click)="addprevRows()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+												<a href="javascript:void(0)" *ngIf="applicant?.previousEmployDetails.length > 1" (click)="delprevRow(item)"><i class="fa fa-close text-danger"></i></a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</ng-template>
+				</ngb-tab>
+				<ngb-tab title="Account Info">
+					<ng-template ngbTabContent>
+						<div class="card-body">
+							<div class="row m-t-10">
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': pan.invalid && (pan.dirty || pan.touched)}">
+									<label class="control-label">PAN </label>
+									<input type="text" class="form-control form-control-line" placeholder="PAN" required [(ngModel)]="applicant.panNo" [ngModelOptions]="{standalone: true}" #pan="ngModel" name="pan">
+									<div *ngIf="pan.invalid && (pan.dirty || pan.touched)">
+										<small class="form-control-feedback" *ngIf="pan.errors.required">Data is required.</small>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': epf.invalid && (epf.dirty || epf.touched)}">
+									<label class="control-label">EPF </label>
+									<input type="text" class="form-control form-control-line" placeholder="EPF" required [(ngModel)]="applicant.epfNo" [ngModelOptions]="{standalone: true}" #epf="ngModel" name="epf">
+									<div *ngIf="epf.invalid && (epf.dirty || epf.touched)">
+										<small class="form-control-feedback" *ngIf="epf.errors.required">Data is required.</small>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': passport.invalid && (passport.dirty || passport.touched)}">
+									<label class="control-label">Passport</label>
+									<input type="text" class="form-control form-control-line" placeholder="Passport" required [(ngModel)]="applicant.passport" [ngModelOptions]="{standalone: true}" #passport="ngModel" name="passport">
+									<div *ngIf="passport.invalid && (passport.dirty || passport.touched)">
+										<small class="form-control-feedback" *ngIf="passport.errors.required">Data is required.</small>
+									</div>
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': dl.invalid && (dl.dirty || dl.touched)}">
+									<label class="control-label">Driving License </label>
+									<input type="text" class="form-control form-control-line" placeholder="Driving License" [(ngModel)]="applicant.drivingLicense" [ngModelOptions]="{standalone: true}" #dl="ngModel" name="dl">
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': esi.invalid && (esi.dirty || esi.touched)}">
+									<label class="control-label">ESI </label>
+									<input type="text" class="form-control form-control-line" placeholder="ESI" [(ngModel)]="applicant.esiNo" [ngModelOptions]="{standalone: true}" #esi="ngModel" name="esi">
+								</div>
+								<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': aadhar.invalid && (aadhar.dirty || aadhar.touched)}">
+									<label class="control-label">Aadhar </label>
+									<input type="text" class="form-control form-control-line" placeholder="Aadhar" [(ngModel)]="applicant.aadharNo" [ngModelOptions]="{standalone: true}" #aadhar="ngModel" name="aadhar">
+								</div>
+							</div>
+						
+						</div>
+					</ng-template>
+				</ngb-tab>
+			</ngb-tabset>		
+		</div>
+	</div>
+</div>
+   

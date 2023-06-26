@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "12180927582",
+    "firebase_url": "https://smartoffice-1521708470575.firebaseio.com",
+    "project_id": "smartoffice-1521708470575",
+    "storage_bucket": "smartoffice-1521708470575.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12180927582:android:c7eac6f6e01f93a3",
+        "android_client_info": {
+          "package_name": "com.smart.office"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "12180927582-5r3doom28vvldklhkpdcacujk748l6fl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBa-LRm0wvFnPEvcLJK3glzFjnYemKiOms"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

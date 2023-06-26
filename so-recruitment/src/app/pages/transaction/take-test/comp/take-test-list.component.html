@@ -1,0 +1,100 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">My Test</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="javascript:void(0)">Home</a>
+                </li>
+                <li class="breadcrumb-item active">My Test </li>
+            </ol>
+
+           
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+
+                <div class="table-responsive m-t-40">
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+
+
+
+                        <thead>
+                            <tr>
+                                <th data-sort-initial="true" data-toggle="true">#</th>
+                                <th data-sort-initial="true" data-toggle="true">Test Name</th>
+                                <th data-sort-initial="true" data-toggle="true">Participant Name</th>
+                                <th data-sort-initial="true" data-toggle="true">Start Date & Time</th>
+                                <th data-sort-initial="true" data-toggle="true">Test Status</th>
+                                <th data-sort-initial="true" data-toggle="true">Duration</th>
+                                <th data-sort-initial="true" data-toggle="true">Attended / Total</th>
+
+                                <th data-sort-initial="true" data-toggle="true">Status</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let test of tests;let i=index ">
+                                <td>{{i+1}}</td>
+                                <td>{{test.testTemplateName}}</td>
+                                <td>
+                                  {{test.applicantName}}
+                                </td>
+                                <td>{{test.startTime | date:'dd/MM/yyyy hh:mm a'}} </td>
+                            
+                                <td>{{test.testStatus}}</td>
+
+                                <td>{{test.duration}}mins</td>
+                                <td>{{test.totalUnAttended != null ? test.noOfQuestions-test.totalUnAttended : 'NA'}} / {{test.noOfQuestions}}</td>
+
+
+                                <td class="text-nowrap">
+                                    <div *ngIf="test.testStatus=='In-Progress'" >
+                                            <a href="javascript:void(0)" [routerLink]="['/take-test/test-acknowledgement', test.id,'continue-test']"data-toggle="tooltip" data-original-title="Edit">
+                                                <span class="label label-warning">Continue Test</span>
+                                            </a>
+                                    </div>
+                                    <div *ngIf="test.testStatus==null">
+                                            <a href="javascript:void(0)" [routerLink]="['/take-test/test-acknowledgement', test.id,'start-test']"data-toggle="tooltip" data-original-title="Edit">
+                                                <span class="label label-success">Start Test</span>
+                                            </a>
+                                    </div>
+                                    <div *ngIf="test.testStatus=='Completed'">
+                                            <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Edit">
+                                                <span class="label label-info">Completed</span>
+                                            </a>
+                                    </div>
+                                   
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</div>

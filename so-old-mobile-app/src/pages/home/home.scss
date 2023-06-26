@@ -1,0 +1,19 @@
+page-home {
+    .item{
+        color: #010204;
+        background: none;
+    }
+    .sidemenu-img{
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: whitesmoke;
+    }
+    .sidemenu-img+h4{
+        color: black;
+    }
+    .sidemenu-img ~ p{
+        margin: 1px;
+        color: black;
+    }
+}

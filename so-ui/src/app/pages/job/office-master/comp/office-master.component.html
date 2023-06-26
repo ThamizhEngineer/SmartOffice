@@ -1,0 +1,148 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Office master</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+				<li class="breadcrumb-item active">Office master List </li>
+			</ol>
+			<button type="button" class="btn btn-info m-l-15" (click)="createNew();">
+				<i class="fa fa-plus-circle"></i> Create Office </button>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-12 card card-body">
+		<flag-alert [message]="saveMsg"></flag-alert>
+		<div class="table-responsive">
+			<table class="table table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Office Code</th>
+						<th>Office Name</th>						
+						<th>Administrator Incharge</th>						
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let row of offices | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index ">
+						<td>{{i+1}}</td>
+						<td>{{row.officeCode}}</td>
+						<td>{{row.officeName}}</td>
+						<td>{{row.empName}}</td>
+						
+						<td class="text-nowrap">
+							<a href="javascript:void(0)" (click)="showDetail(row.id);">
+								<i class="fa fa-pencil text-inverse m-r-10"></i>
+							</a>
+							<confirm-delete [type]="'icon'" (confirmed)="deleteRow(row.id)"></confirm-delete>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<ngb-pagination 
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="offices.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>
+		</div>
+	</div>
+</div>
+
+<ng-template #vdetail let-c="close">
+	<div class="modal-header">
+		<h3 class="modal-title">Office Detail</h3>
+		<button type="button" class="close" (click)="c()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+		<div class="col-6 form-group">				
+			<label class="control-label">Office Code</label>
+			<span class="label label-default">{{office.officeCode}} </span>					
+		</div>
+			<div class="col-6 form-group">
+					<form [formGroup]="form">
+				<label class="control-label">Office Name</label>
+				<input type="text"class="form-control" formControlName="Office" [(ngModel)]="office.officeName">
+			</form>
+			</div>
+			<div class="col-6 form-group" >
+				<label class="control-label">Administrator Incharge</label>
+				<autocomplete  [placeholder]="'Administrator Incharge'"   [value]="office.empName" (empDetail)="adminSelected($event)"> </autocomplete>
+				<!-- <select  class="form-control" [(ngModel)]="office.employeeId">
+						<option *ngFor="let v of emp" [value]="v.id">{{v.empName}}</option>
+					</select> -->
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6 form-group" [ngClass]="{'has-danger': ofdesc.invalid && (ofdesc.dirty || ofdesc.touched)}">
+				<label class="control-label">Description</label>
+			
+            	<textarea type="text" class="form-control" placeholder="Description" required pattern="[a-zA-Z][a-zA-Z0-9 ]+" #ofdesc="ngModel" [(ngModel)]="office.description"></textarea>
+				<div *ngIf="ofdesc.invalid && (ofdesc.dirty || ofdesc.touched)">
+						<small class="form-control-feedback" *ngIf="ofdesc?.errors.required">Description is required.</small>
+						<small class="form-control-feedback" *ngIf="ofdesc?.errors.pattern">Description must be in alphabetic.</small>
+					</div>
+			</div>
+            <div class="col-6 form-group" >
+                    <label class="control-label">Country Name</label>
+                    <select  class="form-control" [(ngModel)]="office.countryId">
+                            <option *ngFor="let v of country" [value]="v.id">{{v.countryName}}</option>
+                        </select>
+				</div>
+				<div class="col-6 form-group" [ngClass]="{'has-danger': empseq.invalid && (empseq.dirty || empseq.touched)}">
+						<label class="control-label">Last EMP Sequence</label>
+						<textarea type="text" class="form-control" placeholder="Last EMP Sequence" required [(ngModel)]="office.lastEmpSequence" #empseq="ngModel" ></textarea>
+						<div *ngIf="empseq.invalid && (empseq.dirty || empseq.touched)">
+								<small class="form-control-feedback" *ngIf="empseq?.errors.pattern">Description must be in alphabetic.</small>
+							</div>
+					</div>
+
+					<div class="col-6 form-group" >
+							<label class="control-label">Office Abbreviation </label>
+						<textarea type="text" class="form-control" placeholder="Office Abbreviation"  [(ngModel)]="office.officeAbbreviation"></textarea>
+						
+						</div>
+			<!-- <div class="col-6 form-group" [ngClass]="{'has-danger': podesc.invalid && (podesc.dirty || podesc.touched)}">
+				<label class="control-label">PO Description</label>
+				<textarea type="text" class="form-control" placeholder="poDescription" required pattern="[a-zA-Z][a-zA-Z0-9]+" #podesc="ngModel" [(ngModel)]="clientPurchaseOrder.poDesc"></textarea>
+				<div *ngIf="podesc.invalid && (podesc.dirty || podesc.touched)">
+						<small class="form-control-feedback" *ngIf="podesc.errors.pattern">PO Description must be alphabetic.</small>
+					</div>
+			</div> -->
+		</div>
+		<div class="row">
+
+			<div class="form-group col-sm-6 col-md-4">
+				<label class="control-label">Shift Timing</label>				
+				<select class="form-control" [(ngModel)]="office.shiftId">
+					<option *ngFor="let v of shifts" [value]="v.id">{{v.shiftName}}({{v.fromTime  | slice:0:5}}-{{v.toTime  | slice:0:5}})</option>
+				</select>				
+			</div>
+				
+			<div class="col-6 form-group">
+				<label class="control-label">Map Location</label>
+				&nbsp;&nbsp;<map-view [value]="office.locName" (location)="getMapLocation($event)" ></map-view>	
+			</div>
+		<!-- <div class="col-3 text-left"><label>Please Upload Customer PO</label></div>
+				
+		<!-- <div class="col-6 form-group">
+			<a href="javascript:void(0)" *ngIf="clientPurchaseOrder.docId!=null" (click)="download(clientPurchaseOrder.docId);"><font  color="Green">Download</font></a>
+	</div>	 -->
+			</div>
+	</div>
+
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-warning" [disabled]="!form.valid" (click)="save();">Save</button>
+	</div>
+</ng-template>

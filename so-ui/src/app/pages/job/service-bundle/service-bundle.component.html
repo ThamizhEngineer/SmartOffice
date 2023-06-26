@@ -1,0 +1,90 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Service Types for SO</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Service Types for SO</li>
+            </ol>
+			<button type="button" class="btn btn-info m-l-15" (click)="createNew();"><i class="fa fa-plus-circle"></i> Create Client Service Bundle</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 card card-body">
+    	<flag-alert [message]="saveMsg"></flag-alert>
+        <div class="table-responsive">
+			<table class="table table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Service Bundle Name</th>
+						<th>SAC Code</th>
+						<th>Internal Remarks</th>
+						<th>Service Bundle Description</th>
+						<th>Actions</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let row of rows;let i=index ">
+						<td>{{i+1}}</td>
+						<td>{{row.sbName}}</td>
+						<td>{{row.sacCode}}</td>
+						<td>{{row.internalRemarks}}</td>
+						<td>{{row.sbDesc}}</td>
+						<td class="text-nowrap">
+							<a href="javascript:void(0)" (click)="showDetail(row.id);"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+							<confirm-delete [type]="'icon'" (confirmed)="deleteRow(row.id)"></confirm-delete>
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+    </div>
+</div>
+
+<ng-template #vdetail let-c="close">
+	<div class="modal-header">
+		<h3 class="modal-title">Client Service Bundle Detail</h3>
+		<button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-6 form-group">
+				<label class="control-label"> Service Bundle Name</label>
+				<input type="text" class="form-control" #sbname="ngModel" (keypress)="commonService.isValidName($event)" placeholder="Service Bundle Name" [(ngModel)]="serviceBundle.sbName"> 
+			</div>
+			<div class="col-6 form-group" [ngClass]="{'has-danger': scode.invalid && (scode.dirty || scode.touched)}">
+				<label class="control-label">SAC Code</label>
+				<input type="text" class="form-control" placeholder="SAC Code" required pattern="[a-zA-Z][a-zA-Z0-9 ]+" #scode="ngModel" [(ngModel)]="serviceBundle.sacCode">	
+				<div *ngIf="scode.invalid && (scode.dirty || scode.touched)">
+                    <small class="form-control-feedback" *ngIf="scode.errors.pattern">Special character will not allow.</small>
+                </div>
+			</div>
+				
+			</div>
+		<div class="row">
+			<div class="col-6 form-group">
+				<label class="control-label">Service Bundle Description</label>
+				<textarea class="form-control" rows=4 required  #sbdesc="ngModel" (keypress)="commonService.isValidName($event)" [(ngModel)]="serviceBundle.sbDesc"> </textarea>
+			</div>
+			<div class="col-6 form-group" [ngClass]="{'has-danger': remark.invalid && (remark.dirty || remark.touched)}">
+				<label class="control-label">Internal Remarks</label>
+				<input type="text" class="form-control" placeholder="Internal Remarks" required pattern="[a-zA-Z][a-zA-Z ]+" #remark="ngModel" [(ngModel)]="serviceBundle.internalRemarks"> 
+				<div *ngIf="remark.invalid && (remark.dirty || remark.touched)">
+                    <small class="form-control-feedback" *ngIf="remark.errors.pattern">Service Bundle Description must be alphabetic.</small>
+                </div>
+			</div>
+		</div>	
+	</div>
+	
+	<div class="modal-footer">
+		<button type="button" class="btn btn-warning" (click)="save()">Save</button>
+	</div>
+</ng-template>

@@ -1,0 +1,426 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head profile="http://www.w3.org/2005/10/profile">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<style>
+		@page {
+			size: A4;
+			margin: 5px;
+			padding-top: 1px;
+			font-family: "Times";
+			size: portrait;
+		}
+
+		body {
+			font-size: 14px;
+			font-family: "Times";
+			width: 750px;
+		}
+
+
+
+		pre{
+			font-size: 14px;
+			font-family: "Times";
+		}
+		table,
+		td,
+		th {
+			border: 1px solid black;
+
+		}
+
+		table {
+			border-collapse: collapse;
+			width: 50%;
+		}
+
+		th {
+			height: 50px;
+			background-color: #efefef;
+			font-weight: bold;
+
+
+		}
+
+		td {
+			text-align: left;
+			padding-left: 30px;
+		}
+	</style>
+	<title>Applicant</title>
+</head>
+
+<body align="center">
+	<div style="text-align:center;font-size:20px"><span><strong>APPLICATION FORM</strong></span></div>
+
+
+	<div align="right">
+		<img src="/opt/so/data/images/logo.png" height="180px"></img>
+	</div>
+
+	<div>
+		<table style="float:left;height:200px;width:200px;margin-left: 20px">
+
+			<tr>
+				<td><img th:src="${appPhoto}" height="180px"></img></td>
+			</tr>
+
+
+		</table>
+		<table style="float:right;height:100px;margin-top:50px;">
+
+			<tr>
+				<th>Position Applied For</th>
+				<th>Adv. Ref. if any.</th>
+				<th>Joining time required</th>
+			</tr>
+			<tr style="height: 50px">
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+
+		</table>
+
+
+	</div>
+	<div style="clear: both;"></div>
+	<h3 align="left" style="font-size:20px">Personal Details</h3>
+	<div>
+		<table style="height:30px;margin-top:20px;width:100%;">
+
+			<tr>
+				<th>Sl.No</th>
+				<th>Description</th>
+				<th>Details(to be filled bt applicant)</th>
+			</tr>
+			<tr style="height: 30px">
+				<td>1</td>
+				<td>Name</td>
+				<td><span th:text="${applicantName}"></span></td>
+			</tr>
+			<tr style="height: 30px">
+				<td>2</td>
+				<td>Current Address </td>
+				<td><span th:text="${curAddress}"></span></td>
+			</tr>
+			<tr style="height: 30px">
+				<td>3</td>
+				<td>Current Contact Number</td>
+				<td><span th:text="${contactNo}"></span></td>
+			</tr>
+			<tr style="height: 30px">
+				<td>4</td>
+				<td>Permanent Address </td>
+				<td><span th:text="${permAddress}"></span></td>
+			</tr>
+			<tr style="height: 30px">
+				<td>5</td>
+				<td>Permanent Contact Number</td>
+				<td><span th:text="${contactMobileNo}"></span></td>
+			</tr>
+			<tr style="height: 30px">
+				<td>6</td>
+				<td>Marital Status (Married/Single)</td>
+				<td><span th:text="${maritalStatus}"></span></td>
+			</tr>
+			<tr style="height: 30px">
+				<td>7</td>
+				<td>Name and Occupation of Spouse <br />
+
+				</td>
+				<td><span th:text="${spouse}"></span></td>
+			</tr>
+			<tr style="height: 70px">
+				<td>8</td>
+				<td>No of Children
+				</td>
+				<td><span th:text="${noOfChildren}"></span></td>
+			</tr>
+			<tr style="height: 30px">
+				<td>9</td>
+				<td>Total Dependent</td>
+				<td><span th:text="${noOfDependant}"></span></td>
+			</tr>
+			<tr style="height: 30px">
+				<td>10</td>
+				<td>Physical fitness</td>
+				<td> Height:  <span th:text="${height}"></span> Cms <br/>
+					 Weight:<span th:text="${weight}"></span> Cms</td>
+			</tr>
+			<tr style="height: 30px">
+				<td>11</td>
+				<td>Body Health</td>
+				<td>Eye Sight: Normal / Corrected  <br/>
+				If Corrected: Power: Left <span th:text="${eyeLeftPower}"></span> Right <span th:text="${eyeRightPower}"></span>
+
+				</td>
+			</tr>
+			<tr style="height: 30px">
+				<td>12</td>
+				<td>Blood Group</td>
+				<td><span th:text="${bloodGroup}"></span></td>
+			</tr>
+			<tr style="height: 30px">
+				<td>13</td>
+				<td>Identification Marks (two)</td>
+				<td><span th:text="${identifnMrk1}"></span><br />
+				<span th:text="${identifnMrk2}"></span></td>
+			</tr>
+			<tr style="height: 30px">
+				<td>14</td>
+				<td>State Physical Handicaps if any</td>
+				<td><span th:text="${physicalChalng}"></span></td>
+			</tr>
+		</table>
+	</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+	<h3 align="left"><span style="font-size:20px">Languages Known</span> (State Mother Tongue First)</h3>
+	<div>
+		<table style="height:30px;margin-top:20px;width:100%;">
+
+			<tr>
+				<th>Languages</th>
+				<th>Read</th>
+				<th>Write</th>
+				<th>Speak</th>
+			</tr>
+			<tr style="height: 30px" th:each="language : ${languages}">
+				<td th:text="${language.language}"></td>
+				<td th:text="${language.langRead}"></td>
+				<td th:text="${language.langWrite}"></td>
+				<td th:text="${language.langSpeak}"></td>
+			</tr>
+			
+					</table>
+	</div>
+
+
+
+	<h3 align="left"><span style="font-size:20px">Education </span> </h3>
+	<div>
+		<table style="height:30px;margin-top:20px;width:100%;">
+
+			<tr>
+				<th>Exam /
+					Degree /
+					Diploma /
+					Certificate
+				</th>
+				<th>School /
+					College /
+					University
+				</th>
+				<th>Year of
+					Passing
+				</th>
+				<th>Branch of Study /
+					Elective /
+					Specialization
+					Subject
+				</th>
+				<th>Class / Grade
+					/ Division /
+					% of Marks
+				</th>
+				<th>Regular / Part
+					Time /
+					Correspondence
+				</th>
+
+			</tr>
+
+			<tr style="height: 30px" th:each="educationInfo : ${educationInfos}">
+				<td th:text="${educationInfo.examName}"></td>
+				<td th:text="${educationInfo.place}"></td>
+				<td th:text="${educationInfo.yearOfPassing}"></td>
+				<td th:text="${educationInfo.specialization}"></td>
+				<td th:text="${educationInfo.score}"></td>
+				<td th:text="${educationInfo.type}"></td>
+			</tr>
+			</table>
+	</div>
+
+	<h4 align="left">State reasons for the GAP in Studies if any: </h4>
+
+	<h3 align="left"><span style="font-size:20px">Academic Achievements </span> </h3>
+	<h4 align="left">Training – Professional Course / vocational Course Project Work: </h4>
+	<div>
+		<table style="height:30px;margin-top:20px;width:100%;">
+
+			<tr>
+				<th>Organization</th>
+				<th>Details of Training/ Project</th>
+				<th>From </th>
+				<th>To </th>
+			</tr>
+			
+			
+			<tr style="height: 30px" th:each="academicAcheiv : ${academicAcheivs}">
+				<td th:text="${academicAcheiv.organization}"></td>
+				<td th:text="${academicAcheiv.trainDetails}"></td>
+				<td th:text="${academicAcheiv.fromDt}"></td>
+				<td th:text="${academicAcheiv.toDt}"></td>
+			
+			</tr>
+			
+		</table>
+	</div>
+
+
+	<h4 align="left">Organization Chart (last position – Circle your Position)</h4>
+
+	<h4 align="left">Present Remuneration Drawn (Please mention Split of Salary as per salary certificate / Pay slip)</h4>
+
+	<div>
+		<table style="height:30px;margin-top:20px;width:100%;">
+
+
+
+			<tr style="height: 30px">
+				<td>a.</td>
+				<td>Monthly</td>
+				<td><span th:text="${monthlyRemun}"></span></td>
+
+			</tr>
+			<tr style="height: 30px">
+				<td>b.</td>
+				<td>Annually</td>
+				<td><span th:text="${annualRemun}"></span></td>
+
+			</tr>
+			<tr style="height: 30px">
+				<td>c.</td>
+				<td>Other Terminal Benefits
+				</td>
+				<td><span th:text="${benefitsRemun}"></span></td>
+
+			</tr>
+			<tr style="height: 30px">
+				<td>d.</td>
+				<td>Gross p.a (Total of above a+b+c)
+				</td>
+				<td><span th:text="${grossRemun}"></span></td>
+
+			</tr>
+			<tr style="height: 30px">
+				<td>e.</td>
+				<td>Any Other Perks Not included in Gross</td>
+				<td><span th:text="${grossOtherRemun}"></span></td>
+
+			</tr>
+			<tr style="height: 30px">
+				<td>f.</td>
+				<td>Monthly take Home Salary (after tax)</td>
+				<td><span th:text="${takeHomeRemun}"></span></td>
+
+			</tr>
+			<tr style="height: 30px">
+				<td>g.</td>
+				<td>Due date of Next Increment
+				</td>
+				<td><span th:text="${nextIncrRemun}"></span></td>
+
+			</tr>
+		</table>
+	</div>
+
+	<h4 align="left">Previous Employment:</h4>
+	<div>
+		<table style="height:30px;margin-top:20px;width:100%;">
+
+			<tr>
+				<th>Name of the
+					Organisation
+				</th>
+				<th>Period</th>
+				<th>Position
+					Joined at
+				</th>
+				<th>Last Held
+					Position
+				</th>
+				<th>Brief Job Description
+				</th>
+
+				<th>Salary Per
+					Month
+				</th>
+
+
+			</tr>
+			
+			<tr style="height: 30px" th:each="previousEmployDetail : ${previousEmployDetails}">
+				<td th:text="${previousEmployDetail.orgName}"></td>
+				<td ></td>
+				<td th:text="${previousEmployDetail.orgPosition}"></td>
+				<td th:text="${previousEmployDetail.fromDt}"></td>
+				<td th:text="${previousEmployDetail.jobDesc}"></td>
+				<td ></td>
+			</tr>
+			
+
+		</table>
+	</div>
+
+	<pre align="left">
+			General:
+
+			1. Do you have any relatives working in Pothigai Power? If Yes, Please give the details
+			
+			Name: ----------------------------	Relationship: -------------------------------
+			
+			2. How do you know Pothigai Power Job Openings? By my collegues where I worked previously.
+				
+			
+			
+			3. Interest / Hobbies:
+			
+			
+			4. Have you been convicted for any offences in civil / criminal proceedings? If yes Please give the details:
+			
+			5. References: (please give Name, Address and telephone number of two persons
+			
+			other than to whom we may refer about you:
+			
+			a.
+			
+			b.
+			
+			Declaration
+			
+			I shall, if and when required, take up any assignment given by the company any where in India and Abroad.
+			
+			I also declare that the information given by me in this application is true and complete to the best of 
+			my knowledge and belief. 
+			I am not aware of any circumstances which might impair my fitness for employment. If at any time later, 
+			it is found that I have not disclosed any material information 
+			or have given any incorrect or false information, the company will be at liberty to terminate my 
+			appointment without any notice or compensation.
+																										
+																										
+																										
+																						Date:	Signature:
+			
+			
+			
+			We thank you for your information and assure you that this will be kept in strict confidence
+			
+																										
+																						-----Management
+			
+
+
+	</pre>
+</body>
+
+</html>

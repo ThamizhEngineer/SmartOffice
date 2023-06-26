@@ -1,0 +1,141 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Dashboard</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<a style="padding-right: 20px;" (click)="starter()"><i class="fa fa-refresh"
+					aria-hidden="true"></i></a>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item active">Dashboard</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+<div *ngIf="isHide==false" class="card-group">
+	<div class="card">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="d-flex no-block align-items-center">
+						<div>
+							<p class="text-muted">Users Attendance Status</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12" >
+					<canvas baseChart
+					  [data]="attendanceStatusData"
+					  [labels]="attendanceStatusLablel"					  
+					  [chartType]="attendanceStatusDesign"
+					  [colors]="attendanceStatusColor"
+					  >
+					</canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="d-flex no-block align-items-center">
+						<div>
+							<p class="text-muted">Current Day Status</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12" >
+					<canvas baseChart
+					  [data]="dayStatusData"
+					  [labels]="dayStatusLablel"
+					  [chartType]="dayStatusDesign"
+					  [colors]="dayStatusColor"
+					  >
+					</canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card-group" *ngIf="isDir==true">
+	<div class="card" *ngIf="barChartLabels.length>0">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="d-flex no-block align-items-center">
+						<div>
+							<p class="text-muted">Revenue Growth</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12" *ngIf="barChartLabels.length>0">
+					<canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+						[legend]="barChartLegend" [chartType]="barChartType">
+					</canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card" *ngIf="revenuePerCustomerChartLabel.length>0">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="d-flex no-block align-items-center">
+						<div>
+							<p class="text-muted">Revenue Per Customer</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<canvas baseChart [data]="revenuePerCustomerChartData" [labels]="revenuePerCustomerChartLabel"
+						[chartType]="doughnutChartType">
+					</canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card" *ngIf="revenuePerBuChartLabel.length>0">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="d-flex no-block align-items-center">
+						<div>
+							<p class="text-muted">Revenue Per Bu</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<canvas baseChart [data]="revenuePerBuChartData" [labels]="revenuePerBuChartLabel"
+						[chartType]="doughnutChartType">
+					</canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="col-md-4" *ngFor="let m of metrics">
+		<div class="card card-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="d-flex no-block align-items-center">
+						<div>
+							<h3><i class="fa" [ngClass]="m.icon"></i></h3>
+							<p class="text-muted">{{m?.displayText}}</p>
+						</div>
+						<div class="ml-auto">
+							<h2 class="counter text-primary">{{m?.dashCount}}</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

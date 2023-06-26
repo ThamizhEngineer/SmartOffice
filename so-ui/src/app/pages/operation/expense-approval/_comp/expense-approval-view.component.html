@@ -1,0 +1,180 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Expense Claim Detail</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="navigateToListPage()">Expense Claim List</a></li>
+                <li class="breadcrumb-item active">Expense Claim Detail </li>
+            </ol>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and center sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="row">
+    <div class="col-12">
+        <div class="card card-body">
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <label class="control-label">Expense Code </label><br/>
+                    
+                    <span class="label label-default">{{expense.expenseClaimCode}} </span>
+             </div>
+            <div class="form-group col-md-2">
+                <label class="control-label">Employee</label><br/>                    
+                <span class="text">{{expense.employeeFName}}&nbsp;{{expense.employeeLName}} </span>
+            </div>
+        
+
+            <div class="form-group col-md-2 col-sm-6" *ngIf="expense.isJobBased=='Y'">
+                <label class="control-label">Job Code</label><br/>                    
+                <span class="text">{{expense.jobName}}</span>                    
+            </div>
+            <div class="form-group col-md-2 col-sm-6" *ngIf="expense.isJobBased=='N'">
+                    <label class="control-label">Cost Center Code</label><br/>                    
+                    <span class="text">{{expense.costCenterCode}}</span>                      
+                </div>
+
+            <div class="form-group col-md-2 col-sm-6">
+                <label class="control-label">Application Date</label><br/>
+                <span class="text">{{expense.appliedDt | date:'dd-MM-yyyy'}}</span>
+            </div>
+            <div class="form-group col-md-4 col-sm-6">
+                <label class="control-label">Purpose</label><br/>                    
+                <span class="text">{{expense.empRemarks}}</span>                    
+            </div>
+            <div class="form-group col-md-2 col-sm-6">
+                    <label class="control-label">Total Expense Amount:</label><br/>
+                    <span class="text">{{expense.expenseClaimAmount}}</span>                
+                </div>
+
+                <div class="form-group col-md-2 col-sm-6">
+                    <label class="control-label">Total Entitle Amount:</label><br/>
+                    <span class="text">{{expense.totalEntitledAmount}}</span>                
+                </div>
+                
+                </div>
+
+            <div class="table-responsive m-t-40">
+                <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th data-sort-initial="true" data-toggle="true">#</th>
+                            <th data-sort-initial="true" data-toggle="true">Category</th>
+                            <th data-sort-initial="true" data-toggle="true">Merchant Name</th>
+                            <th data-sort-initial="true" data-toggle="true">Bill No</th>
+                            <th data-sort-initial="true" data-toggle="true">Bill Date</th>
+                            <th data-sort-initial="true" data-toggle="true">Bill Amount</th>
+                            <th data-sort-initial="true" data-toggle="true">Entity status</th>
+                            <th data-sort-initial="true" data-toggle="true">Entity Amount</th>
+                            <th data-sort-initial="true" data-toggle="true">Remarks</th>
+                            <th data-sort-initial="true" data-toggle="true">Bill Proof</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let claim of expense?.expenseClaimBills; let item=index">
+                        <tr>
+                            <td>{{item+1}}</td>
+                            <td>{{claim.subCategoryName}}&nbsp;({{claim.categoryName}}) </td>
+                            <td>{{claim.merchantId}}</td>
+                            <td>{{claim.billNo}}</td>
+                            <td>{{claim.billDt | date:'dd/MM/yyyy'}} </td>
+                            <td>{{claim.billAmount}}</td>
+                            <td>
+                                <select class="form-control custom-select" (click)="calculateEntitleTotal()" placeholder="Category" (change)="entity(item)" [(ngModel)]="claim.billStatus" name="categoryName">
+                                   <option  value='APPROVED'>APPROVED</option>
+                                   <option  value='PARTIALLY APPROVED'>PARTIALLY APPROVED</option>
+                                   <option  value='REJECTED'>REJECTED</option>                                   
+                                </select>
+                           </td>
+                           <td *ngIf="claim.billStatus!='PARTIALLY APPROVED'">{{claim.entitledAmount}}</td>
+                           <td *ngIf="claim.billStatus=='PARTIALLY APPROVED'" >
+                           <input type="number" [(ngModel)]="claim.entitledAmount" (input)="calculateEntitleTotal()" [ngModelOptions]="{standalone: true}" placeholder="Entitle Amount" class="form-control form-control-line">
+
+                           </td>
+                            <td>{{claim.billRemarks}}</td>
+                            <td>
+                                <a href="javascript:void(0)" *ngIf="claim.docId!=null" (click)="download(claim.docId,'');">
+                                    <font color="Green">Download</font>
+                                </a>
+                            </td>                       
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+           
+            
+        
+            <flag-alert [message]="saveMsg"></flag-alert>
+        </div>
+    </div>
+        <div class="card card-body">
+            <h4><b>Acc1 Expense Validation</b></h4>
+                    <div class="modal-footer align-self-center ">           
+                            <div class="form-group">
+                                <button type="button" (click)="approve()" class="btn btn-success waves-effect waves-light m-t-10 ml-2">Approve</button>
+                            </div>
+                            <div class="form-group">        
+                                <button type="button" (click)="reject()" class="btn btn-danger waves-effect waves-light m-t-10 ml-2">Reject</button>
+                            </div>
+                            <div class="form-group">        
+                                    <button type="button" (click)="navigateToListPage()" class="btn btn-warning waves-effect waves-light m-t-10 ml-2">Back</button>
+                             </div>
+                        </div>
+               
+        </div>
+        
+    
+</div> 
+
+
+<ng-template #Approve let-c="close">
+    <div class="modal-header">
+        <h3 class="modal-title">Are You Sure To Approve This Expense Request?</h3>
+        <button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+    </div>  
+        <div class="modal-body">
+                <div class="row">
+                        <div class="col-6 form-group">
+                            <label class="control-label"><font color="NAVY"><b>Please Enter Your Remarks</b></font></label><br/>
+                        <textarea type="text" rows="6" [(ngModel)]="expense.validateRemarks"  [ngModelOptions]="{standalone: true}" placeholder="Remarks" class="form-control form-control-line"></textarea>
+                    </div>
+          </div>
+        </div>     
+    <div class="modal-footer">
+        <button type="button" class="btn btn-info waves-effect waves-light" (click)="approveExpense()">Yes</button>
+
+            <button type="button" class="btn btn-default" (click)="back()">No</button>
+        </div>
+</ng-template>
+
+
+<ng-template #Reject let-c="close">
+        <div class="modal-header">
+            <h3 class="modal-title">Are You Sure To Reject This Expense Request?</h3>
+            <button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+        </div>
+
+            <div class="modal-body">
+                    <div class="row">
+                            
+                            <div class="col-6 form-group">
+                                <label class="control-label"><font color="NAVY"><b>Please Enter Your Remarks</b></font></label><br/>
+                            <textarea type="text" rows="6" [(ngModel)]="expense.validateRemarks"  [ngModelOptions]="{standalone: true}" placeholder="Remarks" class="form-control form-control-line"></textarea>
+                        </div>
+                </div>
+            </div>
+           
+                
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info waves-effect waves-light" (click)="rejectExpense()">Yes</button>
+
+                <button type="button" class="btn btn-default" (click)="back()">No</button>
+            </div>
+    </ng-template>

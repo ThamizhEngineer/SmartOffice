@@ -1,0 +1,125 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Exit Clearance Questions for Manager</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Exit Clearance</a></li>
+				<li class="breadcrumb-item active">Manager Checklist</li>
+			</ol>
+			
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card card-body">
+			<div class="row">
+				<div class="form-group col-md-4 col-sm-6">
+					<label>Does employee have another job?</label>
+					<select [(ngModel)]="exitInterview.isAntherJb" class="form-control">
+						<option value="Y">Yes</option>
+						<option value="N">No</option>
+					</select>
+				</div>
+				<div class="form-group col-md-4 col-sm-6" >
+					<label>If yes What?</label>
+					<textarea type="text" [(ngModel)]="exitInterview.newJbDesc" class="form-control form-control-line" rows="3"></textarea>				
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-md-4 col-sm-6">
+					<label>New Title</label>
+					<input type="text" [(ngModel)]="exitInterview.newTtle" class="form-control"/>
+				</div>
+				<div class="form-group col-md-4 col-sm-6">
+					<label>Present Salary</label>
+					<input type="text" [(ngModel)]="exitInterview.prsntSal" class="form-control"/>
+				</div>
+				<div class="form-group col-md-4 col-sm-6">
+					<label>New Salary</label>
+					<input type="text" [(ngModel)]="exitInterview.newSal" class="form-control"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-8">
+					<label>What imporved or additional fringe benefits does employee's new position provide?</label>
+					<textarea type="text" [(ngModel)]="exitInterview.empNwPosDesc" class="form-control form-control-line" rows="3"></textarea>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-md-4 col-sm-6">
+					<label>Did you and the employee get along satisfactorily?</label>
+					<select [(ngModel)]="exitInterview.isEmpSatis" class="form-control">
+						<option value="Y">Yes</option>
+						<option value="N">No</option>
+					</select>
+				</div>
+				<div class="form-group col-md-4 col-sm-6" >
+					<label>If yes What?</label>
+					<textarea type="text" [(ngModel)]="exitInterview.empSatisDesc" class="form-control form-control-line" rows="3"></textarea>				
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-8">
+					<label>How often did you handle complaints or grievances from the employee and what were the results</label>
+					<textarea type="text" [(ngModel)]="exitInterview.handleCmpls" class="form-control form-control-line" rows="3"></textarea>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-8">
+					<label>Did the employee share any thoughts or feelings about his/her compensation packages?</label>
+					<textarea type="text" [(ngModel)]="exitInterview.empShreThghts" class="form-control form-control-line" rows="3"></textarea>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-8">
+					<label>What Did the employee think his/her progress in company?</label>
+					<textarea type="text" [(ngModel)]="exitInterview.empThnkPrgres" class="form-control form-control-line" rows="3"></textarea>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-8">
+					<label>Why in your judgement the employee leaving?</label>
+					<textarea type="text" [(ngModel)]="exitInterview.judgmnt" class="form-control form-control-line" rows="3"></textarea>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-md-4 col-sm-6">
+					<label>if changes were made in his/ her compensation, would he/she stay?</label>
+					<select [(ngModel)]="exitInterview.isComp" class="form-control">
+						<option value="Y">Yes</option>
+						<option value="N">No</option>
+					</select>
+				</div>
+				<div class="form-group col-md-4 col-sm-6" >
+					<label>If yes What Compensation you suggest?</label>
+					<textarea type="text" [(ngModel)]="exitInterview.compDesc" class="form-control form-control-line" rows="3"></textarea>				
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="form-group col-md-2 col-sm-6">
+					<button type="submit" class="btn btn-info" (click)="navigateToListPage()">Print</button>
+				</div>
+				<div class="form-group col-md-2 col-sm-6" *ngIf="exitInterview.status!='COMPLETED'">
+					<button type="submit" class="btn btn-info" (click)="update()">Update</button>
+				</div>
+			</div>
+
+
+		</div>
+		
+		
+	</div>
+</div>

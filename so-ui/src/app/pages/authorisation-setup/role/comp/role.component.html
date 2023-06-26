@@ -1,0 +1,89 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Authorisation</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Role</li>
+                </ol>
+                <button type="button" class="btn btn-info m-l-15" (click)="createNew();">
+                    <i class="fa fa-plus-circle"></i>Create</button>
+                    <button type="button" class="btn btn-info d-none d-lg-block m-l-15" [routerLink]="['/authorisation/setup']">Back</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                        <flag-alert [message]="saveMsg"></flag-alert>
+                    <div class="table-responsive">
+                        <table class="table color-bordered-table info-bordered-table">
+                            <thead>
+                                <tr >
+                                    <th data-sort-initial="true" data-toggle="true">Id</th>
+                                    <th data-sort-initial="true" data-toggle="true">Role Code</th>
+                                    <th data-sort-initial="true" data-toggle="true">Role Name</th>
+                                    <th data-sort-initial="true" data-toggle="true">Remarks</th>
+                                    <th data-sort-initial="true" data-toggle="true">Action</th>
+                                </tr>
+                                
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let r of role | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                                    <td>{{r.id}}</td>
+                                    <td>{{r.roleCode}}</td>
+                                    <td>{{r.roleName}}</td>
+                                    <td>{{r.remarks}}</td>
+                                    <td class="text-nowrap">
+                                        <a href="javascript:void(0)" (click)="showDetail(r.id);">
+                                            <i class="fa fa-pencil text-inverse m-r-10"></i>
+                                        </a>
+                                        <confirm-delete [type]="'icon'" (confirmed)="deleteRow(r.id)"></confirm-delete>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ngb-pagination 
+                [(page)]="page"
+                [pageSize]="pageSize"
+                [collectionSize]="role.length"></ngb-pagination>
+                <pre>Current page: {{page}}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <ng-template #popup let-c="close">
+        <div class="modal-header">
+            <h4 class="modal-title"> Role Detail</h4>
+            <button type="button" class="close" aria-label="Close" (click)="c()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">                              
+                <div class="form-group col-md-4 col-sm-6">
+                        <label class="control-label">Role Code<font color="red">*</font></label>
+                        <input type="text" class="form-control form-control-line" [(ngModel)]="roles.roleCode" placeholder="Role Code"  name="roleCode"> 
+                    </div>   
+                    <div class="form-group col-md-4 col-sm-6">
+                        <label class="control-label">Role Name<font color="red">*</font></label>
+                        <input type="text" class="form-control form-control-line" [(ngModel)]="roles.roleName" placeholder="Role Name"  name="roleName"> 
+                    </div>             
+                </div>    
+                <div class="row">
+                    <div class="form-group col-md-7 col-sm-15">
+                        <label class="control-label">Remarks<font color="red">*</font></label>
+                        <textarea type="text" class="form-control form-control-line" [(ngModel)]="roles.remarks" placeholder="Remarks"  name="remarks"></textarea>
+                    </div> 
+                </div>         
+        </div>
+        <div class="modal-footer align-self-center">
+            <button type="button" class="btn btn-warning" (click)="save()">Save</button>
+        </div>
+    </ng-template>

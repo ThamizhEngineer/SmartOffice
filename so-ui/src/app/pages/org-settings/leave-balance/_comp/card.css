@@ -1,0 +1,16 @@
+.add-arrow{
+	position:absolute;
+	top: 1px;
+	cursor:pointer;
+	color: #fb9678;
+	font-size:33px;
+    left: -13px;
+	z-index:3;
+}
+
+.add-arrow.toggle{
+	left: 228px;
+}
+.mini-sidebar .add-arrow.toggle{
+	left: 266px;
+}

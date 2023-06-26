@@ -1,0 +1,254 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Exit Clearance Checklist - Voluntary</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Exit Clearance</a></li>
+                <li class="breadcrumb-item active">Checklist - Voluntary </li>
+            </ol>
+            
+        </div>
+    </div>
+</div>
+
+<div class="row">
+	<flag-alert [message]="msg"></flag-alert>
+	<div class="col-12">
+		<div class="card card-body">
+			<div class="row">
+				<div class="form-group col-md-4 col-sm-6">
+					<label>Employee Name</label>
+					<autocomplete  [placeholder]="'Employee Name'"   [value]="exitInterview.empName" (empDetail)="projectSelected($event)"> </autocomplete>
+					<!-- <input type="text"  class="form-control form-control-line" required pattern="[a-zA-Z][a-zA-Z ]+" #ename="ngModel" [(ngModel)]="exitInterview.empName" [ngModelOptions]="{standalone: true}" placeholder="Employee Name" >				 -->
+					
+				</div>
+				<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': ecode.invalid && (ecode.dirty || ecode.touched)}">
+					<label>Employee Code</label>
+					<input type="text" disabled="true"  class="form-control form-control-line" required pattern="[0-9]+" #ecode="ngModel" [(ngModel)]="exitInterview.empCode" [ngModelOptions]="{standalone: true}" placeholder="Employee Code" >									
+					<div *ngIf="ecode.invalid && (ecode.dirty || ecode.touched)">
+							<small class="form-control-feedback" *ngIf="ecode.errors.required">Employee code is required.</small>
+							<small class="form-control-feedback" *ngIf="ecode.errors.pattern">Employee code must be in Number.</small>
+						</div>
+				</div>
+				<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': mname.invalid && (mname.dirty || mname.touched)}">
+					<label>Manager Name</label>
+					<input type="text" [disabled]=true class="form-control form-control-line" required pattern="[a-zA-Z][a-zA-Z ]+" #mname="ngModel" [(ngModel)]="exitInterview.n1ManagerName" [ngModelOptions]="{standalone: true}" placeholder="Manager Name" >													
+					<div *ngIf="mname.invalid && (mname.dirty || mname.touched)">
+							<small class="form-control-feedback" *ngIf="mname.errors.required">Manager Name is required.</small>
+							<small class="form-control-feedback" *ngIf="mname.errors.pattern">Manager Name must be in alphabetic.</small>
+						</div>
+				</div>				
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': etype.invalid && (etype.dirty || etype.touched)}">
+					<label>Exit Type</label>
+					<input type="text" disabled=true class="form-control form-control-line" required pattern="[a-zA-Z][a-zA-Z ]+" #etype="ngModel" [(ngModel)]="exitInterview.exitType" [ngModelOptions]="{standalone: true}" placeholder="Manager Name" >
+					<div *ngIf="etype.invalid && (etype.dirty || etype.touched)">
+							<small class="form-control-feedback" *ngIf="etype.errors.pattern">Exit Type must be in alphabetic.</small>
+						</div>
+				</div>
+				<div class="form-group col-md-4 col-sm-6" >
+					<label>Date Of Interview</label>
+					<input type="date"  class="form-control form-control-line"  [(ngModel)]="exitInterview.dateOfInterview" [ngModelOptions]="{standalone: true}" placeholder="Interview Date">
+					
+				</div>
+				<div class="form-group col-md-4 col-sm-6">
+					<label>Employment Duration</label>
+					<input type="text"  class="form-control form-control-line"  [(ngModel)]="exitInterview.empDur" [ngModelOptions]="{standalone: true}" placeholder="Duration">
+				
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-12">
+					<label>Reason(s) for termination (check all that apply)Reactions and Opinions</label>
+				</div>
+				<div class="form-group col-3">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="read[0]"  [(ngModel)]="exitInterview.isAutherJb">
+						<label class="custom-control-label" for="read[0]">Accepting another job</label>
+					</div>
+				</div>
+				<div class="form-group col-3">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="read[1]" [(ngModel)]="exitInterview.isNwJbComp">
+						<label class="custom-control-label" for="read[1]">New job offers greater compensation</label>
+					</div>
+				</div>
+				<div class="form-group col-3">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="read[2]" [(ngModel)]="exitInterview.isNwJbAutnmy">
+						<label class="custom-control-label" for="read[2]">New job offeres greater responsibility or autonomy</label>
+					</div>
+				</div>
+				<div class="form-group col-3">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" [(ngModel)]="exitInterview.isDissatisfctn" id="read[3]">
+						<label class="custom-control-label" for="read[3]">Dissatisfation with supervisors or co-workers</label>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-3">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" [(ngModel)]="exitInterview.isHlth" id="read[4]">
+						<label class="custom-control-label" for="read[4]">Employee health, including pregnancy</label>
+					</div>
+				</div>
+				<div class="form-group col-3">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" [(ngModel)]="exitInterview.isFamHlth" id="read[5]">
+						<label class="custom-control-label" for="read[5]">Family health, including child care</label>
+					</div>
+				</div>
+				<div class="form-group col-3">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" [(ngModel)]="exitInterview.isEdu" id="read[6]">
+						<label class="custom-control-label" for="read[6]">Education</label>
+					</div>
+				</div>
+				<div class="form-group col-3">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" [(ngModel)]="exitInterview.isRetire"  id="read[7]">
+						<label class="custom-control-label" for="read[7]">Retirement</label>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-3">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" [(ngModel)]="exitInterview.isRelocat" id="read[8]">
+						<label class="custom-control-label" for="read[8]">Relocation</label>
+					</div>
+				</div>
+				<div class="form-group col-3">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" [(ngModel)]="exitInterview.isOtrsVol"  id="read[9]">
+						<label class="custom-control-label" for="read[9]">Others</label>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-12">
+					<h4>Ask the employee to rate each of the listed factors on this scale</h4>
+				</div>
+				<div class="form-group col-2">
+					<label>1 Excellent</label>
+				</div>
+				<div class="form-group col-2">
+					<label>2 Good</label>
+				</div>
+				<div class="form-group col-2">
+					<label>3 Average</label>
+				</div>
+				<div class="form-group col-2">
+					<label>4 Fair</label>
+				</div>
+				<div class="form-group col-2">
+					<label>5 Poor</label>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-8">
+					<label>Adheres to established policies and practices</label>
+				</div>
+				<div class="form-group col-2">
+					<div class="input-group">
+						<span class="slider-min">1</span>
+						<input type="range" min="1" max="5" class="slider" [(ngModel)]="exitInterview.fac1"/>
+						<span class="slider-max">5</span>
+					</div>
+				</div>
+				<div class="form-group col-2">{{surveys[exitInterview.fac1]}}</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-8">
+					<label>Given fair and equal traetment</label>
+				</div>
+				<div class="form-group col-2">
+					<div class="input-group">
+						<span class="slider-min">1</span>
+						<input type="range" min="1" max="5" class="slider" [(ngModel)]="exitInterview.fac2"/>
+						<span class="slider-max">5</span>
+					</div>
+				</div>
+				<div class="form-group col-2">{{surveys[exitInterview.fac2]}}</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-8">
+					<label>Supervision</label>
+				</div>
+				<div class="form-group col-2">
+					<div class="input-group">
+						<span class="slider-min">1</span>
+						<input type="range" min="1" max="5" class="slider" [(ngModel)]="exitInterview.fac3"/>
+						<span class="slider-max">5</span>
+					</div>
+				</div>
+				<div class="form-group col-2">{{surveys[exitInterview.fac3]}}</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-8">
+					<label>Recognises good performances and accomplishments</label>
+				</div>
+				<div class="form-group col-2">
+					<div class="input-group">
+						<span class="slider-min">1</span>
+						<input type="range" min="1" max="5" class="slider" [(ngModel)]="exitInterview.fac4"/>
+						<span class="slider-max">5</span>
+					</div>
+				</div>
+				<div class="form-group col-2">{{surveys[exitInterview.fac4]}}</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-8">
+					<label>Develops cooperation</label>
+				</div>
+				<div class="form-group col-2">
+					<div class="input-group">
+						<span class="slider-min">1</span>
+						<input type="range" min="1" max="5" class="slider" [(ngModel)]="exitInterview.fac5"/>
+						<span class="slider-max">5</span>
+					</div>
+				</div>
+				<div class="form-group col-2">{{surveys[exitInterview.fac5]}}</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-8">
+					<label>Encourages suggestions and innovations</label>
+				</div>
+				<div class="form-group col-2">
+					<div class="input-group">
+						<span class="slider-min">1</span>
+						<input type="range" min="1" max="5" class="slider" [(ngModel)]="exitInterview.fac6"/>
+						<span class="slider-max">5</span>
+					</div>
+				</div>
+				<div class="form-group col-2">{{surveys[exitInterview.fac6]}}</div>
+			</div>
+
+			<div class="row">
+				<div class="col-2">
+					<button type="submit" class="btn btn-info" (click)="navigateToListPage()">Print</button>
+				</div>
+				<div class="col-2" *ngIf="exitInterview.id==null">
+					<button type="submit" class="btn btn-warning" (click)="create()">Create</button>
+				</div>
+			</div>
+			
+		</div>
+	
+	</div>
+</div>

@@ -1,0 +1,44 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Approve Leave
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content  *ngFor="let data of leaveApprovalsList;let i = index">
+ 
+  <ion-item>
+      <ion-label stacked>Leave Type</ion-label>
+      <ion-input type="text" [(ngModel)]="data.leavesType"></ion-input>
+    </ion-item>
+    <ion-item>
+          <ion-label stacked>From Date</ion-label>
+          <ion-datetime  displayFormat="DD-MMM-YY" pickerFormat="MMM-DD-YY"[(ngModel)]="data.startDt" ></ion-datetime>
+       
+        </ion-item>
+        
+        <ion-item>
+              <ion-label stacked>To Date</ion-label>
+              <ion-datetime  displayFormat="DD-MMM-YY" pickerFormat="MMM-DD-YY"[(ngModel)]="data.endDt" ></ion-datetime>
+            </ion-item>
+    <ion-item>
+          
+      <ion-textarea placeholder="Reason"[(ngModel)]="data.reason"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Manager Remarks</ion-label>
+      <ion-input type="text"[(ngModel)]="leave.managerRemarks" ></ion-input>
+    </ion-item>
+    <ion-row>
+      <ion-row>
+          <ion-col class="">
+                  <button ion-button color="default"(click)="approvedLeave()"(click)="navigateToListPage()"(click)="leaveApprovedToast()">Approve Leave</button>
+                  <button ion-button color="danger" (click)="rejectLeave()"(click)="navigateToListPage()"(click)="leaveRejectedToast()">Reject</button>
+              </ion-col>
+      </ion-row>
+      </ion-row>
+     
+
+</ion-content>

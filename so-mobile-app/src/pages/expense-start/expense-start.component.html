@@ -1,0 +1,79 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>View Expense Claim</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="card-background-page">
+    <ion-grid no-padding>
+   
+        <ion-col col-12 m-b-10 no-padding *ngFor="let data of createdExpense" >
+         
+    <ion-card>
+    
+              <ion-card-content class="firstCard">
+                  <ion-item no-padding no-margin class="firstItem">
+                     
+                      <h2 item-end><ion-icon  md="md-create"(click)="expenseCreateClaimPage()"></ion-icon>
+                      </h2>
+                      <h2 item-end> <ion-icon name="more"></ion-icon></h2>
+                    
+                       </ion-item>
+                      {{data.jobName || data.costCenterName}}
+                        <span >{{data.expenseClaimAmount}}</span>
+                        </ion-card-content>
+                      
+                        <ion-card-content class="firstCard">
+                  <ion-item no-padding no-margin  class="firstItem">
+                      <h2 item-start no-margin>Expense:Rs.{{data.expenseClaimAmount}}</h2>
+                      <h2 item-end>From Dt:{{fromDt |date:'mediumDate'}}</h2>
+                    </ion-item>
+                    <ion-item no-padding no-margin  class="firstItem">
+                        <h2 item-start no-margin>Location:{{location}}</h2>
+                        <h2 item-end>To Dt:{{toDt  |date:'mediumDate'}}</h2>
+                      </ion-item>
+                      <ion-item no-padding no-margin  class="firstItem">
+                          <h2 item-start no-margin>year:2019</h2>
+                         
+                          <h2 item-end>Purpose: {{data.jobCode || data.costCenterCode}}</h2>
+                        </ion-item>
+                    
+                 
+                </ion-card-content>
+
+                          
+  </ion-card>
+  <ion-card>
+      <ion-card-content>
+          <ion-item no-padding no-margin>
+              <h2 item-start no-margin> <ion-icon name="cash"></ion-icon></h2>
+              <h2 item-start no-margin>Fuel Mileage Expenses</h2>
+              <h2 item-end> Rs.26.80</h2>
+            </ion-item>
+            <ion-item no-padding no-margin>
+                <h2 item-start no-margin> <ion-icon name="pizza"></ion-icon></h2>
+
+                <h2 item-start no-margin>Meals And Entertainment</h2>
+                <h2 item-end>Rs.26.80</h2>
+              </ion-item>
+              <ion-item no-padding no-margin>
+                  <h2 item-start no-margin><ion-icon name="jet"></ion-icon></h2>
+                  <h2 item-start no-margin>Travel Expense</h2>
+                  <h2 item-end> Rs.26.80</h2>
+                </ion-item>
+                
+        </ion-card-content>
+        <button ion-button clear (click)="expenseDetailPage()">Add Bill</button>
+        <button ion-button clear (click)="expenseDetailPage()">Submit Claim</button>
+        <button ion-button clear (click)="expenseListPage()">Back</button>
+    </ion-card>
+ 
+
+</ion-col>
+</ion-grid>
+ 
+  </ion-content>

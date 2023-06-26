@@ -1,0 +1,250 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+      <h4 class="text-themecolor"> Office Calendar Detail</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+      <div class="d-flex justify-content-end align-items-center">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item active"> Back Office</li>
+          <li class="breadcrumb-item active"> Office Calendar List</li>
+          <li class="breadcrumb-item active"> Office Calendar Detail &nbsp;</li>                              
+        </ol>            
+        <button type="button" [routerLink]="['/operation/office-calendar']"  class="btn btn-outline-info"> Back </button>    
+      </div>
+   
+    </div>
+</div>
+
+<div class="card" *ngIf="view=='start-calendar'">
+    <div class="card-header">
+        Start Calendar for <span><b>{{officeName}}</b></span> Year Code: <span><b>{{yearCode}}</b></span>       
+    </div>
+    <div class="card-body">
+        <div class="row text-center">
+            <div class="col-4 text-center">
+                <button type="button" (click)="setUp('regular-weekends')" class="btn btn-outline-info"> Regular Weekends </button>
+            </div>
+            <div class="col-4 text-center">
+                <button type="button" (click)="setUp('second-saturdays-leave')" class="btn btn-outline-info"> Second Saturdays are leave  </button>
+            </div>
+            <div class="col-4 text-center">
+                <button type="button" (click)="setUp('saturdays-working')" class="btn btn-outline-info"> All Saturdays working </button>
+            </div>
+        </div>
+        <br>
+        <div class="row text-center">
+            <div class="col-4 text-center">
+                <button type="button" (click)="setUp('Middleeast-regular-weekend')" class="btn btn-outline-info"> MiddleEast Regular Weekend</button>
+            </div>
+            <div class="col-4 text-center">
+                <button type="button" (click)="setUp('Middleeast-second-saturdays-leave')" class="btn btn-outline-info"> MiddleEast Second Saturdays are leave </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card" *ngIf="view=='view'">
+    <div class="card-header" *ngIf="calendarHeader.calStatus=='setup-inprogress'">
+        Edit Calendar                     
+    </div>
+    <div class="card-header" *ngIf="calendarHeader.calStatus=='completed'">
+        View Calendar
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-3">
+                <label class="textColor"> office Name </label><br>
+                <label> {{calendarHeader.officeName}}</label>
+            </div>
+            <div class="col-3">
+                <label class="textColor"> Calendar Year Code </label><br>
+                <label> {{calendarHeader.calYearCode}}</label>
+            </div>
+            <div class="col-3">
+                <label class="textColor"> From Date </label><br>
+                <label> {{calendarHeader.fromDt}}</label>
+            </div>
+            <div class="col-3">
+                <label class="textColor"> To Date </label><br>
+                <label> {{calendarHeader.toDt}}</label>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row text-center" *ngIf="calendarHeader.calStatus!='completed'">
+            <div class="col-4 text-center">
+                <button type="button" (click)="warning('regular-weekends')" class="btn btn-outline-info"> Regular Weekends </button>
+            </div>
+            <div class="col-4 text-center">
+                <button type="button" (click)="warning('second-saturdays-leave')" class="btn btn-outline-info"> Second Saturdays are leave  </button>
+            </div>
+            <div class="col-4 text-center">
+                <button type="button" (click)="warning('saturdays-working')" class="btn btn-outline-info"> All Saturdays working </button>
+            </div>
+        </div>
+        <br>
+        <div class="row text-center" *ngIf="calendarHeader.calStatus!='completed'">
+            <div class="col-4 text-center">
+                <button type="button" (click)="warning('Middleeast-regular-weekend')" class="btn btn-outline-info"> MiddleEast Regular Weekend</button>
+            </div>
+            <div class="col-4 text-center">
+                <button type="button" (click)="warning('Middleeast-second-saturdays-leave')" class="btn btn-outline-info"> MiddleEast Second Saturdays are leave </button>
+            </div>
+        </div>
+
+        <br *ngIf="calendarHeader.calStatus!='completed'">
+        <br *ngIf="calendarHeader.calStatus!='completed'">
+        <div class="row" *ngIf="calendarHeader.calStatus!='completed'">
+            <div class="col-2 text-center">
+              <file-upload [fileDetail]="'ADD-IMPORT-CALENDAR'" [buttonName]="'Holidays upload'" (change)="upload($event,'ADD-IMPORT-CALENDAR')"></file-upload>
+            </div> 
+            <div class="col-2 text-center">
+                <a class="btn btn-primary" href="assets/CSV/calender.csv"><i class="fa fa-file-excel-o"></i> Sample Holidays file</a>	                
+            </div>
+            <div class="col-2 text-center">
+                <button type="button" (click)="complete()"  class="btn btn-danger"> <i class="fa fa-calendar-check-o"></i> Calendar Setup Complete</button>                  
+              </div>
+        </div>
+
+        <br *ngIf="calendarHeader.calStatus!='completed'">
+        <br *ngIf="calendarHeader.calStatus!='completed'">
+
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-sm table-hover table-striped table-bordered">
+                    <thead>
+                        <tr>
+                         
+                            <th>Month Name </th>   
+                            <th>Shift Name</th>                                                                       
+                            <th>WeekDays</th>
+                            <th>WeekEnds</th>
+                            <th>Holiday</th>
+                            <th>Total Calculated Days</th>
+                            <th><i class="fa fa-cog text-inverse m-r-10"></i></th>                              					
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of groupMonth;let i=index">
+                          <td>{{item.summaryMonth}}</td>
+                          <td>{{item.officeShiftName}}</td>
+                          <td>{{item.weekdayCount}}</td>
+                          <td>{{item.weekendCount}}</td>
+                          <td>{{item.holidayCount}}</td>
+                          <td>{{item.totalDays}}</td>
+                          <td>
+                            <button type="button" (click)="viewOffCal(item.officeId,item.calYearId,item.month)" class="btn btn-outline-success"><i class="fa fa-eye"> &nbsp; View </i></button>
+                          </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>            
+        </div>
+
+    </div>
+</div>
+
+<ng-template #viewCal let-c="close">
+    <div class="modal-header">
+    <h4 class="modal-title"> View {{officeCalendar[0].calDate | date:'MMMM yyyy'}} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="c()">
+      <!-- <span aria-hidden="true">&times;</span> -->
+    </button>
+    
+    <div class="text-right">
+        <button type="button" (click)="save()" [disabled]="calendarValidation!=0"  class="btn btn-outline-success">Save</button>                  
+      </div>
+     
+      <div class="text-right">
+        <button type="button" (click)="c()" class="btn btn-outline-danger">Close</button>                   
+      </div>   
+    </div>
+  
+    <div class="modal-body">
+      
+        <div class="table-responsive">
+            <table class="table table-sm table-hover table-striped table-bordered">
+                <thead>
+                    <tr>                     
+                        <th>Date </th>                                                                          
+                        <th>Day</th>
+                        <th width="15%">Day Type</th>
+                        <th>Holiday Name</th>
+                        <th>Is Restricted Holiday </th>
+                        <th> Remarks</th>                              					
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of officeCalendar;let i=index">
+                        <td>{{item.calDate | date:'dd/MMM/yyyy'}}</td>
+                          <td>{{item.day}}</td>
+                          <td>
+                            <select class="form-control" [(ngModel)]="item.dayType">
+                                <option value="weekday">Weekday</option>
+                                <option value="weekend">Weekend</option>
+                                <option value="holiday">Holiday</option>
+                            </select></td>
+                          <td *ngIf="item.dayType!='holiday'">-</td>
+                          <td *ngIf="item.dayType=='holiday'">
+                              <input type="text" class="form-control form-control-line" name="holidayName" [(ngModel)]="item.holidayName" id="holidayName">
+                          </td>
+                          <td *ngIf="item.dayType!='holiday'">-</td>
+                          <td *ngIf="item.dayType=='holiday'">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="read[{{i}}]" [(ngModel)]="item.isRestrictedHoliday" >
+                                <label class="custom-control-label" for="read[{{i}}]"></label>
+                            </div>
+                              </td>
+                          <td *ngIf="item.dayType=='holiday'"> <textarea class="form-control form-control-line"  cols="30" [(ngModel)]="item.remarks" rows="5"></textarea> </td>
+                          <td *ngIf="item.dayType!='holiday'">-</td>
+                  </tr>
+                </tbody>
+            </table>       
+      </div>    
+    </div>
+  
+    <div class="modal-footer">                 
+      <div>
+        <button type="button" (click)="save()" [disabled]="calendarValidation!=0" class="btn btn-outline-success">Save</button>                  
+      </div>
+     
+      <div>
+        <button type="button" (click)="c()" class="btn btn-outline-danger">Close</button>                   
+      </div>                  
+    </div>
+  </ng-template>
+
+
+
+  <ng-template #warningMsg let-c="close">
+    <div class="modal-header">
+    <h4 class="modal-title"> Warning Message </h4>
+    <button type="button" class="close" aria-label="Close" (click)="c()">
+      <span aria-hidden="true">&times;</span>
+    </button>       
+    </div>
+  
+    <div class="modal-body">
+      
+        <p>Changes In Calendar Event will Delete the Holidays too.. have to reschedule Holidays for this Calendar...!!! </p>
+           
+    </div>
+  
+    <div class="modal-footer">                 
+      <div>
+        <button type="button" (click)="setUp(eventName)" class="btn btn-outline-success">Okay</button>                  
+      </div>
+     
+      <div>
+        <button type="button" (click)="c()" class="btn btn-outline-danger">Close</button>                   
+      </div>                  
+    </div>
+  </ng-template>
+
+<style>
+     .textColor {
+        color: rgb(11, 15, 243);
+    }
+</style>

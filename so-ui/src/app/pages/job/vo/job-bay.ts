@@ -1,0 +1,39 @@
+export class JobBay{
+    id?:string;
+    jobId?:string;
+    jobCode?:string;
+    mJobTypeId?:string;
+    partnerId?:string;
+    endClientId?:string;
+    clientName?:string;
+    jobTypeName?:string;
+    jobLocation?:string;
+    jobName?:string;
+    endClientName?:string;
+    bayName?:string;
+    bayOrder?:string;
+    bayDesc?:string;
+    bayStatus?:string;
+    progress?:string;
+    isEnabled?:string;
+    createdBy?:string;
+    modifiedBy?:string;
+    createdDt?:Date;
+    modifiedDt?:Date;   
+    jobEquips?:Array<JobEquip>;
+}
+
+export class JobEquip{
+    id?:string;
+    tJobBayId?:string;
+    equipName?:string;
+    tips?:string;
+    status?:string;
+    progress?:string;
+    equipOrder?:string;
+    isEnabled?:string;
+    createdBy?:string;
+    modifiedBy?:string;
+    createdDt?:Date;
+    modifiedDt?:Date;
+}

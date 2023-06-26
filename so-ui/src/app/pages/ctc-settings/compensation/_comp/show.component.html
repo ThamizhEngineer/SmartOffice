@@ -1,0 +1,130 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Compensation Settings</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item active">Compensation Settings</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+
+<div class="row m-b-20">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+				<h4 class="card-title">Compensation Structure</h4>
+				<div class="row">
+					<div class="col-4 m-b-20">
+						<select  class="form-control form-control-line" [(ngModel)]="_ID" (ngModelChange)="selectEmp($event)">
+							<option *ngFor="let v of empLists" [value]="v.id">{{v.empName}}</option>
+						</select>
+				
+					</div>
+				</div>
+				<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" *ngIf="_ID">
+					<ngb-panel *ngFor="let a of accordions" title="{{a.name}}">
+						<ng-template ngbPanelContent>
+							<div class="row m-b-5">
+								<div class="col-4">
+									<label>Add Split up</label>
+									<select class="form-control form-control-line" [(ngModel)]="payCodes">
+										<option *ngFor="let v of payoutTypes" [ngValue]="v">{{v.payTypeName}} ({{v.payTypeCode}})</option>
+									</select>
+								</div>
+								<div class="col-1">
+									<label>&nbsp;</label>
+									<button type="submit" class="form-control btn btn-secondary waves-effect waves-light" (click)="addSplitUp(a)">Add</button>
+								</div>
+								<div class="col-5">
+									
+								</div>
+								<div class="col-2">
+									<label>Max Amount</label>
+									<input type="text" class="form-control form-control-line" placeholder="Max Amount" [(ngModel)]="a.headTotal"/>
+								</div>
+							</div>
+							<div class="table-responsive">
+								<table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table">
+									<thead>
+										<th>Code</th>
+										<th>Pay Type</th>
+										<th>Allowance/Deduction</th>
+										<th>Rule Type</th>
+										<th colspan=2>Formula</th>
+										<th>Definition</th>
+										<th>Amount</th>
+										<th></th>
+									</thead>
+									<tbody>
+									<ng-container *ngFor="let c of ctcs.employeeCtcLines">
+										<tr *ngIf="c.head == a.id">
+											<th width="5%">{{c.payType.payTypeCode}}</th>
+											<th width="20%">{{c.payType.payTypeName}}</th>
+											<th *ngIf="c.payType.isAllowance=='Y'" width="8%"> <span class="label label-success">Allowance</span> </th>
+											<th *ngIf="c.payType.isAllowance=='N'" width="8%"> <span class="label label-warning">Deduction</span> </th>
+											<td width="8%">
+												<select class="form-control" [(ngModel)]="c.ruleType">
+													<option *ngFor="let v of ruleTypes" [ngValue]="v.configDtlName">{{v.configDtlName}}</option>
+												</select>
+											</td>
+											<td *ngIf="c.ruleType!='custom'" width="10%">
+												<input class="form-control col-9 text-right" type="text" placeholder="Formula" [(ngModel)]="c.formulaValue" (ngModelChange)="updateHeadTotal(a)" [disabled]="c.ruleType=='Lump sum'"/><span class="col-3"> % </span>
+											</td>
+											<td *ngIf="c.ruleType!='custom'" width="10%">
+												<select  class="form-control form-control-line" [(ngModel)]="c.formulaCalc" (ngModelChange)="updateHeadTotal(a)" [disabled]="c.ruleType=='Lump sum'">
+													<option *ngFor="let v of formulaCodes" [ngValue]="v.code">{{v.code}}</option>
+													<option *ngFor="let v of payoutTypes" [ngValue]="v.payTypeCode">{{v.payTypeCode}}</option>
+												</select>
+											</td>
+											<td colspan=2 *ngIf="c.ruleType=='custom'">
+												<select class="form-control" [(ngModel)]="c.cusType">
+													<option *ngFor="let v of customsTypes" [ngValue]="v.configDtlName">{{v.configDtlName}}</option>
+												</select>
+											</td>
+											<td><small>{{c.payType.payTypeDesc}}</small></td>
+											<td width="12%" class="text-right">
+												<ng-container  *ngIf="c.ruleType!='custom'">
+													<span *ngIf="c.ruleType!='Lump sum'">{{c.calculatedAmt}}</span>
+													<input class="form-control col-9 text-right" type="text" placeholder="Amount" [(ngModel)]="c.calculatedAmt" (ngModelChange)="updateHeadTotal(a)" *ngIf="c.ruleType=='Lump sum'"/>
+												</ng-container>												
+											</td>
+											<td  width="5%" class="text-center">
+												<a href="javascript:void(0)" (click)="delRow(c, a)"><i class="fa fa-close text-danger"></i></a>
+											</td>											
+										</tr>
+										
+									</ng-container>
+									</tbody>
+									<tfoot>
+										<tr>
+											<th colspan=7 class="text-right">{{a.name}}</th>
+											<th class="text-right">{{a.hTotal}}</th>
+											<th></th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+							
+							<display-alert [message]="a.msg"></display-alert>
+						</ng-template>
+					</ngb-panel>
+					
+				</ngb-accordion>
+				
+				<div class="row m-t-10" *ngIf="_ID">
+					<div class="form-group col-md-3 col-sm-6">
+						<button type="submit" class="btn btn-info waves-effect waves-light m-t-10" (click)="updateCompensation()">Update Compensation</button>
+					</div>
+				</div>
+				
+				<flag-alert [message]="saveMsg"></flag-alert>
+            </div>
+        </div>
+	</div>
+</div>
+

@@ -1,0 +1,5 @@
+<input type="text"  style="border: 1px solid grey;" class="form-control form-control-line" [ngbTypeahead]="profileAC" [resultTemplate]="rt1"
+    [inputFormatter]="formatter" [editable]='false' [value]="value" (selectItem)="projectSelected($event)" [placeholder]="placeholder" ngbtypeaheadpopup>
+<ng-template #rt1 let-r="result" let-t="term" >
+   <option> {{r.empCode}} - {{ r.empName}}</option> 
+</ng-template>

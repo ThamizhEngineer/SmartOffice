@@ -1,0 +1,164 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/theming/
+
+/** Ionic CSS Variables **/
+:root {
+  /** primary **/
+  --ion-color-primary: #2e358f;
+  --ion-color-primary-rgb: 56, 128, 255;
+  --ion-color-primary-contrast: #e5f1f8;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #3171e0;
+  --ion-color-primary-tint: #4c8dff;
+  --ion-color-primary-toolbar: #0D2436;
+
+  /** secondary **/
+  --ion-color-secondary: #0b9444;
+  --ion-color-secondary-rgb: 12, 209, 232;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #0bb8cc;
+  --ion-color-secondary-tint: #24d6ea;
+
+  /** tertiary **/
+  --ion-color-tertiary: #7044ff;
+  --ion-color-tertiary-rgb: 112, 68, 255;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #633ce0;
+  --ion-color-tertiary-tint: #7e57ff;
+
+  /** success **/
+  --ion-color-success: #10dc60;
+  --ion-color-success-rgb: 16, 220, 96;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #0ec254;
+  --ion-color-success-tint: #28e070;
+
+
+  /** warning **/
+  --ion-color-warning: #FD9647;
+  --ion-color-warning-rgb: 253, 150, 71;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-contrast-rgb: 255, 255, 255;
+  --ion-color-warning-shade: #E3873F;
+  --ion-color-warning-tint: #FEDFC7;
+
+  /** danger **/
+  --ion-color-danger: #f04141;
+  --ion-color-danger-rgb: 245, 61, 61;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #d33939;
+  --ion-color-danger-tint: #f25454;
+
+  /** dark **/
+  --ion-color-dark: #0D2436;
+  --ion-color-dark-rgb: 34, 34, 34;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1e2023;
+  --ion-color-dark-tint: #383a3e;
+
+  /** medium **/
+  --ion-color-medium: #989aa2;
+  --ion-color-medium-rgb: 152, 154, 162;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #86888f;
+  --ion-color-medium-tint: #a2a4ab;
+
+  /** light **/
+  --ion-color-light: #f4f5f8;
+  --ion-color-light-rgb: 244, 244, 244;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #d7d8da;
+  --ion-color-light-tint: #f5f6f9;
+
+  /** gold **/
+  --ion-color-gold: #ffd700;
+  --ion-color-gold-rgb: 255, 215, 0;
+  --ion-color-gold-contrast: #000000;
+  --ion-color-gold-contrast-rgb: 0, 0, 0;
+  --ion-color-gold-shade: #e0bd00;
+  --ion-color-gold-tint: #ffdb1a;
+
+  /* Set the background of the entire app */
+  --ion-background-color: #ffffff;
+
+  /* Set the font family of the entire app */
+  --ion-font-family: "Poppins", sans-serif;
+  
+}
+  /* Set text color of the entire app for iOS only */
+  .ios {
+    --ion-text-color: #000;
+  }
+  
+  /* Set text color of the entire app for Material Design only */
+  .md {
+    --ion-text-color: #222;
+  }
+  .ion-color-gold {
+    --ion-color-base: var(--ion-color-gold) !important;
+    --ion-color-base-rgb: var(--ion-color-gold-rgb) !important;
+    --ion-color-contrast: var(--ion-color-gold-contrast) !important;
+    --ion-color-contrast-rgb: var(--ion-color-gold-contrast-rgb) !important;
+    --ion-color-shade: var(--ion-color-gold-shade) !important;
+    --ion-color-tint: var(--ion-color-gold-tint) !important;
+  }
+  
+  ion-button {
+    text-transform: none;
+    --border-width:1px;
+  }
+
+  ion-title{
+    font-size: 17px;
+    // width: 40%;
+    text-overflow: ellipsis;
+  }
+
+  ion-toolbar{
+    --background :var(--ion-color-primary-toolbar);
+    --color :var(--ion-color-primary-contrast);
+  }
+
+  ion-card{
+    --background:#F2F2F2;
+  }
+
+  ion-tab-bar{
+    --background:#F2F2F2;
+  }
+
+  ion-tab-button{
+    --background:#F2F2F2;
+    --color-selected:#858587;  
+  }
+
+  ion-toast{
+    --button-color:#F2F2F2;
+  }
+
+  ion-popover.change-password .popover-content {
+    top: 198px !important;
+    left: 130px !important;
+    transform-origin: right top !important;
+    transform: scale(1)
+  }
+
+  ion-popover.child-popover .popover-content {
+    top: 56px !important;
+    left: 155px !important;
+    transform-origin: left top !important;
+    transform: scale(1)
+  }
+
+
+
+
+
+

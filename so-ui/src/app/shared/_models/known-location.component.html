@@ -1,0 +1,109 @@
+<div *ngIf="type=='create'" class="modal-body" style="border-style: solid" >
+    <flag-alert [message]="alertMsg"></flag-alert>
+    <div class="row">
+        <div class="form-group col-4">
+                <label>Location Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" [(ngModel)]="mapLocation.locName" placeholder="Location Name">
+
+          
+        </div>
+        <div class="form-group col-4">
+                <label>Country <span class="text-danger">*</span></label>
+            <select class="form-control form-control-line" [(ngModel)]="mapLocation.country">
+                <option *ngFor="let c of countries" [value]="c.countryCode">{{c.countryName}}</option>
+
+            </select>
+        </div>
+
+        <div class="form-group col-4">
+                <label>Address <span class="text-danger">*</span></label>
+            <textarea class="form-control form-control-line" placeholder="address" [(ngModel)]="mapLocation.address"></textarea>
+        </div>
+    </div>
+   
+
+    <div>
+                    
+            <div class="row">
+                        <div class="form-group col-4">
+                <label>Latitude </label>
+            <input type="number" class="form-control" [(ngModel)]="mapLocation.lats" placeholder="Latitude">
+        </div>
+        <div class="form-group col-4">
+                <label>Longitude </label>
+            <input type="number" class="form-control" [(ngModel)]="mapLocation.longs" placeholder="Longitude">
+        </div>
+
+        <div class="form-group col-3">
+                <label>&nbsp;<span class="text-success">&nbsp;&nbsp;</span> </label>
+            <button type="button" (click)="save()" class="form-control btn btn-success ">Save </button>
+        </div>
+    </div>
+
+    </div>
+</div>
+
+
+<div *ngIf="type=='search'" class="modal-body" style="border-style: solid" >
+    <flag-alert [message]="alertMsg"></flag-alert>
+    <div class="row">
+        <div class="form-group col-4">
+                <label>Location Name </label>
+            <input type="text" class="form-control" [(ngModel)]="mapLocation.locName" placeholder="Location Name">            
+        </div>
+        <div class="form-group col-4">
+                <label>Country </label>
+            <select class="form-control form-control-line" [(ngModel)]="mapLocation.country">
+                <option *ngFor="let c of countries" [value]="c.countryCode">{{c.countryName}}</option>
+
+            </select>
+        </div>
+
+        <div class="form-group col-4">
+                <label>Address</label>
+            <textarea class="form-control form-control-line" placeholder="address" [(ngModel)]="mapLocation.address"></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-3">
+
+            <button type="button" (click)="convertAddressToCoords()" class="form-control btn btn-success">Search </button>
+        </div>
+    </div>
+
+    <div  *ngIf="this.mapLocations.length!=0">
+        
+        <div class="table-responsive m-t-40">
+            <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th data-sort-initial="true" data-toggle="true">#</th>
+                        <th data-sort-initial="true" data-toggle="true">Location Name</th>
+                        <th data-sort-initial="true" data-toggle="true">Address</th>
+                        <th data-sort-initial="true" data-toggle="true">Country</th>
+                        <th data-sort-initial="true" data-toggle="true">Latitude</th>
+                        <th data-sort-initial="true" data-toggle="true">Longitude</th>  
+                        <th data-sort-initial="true" data-toggle="true">Pick</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mapLocations;let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{item.locName}}</td>
+                        <td>{{item.address}}</td>
+                        <td>{{item.country}}</td>
+                        <td>{{item.lats}}</td>
+                        <td>{{item.longs}}</td>
+                        <td><div class="custom-control custom-radio">
+                            <input type="radio" (click)="getLocation(item)"  required id="loc[{{i}}]" name="loc" class="custom-control-input">
+                            <label class="custom-control-label" for="loc[{{i}}]"></label>
+                        </div>
+                            
+                            <!-- <i (click)="getLocation(item)" class="fa fa-eye btn btn-success"></i> </td>                                -->
+                    </tr>
+                </tbody>           
+            </table>
+        </div>
+
+    </div>
+</div>

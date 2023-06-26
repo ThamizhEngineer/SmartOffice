@@ -1,0 +1,289 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Sale Order</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a [routerLink]="['/job/sale-order']">Sale Order List</a></li>
+				<li class="breadcrumb-item active">Sale Order Detail </li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12 card card-body">
+
+		<div class="row">
+
+			<div class="form-group col-3">
+				<label>Immediate Client</label>
+				<select class="form-control" (change)="clientSelected();" [(ngModel)]="so.partnerId">
+					<option *ngFor="let v of partnerList" [value]="v.id">{{v.clientName}}</option>
+				</select>
+			</div>
+			<div class="form-group col-3">
+				<label>GST #</label>
+				<input type="text" class="form-control" placeholder="Client GST Number" [(ngModel)]="so.gstNo" disabled />
+				<!-- <b>{{so.gstNo}}</b> -->
+				<!-- <select class="form-control" [(ngModel)]="so.gstNo">
+					<option *ngFor="let pList of partner.partnerGsts" [value]="pList.gstNo">{{pList.gstNo}}</option>
+				</select> -->
+			</div>
+
+
+			<div class="form-group col-2">
+				<label style="visibility:hidden;">Goods</label>
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="customCheck2" [(ngModel)]="so.needsGoods" />
+					<label class="custom-control-label" for="customCheck2">Goods</label>
+				</div>
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="customCheck1" [(ngModel)]="so.needsServices" />
+					<label class="custom-control-label" for="customCheck1">Service</label>
+				</div>
+
+			</div>
+		
+		
+			<div class="form-group col-1">
+				<label>Sale Order</label><br />
+				<span class="label label-default">{{so.saleOrderCode}} </span>	
+			</div>
+			
+			
+		</div>
+		<div class="row">
+
+			<div class="form-group col-3">
+				<label style="visibility:hidden;">Virtual PO</label>
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="customCheck3"  (ngModelChange)="valueIsVirtualPo();">
+					<label class="custom-control-label" for="customCheck3" (click)="valueIsVirtualPo();">Virtual PO</label>
+				</div>
+			</div>
+			<div class="form-group col-2">
+				<label>Virtual PO Number</label>
+				<input type="text" class="form-control" placeholder="virtualPONumber" [(ngModel)]="so.virtualPoNum"[disabled]="!isVirtualPo" />
+			</div>
+			<div class="col-3 form-group">
+				<label>Purchase Order</label>
+				<select class="form-control" name="color" [(ngModel)]="so.purchaseOrderId" [disabled]="isVirtualPo">
+					<option *ngFor="let l of clientPos" [value]="l.poRefNo">{{l.clientName + "-"+ l.poRefNo}}</option>
+				</select>
+			</div>
+			<form [formGroup]="form">
+			<div class="col-5 form-group">
+				<label>Order Amount</label>						
+				<input type="number" class="form-control" formControlName="orderAmount" placeholder="Order Amount" [(ngModel)]="so.orderAmount" />
+			</div>
+			</form>
+
+			<div class="form-group col-3">
+				<!-- <label>Location</label>
+				<select class="form-control" [(ngModel)]="so.locationId" >
+						<option *ngFor="let m of maps" [value]="m.id">
+								{{m.locName}}
+							</option>
+							</select> -->
+			</div>
+			<div class="form-group col-3">
+				<label>Handling SBU</label>
+				<select class="form-control" [(ngModel)]="so.divisionId">
+					<option *ngFor="let bList of buList" [value]="bList.id">{{divisionName+bList.buCode}}</option>
+
+				</select>
+			</div>
+
+			<div class="form-group col-3">
+				<label>Project Name</label>
+				<select class="form-control" [(ngModel)]="so.projectId">
+					<option *ngFor="let pro of projects" [value]="pro.id">{{pro.projName}}</option>
+
+				</select>
+			</div>
+			<div class="form-group col-6 col-md-4">
+				<label class="control-label">Client email</label>
+				<input type="text" class="form-control" placeholder="Client Email" [(ngModel)]="so.emailId" disabled />			
+            </div>
+
+		</div>
+
+		<ng-container *ngIf="so.needsServices">
+			<h4>Service - Scope</h4>
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th width="18%">Service</th>
+							<th width="8%">SAC Code</th>
+							<th width="18%">Service Description</th>
+							<th width="18%">Additional Notes</th>
+							<th width="5%">Headcount</th>
+							<th width="18%">Internal Remarks</th>
+							<th width="5%">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let s of so?.saleServices;let item=index">
+							<td>
+									
+								<input class="form-control" placeholder="Service" [(ngModel)]="s.serviceName" [ngModelOptions]="{standalone: true}">
+							</td>
+							<td><input class="form-control" placeholder="SAC Code" [(ngModel)]="s.sacCode" [ngModelOptions]="{standalone: true}"></td>
+							<td><input class="form-control" placeholder="Service Description" [(ngModel)]="s.serviceDescription"
+								 [ngModelOptions]="{standalone: true}"></td>
+							<td><input class="form-control" placeholder="Additional Notes" [(ngModel)]="s.serviceAdditionalNotes"
+								 [ngModelOptions]="{standalone: true}"></td>
+							<td><input class="form-control" placeholder="Headcount" [(ngModel)]="s.headCount" [ngModelOptions]="{standalone: true}"></td>
+							<td><input class="form-control" placeholder="Internal Remarks" [(ngModel)]="s.internalRemarks" [ngModelOptions]="{standalone: true}"></td>
+
+							<td>
+								<a href="javascript:void(0)" (click)="addService()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+								<a href="javascript:void(0)" *ngIf="rows.length > 1" (click)="delService(s.id,item)"><i class="fa fa-close text-danger"></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</ng-container>
+		<ng-container *ngIf="so.needsGoods">
+			<h4>Goods Required</h4>
+			<div class="">
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th width="20%">Goods</th>
+							<th width="8%">HSN Code</th>
+							<th width="7%">Qty</th>
+							<th width="8%">Unit Price</th>
+							<th width="10%">Due On</th>
+							<th width="20%">Additional Notes</th>
+							<th width="5%">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let s of so?.saleGoods;let item=index">
+							<td>
+
+								<input style="border: 1px solid grey;" id="typeahead-focus" type="text"
+								class="form-control" [ngbTypeahead]="searchGoods"
+								[resultTemplate]="productResultTemplate" [inputFormatter]="goodsFormatter"
+								placeholder="Search Goods" (selectItem)="onGoodsSelect($event, item)"
+								[value]="s.goodsName" [editable]='false' ngbtypeaheadpopup>
+							<ng-template #productResultTemplate let-r="result" let-t="term">
+								{{r.materialName}}
+							</ng-template>
+
+										<!-- <select class="form-control" [(ngModel)]="s.materialId" >
+												<option *ngFor="let bList of materials" [value]="bList.id" >{{bList.materialName}}</option>
+							
+											</select> -->
+							
+							
+							</td>
+							<td>{{s.hsnCode}}</td>
+							<td><input class="form-control" [(ngModel)]="s.goodQty" [ngModelOptions]="{standalone: true}"></td>
+							<td>{{s.goodUnitPrice}}</td>
+							<td><input type="date" [(ngModel)]="s.goodDueOn" [ngModelOptions]="{standalone: true}"></td>
+							<td><textarea class="form-control" placeholder="Additional Notes" rows=3 [(ngModel)]="s.goodAdditionalNotes"
+								 [ngModelOptions]="{standalone: true}"></textarea></td>
+							<td>
+								<a href="javascript:void(0)" (click)="addGoods()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+								<a href="javascript:void(0)" *ngIf="rows.length > 1" (click)="delGoods(s.id,item)"><i class="fa fa-close text-danger"></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</ng-container>
+		<div class="row">
+
+			<div class="col-6 form-group">
+				<label>Shipping Address</label>
+				<textarea rows=4 class="form-control" placeholder="Shipping Address" (keypress)="commonService.isValidName($event)" [(ngModel)]="so.shippingAddress"></textarea>
+			</div>
+			<div class="col-6 form-group">
+				<label>Internal Remarks</label>
+				<textarea rows=4 class="form-control" (keypress)="commonService.isValidName($event)" placeholder="Internal Remarks" [(ngModel)]="so.internalRemarks"></textarea>
+			</div>
+
+		</div>
+		<form [formGroup]="form">
+			<div class="row">
+
+				<div class="col-6 form-group">
+					<label>Payment Terms <span class="text-danger">*</span></label>
+					<textarea rows=4 class="form-control" formControlName="PaymentTerms" placeholder="Payment Terms" (keypress)="commonService.isValidName($event)" [(ngModel)]="so.paymentTerms"></textarea>
+
+				</div>
+				<div class="col-6 form-group">
+					<label>Delivery Terms <span class="text-danger">*</span></label>
+					<textarea rows=4 class="form-control" formControlName="DeliveryTerms" placeholder="Delivery Terms" (keypress)="commonService.isValidName($event)" [(ngModel)]="so.deleiveryTerms"></textarea>
+
+				</div>
+
+			</div>
+		</form>
+		<div class="row">
+
+			<div class="col-6 form-group">
+				<label>Delivery Schedule</label>
+				<textarea rows=4 class="form-control" placeholder="Delivery Schedule" (keypress)="commonService.isValidName($event)" [(ngModel)]="so.deleiverySchedule"></textarea>
+			</div>
+			<div class="col-6 form-group">
+				<label>Notification Status: </label><span class="label label-warning m-l-25">{{so.notificationStatus}}</span><br />
+				<label><a href="javascript:void(0);" (click)="notifiContent();">Notification Content: </a></label>
+			</div>
+
+		</div>
+		<div class="row">
+
+			<div class="form-group col-12">
+
+				<button type="submit" class="btn btn-outline-dark waves-effect waves-light mr-1" (click)="navigateToListPage()">Cancel</button>
+
+
+
+				<button type="submit" class="btn btn-info waves-effect waves-light mr-1" (click)="saveSO();"
+				 [disabled]="!form.valid">Save</button>
+
+				<button type="submit" class="btn btn-primary waves-effect waves-light mr-1" (click)="saveSubmitforApproval();">Submit
+					for Approval</button>
+				<!-- <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">Submit for Approval</button>  -->
+				<!-- <button type="submit" class="btn btn-warning waves-effect waves-light mr-1">Pending Approval</button>  -->
+				<!-- <button type="submit" class="btn btn-success waves-effect waves-light mr-1">Approved</button>  -->
+				<button type="submit" class="btn btn-warning waves-effect waves-light mr-1" (click)="sendSoAck()">Send Sale Order
+					Acknowledgment</button>
+
+				<!-- <button type="submit" class="btn btn-warning waves-effect waves-light mr-1">Pending Approval</button>  -->
+				<button type="submit" class="btn btn-success waves-effect waves-light mr-1" (click)="saveForApproval();">Approved</button>
+			</div>
+
+		</div>
+		<flag-alert [message]="saveMsg"></flag-alert>
+	</div>
+</div>
+
+<ng-template #notify let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">Content</h4>
+		<button type="button" class="close" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body card card-body">
+		<div class="form-group" [ngClass]="{'has-danger': snotifi.invalid && (snotifi.dirty || snotifi.touched)}">
+			<label>Notification Content</label>
+			<textarea class="form-control" rows=4 required pattern="[a-zA-Z][a-zA-Z0-9]+" #snotifi="ngModel" [(ngModel)]="so.notificationContent"></textarea>
+			<div *ngIf="snotifi.invalid && (snotifi.dirty || snotifi.touched)">
+                    <small class="form-control-feedback" *ngIf="snotifi.errors.pattern">Notification Content must be in alphabetic.</small>
+                </div>
+		</div>
+	</div>
+	<!-- <div class="modal-footer">
+		<button type="button" class="btn btn-primary" [routerLink]="['/job/sale-order/list']" (click)="saveSO()">Save</button>
+	</div> -->
+
+</ng-template>

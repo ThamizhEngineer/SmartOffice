@@ -1,0 +1,49 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Sale Order List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Sale Order List </li>
+            </ol>
+			<button type="button" class="btn btn-info d-none d-lg-block m-l-15" [routerLink]="['/job/sale-order/new']"><i class="fa fa-plus-circle"></i> Create Sale Order</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 card card-body">
+        <flag-alert [message]="saveMsg"></flag-alert>
+        <div class="table-responsive m-t-10">
+            <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th data-sort-initial="true" data-toggle="true">Sale Order Code</th>                        
+                      
+                        <th data-sort-initial="true" data-toggle="true">Project Name</th>
+                        <th data-sort-initial="true" data-toggle="true"> Status</th>
+                        <th data-sort-initial="true" data-toggle="true"> Customer Name</th>
+                        <th data-sort-initial="true" data-toggle="true">Options</th>                        
+                    </tr>
+                </thead>               
+                <tbody>
+                <tr *ngFor="let r of rows">
+                        <td>{{r.saleOrderCode}}</td>
+                       
+                        <td>{{r.projectName}}</td>
+                        <td>{{r.status}}</td>
+                        <td>{{r.partnerName}}</td>
+                        <td class="text-nowrap">
+                            <a href="javascript:void(0)" [routerLink]="['/job/sale-order/detail', r.id]"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                            <confirm-delete [type]="'icon'" (confirmed)="deleteSaleOrder(r.id)"></confirm-delete>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

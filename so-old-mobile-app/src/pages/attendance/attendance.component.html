@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Attendance</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <agm-map [latitude]="coordinates.latitude" [longitude]="coordinates.longitude">
+    <agm-marker [latitude]="coordinates.latitude" [longitude]="coordinates.longitude"></agm-marker>
+  </agm-map>
+  <ion-fab right top padding>
+    <button ion-fab (click)=refreshMap()>
+      <ion-icon name="pin"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-list>
+    <ion-card *ngIf="!checkin && coordinates" width-50>
+      <ion-item-sliding #item>
+        <ion-item text-left>
+          <ion-icon name="arrow-forward">Swipe right to checkin</ion-icon>
+        </ion-item>
+        <ion-item-options side="left" (ionSwipe)="checkInLocation()">
+          <button ion-button (click)="undo(item)">
+            <ion-icon name="undo"></ion-icon>
+            Undo
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-card>
+    <ion-card  *ngIf="checkout && coordinates" width-50>
+      <ion-item-sliding #item [ngStyle]="{'background-color': 'green'}">
+        <ion-item text-right [ngStyle]="{'color': 'white'}">
+          <ion-icon name="arrow-back">Swipe left to checkout</ion-icon>
+        </ion-item>
+        <ion-item-options side="right" (ionSwipe)="checkOutInit()" >
+            <button ion-button (click)="undo(item)">
+              <ion-icon name="undo"></ion-icon>
+              Undo
+            </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-card>
+    <ion-card>
+      <ion-card-content>
+        <ion-card-title >
+          Attendance Details
+        </ion-card-title>
+        <ion-grid>
+          <ion-row>
+            <ion-col>Check In Time</ion-col>
+            <ion-col>{{checkInTime | date:'dd/MM/yyyy, hh:mm a'}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>Check out Time</ion-col>
+            <ion-col>{{checkOutTime | date:'dd/MM/yyyy, hh:mm a'}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>Total Duration</ion-col>
+            <ion-col>{{stopwatch}}</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

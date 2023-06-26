@@ -1,0 +1,159 @@
+<section id="wrapper" class="login-register login-sidebar">
+	<div class="login-content">
+		<h1>Digital Transformation</h1>
+		<p>
+			<li>Track Engineer Location</li>
+			<li>Company Statistics on your finger-tips</li>
+			<li>Learn More, Work Smart</li>
+		</p>
+	</div>
+	
+	<div class="login-box card">
+		<div class="text-center">
+			<img src="./assets/img/login_logo.jpg" alt="logo image" width="35%" />
+		</div>
+		<div class="card-body">
+			<form class="form-horizontal form-material" (ngSubmit)="f.form.valid && signin()" #f="ngForm" action="" *ngIf="!isRecover">
+				<h3 class="box-title">Sign In</h3>
+				<ng-template #alertSignin></ng-template>
+				<div class="form-group">
+				   <div class="col-xs-12">
+						<input class="form-control" type="text" placeholder="Username" [(ngModel)]="model.email" name="email" #email="ngModel">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-12">
+						<input class="form-control" type="password" placeholder="Password" [(ngModel)]="model.password" name="password" #password="ngModel">
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-12">
+						<div class="custom-control custom-checkbox">
+						   <input type="checkbox" class="custom-control-input" [(ngModel)]="model.remember" name="remember" #remember="ngModel" id="customCheck1"/>
+							<label class="custom-control-label" for="customCheck1">Remember Me</label>
+							<a href="javascript:void(0)"(click)="createPasswd()" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a>  
+						</div>  
+					</div>
+				</div>
+				<div class="form-group text-center m-t-20">
+					<div class="col-xs-12">
+						<button class="btn btn-block btn-lg btn-info btn-rounded" [disabled]="loading || status=='Error'"  [ngClass]="{'loader-spinner': loading}">Log In</button>
+						<small class="form-control-feedback" *ngIf="status=='Error'"><font color="red">System not ready please contact system administrator.</font></small>
+					</div>
+				</div>
+
+				<div class="card card-body">
+						<ngb-accordion #acc="ngbAccordion">
+							<ngb-panel id="toggle-2" title="Health-Check">
+								<ng-template ngbPanelContent>
+						<ul>
+								<li *ngFor="let gt of data; let i = index">
+								   {{ gt.description }}
+								   {{gt.status}}
+								  <i *ngIf="gt.status=='UP'" class="fa fa-check text-success"></i>
+								  <i *ngIf="gt.status=='DOWN'" class="fa fa-close text-danger"></i>
+								</li>
+							  </ul>
+						</ng-template>
+					</ngb-panel>
+					</ngb-accordion>
+				</div>
+				<!-- <div class="row"> -->
+					<!-- <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center"> -->
+						<!-- <div class="social"><a href="javascript:void(0)" class="btn  btn-facebook" data-toggle="tooltip" title="Login with Facebook"> <i aria-hidden="true" class="fa fa-facebook"></i> </a> <a href="javascript:void(0)" class="btn btn-googleplus" data-toggle="tooltip" title="Login with Google"> <i aria-hidden="true" class="fa fa-google-plus"></i> </a> </div> -->
+					<!-- </div> -->
+				<!-- </div> -->
+				<!-- <div class="form-group m-b-0"> -->
+					<!-- <div class="col-sm-12 text-center"> -->
+						<!-- Don't have an account? <a href="pages-register2.html" class="text-primary m-l-5"><b>Sign Up</b></a> -->
+					<!-- </div> -->
+				<!-- </div> -->
+			</form>
+			<form class="form-horizontal" id="recoverform" [ngClass]="{'toggle':isRecover}" *ngIf="isRecover">
+				
+				<div class="form-group">
+					<div class="col-xs-12">
+						<h3>Recover Password</h3>
+						<p class="text-muted">Enter your Email and instructions will be sent to you! </p>
+					</div>
+				</div>
+				<ng-template #alertSignin></ng-template>
+				<div class="form-group">
+					<div class="col-xs-12">
+						<input class="form-control" type="text" required [(ngModel)]="recoverUname" placeholder="Email"  [ngModelOptions]="{standalone: true}"/>
+					</div>
+				</div>
+				<div class="row m-b-10 p-r-20 pull-right">
+					<a href="javascript:void(0)" (click)="isRecover = !isRecover" class="text-dark pull-right"><i class="fa fa-unlock m-r-5"></i> Login Again</a> 
+				</div>
+				<div class="form-group text-center m-t-20">
+					<div class="col-xs-12">
+						<button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" (click)="recoverPwd();" type="submit" >Reset</button>
+					</div>
+				</div>
+				
+			</form>
+
+		</div>
+		<footer>
+				<p><b>Supported Browsers: Google chrome Version 76.0.3809.132,Chromium Version 76.0.3809.100, 
+					Mozilla Firefox 68.0.1, Internet Explorer /Microsoft Edge 44.17763.83.1.0</b></p>
+			</footer>
+	</div>
+
+</section>
+
+<ng-template #modalContent let-c="close">
+<div class="modal-header">
+	<h3>Terms and Conditions</h3>
+	<button type="button" class="close" aria-label="Close" (click)="c()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body">
+	<p>I fully understand and agree that I will not use this software - 'Smart Office' (includes UI and mobile app) for any purpose that doesnt comply with Pothigai-Power's legal policy</p>
+
+
+	<p>If any of my activities are unlawful or doesnt comply with company policy that my access will be reverted and severe action will be taken promptly</p>
+
+	
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-outline-success" (click)="accept()">Accept</button>
+	<button type="button" class="btn btn-outline-warning" (click)="c()">Deny</button>
+</div>
+
+</ng-template>
+<ng-template #createPassword let-c="close">
+		<div class="modal-header">
+			<h4 class="modal-title">Enter your email address</h4>
+			<button type="button" class="close" aria-label="Close" (click)="c()">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div class="row">   
+					<div class="form-group col-md-4 col-sm-6" >
+							<label class="control-label">Email<font color="red">*</font></label>
+							
+								<input type="email" class="form-control form-control-line" placeholder="Email Id" [(ngModel)]="employee.contactEmailId"  required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" >
+							  
+					 
+					   </div>
+					 
+				</div>
+				<div>
+						<button type="submit" class="btn btn-info waves-effect waves-light m-t-10" 
+						(click)="forgotPswd(employee.contactEmailId)">Create</button>
+						</div>
+			</div>
+			
+			<div class="modal-footer align-self-center" *ngIf="clic">
+					
+					<label class="col-md-12 col-sm-3"  >Message:
+							<span style="color: blue;align-self: auto;">Password Has been Sent to your email address.Please do check it</span>
+					</label>
+				</div>
+	</ng-template>
+
+	

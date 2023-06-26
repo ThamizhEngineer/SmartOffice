@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Pay Slip</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card *ngFor="let item of data">
+
+    <ion-card-content>
+      <ion-row>
+        <ion-col class="ion-align-self-start">
+          Month
+        </ion-col>
+        <ion-col class="ion-align-self-end">
+          <ion-text color="danger"> {{item.dSalaryForMonth}}</ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-align-self-start">
+          Year
+        </ion-col>
+        <ion-col class="ion-align-self-end">
+          <ion-text color="danger"> {{item.dSalaryForYear}}</ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-align-self-start">
+          Net Amount
+        </ion-col>
+        <ion-col class="ion-align-self-end">
+          <ion-text color="danger"> {{item.netPayAmt}}</ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-align-self-start">
+          Download
+        </ion-col>
+        <ion-col class="ion-align-self-end">
+          <ion-icon color="secondary" (click)="saveDoc(item.payslipDocId)" name="download"></ion-icon>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

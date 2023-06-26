@@ -1,0 +1,169 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Employee Payslip</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a [routerLink]="['/index']">Home</a></li>
+				<li class="breadcrumb-item"><a  [routerLink]="['/operation/employee-payout/list']">Employee Payslip list</a></li>
+                <li class="breadcrumb-item active">Employee Payslip Detail</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card  p-20">
+		
+		<form>
+<div class="card-body">
+    
+
+    <div class="row">
+            <div class="col-md-4">
+                <div class="form-group row">
+                    <label class="control-label text-right col-md-6">Employee Name:</label>
+                    <div class="col-md-6">
+                        <p class="form-control-static"> {{employeePayout.employeeName}} </p>
+                    </div>
+                </div>
+            </div>
+            <!--/span-->
+            
+            <div class="col-md-4">
+                <div class="form-group row">
+                    <label class="control-label text-right col-md-6">Employee Code:</label>
+                    <div class="col-md-6">
+                        <p class="form-control-static"> {{employeePayout.employeeCode}} </p>
+                    </div>
+                </div>
+            </div>
+            <!--/span-->
+
+            <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-6">Pay Cycle Type:</label>
+                        <div class="col-md-6">
+                            <p class="form-control-static"> {{employeePayout.compPayCycleType}} </p>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
+        <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-6">Total Allowance:</label>
+                        <div class="col-md-6">
+                            <p class="form-control-static"> {{employeePayout.totalAllowanceAmt}} </p>
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+                
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-6">Total Deduction:</label>
+                        <div class="col-md-6">
+                            <p class="form-control-static"> {{employeePayout.totalD1value}} </p>
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+    
+                <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-6">Net Pay: </label>
+                            <div class="col-md-6">
+                                <p class="form-control-static"> {{employeePayout.netPayAmt}} </p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+    
+
+
+<!-- 
+        <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-6">From Date:</label>
+                        <div class="col-md-6">
+                            <p class="form-control-static"> {{employeePayout.fromDt}} </p>
+                        </div>
+                    </div>
+                </div> 
+                
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-6">To Date:</label>
+                        <div class="col-md-6">
+                            <p class="form-control-static"> {{employeePayout.toDt}} </p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-4">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-6">Pay Date:</label>
+                            <div class="col-md-6">
+                                <p class="form-control-static"> {{employeePayout.payDt}} </p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+     -->
+
+    <div class="row">
+            <div class="form-group col-md-6 col-sm-6" >
+            <table class="table table-bordered" >
+                <thead>
+                    <tr>                      
+                        <th>Earnings</th>               
+                        <th>Ytd</th>
+                        <th>Amount</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr *ngFor="let lines of earningEmpPayoutLines">                        
+                                <td>{{lines.dPayTypeName}}</td>                              
+                                <td>{{lines.ytdAmt}}</td>
+                                <td>{{lines.lineAmt}}</td>
+                            </tr>    
+               </tbody>
+            </table>
+
+            </div>
+            <div class="form-group col-md-6 col-sm-6">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Deductions</th>                      
+                                <th>Ytd</th>
+                                <th>Amount</th>                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr *ngFor="let lines of deductionEmpPayoutLines">
+                                        <td>{{lines.dPayTypeName}}</td>                                   
+                                        <td>{{lines.ytdAmt}}</td>
+                                        <td>{{lines.lineAmt}}</td>
+                                    </tr>                   
+                        </tbody>
+                    </table>
+        
+                    </div>
+           
+        </div>
+
+</div>
+
+</form>
+</div>
+</div>
+</div>

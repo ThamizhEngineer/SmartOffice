@@ -1,0 +1,230 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Travel Advance Request - Account Manager Approvel</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="navigateToListPage()">TAR-Account Manager Approvel List</a></li>
+                    <li class="breadcrumb-item active">TAR - Account Manager Approvel</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-body">
+                <h4><strong><b>Employee Request</b></strong></h4><br/>
+            <div class="row">
+
+                    <div class="form-group col-md-2 col-sm-3">
+                            <label class="control-label"><font color="blue"><b>Travel Advance Reg No</b></font> </label><br/>
+                            
+                            <span class="label label-default">{{advRequest.tarCode}} </span>
+                        </div>
+                <div class="form-group col-md-2 col-sm-3">
+                    <label class="control-label"><font color="blue"><b>Employee</b> </font> </label><br/>
+                    
+                    <span class="text">{{advRequest.employeeName}} </span>
+                </div>
+                <div class="form-group col-md-2 col-sm-3">
+                        <label class="control-label"><font color="blue"><b>Application Date</b></font> </label>
+                        <br/>
+                            <span class="text">{{advRequest.tarSubmittedDt | date:'dd/MM/yyyy'}} </span>
+                    </div>
+               
+                   
+                <div class="form-group col-md-2 col-sm-2" *ngIf="advRequest.jobOrCc=='Y'">
+                    <label class="control-label"><font color="blue"><b>Job Code</b></font></label><br/>
+                    <span class="text">{{advRequest.jobCode}} </span>
+                </div>
+                <div class="form-group col-md-2 col-sm-2" *ngIf="advRequest.jobOrCc=='N'">
+                        <label class="control-label"><font color="blue"><b>Center Code</b> </font> </label><br/>
+                        <span class="text">{{advRequest.costCenterName}} </span>
+                    </div>
+
+                
+                <div class="form-group col-md-2 col-sm-2">
+                        <label class="control-label"><font color="blue"><b>Day Range</b></font></label><br/>
+                        <span class="text">{{advRequest.dayRangeName}} </span>
+                    </div>
+
+                    <div class="form-group col-md-2 col-sm-1">
+                        <label class="control-label"><font color="blue"><b>Required Advance Amount</b></font></label><br/>
+                        <span class="text">{{advRequest.reqAdvAmt}} </span>
+                    </div>
+
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label"><font color="blue"><b>Purpose</b></font></label><br/>
+                        <span rows="5" class="text">{{advRequest.empRemarks}} </span>
+                </div>
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label"><font color="blue"><b>Travel Involved</b></font></label><br/>
+                    <span rows="5" class="text">{{travelStarus}} </span>
+                </div>
+            </div>  
+            </div>
+                
+    
+                <div class="card card-body">
+                <h4><strong><b>Manager Approvel</b></strong></h4><br>
+                    <div class="row">
+    
+                            <div class="form-group col-md-2 col-sm-3">
+                                <label class="control-label"><font color="NAVY"><b>Travel Required</b></font></label><br/>
+                                <span  class="text">{{n1TravelApprove}} </span>
+                                </div>
+                    
+                            <div *ngIf="advRequest.n1IsAddlTravelInvolved=='Y'" class="form-group col-md-2 col-sm-3">
+                                <label class="control-label"><font color="NAVY"><b>Travel Expense Amount (A)</b></font></label><br/>
+                                    <span class="text">{{advRequest.travelExpenseAmount}} </span>
+                                </div>
+                
+                                <div class="form-group col-md-2 col-sm-3">   
+                                    <label class="control-label"><font color="NAVY"><b>Stay Expense Amount (B)</b></font></label><br/>
+                                    <span rows="5" class="text">{{advRequest.stayExpenseAmount}} </span>
+                                </div>
+                        
+                        <div class="form-group col-md-2 col-sm-3">
+                            <label class="control-label"><font color="NAVY"><b>Adjustment Amount (C)</b></font></label><br/>
+                            <span class="text">{{advRequest.n1AdjustmentAmount}} </span>
+                        </div>
+    
+                        <div *ngIf="advRequest.n1IsAddlTravelInvolved=='Y'"   class="form-group col-md-2 col-sm-3">
+                                <label class="control-label"><font color="NAVY"><b>Total Adjustment Amount (A+B+C)</b></font></label><br/>
+                                <span class="text">{{total}} </span>
+                            </div>
+
+                            <div *ngIf="advRequest.n1IsAddlTravelInvolved=='N'"   class="form-group col-md-2 col-sm-3">
+                                <label class="control-label"><font color="NAVY"><b>Total Adjustment Amount (B+C)</b></font></label><br/>
+                                <span class="text">{{total}} </span>
+                            </div>
+
+
+                            <div class="form-group col-md-2 col-sm-3">
+                                    <label class="control-label"><font color="blue"><b>Manager Approved Date</b></font> </label>
+                                    <br/>
+                                        <span class="text">{{advRequest.n1DecisionDt | date:'dd/MM/yyyy'}} </span>
+                                </div>
+    
+                         <div class="form-group col-md-4 col-sm-6">
+                                    <label class="control-label"><font color="NAVY"><b>Adjustment Remarks</b></font></label><br/>
+                                    <span class="text">{{advRequest.n1AdjustmentRemarks}} </span>
+                         </div>
+
+                        <div class="form-group col-md-4 col-sm-6">
+                            <label class="control-label"><font color="NAVY"><b>Manager Remarks</b></font></label><br/>
+                            <span class="text">{{advRequest.n1Remarks}} </span>
+                        </div>
+                       
+                    </div>
+    
+                </div>
+               
+                      
+        <div class="card card-body">
+                <h4 ><strong><b> Account Manager Approvel</b></strong></h4><br>
+        <div class="row">
+               
+            
+    
+                <div class="form-group col-md-2 col-sm-3">
+                    <label class="control-label"><font color="blue"><b>Employee TO Pay</b> </font></label><br/>
+                    <span class="text">{{advRequest.empToPayAmt}} </span>
+                </div>
+                <div  class="form-group col-md-2 col-sm-3">
+                    <label class="control-label"><font color="blue"><b>Company To Pay</b></font></label><br/>
+                    <span class="text">{{advRequest.companyToPayAmt}} </span>
+                </div>
+    
+                <div *ngIf="advRequest.n1IsAddlTravelInvolved=='Y'"  class="form-group col-md-2 col-sm-3">
+                        <label class="control-label"><font color="blue"><b>(A+B)</b></font></label><br/>
+                        <span class="text">{{total2}} </span>
+                 </div>
+
+                 <div *ngIf="advRequest.n1IsAddlTravelInvolved=='N'"  class="form-group col-md-2 col-sm-3">
+                    <label class="control-label"><font color="blue"><b>(B)</b></font></label><br/>
+                    <span class="text">{{total2}} </span>
+             </div>
+    
+            <div  class="form-group col-md-2 col-sm-3">
+                <label class="control-label"><font color="blue"><b>Adjustment Amount</b></font></label>
+                <input type="number" (input)="calculateExpenseTotal()" [(ngModel)]="advRequest.accEmpAdjAmount"  [ngModelOptions]="{standalone: true}" placeholder="Adjustment Amount" class="form-control form-control-line">
+            </div>
+            <div  class="form-group col-md-2 col-sm-3">
+                    <label class="control-label"><font color="blue"><b>Final Advance Amount</b></font></label><br/>
+                    <span class="text">{{advRequest.netAdvanceAmount}} </span>
+             </div>
+
+
+          
+            
+            <div  class="form-group col-md-4 col-sm-6">
+                <label class="control-label"><font color=#0417FC ><b>Adjustment Remarks</b></font></label>
+                <textarea rows="6" type="text" [(ngModel)]="advRequest.acc2AdjRemarks"  [ngModelOptions]="{standalone: true}" placeholder="Adjustment Remarks" class="form-control form-control-line"></textarea>
+            </div>
+            <flag-alert [message]="adjMsg"></flag-alert>
+    </div>          
+                <div class="modal-footer">
+
+                    <div  class="form-group">
+                        <button type="button"  (click)="approve()" class="btn btn-success waves-effect waves-light m-t-10">Approve</button>
+                    </div>
+                    <div  class="form-group">
+                        <button type="button" (click)="reject()" class="btn btn-danger waves-effect waves-light m-t-10 ml-2">Reject</button>
+                    </div>
+    
+                    <div class="form-group">        
+                        <button type="button" (click)="navigateToListPage()" class="btn btn-warning waves-effect waves-light m-t-10 ml-2">Back</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <ng-template #Approve let-c="close">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Are You Sure To Approve This Request?</h3>
+                        <button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+                    </div>  
+                        <div class="modal-body">
+                                <div class="row">
+                                        <div class="col-6 form-group">
+                                                <label class="control-label"><font color="NAVY"><b>Please Enter Your Remarks</b></font></label><br/>
+                                            <textarea type="text" rows="6" [(ngModel)]="advRequest.acc2Remarks"  [ngModelOptions]="{standalone: true}" placeholder="Remarks" class="form-control form-control-line"></textarea>
+                                        </div>
+                          </div>
+                        </div>     
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info waves-effect waves-light" (click)="acc2Approve()">Yes</button>
+        
+                            <button type="button" class="btn btn-default" (click)="back()">No</button>
+                        </div>
+                </ng-template>
+        
+        
+                <ng-template #Reject let-c="close">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Are You Sure To Reject This Request?</h3>
+                            <button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+                        </div>
+        
+                            <div class="modal-body">
+                                    <div class="row">
+                                            <div class="col-6 form-group">
+                                                    <label class="control-label"><font color="NAVY"><b>Please Enter Your Remarks</b></font></label><br/>
+                                                <textarea type="text" rows="6" [(ngModel)]="advRequest.acc2Remarks"  [ngModelOptions]="{standalone: true}" placeholder="Remarks" class="form-control form-control-line"></textarea>
+                                            </div>
+                                </div>
+                            </div>
+                           
+                                
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-info waves-effect waves-light" (click)="acc2Rejected()">Yes</button>
+            
+                                <button type="button" class="btn btn-default" (click)="back()">No</button>
+                            </div>
+                    </ng-template>
+           

@@ -1,0 +1,97 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+        <h4  class="text-themecolor">Employee Location Report</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+                <li  class="breadcrumb-item active">Employee Location Report</li>
+			</ol>
+			
+		</div>
+	</div>
+</div>
+
+<div class="row">
+    <div class="col-12 card card-body form-body">
+        <div class="row">
+            <div class="form-group col-md-2">
+                <label>Search Field</label>
+                <select class="form-control" [(ngModel)]="searchField">
+                    <option (click)="onclick()" value="empId">Employee</option>
+                    <option (click)="onclick()" value="city">City</option>
+                    <option (click)="onclick()" value="state">State</option>
+                    <option (click)="onclick()" value="country">Country</option>
+                    </select>
+            </div>
+            <div *ngIf="searchField=='empId'" class="form-group col-md-2">
+                <label>Name</label>
+                <autocomplete  [placeholder]="'Employee Name'"  [value]="empNameAndCode" (empDetail)="projectSelected($event)"> </autocomplete>								                
+            </div>
+            <div *ngIf="searchField=='city'" class="form-group col-md-2">
+                <label>Name</label>
+                <select class="form-control" [(ngModel)]="searchName">
+                    <option *ngFor="let item of listLocation.city" [value]=item >{{item}}</option>                   
+                </select>            
+            </div>
+            <div *ngIf="searchField=='state'" class="form-group col-md-2">
+                <label>Name</label>
+                <select class="form-control" [(ngModel)]="searchName">
+                    <option *ngFor="let item of listLocation.state" [value]=item >{{item}}</option>                   
+                </select>            
+            </div>
+            <div *ngIf="searchField=='country'" class="form-group col-md-2">
+                <label>Name</label>
+                <select class="form-control" [(ngModel)]="searchName">
+                    <option *ngFor="let item of listLocation.country" [value]=item >{{item}}</option>                   
+                </select>            
+            </div>
+            <div class="form-group col-md-1">
+                <label>&nbsp;</label>
+                <button type="button" [disabled]="searchName==null" (click)="searchEmp()" class="btn btn-info d-none d-lg-block m-l-15"> Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 card card-body">        
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm color-bordered-table theme-bordered-table">
+                <thead>
+                    <tr>
+                        <th>Employee Code</th>
+                        <th>Employee Name</th>
+                        <th>Log Timing</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Country</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>LogType</th>   
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let x of empLocations| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;">
+                        <td>{{x.employeeCode}}</td>
+                        <td>{{x.employeeFirstName}} {{x.employeeLastName}}</td>
+                        <td>{{x.dateTime | date:'dd/MM/yyyy, hh:mm a'}}</td>
+                        <td>{{x.city}}</td>
+                        <td>{{x.state}}</td>
+                        <td>{{x.country}}</td>
+                        <td>{{x.latitude}}</td>
+                        <td>{{x.longitude}}</td>
+                        <td *ngIf="x.logType=='check-in'"><span class="label label-success">{{x.logType}}</span></td>
+                        <td *ngIf="x.logType=='check-out'"><span class="label label-danger">{{x.logType}}</span></td>
+                                                                                 
+                    </tr>
+                </tbody>
+            </table>
+            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="empLocations.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title >Sale Order Generated Successfully </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <p>
+            Hi  <span th:text="${cusName}"></span>
+        </p>
+         <p>
+           Sale Order Generated Successfully SO.Number- <span th:text="${saleOrderCode}"></span>,in reference to the  P.O given - PO.Number<span th:text="${purchaseOrderId}"></span>.
+           
+        </p>
+        
+          <p>
+          The details of the Engineers will be shared shortly.
+           
+        </p>
+      
+        <p>
+            With Regards, <br />
+            <em>Pothigai</em>
+        </p>
+    </body>
+</html>

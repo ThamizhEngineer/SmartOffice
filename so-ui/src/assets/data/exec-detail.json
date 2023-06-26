@@ -1,0 +1,39 @@
+{
+"id":"011",
+"customer":"GE",
+"location":"Gujarat",
+"duration":"7 days",
+"employees":
+  [{
+    "skill": "Field Engineer",
+    "name": "Jay Paul",
+    "readiness": "Still Waiting",
+    "travel": "Req pending",
+    "accomodation": "Requested",
+    "advise": ""
+  },
+  {
+    "skill": "Field Engineer",
+    "name": "Somnath",
+    "readiness": "Approval Pending",
+    "travel": "Approved",
+    "accomodation": "Booked",
+    "advise": ""
+  },
+  {
+    "skill": "Surveillance Engineer",
+    "name": "Surendra",
+    "readiness": "Approved",
+    "travel": "Booked",
+    "accomodation": "Ticket Received",
+    "advise": ""
+  },
+  {
+    "skill": "Project Manager",
+    "name": "Ramnath",
+    "readiness": "On Hold",
+    "travel": "On Hold",
+    "accomodation": "Backup plan",
+    "advise": ""
+  }]
+  }

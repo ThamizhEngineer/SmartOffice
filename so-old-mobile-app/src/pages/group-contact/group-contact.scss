@@ -1,0 +1,18 @@
+page-group-contact {
+    ion-navbar{
+        ion-item{
+            ion-label{
+                margin:0 !important;
+            }
+            p{
+                display: inline-block;
+                color: white !important;
+            }
+            h2{
+                font-size:2rem !important;
+                color: white !important;
+            }
+            
+        }
+    } 
+}

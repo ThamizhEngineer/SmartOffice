@@ -1,0 +1,332 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Customer List</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Customer</li>
+                </ol>
+                <button type="button" (click)="navigateToDetailPage()" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Add Customer</button>
+            </div>
+        </div>
+    </div>
+
+<div class="row ">
+        <div class="col-lg-12">
+            <div class="card">
+             
+                <div class="card-body">
+                    <form action="#">
+                        <div class="form-body">
+                           
+                           
+                            <div class="row p-t-20">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                             
+                                        <input type="text" id="firstName" class="form-control" placeholder="Company Id">
+                                       </div> 
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                       
+                                        <input type="text" id="lastName"  class="form-control" placeholder="Company Name">
+                                         </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                        <div class="form-group">
+                                          
+                                                <select class="form-control custom-select" data-placeholder="Choose a Domain" tabindex="1">
+                                                        <option>Choose a Domain</option>
+                                                    <option value="Category 1">OEM</option>
+                                                    <option value="Category 2">Service Provider</option>
+                                                    <option value="Category 3">Contractor</option>
+                                                    <option value="Category 4">OEM's Channel Partner</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    <!--/span-->
+
+                                    <div class="col-md-3" align="center">
+                                    
+                                            <div class="form-actions">
+                                                    <button type="button" style="width:70%" class="btn btn-info d-none d-lg-block m-l-15"> Search</button>
+                                                   
+                                                </div>
+                                   </div>
+                                <!--/span-->
+                         
+                            <!--/row-->
+                       
+                          
+                       
+                          
+                        
+                        </div>
+                        </div>
+                     
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- <div class="row el-element-overlay">
+  
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="el-card-item">
+                <div class="el-card-avatar el-overlay-1"> <img src="./assets/images/client/1.gif" alt="user" />
+                    <div class="el-overlay">
+                        <ul class="el-info">
+                            <li><a class="btn default btn-outline image-popup-vertical-fit" href="../assets/images/users/1.jpg"><i class="icon-magnifier"></i></a></li>
+                            <li><a class="btn default btn-outline" href="javascript:void(0);"><i class="icon-link"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="el-card-content">
+                        <h3 class="box-title"><b>General Electric</b></h3>
+                    <h4 class="box-title">Sundar M</h4> <small>Director- Operations</small>
+                    <br/> </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="el-card-item">
+                <div class="el-card-avatar el-overlay-1"> <img src="./assets/images/client/2.png" alt="user" />
+                    <div class="el-overlay">
+                        <ul class="el-info">
+                            <li><a class="btn default btn-outline image-popup-vertical-fit" href="../assets/images/users/1.jpg"><i class="icon-magnifier"></i></a></li>
+                            <li><a class="btn default btn-outline" href="javascript:void(0);"><i class="icon-link"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="el-card-content">
+                        <h3 class="box-title"><b>Schneider Electric</b></h3>
+                    <h4 class="box-title">Rajesh Kumar</h4> <small>Manager</small>
+                    <br/> </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="el-card-item">
+                <div class="el-card-avatar el-overlay-1"> <img src="./assets/images/client/3.jpg" alt="user" />
+                    <div class="el-overlay">
+                        <ul class="el-info">
+                            <li><a class="btn default btn-outline image-popup-vertical-fit" href="../assets/images/users/1.jpg"><i class="icon-magnifier"></i></a></li>
+                            <li><a class="btn default btn-outline" href="javascript:void(0);"><i class="icon-link"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="el-card-content">
+                        <h3 class="box-title"><b>NPCIL</b></h3>
+                    <h4 class="box-title">Rajiv Masand</h4> <small>General Manager</small>
+                    <br/> </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="el-card-item">
+                <div class="el-card-avatar el-overlay-1"> <img src="./assets/images/users/4.jpg" alt="user" />
+                    <div class="el-overlay">
+                        <ul class="el-info">
+                            <li><a class="btn default btn-outline image-popup-vertical-fit" href="../assets/images/users/1.jpg"><i class="icon-magnifier"></i></a></li>
+                            <li><a class="btn default btn-outline" href="javascript:void(0);"><i class="icon-link"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="el-card-content">
+                        <h3 class="box-title"><b>ARS Steel</b></h3>
+                    <h4 class="box-title">Karthik R</h4> <small>General Manager</small>
+                    <br/> </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- 
+<div class="row el-element-overlay">
+        
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="el-card-item">
+                    <div class="el-card-avatar el-overlay-1"> <img src="./assets/images/users/1.jpg" alt="user" />
+                        <div class="el-overlay">
+                            <ul class="el-info">
+                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="../assets/images/users/1.jpg"><i class="icon-magnifier"></i></a></li>
+                                <li><a class="btn default btn-outline" href="javascript:void(0);"><i class="icon-link"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="el-card-content">
+                            <h3 class="box-title"><b>Seder Group</b></h3>
+                        <h4 class="box-title">Al Khamiri</h4> <small>Director- Operations</small>
+                        <br/> </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="el-card-item">
+                    <div class="el-card-avatar el-overlay-1"> <img src="./assets/images/users/2.jpg" alt="user" />
+                        <div class="el-overlay">
+                            <ul class="el-info">
+                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="../assets/images/users/1.jpg"><i class="icon-magnifier"></i></a></li>
+                                <li><a class="btn default btn-outline" href="javascript:void(0);"><i class="icon-link"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="el-card-content">
+                            <h3 class="box-title"><b>LT Saudia</b></h3>
+                        <h4 class="box-title">Kamran Ahmed</h4> <small>General Manager</small>
+                        <br/> </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="el-card-item">
+                    <div class="el-card-avatar el-overlay-1"> <img src="./assets/images/users/3.jpg" alt="user" />
+                        <div class="el-overlay">
+                            <ul class="el-info">
+                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="../assets/images/users/1.jpg"><i class="icon-magnifier"></i></a></li>
+                                <li><a class="btn default btn-outline" href="javascript:void(0);"><i class="icon-link"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="el-card-content">
+                            <h4 class="box-title"><b>National Contracting
+                                    Company</b></h4>
+                        <h4 class="box-title">Al Rashid</h4> <small>General Manager</small>
+                        <br/> </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="el-card-item">
+                    <div class="el-card-avatar el-overlay-1"> <img src="./assets/images/users/4.jpg" alt="user" />
+                        <div class="el-overlay">
+                            <ul class="el-info">
+                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="../assets/images/users/1.jpg"><i class="icon-magnifier"></i></a></li>
+                                <li><a class="btn default btn-outline" href="javascript:void(0);"><i class="icon-link"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="el-card-content">
+                            <h3 class="box-title"><b>Omicron</b></h3>
+                        <h4 class="box-title">Betty Carlson</h4> <small>General Manager</small>
+                        <br/> </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+   
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h4 class="card-title">Info Table</h4> -->
+                        
+                        <div class="table-responsive">
+                            <table class="table color-bordered-table theme-bordered-table">
+                                <thead>
+                                    <tr>
+                                        <th>Customer Name</th>
+                                        <th>Contact Person</th>
+                                        <th>Location</th>
+                                        <th>Action</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>General Electric</td>
+                                        <td>Sundar M</td>
+                                        <td>Chennai</td>
+                                        <td class="text-nowrap">
+                                                <a href="javascript:void(0)"  (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                            </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td>Schneider Electric</td>
+                                        <td>Rajesh Kumar</td>
+                                        <td>Chennai</td>
+                                        <td class="text-nowrap">
+                                                <a href="javascript:void(0)"  (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                            </td>
+                                     
+                                    </tr>
+                                    <tr>
+                                        <td>NPCIL</td>
+                                        <td>Rajiv Masand</td>
+                                        <td>Mumbai</td>   
+                                        <td class="text-nowrap">
+                                                <a href="javascript:void(0)"  (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                            </td>                                             
+                                    </tr>
+                                    <tr>
+                                            <td>ARS Steel</td>
+                                            <td>Karthik R</td>
+                                            <td>Chennai</td>    
+                                            <td class="text-nowrap">
+                                                    <a href="javascript:void(0)"  (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                    <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                                </td>                                            
+                                        </tr>
+
+                                        <tr>
+                                                <td>Seder Group</td>
+                                                <td>Al Khamiri</td>
+                                                <td>Saudi Arabia</td>
+                                                <td class="text-nowrap">
+                                                        <a href="javascript:void(0)"  (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                        <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                                    </td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td>LT Saudia</td>
+                                                <td>Kamran Ahmed</td>
+                                                <td>Saudi Arabia</td>
+                                                <td class="text-nowrap">
+                                                        <a href="javascript:void(0)"  (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                        <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                                    </td>
+                                             
+                                            </tr>
+                                            <tr>
+                                                <td>National Contracting
+                                                        Company</td>
+                                                <td>Al Rashid</td>
+                                                <td>Chennai</td>
+                                                <td class="text-nowrap">
+                                                        <a href="javascript:void(0)"  (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                        <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                                    </td>                                               
+                                            </tr>
+                                            <tr>
+                                                    <td>Omicron</td>
+                                                    <td>Betty Carlson</td>
+                                                    <td>Chennai</td>  
+                                                    <td class="text-nowrap">
+                                                            <a href="javascript:void(0)"  (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                            <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                                        </td>                                             
+                                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>

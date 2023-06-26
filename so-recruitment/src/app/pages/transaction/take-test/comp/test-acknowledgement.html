@@ -1,0 +1,106 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Questions</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item active">Questions</li>
+
+				<li class="breadcrumb-item active">{{timeLeft-1}}mins {{seconds}}sec</li>
+			</ol>
+		
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			
+			<div class="card-body">
+				<h5>Question</h5>
+				<p>
+					</p>
+				<div class="row">
+					<div class="col-md-12 m-t-10 m-b-20">
+						<h4>( {{testQue.questionOrder}} / {{testQue.totalQuestions}}) {{testQue.question}}</h4>
+					</div>
+				</div>
+
+				<h5>Answers</h5>
+				<div class="row m-t-10">
+					<div class="form-group col-md-12">
+						<div class="custom-control custom-radio" >
+							<input type="checkbox" class="custom-control-input" value="option1" id="option1" [(ngModel)]="option1" (change)="userAnswered('option1')">
+							<label class="custom-control-label"  for="option1"><span>{{testQue.option1}}</span></label>
+						</div>
+						<div class="custom-control custom-radio" >
+							<input type="checkbox" class="custom-control-input" value="option2" id="option2" [(ngModel)]="option2"  (change)="userAnswered('option2')">
+							<label class="custom-control-label"  for="option2"><span>{{testQue.option2}}</span></label>
+						</div>
+						<div class="custom-control custom-radio" >
+							<input type="checkbox" class="custom-control-input" value="option3" id="option3" [(ngModel)]="option3"  (change)="userAnswered('option3')">
+							<label class="custom-control-label"  for="option3"><span>{{testQue.option3}}</span></label>
+						</div>
+						<div class="custom-control custom-radio" >
+							<input type="checkbox" class="custom-control-input" value="option4" id="option4" [(ngModel)]="option4" (change)="userAnswered('option4')">
+							<label class="custom-control-label"  for="option4"><span>{{testQue.option4}}</span></label>
+						</div>
+						
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<div class="form-group">
+						<button type="submit" class="btn btn-secondary waves-effect waves-light m-r-10" *ngIf="cur > 0 " (click)="prevQA()">Prev Question</button>						
+					</div>
+					<div  class="form-group" *ngIf="testCompleted==false">
+						<button type="submit" class="btn btn-info waves-effect waves-light m-r-10" (click)="nextQA()">Next Question</button>
+					</div>
+					<div  class="form-group" *ngIf="testCompleted==true">
+						<button type="submit" class="btn btn-warning waves-effect waves-light m-r-10">Test Compleated</button>
+					</div>
+				</div>
+
+				<div class="row m-t-30">
+					<div class="col-md-5">
+						<button type="submit" class="btn btn-success waves-effect waves-light m-r-10"(click)="create()">Submit Answers</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<ng-template #cdetail let-c="close">
+	<div class="modal-header">
+		<h3 class="modal-title">Confirmation</h3>
+		<button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="form-group col-md-10 col-sm-6">
+				&#09;<label class="control-label">&#09;Please confirm to save the test. Once confirmed the test can't be continued.</label><br>
+	<!-- <button type="submit" class="btn btn-success waves-effect waves-light m-r-10"(click)="submitAnswers()">confirm</button> -->
+	<button type="submit" class="btn btn-success waves-effect waves-light m-r-10"(click)="application()">confirm</button>
+
+</div>
+		</div>
+		</div>
+	</ng-template>
+		<ng-template #apply let-c="close">
+			<div class="modal-header" style="background-color:rgb(245, 150, 121);padding-bottom: 10px;">
+				<h3 class="modal-title">Confirmation</h3>
+				<button type="button" class="close" (click)="c()"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body" style="background-color:rgb(245, 150, 121);padding-bottom: 10px;">
+				<div class="row">
+					<div class="form-group col-md-8 col-sm-11 text-right">
+						<!-- <label class="control-label"></label> -->
+			<button type="submit" class="btn btn-success waves-effect waves-light m-r-10"(click)="submitAnswers()">Save</button>
+			<!-- <button type="submit" class="btn btn-success waves-effect waves-light m-r-10"(click)="application()">confirm</button> -->
+		</div>
+		</div>
+		</div> 
+	</ng-template>

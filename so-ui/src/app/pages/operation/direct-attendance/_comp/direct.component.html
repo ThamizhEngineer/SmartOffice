@@ -1,0 +1,106 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Direct Attendance</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a [routerLink]="['/index']">Home</a></li>
+				<li class="breadcrumb-item"><a  [routerLink]="['/opeation']">HR Operations</a></li>
+				<li class="breadcrumb-item active">Direct Attendance</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			
+			<div class="chat-main-box">
+				<div class="chat-left-aside">
+					<div class="open-panel"><i class="ti-angle-right"></i></div>
+					<div class="chat-left-inner">
+						<div class="form-material">
+							<input type="text" class="form-control" [(ngModel)]="selectedEmp" [ngbTypeahead]="emp" [resultTemplate]="rt1" [inputFormatter]="formatter"  placeholder="Search Employee" (ngModelChange)="selEmp();"/>
+							<ng-template #rt1 let-r="result" let-t="term">
+							  {{ r.empName}}
+							</ng-template>
+						</div>
+						
+						<perfect-scrollbar class="user-lists">
+							<ul class="chatonline style-none">
+								<li *ngFor="let e of allEmployees">
+									<a [routerLink]="['/operation/direct-attendance/', e.id]" [routerLinkActive]="['active']"><span>{{e.empName}}<small class="text-success">online</small></span></a>
+								</li>
+							</ul>
+						</perfect-scrollbar>
+						
+					</div>
+				</div>
+				<div class="chat-right-aside">
+					<div class="chat-rbox m-l-10 m-r-10">
+						
+						<div class="row m-t-20" *ngIf="showCalendar">
+							<div class="form-group col-12 m-r-20 text-right">
+								<button type="submit" class="btn btn-info waves-effect waves-light m-t-10"  [disabled]="newEvents.length < 1" (click)="saveAttendance()">Save Attendance</button>
+							</div>
+						</div>
+						
+						<div *ngIf="showCalendar">
+							<ng-fullcalendar #ucCalendar [options]="calendarOptions" (dayClick)="addEvent($event.detail)"  (viewRender)="afterRender($event);" (eventClick)="handleEvent($event.detail)" (clickButton)="clickButton($event.detail);" ></ng-fullcalendar>
+						</div>
+						
+						
+						
+						<div class="row m-t-20" *ngIf="showCalendar">
+							<div class="form-group col-12 m-r-20 text-right">
+								<button type="submit" class="btn btn-info waves-effect waves-light m-t-10"  [disabled]="newEvents.length < 1" (click)="saveAttendance()">Save Attendance</button>
+							</div>
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<ng-template #modalContent let-close="close">
+<div class="modal-header">
+	<h5 class="modal-title">Edit Attendance Time</h5>
+	<button type="button" class="close" (click)="close()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	</div>
+	<div class="modal-body">
+		<div class="row m-b-15">
+			<div class="col-md-5 text-right"><label><b>First Session : </b></label></div>
+			<div class="col-md-5">
+				<select class="form-control" [(ngModel)]="modalData.firstSession">
+					<option *ngFor="let a of allCodes" [value]="a.code">{{a.name}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="row m-b-15">
+			<div class="col-md-5 text-right"><label><b>Second Session : </b></label></div>
+			<div class="col-md-5">
+				<select class="form-control" [(ngModel)]="modalData.secondSession">
+					<option *ngFor="let a of allCodes" [value]="a.code">{{a.name}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="row m-b-15">
+			<div class="col-md-5 text-right"><label><b>Remarks : </b></label></div>
+			<div class="col-md-5">
+				<input class="form-control" placeholder="Remarks" [(ngModel)]="modalData.attendanceStatus">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-secondary m-r-20" (click)="updateModal(this.modalData)">OK</button>
+		<button type="button" class="btn btn-outline-secondary" (click)="close()">Cancel</button>
+	</div>
+</ng-template>

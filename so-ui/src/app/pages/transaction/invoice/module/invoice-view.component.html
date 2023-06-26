@@ -1,0 +1,236 @@
+
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Invoice View <span class="label label-{{statuses[invoice.invoiceStatus]}}">{{invoice.invoiceStatus}}</span></h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Home</li>
+                <li class="breadcrumb-item active">Invoice View</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 card card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-left">
+                    <font size="5">
+                        <strong>{{invoice.buyerName}}</strong>
+                    </font>
+                </div>
+                
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-sm-4">
+                    Billing Address
+                    <address>
+                        <strong>{{invoice.buyerAddress}}</strong>
+                        <br>
+                        <br> Phone:{{invoice.buyerContact}}
+                        <br> Email:{{invoice.buyerEmail}}
+                    </address>
+
+                     Client Ref./Order No.:{{invoice.clientRef}}
+                    <br> Other Reference:{{invoice.otherReference}}
+                    <br> Despatch through:{{invoice.despatchedThrough}}
+                </div>
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-4">
+                    <h3>Invoice Ref#        <span class="label label-info"> {{invoice.refInvoiceNo}}</span></h3>
+                    <br>
+                    <b>Order Date:</b> {{invoice.invoiceDate | date : "dd/MM/yyyy" }}
+                    <br>
+                    <b>Billing Remarks:</b>{{invoice.destination}}
+                    <br>
+                    <b>Payment Due Date:</b>{{invoice.pmtDueDt | date : "dd/MM/yyyy"}}
+                    <br>
+                    <br> Destination:{{invoice.destination}}
+                    <br> Terms of Delivery:{{invoice.termsOfDelivery}}
+                </div>
+            </div>
+
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>Product/Service</th>
+                            <th>HSN/SAC</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Qty</th>
+                            <th>Discount</th>
+                            <th *ngIf="invoice.buyerHasGst!='N'">CGST</th>
+                            <th *ngIf="invoice.buyerHasGst!='N'">SGST</th>
+                            <th *ngIf="invoice.buyerHasGst!='N'">IGST</th>
+                            <th>Subtotal </th>
+                        </tr>
+                    </thead>
+                    <tbody>                      
+                        <tr *ngFor="let row of invoice.invoiceLines;let i=index">
+                            <td>{{i+1}}</td>
+                            <td>({{row.itemType}})-{{row.itemName}}</td>
+                            <td>{{row.itemHsnOrSac}}</td>
+                            <td>{{row.itemDescription}}</td>
+                            <td>{{row.itemRate}}</td>
+                            <td>{{row.itemQty}}</td>
+                            <td> <b>{{row.lineDiscountAmt}}</b><br>{{row.discountPercentage}}% </td>
+                                
+                            <td *ngIf="invoice.buyerHasGst!='N'" class="textAlign" ><b>{{row.cgstTaxAmt}}</b><br>{{row.cgst}}% </td>
+                            <td *ngIf="invoice.buyerHasGst!='N'" class="textAlign"><b>{{row.sgstTaxAmt}}</b><br>{{row.sgst}}%  </td>
+                            <td *ngIf="invoice.buyerHasGst!='N'" class="textAlign"><b>{{row.igstTaxAmt}}</b><br>{{row.igst}}%  </td>
+                            <td>{{row.itemTotal}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <style>
+               
+                .textAlign{
+                    text-align: right;
+                }
+            </style>
+
+            <div class="row">
+                <div class="col-md-7">
+                    <div *ngIf="invoice.buyerHasGst!='N'" class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+                        <b>Tax Breakup</b>
+                        <br> CGST: {{invoice.transactionCurrSymbol}}   {{invoice.cgstTaxAmt}}
+                        <br> SGST: {{invoice.transactionCurrSymbol}}   {{invoice.sgstTaxAmt}}
+                        <br> IGST: {{invoice.transactionCurrSymbol}}   {{invoice.igstTaxAmt}}
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br> Client VAT TIN:  {{invoice.buyerVatTin}}
+                        <br> Company's PAN: {{invoice.companyPanOrIecCode}}
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                    <tr>
+                                            <th style="text-align:right">Total:</th>
+                                            <td align="right">{{invoice.transactionCurrSymbol}}  {{invoice.beforeTaxSubTotalAmt}}</td>
+                                            <td width="80px">&nbsp;</td>
+                                        </tr>
+                                <tr>
+                                    <th style="text-align:right">Discount:</th>
+                                    <td align="right">{{invoice.transactionCurrSymbol}} - {{invoice.totalDiscountAmt}}</td>
+                                    <td width="80px">&nbsp;</td>
+                                </tr>
+                                <tr *ngIf="invoice.buyerHasGst!='N'">
+                                    <th style="text-align:right">Tax Amount:</th>
+                                    <td align="right">{{invoice.transactionCurrSymbol}} {{invoice.totalTaxAmt}}</td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align:right">Shipping:</th>
+                                    <td align="right">{{invoice.transactionCurrSymbol}}{{invoice.shippingAmt}}</td>
+                                </tr>
+                                <tr *ngIf="invoice.transactionCurrId!=invoice.companyCurrId">
+                                    <th style="text-align:right">Grand Total({{invoice.transactionCurrSymbol}}):</th>
+                                    <td align="right">{{invoice.transactionCurrSymbol}} {{invoice.finalPayableAmt}}</td>
+                                </tr>
+                                <tr >
+                                    <th style="text-align:right">Grand Total ({{invoice.companyCurrSymbol}}):</th>
+                                    <td align="right">{{invoice.companyCurrSymbol}} {{invoice.invoiceWithoutExAmt}}</td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align:right">Paid :</th>
+                                    <td align="right">{{invoice.companyCurrSymbol}} {{invoice.paidAmt}}</td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align:right">Balance :</th>
+                                    <td align="right">{{invoice.companyCurrSymbol}} {{invoice.balanceAmt}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row no-print">
+                <div class="col-md-12">
+
+                    
+                
+                        <a *ngIf="invoice.invoiceStatus!='CREATED'" (click)="invoiceAction('void')" href="javascript:void(0)"  class="btn btn-danger pull-right"
+                            style="margin-right: 5px;">
+                            <i class="fa fa-trash"></i> Void</a>
+
+                  
+
+                    <a href="javascript:void(0)" (click)="generagetPdf()" class="btn btn-info pull-right" style="margin-right: 5px;">
+                        <i class="fa fa-download"></i> Generate PDF</a>
+                       
+                        <a *ngIf="invoice.invoiceStatus=='CREATED'" href="javascript:void(0)" [routerLink]="['/client/invoice/edit/',invoice.id]" class="btn btn-info pull-right" style="margin-right: 5px;"> <i class="fa fa-pencil"></i>  Edit Invoice</a>
+                        <a *ngIf="invoice.invoiceStatus=='CREATED'" href="javascript:void(0)" (click)="invoiceAction('submit')" class="btn btn-warning pull-right" style="margin-right: 5px;"> Submit Invoice</a>
+                        <a *ngIf="invoice.invoiceStatus=='DIR-APPROVAL-PENDING' && !isHide" href="javascript:void(0)" (click)="invoiceAction('dir-approve')" class="btn btn-success pull-right" style="margin-right: 5px;"> Approve</a>
+                        
+                        
+                    <a href="javascript:void(0)" data-target="#modalSmall" (click)="sendEmail()" data-toggle="modal" class="btn btn-primary pull-right"
+                        style="margin-right: 5px;">
+                        <i class="fa fa-envelope"></i> Email</a>
+                  
+                      &nbsp;  <button type="button" class="btn btn-success pull-right"
+                        [routerLink]="['/client/invoice']"> <i class="fa fa-chevron-circle-left"></i>Back</button>&nbsp;
+
+
+                        <file-upload [fileDetail]="'INVOICE'" (change)="uploadDoc($event,'INVOICE')"></file-upload>
+                        <a href="javascript:void(0)" *ngIf="invoice.docId!=null" (click)="download(invoice.docId,'');">
+                            <font color="Green">Download</font>
+                        </a> 
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #sendEmailTemplate let-c="close">
+    <div class="modal-header">
+        <h3 class="modal-title">Send Email</h3>
+        <button type="button" class="close" (click)="c()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <input id="toEmail" class="form-control" placeholder="To:" name="to" [(ngModel)]="invoice.buyerEmail" value="">
+                <p class="help-block">Use Comma(,) for multiple email </p>
+            </div>
+
+            <div class="form-group">
+                <input class="form-control" placeholder="Subject:" name="subject" [(ngModel)]="invoice.emailSubject" value="">
+            </div>
+
+            <div class="form-group">
+                <textarea  name="msg" class="textarea_editor form-control" [(ngModel)]="invoice.emailBody" style="height: 200px;"></textarea>
+            </div>
+            <div class="col-6 form-group">
+                <label class="control-label">Attachment</label>
+                <input type="file" class="form-control">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" id="close" class="btn btn-danger btn-flat pull-left" (click)="c()" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" >Send Email</button>
+    </div>
+</ng-template>
+
+
+

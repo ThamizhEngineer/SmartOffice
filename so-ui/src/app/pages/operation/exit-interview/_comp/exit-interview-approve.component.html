@@ -1,0 +1,157 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Exit Clearance {{displayView}} View</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Exit Clearance </li>
+            </ol>            
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+
+  
+
+<div class="row">
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+          
+           
+           
+            <div class="table-responsive m-t-40">
+                <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                    
+                    
+                    
+                    <thead>
+                                <tr>
+                                    <th data-sort-initial="true" data-toggle="true">#</th>
+                                    <th data-sort-initial="true" data-toggle="true">Employee Code</th>
+                                    <th data-sort-initial="true" data-toggle="true">Employee Name</th>
+                                    <th data-sort-initial="true" data-toggle="true">Manager Name</th>
+                                    <th data-sort-initial="true" data-toggle="true">Department Name</th>
+                                    <th data-sort-initial="true" data-toggle="true">Exit Type</th>
+                                     <th data-sort-initial="true" data-toggle="true">Date of Interview</th>
+                                    <th data-sort-initial="true" data-toggle="true">Status</th>
+                                  
+                                    <th data-sort-initial="true" data-toggle="true">Action</th>                                                                      
+                                </tr>
+                            </thead>
+                   
+                    <tbody>
+                            <tr *ngFor="let exitInterview of exitInterviews;let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td> {{exitInterview.empCode}}</td>
+                                    <td> {{exitInterview.empName}}</td>
+                                    <td>  {{exitInterview.n1ManagerName}}</td>
+                                    <td>{{exitInterview.deptName}}</td>
+                                    <td><span class="label label-{{statuses[exitInterview.exitType]}}">{{exitInterview.exitType}}</span></td>
+                                   
+                                    <td>{{exitInterview.dateOfInterview| date : 'dd-MM-yyyy'}}</td>
+                                    <td><span class="label label-{{statuses[exitInterview.status]}}">{{exitInterview.status}}</span></td>
+                                    
+                                   
+
+
+                                        <td class="text-nowrap">
+                                                <a href="javascript:void(0)"  (click)="openApprovalScreen(exitInterview)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>                                               
+                                            </td>
+                             </tr>
+                               
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <ng-template #approve let-c="close">
+        <div class="modal-header">
+            <h4 class="modal-title">Exit Clearance {{displayView}} Screen </h4>
+            <button type="button" class="close" aria-label="Close" (click)="c()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="row">
+               
+					<div class="col-md-4">
+						<label>Employee Name</label>
+						<input type="text" disabled=true [(ngModel)]="exitInterview.empName" id="firstName" class="form-control" >
+					
+					</div>
+					<div class="col-md-4" >
+						<label>Employee Code</label>
+						<input type="text" disabled=true [(ngModel)]="exitInterview.empCode" id="firstName2" class="form-control" >
+						
+					</div>
+					<div class="col-md-4">
+						<label>Manager Name</label>
+						<input type="text" disabled=true [(ngModel)]="exitInterview.n1ManagerName" id="firstName3" class="form-control" >
+					
+					</div>
+				
+                
+            </div>
+            <div class="row">
+                
+					<div class="col-md-4">
+						<label>Exit Type</label>
+						<input type="text" disabled=true [(ngModel)]="exitInterview.exitType" id="firstName4" class="form-control" >
+					
+					</div>
+					<div class="col-md-4" >
+						<label>Date Of Interview</label>
+						<input type="text" disabled=true [(ngModel)]="exitInterview.dateOfInterview" id="firstName5" class="form-control" >
+						
+					</div>
+					<div class="col-md-4">
+						<label>Employment Duration</label>
+						<input type="text" disabled=true [(ngModel)]="exitInterview.empDur"  id="firstName6" class="form-control" >
+					
+					</div>
+				               
+            </div>
+            <div class="row">                
+                <div *ngIf="view=='hr2'" class="col-md-10">
+                <label>Remarks</label>
+                <textarea placeholder="Hr Remarks" class="form-control" [(ngModel)]="exitInterview.hrClearanceRemarks" name="remarks"  cols="6" rows="6"></textarea>
+                </div>
+
+                <div *ngIf="view=='n1'" class="col-md-10">
+                <label>Remarks</label>
+                <textarea name="remarks" class="form-control" [(ngModel)]="exitInterview.n1ClearanceRemarks" cols="6" rows="6"></textarea>
+                </div>
+
+                <div *ngIf="view=='acc2'" class="col-md-10">
+                <label>Remarks</label>
+                <textarea name="remarks" class="form-control" [(ngModel)]="exitInterview.accClearanceRemarks" cols="6" rows="6"></textarea>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+                       
+                    <button type="button" (click)="save()" class="btn btn-outline-success">Approve</button>
+               
+               
+                    <button type="button" (click)="c()" class="btn btn-outline-danger">Close</button>
+              
+       
+            
+        </div>
+    </ng-template>

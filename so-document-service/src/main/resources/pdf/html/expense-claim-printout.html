@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://www.w3.org/2005/10/profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style>
+@page {
+	size: A4;
+	margin: 5px;
+	margin-right: 15px;
+	padding-top: 1px;
+	font-family: "Times";
+	padding-left: 15px;
+	size: portrait;
+}
+
+body {
+	font-size: 8px;
+	font-family: "Times";
+	width: 842px;
+}
+
+th {
+	background-color: #efefef;
+}
+</style>
+</head>
+<table border="1" cellpadding="10" style="border:1px solid #CCC;border-collapse:collapse;;width:750px;font-size: 0.925rem;">
+<tr><td><strong>Pothigai Power Solutions Pvt.Ltd.</strong><br/> Pothigai Bhavan<br/>Gandhi Nagar, Urappakkam - 603210<br/>Phone-04427466670</td>
+<td ><div><strong><center>EXPENSE CLAIM<br/> </center></strong></div></td>
+<td ><center><div style="background:url('/opt/so/data/images/logo_original.png');width:183px;height:45px;  background-size:cover;background-repeat:   no-repeat;background-position: center center; ">&nbsp;</div></center></td>
+</tr></table>
+
+<table border="1" cellpadding="10" style="border:1px solid #CCC;border-collapse:collapse;;width:750px;font-size: 0.925rem;">
+<tr><td>Claim Code:<b><span th:text="${expenseClaimCode}"></span></b><br/> CostCenter/JobCode:<b><div th:if="${isJobBased=='Y'}" ><span th:text="${jobCode}" ></span></div><div th:if="${isJobBased=='N'}"><span  th:text="${costCenterCode}" ></span></div></b>Claim Date:<b> <span th:text="${#temporals.format(appliedDt,'dd-MM-yyyy')}"> </span></b></td>
+<td>Claim Status:<b><span th:text="${expenseClaimStatus}"></span></b><br/>Total Claim Amount:<b><span th:text="${expenseClaimAmount}"></span></b><br/>Total Approved Amount:<b><span th:text="${totalEntitledAmount}"></span></b></td>
+<td>Applied By:<b><span th:text="${employeeFName}+' '+${employeeLName}"></span></b><br/>ValidatedBy : <b><span th:text="${validateUserGroupId}"></span></b><br/>Approved By :<b><span th:text="${n1EmpId}"></span> </b><br/>Settled By :<b><span th:text="${settleUserGroupId}"></span></b></td>
+</tr></table>
+<body>
+		<h4 style="width:800px;margin:15px 0 5px 0;font-size: 0.925rem;"></h4>
+	
+	
+	<h4 style="width:800px;margin:15px 0 5px 0;font-size: 0.925rem;">Expense Claim Bills</h4>
+	<table border="1" cellpadding="6" style="border:1px solid #CCC;border-collapse:collapse;width:750px;margin-top:5px;text-align: left;font-size: 1.925rem;">
+		<thead>
+		<tr style="background-color:#efefef">
+			<th width="6%"><i>#</i></th>
+			<th width="10%"><i>Category</i></th>
+			<th width="20%"><i>Merchant Name</i></th>
+			<th width="19%"><i>Bill Date</i></th>
+			<th width="19%"><i>Bill Amount</i></th>
+			<th th:if="${expenseClaimStatus=='SETTLED'}" width="19%"><i>Entitled Amount</i></th>
+			<th width="60%"><i>Remarks</i></th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr style="background-color:#f8f8f8" th:each="expenseClaimBill,item : ${expenseClaimBills}">
+			<td th:text="${item.index+1}"></td>
+			<td th:text="${expenseClaimBill.subCategoryName}+'  ('+${expenseClaimBill.categoryName}+')'"></td>
+			<td th:text="${expenseClaimBill.merchantId}"></td>
+			<td th:text="${#temporals.format(expenseClaimBill.billDt,'dd-MM-yyyy')}"></td>
+			<td th:text="${expenseClaimBill.billAmount}"></td>
+			<td th:if="${expenseClaimStatus=='SETTLED'}" th:text="${expenseClaimBill.billAmount}"></td>
+			<td th:text="${expenseClaimBill.billRemarks}"></td>
+		</tr>
+		</tbody>
+	</table>
+	
+</body>
+</html>
+ 

@@ -1,0 +1,459 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Client Profile</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)" [routerLink]="['/client/list']">Home</a></li>
+                <li class="breadcrumb-item active">Client Profile</li>
+            </ol>
+            <div *ngIf="!isHide">
+                <button type="button" (click)="editClientProfile()" class="btn btn-info d-block m-l-15"><i
+                    class="fa fa-plus-circle"></i> Edit Profile</button>
+            </div>
+           
+            <button type="button" class="btn btn-warning d-block m-l-15" [routerLink]="['/client/list']">Back</button>
+
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<!-- Row -->
+<!-- <div class="row ">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="p-3">
+                    <div class="row">
+                        <div class="form-group col-12 col-md-2">
+                            <strong class="textColor">Client Name</strong> <br> <strong>{{firstName}}</strong>
+                        </div>
+                        <div class="form-group col-12 col-md-2">
+                            <strong class="textColor">Phone</strong> <br> <strong>{{mobileNo}}</strong>
+                        </div>
+                        <div class="form-group col-12 col-md-2">
+                            <strong class="textColor">Email</strong> <br> <strong>{{emailId}}</strong>
+                        </div>
+                        <div class="form-group col-12 col-md-2">
+                            <strong class="textColor">Client ID</strong> <br> <strong>{{clientCode}}</strong>
+                        </div>
+                        <div class="form-group col-12 col-md-3">
+                            <strong class="textColor">Address</strong> <br> <strong>{{address}}</strong>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="card">
+<div class="row">
+   
+    <div class="col-6 box-content right">
+       
+            <div class="card-body">                
+                <div style="font-size: large;padding-left: 20px;">
+                    <i class="fa fa-building-o" aria-hidden="true"></i> <strong>{{partner.clientName}}</strong> &nbsp;&nbsp;&nbsp;&nbsp; <strong> <span  class="label label-default"> {{clientCode}}</span> </strong>
+                </div>
+                
+                    
+               
+              <div style="padding-left: 20px;">
+                <i class="fa fa-user" aria-hidden="true"></i> <strong>{{firstName}}</strong> <br>
+                <i class="fa fa-mobile" aria-hidden="true"></i> <strong>{{mobileNo}}</strong> <br>
+                <i class="fa fa-envelope" aria-hidden="true"></i> <strong>{{emailId}}</strong> <br>                
+                <i class="fa fa-address-card" aria-hidden="true"></i><strong>{{partner.addressLine1}},{{partner.city}},{{partner.state}}:{{partner.tinNo}} </strong> <br>
+                <strong> <b>GST No</b> </strong>:<strong>{{partner.gstNo}}</strong>
+              </div>
+            </div>
+        
+    </div>
+  
+    <div class="col-3 box-content right">
+            <div class="card-body">
+                <div style="font-size: large;">
+                    Secondary contact
+                </div> 
+                <br>
+               
+                <div *ngFor="let item of partner.partnerEmployees">
+                    <i class="fa fa-user" aria-hidden="true"></i> <strong>{{item.firstName}}</strong> &nbsp; <i class="fa fa-mobile" aria-hidden="true"></i> <strong>{{item.mobileNo}}</strong>
+                    <br>
+                </div>
+
+            </div>
+    </div>
+    <div class="col-3 box-content right">
+            <div class="card-body">
+                <strong class="textColor fnL">Outstanding dues</strong> <br> <strong class="fnM">Rs.{{currentAmt}}</strong>
+                <hr>
+                <strong class="overDue fnL">OVERDUE</strong> <br> <strong class="fnM">Rs.{{overDue}}</strong>
+            </div>
+    </div>
+</div>
+</div>
+
+<style>
+    .textColor {
+        color: #0000ff;
+    }
+
+    .overDue {
+        color: #ff0000;
+    }
+
+    .fnL {
+        font-size: large;
+    }
+
+    .fnM {
+        font-size: medium;
+    }
+
+    .cardhight {
+        height: 50px;
+    }
+
+    .textAlign{
+        padding-right: 50%;
+    }
+    .box-content {
+    display: inline-block;
+    width: 200px;
+    padding: 10px;
+}
+
+.bottom {
+    border-bottom: 1px solid #ccc;
+}
+
+.right {
+    border-right: 1px solid #ccc;
+}
+
+</style>
+
+<div class="card">
+    <ngb-tabset class="customtab">
+        <ngb-tab title="Purchase order">
+            <ng-template ngbTabContent>
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="form-group col-md-4 col-sm-6">
+                            
+                            <input type="text" class="form-control form-control-line" placeholder="search"
+                                (input)="clientPoClientSideSearch()" [(ngModel)]="searchClientPosString"
+                                name="searchClientPosString">
+                        </div>
+                        <div class="col-4"></div>
+                        <div class="col-3" >
+                            <ngb-pagination style="float: right;" [(page)]="poPage" [pageSize]="poPageSize"
+                            [collectionSize]="sortedClientPos.length">
+                        </ngb-pagination>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        <a (click)="sort('clientpos','poRefNo')">PO RefNo
+                                            <i class="fa fa-sort" aria-hidden="true"></i>
+                                        </a>
+                                    </th>
+                                    <th>PO Date</th>
+                                    <th>PO Description</th>
+                                    <th>Document</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let row of sortedClientPos | slice: (poPage-1) * poPageSize : (poPage-1) * poPageSize + poPageSize;let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{row.poRefNo}}</td>
+                                    <td>{{row.poDate}}</td>
+                                    <td>{{row.poDesc}}</td>
+                                    <td class="text-nowrap">
+                                        <a href="javascript:void(0)" *ngIf="row.docId!=null"
+                                            (click)="download(row.docId,row.poRefNo);">
+                                            <font color="Green">Download</font>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                       
+
+                    </div>
+
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Sale Order">
+            <ng-template ngbTabContent>
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="form-group col-md-4 col-sm-6">
+                            
+                            <input type="text" class="form-control form-control-line" placeholder="search"
+                                (input)="clientSideFilterForSaleOrders()" [(ngModel)]="searchSoString"
+                                name="searchSoString">
+                        </div>
+                        <div class="col-4"></div>
+                        <div class="col-3">
+                            <ngb-pagination style="float: right;" [(page)]="soPage" [pageSize]="soPageSize"
+                            [collectionSize]="sortedSaleOrders.length">
+                        </ngb-pagination>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        <a (click)="sort('saleorder','saleOrderCode')">sale Order Code
+                                            <i class="fa fa-sort" aria-hidden="true"></i>
+                                        </a>
+                                    </th>
+                                    <th>purchase Order Id</th>
+                                    <th>Project Name</th>
+                                    <th>Status</th>
+                                    <th>Jobs Id</th>
+                                    <th>Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let sale of sortedSaleOrders | slice: (soPage-1) * soPageSize : (soPage-1) * soPageSize + soPageSize;let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{sale.saleOrderCode}}</td>
+                                    <td>{{sale.purchaseOrderId}}</td>
+                                    <td>{{sale.projectName}}</td>
+                                    <td>{{sale.status}}</td>
+                                    <td>
+                                        <div *ngFor="let job of sale.jobs">
+                                            <a href="javascript:void(0)" (click)="openProgressBar(job.id);">
+                                                <font color="blue"> {{job.jobCode}}</font>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <a href="javascript:void(0)" (click)="openSaleOrderModel(sale.id)"> <i
+                                                class="fa fa-eye text-inverse m-r-10"></i> </a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                       
+                    </div>
+
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Invoices">
+            <ng-template ngbTabContent>
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="form-group col-md-4 col-sm-6">
+                            
+                            <input type="text" class="form-control form-control-line" placeholder="search"
+                                (input)="clientSideFilterForInvoices()" [(ngModel)]="searchInvoiceString"
+                                name="searchInvoiceString">
+                        </div>
+                        <div class="col-4"></div>
+                        <div class="col-3">
+                            <ngb-pagination style="float: right;" [(page)]="inPage" [pageSize]="inPageSize"
+                            [collectionSize]="sortedInvoices.length">
+                        </ngb-pagination>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        <a (click)="sort('invoice','refInvoiceNo')">Invoice RefNo
+                                            <i class="fa fa-sort" aria-hidden="true"></i>
+                                        </a>
+                                    </th>
+                                    <th>Invoice date</th>
+                                    <th>Paid amount</th>
+                                    <th>Balance amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let row of sortedInvoices | slice: (inPage-1) * inPageSize : (inPage-1) * inPageSize + inPageSize;let i=index" [routerLink]="['/client/invoice/view/',row.id]">
+                                    <td><a href="javascript:void(0)">{{i+1}}</a></td>
+                                    <td><a href="javascript:void(0)">{{row.refInvoiceNo}}</a></td>
+                                    <td><a href="javascript:void(0)">{{row.invoiceDate}}</a></td>
+                                    <td><a href="javascript:void(0)">{{row.paidAmt}}</a></td>
+                                    <td><a href="javascript:void(0)">{{row.balanceAmt}}</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Payments">
+            <ng-template ngbTabContent>
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="form-group col-md-4 col-sm-6">
+                            
+                            <input type="text" class="form-control form-control-line" placeholder="search"
+                                (input)="clientSideFilterForPayments()" [(ngModel)]="searchPaymentString"
+                                name="searchPaymentString">
+                        </div>
+                        <div class="col-4"></div>
+                        <div class="col-3">
+                            <ngb-pagination style="float: right;" [(page)]="payPage" [pageSize]="payPageSize"
+                            [collectionSize]="sortedPayments.length">
+                        </ngb-pagination>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        <a (click)="sort('payment','paymentCode')">Payment code
+                                            <i class="fa fa-sort" aria-hidden="true"></i>
+                                        </a>
+                                    </th>
+                                    <th>Client name</th>
+                                    <th>Payment amount</th>
+                                    <th>Amount balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let row of sortedPayments | slice: (payPage-1) * payPageSize : (payPage-1) * payPageSize + payPageSize;let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{row.paymentCode}}</td>
+                                    <td>{{row.clientName}}</td>
+                                    <td>{{row.paymentAmount}}</td>
+                                    <td>{{row.amountBalance}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab *ngIf="!isHide" title="Users">
+                
+            <ng-template ngbTabContent>
+                <div class="card-body">
+                        
+                    <div class="row">
+                        <div class="form-group col-md-4 col-sm-6">
+                            
+                            <input type="text" class="form-control form-control-line" placeholder="search"
+                                (input)="clientSideFilterForUsers()" [(ngModel)]="searchUserString"
+                                name="searchUserString">
+                        </div>
+                        <div class="col-4"></div>
+                        <div class="col-3">
+                        <!-- <button type="button" style="float: right;" (click)="Create()" class="btn btn-info d-block m-l-15"><i
+                            class="fa fa-plus-circle"></i>Create New</button> -->
+                            <ngb-pagination style="float: right;" [(page)]="Page" [pageSize]="PageSize"
+                            [collectionSize]="sortedUsers.length">
+                        </ngb-pagination>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>User Name</th>
+                                    <th>Email Id</th>
+                                    <th>Login Access</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let row of sortedUsers | slice: (Page-1) * PageSize : (Page-1) * PageSize + PageSize;let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{row.userName}}</td>
+                                    <td>{{row.emailId}}</td>
+                                    <td>{{row.loginAccess}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+</div>
+
+<ng-template #user let-c="close">
+        <div class="modal-header">
+            <h4 class="modal-title"> Users </h4>
+            <button type="button" class="close" aria-label="Close" (click)="c()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">    
+                <div class="form-group col-md-4 col-sm-6">
+                        <label class="control-label">Client Name<font color="red">*</font></label>
+                        <input type="text" class="form-control form-control-line" [(ngModel)]="partner.clientName" placeholder="Client Name"  name="clientName"> 
+                    </div>   
+                    <div class="form-group col-md-4 col-sm-6">
+                            <label class="control-label">Email Id<font color="red">*</font></label>
+                            <input type="text" class="form-control form-control-line" [(ngModel)]="partner.emailId" placeholder="Email Id"  name="Email Id"> 
+                        </div>     
+                        <div class="form-group col-md-4 col-sm-6">
+                                <label class="control-label">First Name<font color="red">*</font></label>
+                                <input type="text" class="form-control form-control-line" [(ngModel)]="partner.priFirstName" placeholder="First Name"  name="First Name"> 
+                            </div> 
+                            <div class="form-group col-md-4 col-sm-6">
+                                    <label class="control-label">Last Name<font color="red">*</font></label>
+                                    <input type="text" class="form-control form-control-line" [(ngModel)]="partner.priLastName" placeholder="Last Name"  name="Last Name"> 
+                                </div>
+                                <div class="form-group col-md-4 col-sm-6">
+                                        <label class="control-label">Mobile Number<font color="red">*</font></label>
+                                        <input type="text" class="form-control form-control-line" [(ngModel)]="partner.mobileNo" placeholder="Mobile Number"  name="Mobile No"> 
+                                    </div>
+
+                </div>            
+        </div>
+        <div class="modal-footer align-self-center">
+                <div>
+                        <button type="button"  class="btn btn-info">Save</button>
+                </div>
+            </div>
+    </ng-template>

@@ -1,0 +1,73 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Sale Order List</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Sale Order List </li>
+                </ol>
+                <a href="javascript:void(0)" (click)="addSaleOrder()" 
+                    ><button type="button" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i>  Sale Order Detail</button></a>
+                
+            </div>
+        </div>
+    </div>
+
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+
+      
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+              
+               
+               
+                <div class="table-responsive m-t-40">
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        
+                        
+                        
+                        <thead>
+                                    <tr>
+                                            <th data-sort-initial="true" data-toggle="true">#</th>
+                                        <th data-sort-initial="true" data-toggle="true">Sale Order Number</th>
+                                        <th data-sort-initial="true" data-toggle="true">Gross Amount</th>
+                                        <th data-sort-initial="true" data-toggle="true">Tax Amount</th>
+                                        <th data-sort-initial="true" data-toggle="true">Net Amount</th>
+                                   
+                                        <th data-sort-initial="true" data-toggle="true">Options</th>
+                                        
+                                    </tr>
+                                </thead>
+                       
+                        <tbody>
+                           <tr *ngFor="let saleOrder of saleOrders;let i=index">
+                                <td>{{(i+1)}}</td>
+                               <td>{{saleOrder.soNumber}}</td>
+                               <td>{{saleOrder.soGrossAmt}}</td>
+                               <td>{{saleOrder.soTaxAmt}}</td>
+                               <td>{{saleOrder.soNetAmt}}</td>
+                               <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="editSaleOrder(saleOrder.id)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+
+                           </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+

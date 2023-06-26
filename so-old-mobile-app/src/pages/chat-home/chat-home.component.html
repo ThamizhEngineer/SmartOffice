@@ -1,0 +1,41 @@
+<!--
+  Generated template for the ChatHomePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Chat Home</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of allMessageArr ;let i=index" (click)="chats(item)">
+      <ion-avatar item-start>
+        <img src="assets/imgs/avatar-ts-rex.png">
+      </ion-avatar>
+      <h2>{{item.groupName || item.displayName }}</h2>
+      <p *ngIf="item.groupName && item.message && item.displayName">{{item.displayName}} : {{item.message}}</p>
+      <p *ngIf="item.groupName && item.message && !item.displayName">{{item.message}}</p>
+      <p *ngIf="!item.groupName">{{item.message}}</p>
+      <ion-note item-end>{{item.timestamp | date:'dd/MM/yy, h:mm a'}}</ion-note>
+      <!-- <ion-badge item-end>1</ion-badge> -->
+    </ion-item>
+    <ion-item (click)="chatRoom()">
+      <ion-avatar item-start>
+        <img src="assets/imgs/avatar-ts-jessie.png">
+      </ion-avatar>
+      <h2>Public Chat Room</h2>
+    </ion-item>
+  </ion-list>
+  <ion-fab right bottom padding>
+    <button ion-fab (click)=addFriends()>
+      <ion-icon name="person-add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

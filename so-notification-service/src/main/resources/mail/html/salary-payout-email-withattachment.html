@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title >Salary slip for the month <span th:text="${salaryPaidMonth}"></span> </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <p>
+            Hi  <span th:text="${empName}"></span>
+        </p>
+         <p>
+            Salary slip for the  <span th:text="${salaryPaidMonth}"></span> is generated.
+        </p>
+        <p>
+            Please find the attached salary slip.
+        </p>
+        <p>
+            Regards, <br />
+            <em>Pothigai Power Solutions Private Limited.</em>
+        </p>
+    </body>
+</html>

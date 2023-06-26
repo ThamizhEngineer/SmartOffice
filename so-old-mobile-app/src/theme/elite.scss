@@ -1,0 +1,182 @@
+@import "./ionic.globals";
+
+// A new dark theme for ionic2+
+// ----------------------------------------
+
+// this can go into variables.scss too - I like 
+// it here so its in one place. If you move it to variables.scss,
+// remember to copy over the complete map and then extend it
+
+/*Theme Colors*/
+$themecolor         : #fb9678;
+$themecolor-alt     : #26c6da;
+$sidebar            : #fff;
+$sidebar-alt        : #f9f9f9;
+$sidebar-text       : #8d97ad;
+$sidebar-icons      : #787f91; 
+$shadow             : 1px 0px 20px rgba(0, 0, 0, 0.08);
+$lft                : left;
+$rgt                : right;
+
+
+
+// Colour System ThemeForest
+
+$white        : #fff    !default;
+$gray-100     : #f8f9fa !default;
+$gray-200     : #e9ecef !default;
+$gray-300     : #dee2e6 !default;
+$gray-400     : #ced4da !default;
+$gray-500     : #adb5bd !default;
+$gray-600     : #6c757d !default;
+$gray-700     : #4F5467 !default;
+$gray-800     : #343a40 !default;
+$gray-900     : #212529 !default;
+$black        : #000    !default;
+$blue         : #03a9f3 !default;
+$indigo       : #6610f2 !default;
+$purple       : #ab8ce4 !default;
+$pink         : #e83e8c !default;
+$red          : #e46a76 !default;
+$orange       : #fb9678 !default;
+$yellow       : #fec107 !default;
+$green        : #00c292 !default;
+$teal         : #20c997 !default;
+$cyan         : #01c0c8 !default;
+$primary      : #fb9678 !default;
+$text-muted   : $gray-600 !default;
+
+
+$colors: (
+  blue      : $blue,
+  indigo    : $indigo,
+  purple    : $purple,
+  pink      : $pink,
+  red       : $red,
+  orange    : $orange,
+  yellow    : $yellow,
+  green     : $green,
+  teal      : $teal,
+  cyan      : $cyan,
+  white     : $white,
+  gray      : $gray-600,
+  gray-dark   : $gray-800,
+  primary     : $indigo,
+  secondary   : #32db64,
+  danger      : #f53d3d,
+  light       : #f4f4f4,
+  dark        : #222
+ ) !default;
+
+ $theme-colors: (
+  primary     : $orange,
+  secondary   : $gray-100,
+  success     : $green,
+  info        : $blue,
+  warning     : $yellow,
+  danger      : $red,
+  light       : $gray-100,
+  cyan      : $cyan,
+  dark        : $gray-800,
+  purple    : $purple    
+);
+
+
+//Header
+
+$toolbar-background     : $indigo !default;
+$toolbar-border-color   : $white !default;
+
+$background-color       : linear-gradient(to bottom, #33ccff 0%, #b6b1ef 100%) !important;
+$text-color             : $white !default;
+$link-color             : color($colors, primary) !default;
+
+//SideMenu
+
+$list-text-color        : $sidebar-text !default;
+$list-background-color  : $white !default;
+$list-border-color      : #4C4C4C !default;
+$list-header-color      : $text-color !default;
+$list-activated-background-color: $blue !default;
+
+$list-ios-background-color: $indigo;
+$list-ios-border-color: $indigo;
+
+//Cards
+
+$card-text-color        : $gray-900 !default;
+
+body {
+  color                 : $text-color;
+  $font-family-base     : "Poppins" !default;
+}
+
+$subdued-text-color:         #666 !default;
+
+
+// alerts
+
+$alert-message-text-color: $red !default;
+$alert-input-text-color: #242424 !default;
+
+
+
+
+$content-padding:            16px !default;
+$content-margin:             16px !default;
+
+$content-outer-background: #000;
+
+$toolbar-active-color:       $link-color !default;
+$toolbar-inactive-color:     #8c8c8c !default;
+
+$tabs-background:            $toolbar-background !default;
+$tabs-border-color:          $toolbar-border-color !default;
+$tabs-tab-color-inactive:    #8c8c8c !default;
+$tabs-tab-color-active:      $link-color !default;
+
+
+
+
+$item-divider-color: $text-color !default;
+$item-divider-background: #515151 !default;
+
+$toast-background: #019875 !default;
+
+
+$tabs-tab-color-inactive: #808080 !default;
+
+$searchbar-input-text-color: #bdc3c7 !default;
+$searchbar-input-placeholder-color: #A3A8AC !default;
+$searchbar-input-background-color: #313131 !default;
+
+$toggle-background-color-off:#696969 !default;
+$toggle-background-color-on:#eeae15 !default;
+
+
+// $alert-background: $toolbar-background !default;
+// $alert-button-background-color-activated: lighten($alert-background,30%) !default;
+// 
+// $alert-input-background-color: #bdc3c7 !default;
+// $alert-input-text-color: #242424 !default;
+
+
+::-webkit-scrollbar {
+  color: #8c8c8c;
+  }
+
+.alert-head{
+  color: $red;
+}
+ion-img{
+  background: none !important;
+}
+
+// ::-webkit-scrollbar-thumb {
+//   background-color:#696969;
+//   }
+
+// .alert-input {
+//   color: $alert-input-text-color;
+//   background-color: $alert-input-background-color;
+// }

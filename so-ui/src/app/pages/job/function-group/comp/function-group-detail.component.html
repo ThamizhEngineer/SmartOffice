@@ -1,0 +1,149 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Function Group Detail</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Function Group Detail</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-body">
+            <div class="col-12">
+                <div class="row p-2">
+                    <div class="form-group col-12 col-md-4">
+                        <label class="control-label">Function Group Name</label>
+                        <input type="text" class="form-control form-control-line" [(ngModel)]="functionGroup.funGrpName"  placeholder="function group Name" name="function group Name">
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label class="control-label">Function Group Code</label><br>
+                        <span class="label label-default">{{functionGroup.funGrpCode}} </span>
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label class="control-label">Remarks</label>
+                        <textarea class="form-control form-control-line" [(ngModel)]="functionGroup.remarks" rows="3" placeholder="Remarks" name="Remarks"></textarea>
+                    </div>
+                </div>
+                <div class="row p-2">
+                        <div class="form-group col-12 col-md-4"> 				                     
+            
+                            <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic">
+                                        <label *ngIf="functionGroup.deliveryType==null" ngbButtonLabel class="btn btn-outline-info waves-effect waves-light">
+                                            <input ngbButton type="radio" (click)="functionGroup.deliveryType='service'">Service
+                                        </label>
+                                        <label *ngIf="functionGroup.deliveryType==null" ngbButtonLabel class="btn-outline-primary">
+                                            <input ngbButton type="radio" (click)="functionGroup.deliveryType='goods'"> Goods
+                                        </label>
+                                <label *ngIf="functionGroup.deliveryType=='service'" ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                                    <input ngbButton type="radio" (click)="functionGroup.deliveryType='service'"> Service
+                                </label>
+                                <label *ngIf="functionGroup.deliveryType=='goods'" ngbButtonLabel class="btn btn-outline-info waves-effect waves-light">
+                                    <input ngbButton type="radio" (click)="functionGroup.deliveryType='service'">Service
+                                </label>
+                                <label *ngIf="functionGroup.deliveryType=='service'" ngbButtonLabel class="btn-outline-primary">
+                                    <input ngbButton type="radio" (click)="functionGroup.deliveryType='goods'"> Goods
+                                </label>
+                                <label *ngIf="functionGroup.deliveryType=='goods'" ngbButtonLabel class="btn-primary">
+                                    <input ngbButton type="radio" (click)="functionGroup.deliveryType='goods'"> Goods
+                                </label>
+                            </div>
+
+                        </div>
+                        <div class="form-group  col-12 col-md-4">
+                            <div>       
+                                <div class="">
+                                    <strong class="col-md-4">Is Enable</strong> <label class="toggle "><input type="checkbox" [(ngModel)]="functionGroup.isEnabled"  class="col-md-8"/><span class="handle blocked"></span></label>
+                                </div>                                   
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row p-2">		
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label class="control-label">Functions</label>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover table-bordered" >
+                                        <thead>
+                                            <tr>
+                                                <th>Sl No.</th>
+                                                <th>Function Name</th>							
+                                                <th>Function Code</th>
+                                                <th>Remarks</th>
+                                                <th>Division</th>
+                                                <th>Action <a href="javascript:void(0)" *ngIf="functionGroup.functions.length==0" (click)="addRows()" data-toggle="tooltip"
+                                                    data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of functionGroup.functions;let i=index;">
+                                                <td>{{i+1}}</td>
+                                                <td>
+                                                    <input type="text" class="form-control form-control-line" [(ngModel)]="item.funName" placeholder="Function Name">
+                                                </td>							
+                                                <td><span class="label label-default">{{item.funCode}}</span></td>
+                                                <td>
+                                                    <textarea class="form-control form-control-line" [(ngModel)]="item.remarks" rows="2" placeholder="Remarks"></textarea>
+                                                </td>
+                                                <td class="text-center" >                                  
+                                                        <a href="javascript:void(0)" (click)="openModal(item.divisionLines)">{{item.divisionLines ? item.divisionLines.length : '0'}}</a>										                                       		
+                                                    </td>
+                                                <td>
+                                                        <a href="javascript:void(0)" (click)="addRows()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+                                                    <a href="javascript:void(0)" *ngIf="functionGroup.functions.length > 1" (click)="delRow(i)"><i class="fa fa-close text-danger"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-3 col-sm-6">
+                                <button type="submit" class="btn btn-info waves-effect waves-light m-t-10 mr-2" (click)="saveFunction()">Save</button>
+                                <button type="submit" style="width:75px;" class="btn btn-warning waves-effect waves-light m-t-10" [routerLink]="['/operation/function-group']">Cancel</button>   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    
+                <ng-template #Division let-c="close" let-d="dismiss">
+                        <div class="modal-header">
+                            <h4 class="modal-title text-center" id="modal-basic-title">Division</h4>
+                            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <div class="row">
+                                <div class="table-responsive mx-2">
+                                    <table class="table table-striped table-hover table-bordered" >
+                                        <thead>
+                                            <tr>
+                                                <th>Sl No.</th>							
+                                                <th>Division Name</th>
+                                                <!-- <th>Action</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of divisions;let i=index;">
+                                                <td>{{i+1}}</td>
+                                                <td>{{item.divisionName}}</td>						
+                                                <!-- <td>
+                                                    <a href="javascript:void(0)" (click)="delDivRow(i)"><i class="fa fa-close text-danger"></i></a>
+                                                </td> -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-dark" (click)="c()">close</button>
+                        </div>
+                    </ng-template>

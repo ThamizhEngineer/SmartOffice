@@ -1,0 +1,148 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Interview</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="javascript:void(0)">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Recruitment</li>
+                <li class="breadcrumb-item active">Interview</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="card"> 
+    <div class="card-body">
+        <div class="row">
+        <div class="form-group col-md-4 col-sm-6">
+            <label><font color="blue">First Name</font></label><br />
+            <span class="text">{{applicant.firstName}} <applicant-detail-edit
+                [childMessage]="applicant"></applicant-detail-edit></span>
+    </div>
+    <div class="form-group col-md-4 col-sm-6">
+            <label><font color="blue">Last name</font></label><br />
+            <span class="text">{{applicant.lastName}}</span>
+    </div>
+    <div class="form-group col-md-4 col-sm-1">
+            <label><font color="blue">Mobile Number</font></label><br />
+            <span class="text">{{applicant.mobileNumber}}</span>
+    </div>
+    <div class="form-group col-md-4 col-sm-1">
+            <label><font color="blue">Email</font></label><br />
+    <span class="text">{{applicant.email}}</span>
+    </div>
+    <div class="form-group col-md-3 col-sm-6">
+            <label><font color="blue">DOB</font></label><br />
+            <span class="text">{{applicant.dob | date:'dd/MM/yyyy'}}</span>
+    </div>
+    <div class="form-group col-md-3 col-sm-6">
+            <label><font color="blue">Exprence Type</font></label><br />
+            <span class="text">{{applicant.expType}}</span>
+    </div>
+    </div>
+</div>    
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card group">
+                    <div class="card card-body border border-secondary bg-light" *ngFor="let item of interview?.interviewRound;let i=index">
+                        <div *ngIf="item.id!=null" class="row">
+                                <div class="card-title col-10"><h4><span class="text"><font color="navy"><b><strong>Round {{i + 1}}</strong></b></font></span></h4></div>  
+                            <div class="form-group col-6 col-md-4">
+                                <label class="control-label textColor">Interviewer Name</label><br />
+                                <span class="text"> {{item.interviewEmpName}}</span>
+                            </div>
+                            <div class="form-group col-6 col-md-4">
+                                <label class="control-label textColor">Round Name</label><br />
+                                <span class="text"> {{item.roundName}}</span>
+                            </div>
+                            <div class="form-group col-6 col-md-4">
+                                <label class="control-label textColor">Interview Date & Time</label><br />
+                                <span class="text"> {{item.roundCompletedDt | date: 'dd-MM-yyyy hh:mm a' }}</span>
+                            </div>
+                            <div class="form-group col-6 col-md-4">
+                                <label class="control-label textColor">Decision</label><br />
+                                <span class="label label-{{statuses[item.decision]}}">{{item.decision}}</span>
+                            </div>
+                            <div class="form-group col-6 col-md-4">
+                                <label class="control-label textColor">Rating</label><br />
+                                <span class="text"> {{item.rating}}</span>
+                            </div>
+                            <div class="form-group col-6 col-md-4">
+                                <label class="control-label textColor">Remarks</label><br />
+                                <span class="text"> {{item.remarks}}</span>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div *ngIf="interview.finalDecision==null" class="card card-body border border-secondary bg-light">
+                    <div class="row">
+                        <div class="form-group col-6 col-md-4">
+                            <label class="control-label textColor">Interviewer Name</label><br />
+                            <span class="text"> {{user.firstName}}&nbsp;{{user.lastName}}</span>
+                        </div>
+                        <div class="form-group col-6 col-md-4">
+                            <label class="control-label textColor">Round Name</label>
+                            <form [formGroup]="form">
+                            <input type="text" class="form-control form-control-line" formControlName="round" [(ngModel)]="interviewRound.roundName"
+                                placeholder="Round Name">
+                                </form>
+                        </div>
+                        <div class="form-group col-6 col-md-4">
+                            <label class="control-label textColor">Interview Date & Time</label><br />
+                            <span class="text"> {{interviewRound.dummyDate | date:'dd-MM-yyyy hh:mm'}}</span>
+                        </div>                       
+                        <div class="form-group col-6 col-md-4">
+                            <label class="control-label textColor">Rating</label>
+                            <form [formGroup]="form">
+                            <select class="form-control" [(ngModel)]="interviewRound.rating" formControlName="rating" name="rating" id="rating">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                            </form>
+                        </div>
+                        <div class="form-group col-6 col-md-4">
+                            <label class="control-label textColor">Remarks</label>
+                            <form [formGroup]="form">
+                            <textarea class="form-control form-control-line" rows="3" formControlName="remarks" [(ngModel)]="interviewRound.remarks" placeholder="interviewer Remarks"></textarea>
+                       </form>
+                        </div>                       
+                    </div>
+                    <div class="modal-footer align-self-center">
+                        <button type="submit" [routerLink]="['/recruitment/interview/']" class="btn btn-info waves-effect waves-light">Back</button>
+                        <button type="submit" class="btn btn-success waves-effect waves-light" [disabled]="!form.valid" (click)="roundComplete('selected')">Selected</button>
+                        <button type="submit" class="btn btn-danger waves-effect waves-light" [disabled]="!form.valid" (click)="roundComplete('rejected')">Rejected</button>
+                        <button type="submit" class="btn btn-warning waves-effect waves-light" [disabled]="!form.valid" (click)="roundComplete('on-hold')">On-Hold</button>
+                   </div>                   
+                    </div>
+                    <div *ngIf="interview.finalDecision!=null" class="modal-footer align-self-center">
+                            <button type="submit" [routerLink]="['/recruitment/interview/']" class="btn btn-info waves-effect waves-light">Back</button>                        
+                       </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    .textColor {
+        color: #0000FF;
+    }
+</style>

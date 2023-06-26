@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Expense Claim</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngFor="let d of data">
+		<ion-card class="d-ct" [routerLink]="['/home/exp-claim/', d.id]"><ion-grid>
+			<ion-row>
+				<ion-col>
+					<ion-label>
+						<h2>{{d.expenseClaimCode}}</h2>
+						<p>Submitted &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{d.appliedDt  | date:'dd/MM/yyyy'}}</p>
+						<p>Job Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    : {{d.jobName}}</p>
+						<p>Cost Center : {{d.costCenterName}}</p>
+						<p>Amount &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  : {{d.expenseClaimAmount}}</p>
+						<p>
+							<ng-container [ngSwitch]="true">
+							   <ng-container *ngSwitchCase="d?.expenseClaimStatus=='CREATED' || d?.expenseClaimStatus=='APPLIED' || d?.expenseClaimStatus=='N1-APPROVAL-PENDING' || d?.expenseClaimStatus=='N1-APPROVED' || d?.expenseClaimStatus=='N2-APPROVAL-PENDING' || d?.expenseClaimStatus=='N2-APPROVED' || d?.expenseClaimStatus=='VALIDATION-PENDING'">
+									<ion-chip outline color="warning">
+									  <ion-label color="warning">{{d?.expenseClaimStatus}}</ion-label>
+									</ion-chip>
+							   </ng-container>
+							   <ng-container *ngSwitchCase="d?.expenseClaimStatus=='N1-REJECTED' || d?.expenseClaimStatus=='N2-REJECTED' || d?.expenseClaimStatus=='VALIDATION-REJECTED'">
+									<ion-chip outline color="danger">
+									  <ion-label color="danger">{{d?.expenseClaimStatus}}</ion-label>
+									</ion-chip>
+							   </ng-container>
+							   <ng-container *ngSwitchCase="d?.expenseClaimStatus=='SETTLED'">
+									<ion-chip outline color="tertiary">
+									  <ion-label color="tertiary">{{d?.expenseClaimStatus}}</ion-label>
+									</ion-chip>
+							   </ng-container>
+							   <ng-container *ngSwitchCase="d?.expenseClaimStatus=='APPROVED'">
+									<ion-chip outline color="success">
+									  <ion-label color="success">{{d?.expenseClaimStatus}}</ion-label>
+									</ion-chip>
+							   </ng-container>
+							   <ng-container *ngSwitchCase="d?.expenseClaimStatus=='CANCELLED'">
+									<ion-chip outline color="light">
+									  <ion-label color="light">{{d?.expenseClaimStatus}}</ion-label>
+									</ion-chip>
+							   </ng-container>
+							   <ng-container *ngSwitchDefault>
+									<ion-chip outline color="primary">
+									  <ion-label color="primary">{{d?.expenseClaimStatus}}</ion-label>
+									</ion-chip>
+							   </ng-container>
+							   
+							</ng-container>
+						
+						</p>
+					</ion-label>
+				</ion-col>
+				<ion-col size="1" class="ion-margin-horizontal chevron" style="vertical-align: middle;">
+					<i class="fa fa-2x fa-chevron-right"></i>
+				</ion-col>
+			</ion-row>
+		</ion-grid></ion-card>
+	</div>
+	
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button [routerLink]="['/home/exp-claim/create']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

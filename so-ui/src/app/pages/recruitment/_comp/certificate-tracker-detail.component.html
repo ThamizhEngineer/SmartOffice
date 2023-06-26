@@ -1,0 +1,146 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Certificate History</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Certificate Tracker  List</a></li>
+                <li class="breadcrumb-item active">Certification History</li>
+            </ol>
+            
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and center sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+<div class="col-md-12">
+    <div class="card card-body">
+
+        <form class="form-horizontal">
+
+
+                <div class="form-group row">
+                        <label for="example-text-input3" class="col-sm-2 text-center control-label  col-form-label"> Employee Name</label>
+                        <div class="col-sm-2">
+                                <div class="form-group">    
+                                        <input type="text"  placeholder="Employee Name" class="form-control"  [(ngModel)]="certificate.fname" [ngModelOptions]="{standalone: true}">
+                                </div>
+                        </div>
+                    
+                    <label for="example-text-input3" class="col-sm-2 text-center control-label  col-form-label">Score</label>
+                    <div class="col-sm-2">
+                            <div class="form-group">    
+                                    <input type="number" placeholder="Score" class="form-control"[(ngModel)]="certificate.score" [ngModelOptions]="{standalone: true}">
+                            </div>
+                    </div>
+                    
+                </div>
+
+            <div class="form-group row">
+                    <label for="example-text-input3" class="col-sm-2 text-center control-label  col-form-label">Issue Date</label>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input type="date" placeholder="Issue Date" class="form-control" [(ngModel)]="certificate.issueDt" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+               
+                
+                
+            </div>
+
+            
+            <div class="table-responsive m-t-40">
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        
+                        
+                        
+                        <thead>
+                                    <tr>
+                                        <th data-sort-initial="true" data-toggle="true">#</th>
+                                        <th data-sort-initial="true" data-toggle="true">Exam Completion Date</th>
+                                        <th data-sort-initial="true" data-toggle="true">Certificate Name</th>
+                                        <th data-sort-initial="true" data-toggle="true">Certificate Code</th>
+                                        <th data-sort-initial="true" data-toggle="true">Certified On</th>
+                                        <th data-sort-initial="true" data-toggle="true">Marks Scored</th>
+                                        <th data-sort-initial="true" data-toggle="true"> Status</th>
+                        
+                                        
+                                    </tr>
+                                </thead>
+                       
+                        <tbody>
+                                <tr>
+                                        <td>1</td>
+                                        <td>15-10-2018</td>
+                                        <td>EHS </td>
+                                        <td>EHS-12-01</td>
+                                        <td>01-01-2018</td>
+                                        <td>75</td>
+                                        <td class="text-nowrap">
+                                            <span class="label label-success">Valid</span> 
+                                    </td>
+                                       
+
+                                    </tr>
+                                    <tr>
+                                      <td>2</td>
+                                        <td>25-7-2017</td>
+                                        <td>EHS</td>
+                                        <td> EHS-11-00</td>
+                                        <td>01-10-2017</td>
+                                        <td>80</td>
+                                        <td class="text-nowrap">
+                                                <span class="label label-danger"> Expired</span>
+                                            </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td>3</td>
+                                        <td>8-12-2016</td>
+                                        <td>EHS</td>
+                                        <td> EHS-20-01</td>
+                                        <td>01-01-2016</td>
+                                        <td>73</td>
+                                        <td class="text-nowrap">
+                                                <span class="label label-danger"> Expired</span>
+                                            </td>
+
+                                    </tr>
+                                    <tr>
+                                            <td>4</td>
+                                              <td>18-5-2015</td>
+                                              <td>EHS </td>
+                                              <td> EHS-19-01</td>
+                                              <td>01-06-2015</td>
+                                              <td>89</td>
+                                              <td class="text-nowrap">
+                                                    <span class="label label-danger"> Expired</span>
+                                                </td>
+      
+                                          </tr>
+      
+                                          <tr>
+                                              <td>5</td>
+                                              <td>23-9-2018</td>
+                                              <td>PMP Certified </td>
+                                              <td> CER-13-01</td>
+                                              <td>01-10-2018</td>
+                                              <td>90</td>
+                                              <td class="text-nowrap">
+                                                    <span class="label label-success">Valid</span> 
+                                            </td>
+                                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+          
+        </form>
+    </div>
+</div>

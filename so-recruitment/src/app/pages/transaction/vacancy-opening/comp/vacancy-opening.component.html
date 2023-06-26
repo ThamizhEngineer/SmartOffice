@@ -1,0 +1,402 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Job Opening List</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item active">Job Opening List </li>
+			</ol>
+		</div>
+	</div>
+</div>
+                <div>  
+                        <flag-alert [message]="saveMsg"></flag-alert>      
+                <div class="align-items-center" *ngFor="let c of job | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" class="card card-body">
+                    <div class="card card-body" (click)="discriptionView(c.vdId,c,c.id);">
+                        <div class="row m-t-10">
+                            <div class="card-title col-10"><h4><span class="text"><font color="navy"><b><strong>{{c.vrCode}} &nbsp; {{c.summary}}</strong></b></font></span></h4></div>
+                            <div  placement="top" ngbTooltip="APPLY JOB" ><strong><button type="button" class="btn btn-info">APPLY JOB</button></strong></div>
+                        </div>
+                            <div class="form-group " >
+                                    <div class="row">
+                                    <label for="inputPosition" class="col-md-3 col-sm-3"><i class="fa fa-briefcase"></i>&nbsp;<font color="blue">Year of Experience:</font> &nbsp;<span>{{c.yearsOfExp}}</span></label>
+                                    <label for="inputPosition" class="col-md-3 col-sm-3"><font color="red"><i class="fa fa-location-arrow"></i></font>&nbsp;<font color="blue">Location:</font> &nbsp;<span>{{c.location}}</span></label>
+                                    <label for="inputPosition" class="col-md-3 col-sm-3"><i class="fa fa-inr"></i>&nbsp;<font color="blue">Salary:</font> &nbsp;<span>{{c.salary}}</span></label>
+                                </div>
+                            
+                               
+                                <div class="row" >
+                                        <label for="inputPosition" class="col-md-3 col-sm-3"><i class="fa fa-graduation-cap"></i>&nbsp;<font color="blue">Roles:</font> &nbsp;<span>{{c.role}}</span></label>
+                                </div>   
+                                
+                                <div class="row" >
+                                        <label for="inputPosition" class="col-md-12 col-sm-3"><font color="blue">Experience:</font> &nbsp;<span>{{c.experience}}</span></label>
+                                </div> 
+                                <div align="right" class="align-self-right">
+                                        <font color="gray"><p class="m-t-5"><b>Posted:</b> <i>{{ c.vcApprovedDt | dtdiff: newdate}} &nbsp; day ago</i></p></font>                   
+        
+                                </div>  
+                        </div>                                                    
+                    </div>
+                    
+
+                </div>	
+                <ngb-pagination 
+                    [(page)]="page"
+                    [pageSize]="pageSize"
+                    [collectionSize]="job.length"></ngb-pagination>
+        </div>
+                
+
+                <!-- <form (ngSubmit)="create()" #myForm="ngForm"> -->
+                <ng-template #apply let-c="close">
+                        <div class="modal-header">
+                            <h4 class="modal-title"><span class="text"><b>{{vacancyRequest.vrCode}} &nbsp;{{vacancyRequest.summary}}</b></span></h4>
+                            <button type="button" class="close" aria-label="Close" (click)="c()">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <flag-alert [message]="errorMsg"></flag-alert>   
+                        <div class="modal-body">
+                                        <div class="form-group col-md-4  col-sm-6">
+                                                <label class="control-label">Applicant Type<font color="red">*</font></label>
+                                                <div class="custom-control custom-radio">
+                                                        <input type="radio"  required id="Fresher" value="Fresher" name="type" [(ngModel)]="applicant.expType" class="custom-control-input">
+                                                        <label class="custom-control-label" for="Fresher">Fresher</label>
+                                                </div>
+                                                <div class="custom-control custom-radio">
+                                                        <input type="radio"  required id="Experienced" value="Experienced"  name="type" [(ngModel)]="applicant.expType" class="custom-control-input">
+                                                        <label class="custom-control-label" for="Experienced" >Experienced</label>
+                                                </div>
+                                                </div>
+                            <div class="row">     
+                                <div class="col-md-4 col-sm-6" [ngClass]="{'has-danger': fName.invalid && (fName.dirty || fName.touched)}"> 
+                                <label class="control-label">First Name<font color="red">*</font></label>                     
+                                <!-- <div class="form-group"> -->
+                                        <form [formGroup]="myGroup">
+                                        <input type="text" class="form-control form-control-line" placeholder="FirstName" required pattern="[a-zA-Z0-9][a-zA-Z0-9 ]+" [(ngModel)]="applicant.firstName" formControlName="fName" name="empName">
+                                        <div *ngIf="fName.invalid && (fName.dirty || fName.touched)">
+                                        <small class="form-control-feedback" *ngIf="fName.errors.required">First Name is required.</small>
+                                        <small class="form-control-feedback" *ngIf="fName.errors.pattern">Special characters not allowed.</small>
+                                                </div>
+                                </form>   
+                                <!-- </div> -->
+                                </div>
+
+                                <div class="col-md-4 col-sm-6" [ngClass]="{'has-danger': lName.invalid && (lName.dirty || lName.touched)}"> 
+                                                <label class="control-label">Last Name<font color="red">*</font></label>
+                                            <form [formGroup]="myGroup">
+                                                        <input type="text" class="form-control form-control-line" placeholder="LastName" required minlength="1" [(ngModel)]="applicant.lastName" formControlName="lName" name="empName">
+                                                        <div *ngIf="lName.invalid && (lName.dirty || lName.touched)">
+                                                        <small class="form-control-feedback" *ngIf="lName.errors.required">Second Name is required.</small>
+                                                        <small class="form-control-feedback" *ngIf="lName.errors.pattern">Special characters not allowed.</small>
+                                       
+                                                </div>  
+                                                 </form>                              
+                                        </div>
+                                      
+                                        <div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': dob.invalid && (dob.dirty || dob.touched)}">
+                                                <label class="control-label">DOB<font color="red">*</font></label>
+                                                <form [formGroup]="myGroup">
+                                                <input type="date" class="form-control form-control-line" formControlName="dob" required minlength="1" [(ngModel)]="applicant.dob" placeholder="DOB"  name="dob">                                        
+                                                <div *ngIf="dob.invalid && (dob.dirty || dob.touched)">
+                                                                <small class="form-control-feedback" *ngIf="dob.errors.required">DOB is required.</small>
+                                                        </div>
+                                        </form>    
+                                        </div>
+                                            <div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': email.invalid && (email.dirty || email.touched)}">
+                                                    <label class="control-label">Email<font color="red">*</font></label>
+                                                    <form [formGroup]="myGroup">
+                                                        <input type="email" class="form-control form-control-line" placeholder="Email Id" [(ngModel)]="applicant.email" required
+                                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" formControlName="email" name="email">
+                                                       <div *ngIf="email.invalid && (email.dirty || email.touched)">
+                                                               <small class="form-control-feedback" *ngIf="email?.errors.required">Email is required.</small>
+                                                               <small class="form-control-feedback" *ngIf="email?.errors.pattern">please enter valid email.</small>
+                                                       </div>
+                                               </form>
+                                               </div>
+                                               <div class="form-group col-md-4  col-sm-6">
+                                                <form [formGroup]="myGroup">
+                                        <label class="control-label">SEX<font color="red">*</font></label>
+                                        <div class="custom-control custom-radio">
+                                                <input type="radio" formControlName="gender" required id="male" value="male" name="gender" [(ngModel)]="applicant.gender" class="custom-control-input">
+                                                <label class="custom-control-label" for="male">Male</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                                <input type="radio" formControlName="gender" required id="female" value="female"  name="gender" [(ngModel)]="applicant.gender" class="custom-control-input">
+                                                <label class="custom-control-label" for="female" >Female</label>
+                                        </div>
+                                </form>
+                                </div>
+
+                                            <div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': mNumber.invalid && (mNumber.dirty || mNumber.touched)}">
+                                                    <label class="control-label">Mobile Number<font color="red">*</font></label>
+                                                    <form [formGroup]="myGroup">
+                                                    <input type="number" class="form-control form-control-line" formControlName="mNumber" [(ngModel)]="applicant.mobNum" required pattern="[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}"
+                                                     placeholder="Phone Number"  name="mNumber">  
+                                                     <div *ngIf="mNumber.invalid && (mNumber.dirty || mNumber.touched)">
+                                                                <small class="form-control-feedback" *ngIf="mNumber?.errors.required">Contact Number is required.</small>
+                                                                <small class="form-control-feedback" *ngIf="mNumber?.errors.pattern">Contact Number must be 10 digits.</small>
+                                                        </div>                                      
+                                                    </form>
+                                                </div>
+                                            <div class="form-group col-md-4 col-sm-6" [ngClass]="{'has-danger': cLocation.invalid && (cLocation.dirty || cLocation.touched)}">
+                                                <label class="control-label">Current Location<font color="red">*</font></label>
+                                                <form [formGroup]="myGroup">
+                                                                <input type="text" class="form-control form-control-line" placeholder="Current Location" required minlength="1" [(ngModel)]="applicant.currLocation" formControlName="cLocation" name="cLocation">
+                                                                <div *ngIf="cLocation.invalid && (cLocation.dirty || cLocation.touched)">
+                                                                        <small class="form-control-feedback" *ngIf="cLocation.errors.required">Location is required.</small>
+                                                                </div>                                        
+                                                        </form>
+                                        </div>
+                                </div> 
+                        </div>
+
+                        <div class="modal-header" >   
+                                <h4 class="modal-title"><span class="text"><b>College Details</b></span></h4>
+                               </div> 
+                               <div class="modal-body" >   
+                                <div class="row">                                                                
+                                <div class="form-group col-md-4 col-sm-6">
+                                        <label class="control-label">College Name<font color="red">*</font></label>
+                                        <form [formGroup]="fresherGroup">
+                                                        <select class="form-control"[(ngModel)]="applicant.institute" placeholder="collegeName" formControlName="collegeName" name="instution">
+                                                                        <option *ngFor="let college of EduName" [value]="college.collegeName">{{college.collegeName}}</option>
+                                                                    </select>                               
+                                                </form>        
+                                </div>                                   
+                                <div class="form-group col-md-4 col-sm-6">
+                                        <label class="control-label">Course<font color="red">*</font></label>
+                                        <form [formGroup]="fresherGroup">
+                                                        <select class="form-control"[(ngModel)]="applicant.course" placeholder="courseName" formControlName="course" name="course">
+                                                                        <option *ngFor="let course of courses" [value]="course.courseName">{{course.courseName}}</option>
+                                                                </select>           
+                                                </form>        
+                                </div>
+                                <div class="form-group col-md-3 col-sm-6">
+                                        <label class="control-label">Degree Name<font color="red">*</font></label>
+                                        <form [formGroup]="fresherGroup">
+                                                        <select class="form-control "[(ngModel)]="applicant.degreeName"  placeholder="degreeName" formControlName="degree" name="degreeName">
+                                                                        <option *ngFor="let degree of degrees" [value]="degree.degreeName">{{degree.degreeName}}</option>
+                                                        </select>                              
+                                                </form>        
+                                </div>
+                                </div>
+                                <div class="row"> 
+                                        <div class="modal-body">
+                                        <div *ngIf="applicant.institute=='others'">
+                                            <div class="form-group col-md-4 col-sm-6">
+                                                                        <label class="control-label">Other College Name<font color="red">*</font></label>
+                                                                        
+                                                                                        <input type="text" class="form-control form-control-line" placeholder="Other College Name" [(ngModel)]="applicant.otherCollegeName"  name="oCollege">
+                                                                           
+                                                                </div> 
+                                </div>
+                                <div *ngIf="applicant.course=='others'">
+                                                <div class="form-group col-md-4 col-sm-6">
+                                                                            <label class="control-label">Other Course Name<font color="red">*</font></label>
+                                                                          
+                                                                                            <input type="text" class="form-control form-control-line" placeholder="Other Course Name" [(ngModel)]="applicant.otherCourseName"  name="oCourse">
+                                                                                
+                                                                    </div> 
+                                    </div>
+                                    <div *ngIf="applicant.degreeName=='others'">
+                                                <div class="form-group col-md-4 col-sm-6">
+                                                                            <label class="control-label">Other Degree Name<font color="red">*</font></label>
+                                                                            
+                                                                                            <input type="text" class="form-control form-control-line" placeholder="Other Degree Name" [(ngModel)]="applicant.otherDegreeName" name="oDegree">
+                                                                                 
+                                                                    </div> 
+                                    </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="form-group col-md-4 col-sm-6">
+                                        <label class="control-label">Passout Year<font color="red">*</font></label>
+                                        <form [formGroup]="fresherGroup">
+                                                        <input type="number" min="0" class="form-control form-control-line" formControlName="passedOut" placeholder="Passout Year" [(ngModel)]="applicant.passoutYear" name="pYear">                                                       
+                                                </form>        
+                                </div>
+                                        <div class="form-group col-md-4 col-sm-6">
+                                        <label class="control-label">History of arrears<font color="red">*</font></label>
+                                        <form [formGroup]="fresherGroup">
+                                                        <input type="number" min="0" class="form-control form-control-line" formControlName="arrears" placeholder="History of arrears" [(ngModel)]="applicant.historyOfArrears" name="arrears">                                                        
+                                        </form>        
+                                </div>
+                                        <div class="form-group col-md-4 col-sm-6">
+                                        <label class="control-label">Percentage Of Marks<font color="red">*</font></label>
+                                        <form [formGroup]="fresherGroup">
+                                                        <input type="number" min="0" class="form-control form-control-line" formControlName="mark" placeholder="Percentage Of Marks" [(ngModel)]="applicant.marks" name="marks">                                                       
+                                        </form>        
+                                </div>
+                                        </div>           
+                                </div>
+
+                                <div class="modal-header" *ngIf="applicant.expType=='Experienced'">  
+                                        <h4 class="modal-title"><span class="text"><b>Previous Company Details</b></span></h4>
+                                        <span aria-hidden="true">&times;</span>
+                                        </div>    
+                                        <div class="modal-body" *ngIf="applicant.expType=='Experienced'">
+                                        <div class="row">                           
+                                                <div class="form-group col-md-4 col-sm-6">
+                                                <label class="control-label">Previous Company<font color="red">*</font></label>
+                                                <form [formGroup]="experiencGroup">        
+                                                <input type="text" formControlName="currCompany" class="form-control form-control-line" placeholder="Previous Company" [(ngModel)]="applicant.currCompany" name="empName">                                                              
+                                                </form>
+                                        </div> 
+                                                <div class="form-group col-md-4 col-sm-6">
+                                                <label class="control-label">Previous Designation<font color="red">*</font></label>
+                                                <form [formGroup]="experiencGroup">         
+                                                <input type="text" formControlName="designation" class="form-control form-control-line" placeholder="Previous Designation" [(ngModel)]="applicant.currDesignation" name="empName">                                                               
+                                                </form> 
+                                        </div>
+                                                <div class="form-group col-md-4 col-sm-6">
+                                                <label class="control-label">Previous Experience (Year)<font color="red">*</font></label>
+                                                <form [formGroup]="experiencGroup">
+                                                <input type="number" min="0" formControlName="currExperience" class="form-control form-control-line" placeholder="Previous Experience" [(ngModel)]="applicant.currExperience" name="cExperience">                                                               
+                                                </form>
+                                        </div>
+                                                <div class="form-group col-md-4 col-sm-6">
+                                                <label class="control-label">Previous Salary (PM)<font color="red">*</font></label>
+                                                <form [formGroup]="experiencGroup">
+                                                <input type="number" min="0" formControlName="currSalary" class="form-control form-control-line" placeholder="Previous Salary" [(ngModel)]="applicant.currSalary" name="cSalary">
+                                                </form>          
+                                        </div>
+                                                </div>           
+                                        </div>
+                                             
+                                        
+                                            <div class="form-group col-md-8 col-sm-8" [ngClass]="{'has-danger': cLetter.invalid && (cLetter.dirty || cLetter.touched)}">
+                                                <label class="control-label">Cover Letter<font color="red">*</font></label>
+                                                <form [formGroup]="myGroup">
+                                                                <textarea rows="5" style="widows: 150px;" type="text" class="form-control form-control-line" placeholder="Cover Letter" required minlength="1" [(ngModel)]="applicant.coverLetterNum"
+                                                                 formControlName="cLetter" name="cLetter"></textarea>
+                                                                <div *ngIf="cLetter.invalid && (cLetter.dirty || cLetter.touched)">
+                                                                        <small class="form-control-feedback" *ngIf="cLetter.errors.required">Cover Letter is required.</small>
+                                                                </div>                                        
+                                                         </form>
+                                        </div>
+
+                                
+                                <div class="row">
+                                        <div class="form-group col-md-8 col-sm-8">
+                                                <div class="col-7 text-right">
+                                                    <label> Please Upload your resume.</label>
+                                                </div>
+                                                <div class="col-6 text-right">
+                                                    <file-upload [fileDetail]="'RESUME-FROM-WEBSITE'" (change)="uploadResume($event,'RESUME-FROM-WEBSITE')"></file-upload>
+                                                    <a href="javascript:void(0)" *ngIf="applicant.resumeDocId!=null" (click)="download(applicant.resumeDocId,'');">
+                                                        <font color="Green">Download</font>
+                                                </a>
+                                                <flag-alert [message]="docErrorMsg"></flag-alert> 
+                                                </div>                                                                                               																	
+                                            </div>	
+                            </div>
+                        
+                        <div class="modal-footer align-self-center">       
+                                        <small class="form-control-feedback" *ngIf="applicant.id!=null"><font color="red">You have Already Applied for this Job Request</font></small>                                 
+                                <div *ngIf="applicant.id==null && applicant.expType=='Fresher'" class="form-group">
+                            <button type="submit" class="btn btn-info waves-effect waves-light m-t-10" [disabled]="!myGroup.valid||!fresherGroup.valid&&!experiencGroup.valid" (click)="create()">Submit</button>
+                                </div>
+                                <div *ngIf="applicant.id==null && applicant.expType=='Experienced'" class="form-group">
+                                <button type="submit" class="btn btn-info waves-effect waves-light m-t-10" [disabled]="!myGroup.valid || !fresherGroup.valid || !experiencGroup.valid" (click)="create()">Submit</button>
+                                </div>
+
+                                <div *ngIf="applicant.id!=null&&applicant.isValidate!='Y'" class="form-group">
+                                        <button type="submit" class="btn btn-warning waves-effect waves-light m-t-10" [disabled]="!myGroup.valid||!fresherGroup.valid&&!experiencGroup.valid" (click)="updateApplicant()">Update</button>
+                                </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #createApp let-c="close">
+                            <div class="modal-header">
+                                <h4 class="modal-title"><span class="text"><b>{{vacancyRequest.vrCode}} &nbsp;{{vacancyRequest.summary}}</b></span></h4>
+                                <button type="button" class="close" aria-label="Close" (click)="c()">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                    <div class="row">                                           
+                                            <div class="form-group col-3">
+                                                <label><font color="blue">Designation</font></label><br/>
+                                                <span class="text">{{jobDesc.designation}}</span>
+                                            </div>
+                                            <div class="form-group col-3">
+                                                <label><font color="blue">Years Of Experience</font></label><br/>
+                                                <span class="text">{{vacancyRequest.yearsOfExp}}</span>
+                                           </div>
+                                            <div class="form-group col-3">
+                                                <label><font color="blue">Location</font></label><br/>
+                                                <span class="text">{{vacancyRequest.location}}</span>
+                                            </div>
+                                            <div class="form-group col-3">
+                                                <label><font color="blue">Salary</font></label><br/>
+                                                <span class="text">{{vacancyRequest.salary}}</span>
+                                            </div>	                  																
+                                        </div>		
+                                        <div class="row">
+                                                <div class="form-group col-6">
+                                                        <label><font color="blue">Roles</font></label><br/>
+                                                        <span class="text">{{jobDesc.role}}</span>
+                                                </div>
+                                                
+                                                <div class="form-group col-6">
+                                                        <label><font color="blue">Responsibility</font></label><br/>
+                                                        <span class="text">{{jobDesc.responsibility}}</span>
+                                                </div>
+                                        </div>	
+                                            
+                                        <div class="row">
+                                                <div class="form-group col-6">
+                                                        <label><font color="blue">Qualification</font></label><br/>
+                                                        <span class="text">{{jobDesc.qualification}}</span>
+                                                </div>
+                                                <div class="form-group col-6">
+                                                        <label><font color="blue">Experience</font></label><br/>
+                                                        <span class="text">{{jobDesc.experience}}</span>
+                                                </div>
+                                        </div>
+
+                                       
+
+                                        <div class="row">
+                                                <div class="form-group col-6">
+                                                        <label>Functionality Skills:</label><br/>
+                                                        <table>
+                                                                <tbody>
+                                                                        <tr *ngFor="let item of getFunctionalSkills; let i=index">
+                                                                                <td>{{item.name}}</td>
+                                                                               
+                                                                        </tr>
+                                                                </tbody>
+                                                        </table>                        </div>
+                                                <div class="form-group col-6">
+                                                        <label>Behavioural Skills:</label><br/>
+                                                        <table>
+                                                                <tbody>
+                                                                        <tr *ngFor="let item of getBehavioralSkills; let i=index">
+                                                                                <td>{{item.name}}</td>
+                                                                                
+                                                                        </tr>
+                                                                </tbody>
+                                                        </table>
+                                                 </div>
+                                        </div>
+                                   
+                            </div>
+                            <div class="modal-footer align-self-center">
+                                <button type="button" class="btn btn-info" (click)="application()">Apply</button>
+                                <button type="button" class="btn btn-outline-dark" (click)="back()">Back</button>
+                            </div>
+                        </ng-template>
+
+
+                    <style>
+                    .certificate-band{
+	background:url('../../../../../assets/img/job.png')  no-repeat;
+	background-size:30px 35px;
+}
+                    </style>

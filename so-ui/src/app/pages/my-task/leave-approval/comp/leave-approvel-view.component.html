@@ -1,0 +1,138 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 *ngIf="binding=='true'" class="text-themecolor">N1 Leave Approval View</h4>
+		<h4 *ngIf="binding=='false'" class="text-themecolor">N2 Leave Approval View</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item active">Leave Approval</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+
+<div class="row m-b-20">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+					<div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+                            <label ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                              <input ngbButton type="radio" (click)="changeManager('true')"> Pending 
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                              <input ngbButton type="radio" (click)="changeManager('false')"> Complete
+                            </label>
+                          </div>
+				
+				<div *ngIf="binding=='true'" class="table-responsive m-t-15">
+					<table class="table-sm table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th rowspan=2 class="text-center">#</th>
+								<th rowspan=2 class="text-center">Leave Code</th>
+								<th rowspan=2 class="text-center">Reportee</th>
+								<th rowspan=2 class="text-center">Status</th>
+								<!-- <th rowspan=2 class="text-center">Reportee</th> -->
+								<th rowspan=2 class="text-center">Leave Type</th>
+								<th colspan=3 class="text-center">From</th>
+								<th colspan=3 class="text-center">To</th>
+								<th rowspan=2 class="text-center"># of Days</th>
+								<th rowspan=2 class="text-center">Action</th>
+							</tr>
+							<tr>
+								<th class="text-center">Date</th>
+								<th class="text-center">FN</th>
+								<th class="text-center">AN</th>
+								<th class="text-center">Date</th>
+								<th class="text-center">FN</th>
+								<th class="text-center">AN</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let h of active; let i = index">
+								<td>{{(i+1)}}</td>
+								<td>{{h.leaveCode}}</td>
+								<td>{{h.empFname}} &nbsp;{{h.empLname}}</td>
+								<td><span class="label label-{{statuses[h.leaveStatus]}}">{{h.leaveStatus}}</span></td>
+								<!-- <td>{{h.n1EmpFname}}&nbsp;{{h.n1EmpLname}}</td> -->
+								<td>{{h.leaveTypeCode}}</td>
+								<td>{{h.startDt | date : 'dd/MM/yyyy'}}</td>
+								<td class="text-center">
+									<i *ngIf="h.startSession == 'FN'" class="fa fa-check text-success"></i>
+									<i *ngIf="h.startSession != 'FN'" class="fa fa-close text-danger"></i>
+								</td>
+								<td class="text-center"><i class="fa fa-check text-success"></i></td>
+								<td>{{h.endDt | date : 'dd/MM/yyyy'}}</td>
+								<td class="text-center"><i class="fa fa-check text-success"></i></td>
+								<td class="text-center">
+									<i *ngIf="h.endSession == 'AN'" class="fa fa-check text-success"></i>
+									<i *ngIf="h.endSession != 'AN'" class="fa fa-close text-danger"></i>
+								</td>
+								<td>{{ h.startDt | dtdiff: h.endDt:h.startSession: h.endSession }}</td>								
+								<td class="text-nowrap">
+                                    <a href="javascript:void(0)"  (click)="navigateToDetailPage(h.id)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-eye text-info m-r-10"></i> </a>
+                                </td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div *ngIf="binding=='false'" class="table-responsive m-t-15">
+						<table class="table-sm table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th rowspan=2 class="text-center">#</th>
+									<th rowspan=2 class="text-center">Leave Code</th>
+									<th rowspan=2 class="text-center">Reportee</th>
+									<th rowspan=2 class="text-center">Status</th>
+									<!-- <th rowspan=2 class="text-center">Reportee</th> -->
+									<th rowspan=2 class="text-center">Leave Type</th>
+									<th colspan=3 class="text-center">From</th>
+									<th colspan=3 class="text-center">To</th>
+									<th rowspan=2 class="text-center"># of Days</th>
+								</tr>
+								<tr>
+									<th class="text-center">Date</th>
+									<th class="text-center">FN</th>
+									<th class="text-center">AN</th>
+									<th class="text-center">Date</th>
+									<th class="text-center">FN</th>
+									<th class="text-center">AN</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let h of inactive; let i = index">
+									<td>{{(i+1)}}</td>
+									<td>{{h.leaveCode}}</td>
+									<td>{{h.empFname}} &nbsp;{{h.empLname}}</td>
+									<td><span class="label label-{{statuses[h.leaveStatus]}}">{{h.leaveStatus}}</span></td>
+									<!-- <td>{{h.n1EmpFname}}&nbsp;{{h.n1EmpLname}}</td> -->
+									<td>{{h.leaveTypeCode}}</td>
+									<td>{{h.startDt | date : 'dd/MM/yyyy'}}</td>
+									<td class="text-center">
+										<i *ngIf="h.startSession == 'FN'" class="fa fa-check text-success"></i>
+										<i *ngIf="h.startSession != 'FN'" class="fa fa-close text-danger"></i>
+									</td>
+									<td class="text-center"><i class="fa fa-check text-success"></i></td>
+									<td>{{h.endDt | date : 'dd/MM/yyyy'}}</td>
+									<td class="text-center"><i class="fa fa-check text-success"></i></td>
+									<td class="text-center">
+										<i *ngIf="h.endSession == 'AN'" class="fa fa-check text-success"></i>
+										<i *ngIf="h.endSession != 'AN'" class="fa fa-close text-danger"></i>
+									</td>
+									<td>{{ h.startDt | dtdiff: h.endDt:h.startSession: h.endSession }}</td>									
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				
+				
+			</div>
+        </div>
+	</div>
+</div>
+

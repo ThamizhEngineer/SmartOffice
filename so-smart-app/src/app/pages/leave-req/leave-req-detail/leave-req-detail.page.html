@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+	<ion-buttons slot="start">
+		<ion-back-button defaultHref="/home/leave-req/list" routerDirection="forward"></ion-back-button>
+	  </ion-buttons>
+    <ion-title>Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+	  <ion-item>
+		<ion-label>
+			<h2>Leave Code</h2>
+			<p>{{data?.id}}</p>
+		</ion-label>
+	  </ion-item>
+	  <ion-item>
+		<ion-label>
+			<h2>Status</h2>
+			<p><ion-chip outline [color]="data?.statusColor">
+				  <ion-label [color]="data?.statusColor">{{data?.leaveStatus}}</ion-label>
+				</ion-chip></p>
+		</ion-label>
+	  </ion-item>
+	  <ion-item>
+		<ion-label>
+			<h2>Start Date</h2>
+			<p>{{data?.startDt | date: 'dd/MM/yyyy'}}</p>
+		</ion-label>
+	  </ion-item>
+	  <ion-item>
+		<ion-label>
+			<h2>End Date</h2>
+			<p>{{data?.endDt}}</p>
+		</ion-label>
+	  </ion-item><ion-item>
+		<ion-label>
+			<h2>Leave Type</h2>
+			<p>{{data?.leaveTypeName}}</p>
+		</ion-label>
+	  </ion-item>
+	  <ion-item>
+		<ion-label>
+			<h2>Reason</h2>
+			<p>{{data?.reason}}</p>
+		</ion-label>
+	  </ion-item>
+	</ion-list>
+</ion-content>

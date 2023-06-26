@@ -1,0 +1,122 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Expense Claim List</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Expense Claim List </li>
+                </ol>
+                <a href="javascript:void(0)" [routerLink]="['/my-space/expense-claim/new']">
+                    <button type="button" class="btn btn-info d-none d-lg-block m-l-15">
+                    <i class="fa fa-plus-circle"></i>  New Claim</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+ <div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                    <div  class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+                            <label ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                                    <input ngbButton type="radio" (click)="changeView('true')"> Pending
+                                  </label>
+                                  <label ngbButtonLabel class="btn-primary">
+                                    <input ngbButton type="radio" (click)="changeView('false')"> Complete
+                                  </label>
+                          </div>
+
+                <div *ngIf="binding=='true'" class="table-responsive m-t-40">
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th data-sort-initial="true" data-toggle="true">#</th>
+                                <th data-sort-initial="true" data-toggle="true">Expense Code</th>
+                                <th data-sort-initial="true" data-toggle="true">Code</th>
+                                <th data-sort-initial="true" data-toggle="true">Date</th>
+                                <th data-sort-initial="true" data-toggle="true">Amount</th>
+                                
+                                <th data-sort-initial="true" data-toggle="true">Status</th>
+                                <th data-sort-initial="true" data-toggle="true">Remarks</th>
+                                <th data-sort-initial="true" data-toggle="true">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let claim of active | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i=index">
+                            <tr>
+                                <td>{{i+1}}</td>
+                                <td>{{claim.expenseClaimCode}}</td>
+                                <td *ngIf="claim.isJobBased=='Y'">{{claim.jobCode}}</td>
+                                <td *ngIf="claim.isJobBased=='N'">{{claim.costCenterCode}}</td>
+                                <td>{{claim.appliedDt | date:'dd/MM/yyyy'}}</td>
+                                <td>{{claim.expenseClaimAmount}}</td>
+                                <td><span class="label label-{{statuses[claim.expenseClaimStatus]}}">{{claim.expenseClaimStatus}}</span></td>
+                                <td>{{claim.empRemarks}}</td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)"  (click)="navigateToDetailPage(claim.id)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-eye text-info m-r-10"></i> </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination 
+						[(page)]="page"
+						[pageSize]="pageSize"
+						[collectionSize]="active.length"></ngb-pagination>
+						<pre>Current page: {{page}}</pre>
+                </div>
+
+                <!-- InActive List -->
+
+                <div *ngIf="binding=='false'" class="table-responsive m-t-40">
+                        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th data-sort-initial="true" data-toggle="true">#</th>
+                                    <th data-sort-initial="true" data-toggle="true">Expense Code</th>
+                                    <th data-sort-initial="true" data-toggle="true">Code</th>
+                                    <th data-sort-initial="true" data-toggle="true">Date</th>
+                                    <th data-sort-initial="true" data-toggle="true">Amount</th>
+                                    
+                                    <th data-sort-initial="true" data-toggle="true">Status</th>
+                                    <th data-sort-initial="true" data-toggle="true">Remarks</th>
+                                    <th data-sort-initial="true" data-toggle="true">Options</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let claim of inactive | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i=index">
+                                <tr>
+                                    <td>{{i+1}}</td>
+                                    <td>{{claim.expenseClaimCode}}</td>
+                                    <td *ngIf="claim.isJobBased=='Y'">{{claim.jobCode}}</td>
+                                    <td *ngIf="claim.isJobBased=='N'">{{claim.costCenterCode}}</td>
+                                    <td>{{claim.appliedDt | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{claim.expenseClaimAmount}}</td>
+                                    <td><span class="label label-{{statuses[claim.expenseClaimStatus]}}">{{claim.expenseClaimStatus}}</span></td>
+                                    <td>{{claim.empRemarks}}</td>
+                                    <td class="text-nowrap">
+                                        <a href="javascript:void(0)"  (click)="navigateToDetailPage(claim.id)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-eye text-info m-r-10"></i> </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ngb-pagination 
+						[(page)]="page"
+						[pageSize]="pageSize"
+						[collectionSize]="inactive.length"></ngb-pagination>
+						<pre>Current page: {{page}}</pre>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div> 
+

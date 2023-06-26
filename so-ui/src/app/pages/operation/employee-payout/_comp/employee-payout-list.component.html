@@ -1,0 +1,79 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Employee Payouts</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a [routerLink]="['/index']">Home</a></li>
+				<li class="breadcrumb-item active">Employee Payouts</li>
+		
+			</ol>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12 card card-body form-body">
+		<flag-alert [message]="saveMsg"></flag-alert>  
+		<div class="row">
+			<div class="col-3 form-group">
+				<label>Employee Name/Id/Code</label>
+				<autocomplete  [placeholder]="'Employee Name/Id/Code'"   [value]="searchEmployeeId" (empDetail)="selEmp($event)"> </autocomplete>								
+				<!-- <input class="form-control" [(ngModel)]="searchEmployeeId" [ngbTypeahead]="empAC" [resultTemplate]="rt1" [inputFormatter]="formatter"  placeholder="Employee Name/Id/Code" (ngModelChange)="selEmp($event);"/>
+				<ng-template #rt1 let-r="result" let-t="term">
+				  {{ r.empName}}
+				</ng-template> -->
+			</div>
+			<div class="col-3 form-group">
+				<label>Salary Month</label>
+				<month-picker  [(config)]="mpFromConfig" [(model)]="mpSalModel" (mpOnModelChange)="this.mpOnModelChange($event)"></month-picker>
+				
+			</div>
+			<div class="col-2 form-actions" align="center">
+				<label>&nbsp;</label>
+				<button type="button" (click)="search()" class="btn btn-info d-none d-lg-block m-l-15"> Search</button>
+		    </div>
+	  
+	
+	</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12 card card-body">
+		<div class="table-responsive">
+			<table class="table table-bordered table-sm color-bordered-table theme-bordered-table">
+				<thead>
+					<tr>
+						<th>Employee Code</th>
+						<th>Employee Name</th>
+						<th>Month</th>
+						<th>Year</th>
+						<th>Net Pay</th>                     
+						<th>Action</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let employee of rows | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;">
+						<td>{{employee.employeeCode}}</td>
+						<td>{{employee.employeeName}}</td>
+						<td>{{employee.dSalaryForMonth}}</td>
+						<td>{{employee.dSalaryForYear}}</td>
+						<td>{{employee.netPayAmt}}</td>                    
+						<td class="text-nowrap">
+							<a href="javascript:void(0)" (click)="navigateToDetailPage(employee.id)"> <i class="fa fa-search" ></i> </a>
+							<a href="javascript:void(0)" (click)="sendEmail(employee)"> <i class="fa fa-envelope" ></i> </a>
+						</td>						
+					</tr>
+				 
+				</tbody>
+			</table>
+		</div>
+		<ngb-pagination 
+		[(page)]="page"
+		[pageSize]="pageSize"
+		[collectionSize]="rows?.length"></ngb-pagination>
+		<pre>Current page: {{page}}</pre>
+	</div>  
+</div>

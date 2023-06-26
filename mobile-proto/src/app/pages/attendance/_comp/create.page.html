@@ -1,0 +1,55 @@
+<ion-header>
+    <ion-toolbar>
+      <app-common-header title="Attendance"></app-common-header>
+    </ion-toolbar> 
+  </ion-header>
+
+
+<ion-header>
+    <ion-row>
+      <ion-col text-start padding-top>
+        <ion-title>Attendance</ion-title>
+      </ion-col>
+      <ion-col text-end>
+        <ion-button (click)="loadMap()" shape="round" fill="outline">
+          <ion-icon slot="start" name="locate"></ion-icon>
+          Where I Am
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <ion-item>
+      <ion-label>
+        <h2>Address</h2>
+      </ion-label>
+      <ion-label>
+      <p>{{authUser?.subLocality}},{{authUser?.city}}</p><br />
+      <p>{{authUser?.state}},{{authUser?.countryName}} {{authUser?.postalCode}}</p>
+    </ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col>Check In Time</ion-col>
+        <!-- <ion-col><ion-toggle color="success"  [(ngModel)]="checkInToggle" (ionChange)="checkInLocation(checkInToggle)"></ion-toggle></ion-col> -->
+        <ion-col><ion-button size="small" [disabled]="disableCheckInButton" (click)="checkInLocation()" color="success">Check-In</ion-button></ion-col>
+        <ion-col *ngIf="checkInTime ">{{checkInTime | date:'dd/MM/yyyy, hh:mm a'}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>Check out Time</ion-col>
+        <!-- <ion-col>
+        <ion-toggle color="danger" [(ngModel)]="checkOutToggle"
+        (ionChange)="checkOutInit(checkOutToggle)"></ion-toggle>
+        </ion-col> -->
+        <ion-col><ion-button size="small" [disabled] ="disablleCheckOutButton" (click)="checkOutInit()" color="danger">Check-Out</ion-button></ion-col>
+        <ion-col *ngIf="checkOutTime">{{checkOutTime | date:'dd/MM/yyyy, hh:mm a'}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>Total Duration</ion-col>
+        <ion-col>{{stopwatch}}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>

@@ -1,0 +1,462 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 *ngIf="invoice.id==0" class="text-themecolor">Invoice Create Screen</h4>
+        <h4 *ngIf="invoice.id!=0" class="text-themecolor">Invoice Edit Screen</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Home</li>
+                <li *ngIf="invoice.id==0" class="breadcrumb-item active">Invoice Create Screen</li>
+                <li *ngIf="invoice.id!=0" class="breadcrumb-item active">Invoice Edit Screen</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 card card-body">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2 form-group">
+                <label class="control-label">Client Name
+                    <font color="red">*</font>
+                </label>
+                <font size="5">
+                    <strong>
+                        <!-- <input type="text" class="form-control" [(ngModel)]="invoice.buyerName" > -->
+                        <input style="border: 1px solid grey;" id="typeahead-focus" type="text" [value]="invoice.buyerName" class="form-control"
+                            [inputFormatter]="client_formatter" [resultTemplate]="rt1"
+                            (selectItem)="selectClient($event)" placeholder="Client Name" [ngbTypeahead]="clientAC"  [editable]='false' ngbtypeaheadpopup>
+                        <ng-template #rt1 let-r="result" let-t="term">
+
+                            {{r.clientName}}
+                        </ng-template>
+
+                    </strong>
+                </font>
+            </div>
+            <div class="col-md-2 form-group">
+                <label class="control-label">Phone
+                    <font color="red">*</font>
+                </label>
+                <font size="5">
+                    <strong>
+                        <input type="text" class="form-control" [(ngModel)]="invoice.buyerContact"
+                            placeholder="Phone Number">
+                    </strong>
+                </font>
+            </div>
+            <div class="col-md-2 form-group">
+                <label class="control-label">Invoice Ref Number
+                    <font color="red">*</font>
+                </label>
+                <font size="5">
+                    <strong>
+                        <input type="text" class="form-control" [(ngModel)]="invoice.refInvoiceNo"
+                            placeholder="Invoice Ref Number">
+                    </strong>
+                </font>
+            </div>
+            <div class="col-md-2 form-group">
+                <label class="control-label">Invoice Code
+                    <font color="red">*</font>
+                </label>
+                <font size="5">
+                    <strong>
+                        <input type="text" class="form-control" [(ngModel)]="invoice.invoiceCode"
+                            placeholder="Invoice Code">
+                    </strong>
+                </font>
+            </div>
+            <div class="col-md-2 form-group">
+                <label class="control-label">Sale Order
+                    <font color="red">*</font>
+                </label>
+                <font size="5">
+                    <strong>
+                        <input style="border: 1px solid grey;" id="typeahead-focus" type="text" [value]="invoice.saleOrderCode" class="form-control"
+                         [inputFormatter]="saleOrder_formatter" [resultTemplate]="saleR1"
+                            (selectItem)="selectSaleOrder($event)" placeholder="Sale Order" [ngbTypeahead]="saleOrderAC"  [editable]='false' ngbtypeaheadpopup>
+                        <ng-template #saleR1 let-r="result" let-t="term">
+                            {{r.saleOrderCode}}
+                        </ng-template>
+
+                    </strong>
+                </font>
+            </div>
+            <div class="col-md-2 form-group">
+                <label class="control-label">Order Date
+                    <font color="red">*</font>
+                </label>
+                <font size="5">
+                    <strong>
+                        <input type="date" class="form-control" [(ngModel)]="invoice.invoiceDate"
+                            placeholder="Invoice Date">
+                    </strong>
+                </font>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4 form-group"
+                [ngClass]="{'has-danger': poaddrs.invalid && (poaddrs.dirty || poaddrs.touched)}">
+
+                <label class="control-label">Billing Address 
+                    <font color="red">*</font>
+                </label>
+
+                <textarea class="form-control" placeholder="Billing Address" required #poaddrs="ngModel"
+                    [(ngModel)]="invoice.buyerAddress"></textarea>
+                <div *ngIf="poaddrs.invalid && (poaddrs.dirty || poaddrs.touched)">
+                    <small class="form-control-feedback" *ngIf="poaddrs?.errors.required">Billing Address is
+                        required.</small>
+                </div>
+                <br>
+
+
+            </div>
+            <div class="col-md-4 form-group"
+                [ngClass]="{'has-danger': poemail.invalid && (poemail.dirty || poemail.touched)}">
+                <label class="control-label">Email
+                    <font color="red">*</font>
+                </label>
+                <font size="5">
+                    <strong>
+                        <input type="email" class="form-control" required
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" #poemail="ngModel"
+                            [(ngModel)]="invoice.buyerEmail" placeholder="Email Id">
+
+                    </strong>
+                </font>
+                <div *ngIf="poemail.invalid && (poemail.dirty || poemail.touched)">
+                    <small class="form-control-feedback" *ngIf="poemail?.errors.pattern">please enter valid
+                        email.</small>
+                </div>
+            </div>
+            <div class="col-md-4 form-group"
+                [ngClass]="{'has-danger': bremark.invalid && (bremark.dirty || bremark.touched)}">
+                <label class="control-label">Billing Remarks/Notes
+                    <font color="red">*</font>
+                </label>
+                <font size="5">
+                    <strong>
+                        <textarea class="form-control" placeholder="Billing Remarks/Notes" required
+                            pattern="[a-zA-Z][a-zA-Z ]+" #bremark="ngModel"
+                            [(ngModel)]="invoice.deliveryNote"></textarea>
+                    </strong>
+                </font>
+                <div *ngIf="bremark.invalid && (bremark.dirty || bremark.touched)">
+                    <small class="form-control-feedback" *ngIf="bremark?.errors.required">Data is Required.</small>
+                    <small class="form-control-feedback" *ngIf="bremark?.errors.pattern">Billing Remarks must be in
+                        alphabetic.</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4 form-group" [ngClass]="{'has-danger': vono.invalid && (vono.dirty || vono.touched)}">
+                <label class="control-label">client Ref./Order No.
+                    <font color="red">*</font>
+                </label>
+                <input type="text" class="form-control" required #vono="ngModel" [(ngModel)]="invoice.buyerOrderNo"
+                    placeholder="Ref No">
+                <br>
+                <div *ngIf="vono.invalid && (vono.dirty || vono.touched)">
+                    <small class="form-control-feedback" *ngIf="vono?.errors.required">client Ref./Order No is
+                        Required.</small>
+                </div>
+            </div>
+            <div class="col-md-4 form-group">
+                <label class="control-label">Other Reference(s)</label>
+
+                <input type="text" class="form-control" [(ngModel)]="invoice.otherReference"
+                    placeholder="Other Reference">
+
+            </div>
+            <div class="col-md-4 form-group">
+                <label class="control-label">Despatch through
+                    <font color="red">*</font>
+                </label>
+                <input type="text" class="form-control" [(ngModel)]="invoice.despatchedThrough"
+                    placeholder="Despatch through">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label class="control-label">Destination
+                    <font color="red">*</font>
+                </label>
+                <input type="text" class="form-control" [(ngModel)]="invoice.destination" placeholder="Destination">
+                <br>
+            </div>
+            <div class="col-md-4 form-group"
+                [ngClass]="{'has-danger': cdelivery.invalid && (cdelivery.dirty || cdelivery.touched)}">
+                <label class="control-label">Commercial Delivery
+                    <font color="red">*</font>
+                </label>
+
+                <input type="text" class="form-control" required pattern="[a-zA-Z][a-zA-Z ]+" #cdelivery="ngModel"
+                    [(ngModel)]="invoice.termsOfDelivery" placeholder="Commercial Delivery">
+                <div *ngIf="cdelivery.invalid && (cdelivery.dirty || cdelivery.touched)">
+                    <small class="form-control-feedback" *ngIf="cdelivery.errors.pattern">Commercial Delivery must be in
+                        alphabetic.</small>
+                </div>
+            </div>
+            <div class="col-md-4 form-group">
+                <label class="control-label">Exchange Type
+                    <font color="red">*</font>
+                </label>
+                <select class="form-control" (click)="exchangeRate()" [(ngModel)]="invoice.transactionCurrId">
+                    <option *ngFor="let item of exchangeType" [value]="item.id">{{item.currSymbol}}-{{item.currCode}}</option>                  
+                </select>
+            </div>
+
+            <div class="col-md-4 form-group">
+                <label class="control-label">Exchange Rate
+                    <font color="red">*</font>
+                </label>
+                <input type="number" class="form-control" [(ngModel)]="invoice.exchangeRate" placeholder="Exchange Rate">
+
+            </div>
+
+            <div class="col-md-4 form-group">
+                <label class="control-label">Terms Of Payment
+                    <font color="red">*</font>
+                </label>
+                <select class="form-control" (click)="paymentTermsCal()" [(ngModel)]="invoice.termsOfPayment">
+                    <option *ngFor="let item of paymentTerms" [value]="item.ptCode">{{item.ptCode}}</option>                  
+                </select>
+            </div>
+            <div  class="col-md-4 form-group">
+                <strong class="col-md-4">Handled GST</strong> <br><label class="toggle "><input type="checkbox" class="col-md-8" (click)="checkCompanyGst()" [(ngModel)]="handledGst" /><span class="handle handle"></span></label>
+            </div>
+        </div>
+        <br>
+        <br>
+
+        <div class="table-responsive">
+            <table class="table  table-bordered">
+                <thead>
+                    <tr>
+                        <th  style="text-align:center">Sl.No</th>
+                        <th  style="text-align:center">Product/Service</th>
+                        <th  style="text-align:center">HSN/SAC</th>
+                        <th  style="text-align:center">Description</th>
+                        <th  style="text-align:center">Cost</th>
+                        <th  style="text-align:center">Discount</th>
+                        <th *ngIf="invoice.buyerHasGst!='N'"   style="text-align:center">Tax</th>
+                        <th  style="text-align:center">Subtotal</th>
+                        <th  style="text-align:center">Action</th>
+                    </tr>
+                  
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let row of invoice.invoiceLines;let i=index;">
+                        <td>{{i+1}}</td>
+                        <td>
+                            <select class="form-control" (change)="calculatePoLineSubTotal(row)" [(ngModel)]="row.itemType">
+                                <option value="service">Service</option>
+                                <option value="goods">Goods</option>
+                            </select>
+                            <br>
+                            <!-- <input type="text" class="form-control" (change)="calculatePoLineSubTotal(row)" [(ngModel)]="row.itemName"> -->
+                            <input [disabled]="invoice.clientId==null" style="border: 1px solid grey;" id="typeahead-focus" type="text" [value]="row.itemName" class="form-control"
+                            [inputFormatter]="itemMaster_formatter" [resultTemplate]="rt1"
+                            (selectItem)="selectItemMaster($event,row)" [ngbTypeahead]="itemMasterAC" [editable]='false' ngbtypeaheadpopup>
+                        <ng-template #rt1 let-r="result" let-t="term">
+                            {{r.itemName}}
+                        </ng-template>
+                           
+                        </td>
+                        <td>{{row.itemHsnOrSac}}</td>
+                        <td>
+                            <div class="row vertical-align">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-10">
+                                    <textarea type="text" rows="4" class="form-control" [(ngModel)]="row.itemDescription"
+                                        placeholder="Notes"></textarea>
+                                </div>
+                            </div>
+                            
+                          
+                        </td>
+                        <td>
+                            <div class="row vertical-align">
+                                <div class="col-sm-1"></div>
+
+                                <div class="col-sm-4">Qty</div>
+                                <div class="col-sm-6">
+                                    <input type="text" (change)="calculatePoLineSubTotal(row)" class="form-control" 
+                                        [(ngModel)]="row.itemQty">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row vertical-align">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-4">Amount</div>
+                                <div class="col-sm-6">
+                                       <input type="text" (change)="calculatePoLineSubTotal(row)" class="form-control"
+                                        [(ngModel)]="row.itemRate">
+                                </div>
+
+                            </div>
+                        </td>
+
+                        <td>
+
+                            <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+                                <label *ngIf="row.isDiscount=='Y'" ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                                    <input ngbButton type="radio" (click)="row.isDiscount='Y'"> Discount
+                                  </label>
+                                <label *ngIf="row.isDiscount=='N'" ngbButtonLabel class="btn btn-outline-info waves-effect waves-light">
+                                  <input ngbButton type="radio" (click)="row.isDiscount='Y'"> Discount
+                                </label>
+                                <label *ngIf="row.isDiscount=='Y'" ngbButtonLabel class="btn-outline-primary">
+                                  <input ngbButton type="radio" (click)="row.isDiscount='N'"> FIXED-AMOUNT
+                                </label>
+                                <label *ngIf="row.isDiscount=='N'" ngbButtonLabel class="btn-primary">
+                                    <input ngbButton type="radio" (click)="row.isDiscount='N'"> FIXED-AMOUNT
+                                </label>
+                                  </div>                            
+                            <br> <br>
+
+                            <div class="row vertical-align">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-7">
+                                    <input type="text" *ngIf="row.isDiscount=='Y'" class="form-control"
+                                        (change)="calculatePoLineSubTotal(row)" [(ngModel)]="row.discountPercentage">                                  
+                                </div>
+                            </div>                           
+                        </td>
+                        <td *ngIf="invoice.buyerHasGst!='N'">
+
+                            <div class="row vertical-align ">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-2">CGST</div>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" [(ngModel)]="row.cgst"
+                                        (change)="calculatePoLineSubTotal(row)" placeholder="%">
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" [value]="row.cgstTaxAmt | number" readonly
+                                        placeholder="CGST">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row vertical-align ">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-2">SGST</div>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" [(ngModel)]="row.sgst"
+                                        (change)="calculatePoLineSubTotal(row)" placeholder="%">
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" [value]="row.sgstTaxAmt | number" readonly
+                                        placeholder="SGST">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row vertical-align ">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-2">IGST</div>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" [(ngModel)]="row.igst"
+                                        (change)="calculatePoLineSubTotal(row)" placeholder="%">
+                                </div>
+
+                                <div class="col-sm-4">
+
+                                    <input type="text" class="form-control" [value]="row.igstTaxAmt | number" readonly
+                                        placeholder="IGST">
+                                </div>
+
+                            </div>
+
+
+                        </td>
+                        <td>{{invoice.transactionCurrSymbol}}  {{row.itemTotal | number}} </td>
+                        <td class="text-nowrap">
+                            <a href="javascript:void(0)" (click)="addRows()">
+                                <i class="fa fa-plus text-danger m-r-10"></i>
+                            </a>
+                            <a href="javascript:void(0)" *ngIf="invoice.invoiceLines.length > 1"
+                                (click)="delRow(i)">
+                                <i class="fa fa-close text-danger"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div *ngIf="invoice.buyerHasGst!='N'" class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+                    <b>Tax Breakup</b>
+                    <br> CGST: {{invoice.transactionCurrSymbol}}  {{invoice.cgstTaxAmt | number}}
+                    <br> SGST: {{invoice.transactionCurrSymbol}}  {{invoice.sgstTaxAmt | number}}
+                    <br> IGST: {{invoice.transactionCurrSymbol}}  {{invoice.igstTaxAmt | number}}
+                </div>
+            </div>
+
+            <div class="col-md-7">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th style="text-align:right">Discount:</th>
+                                <td align="right">- {{invoice.transactionCurrSymbol}} {{invoice.totalDiscountAmt | number}}</td>
+                                <td width="80px">&nbsp;</td>
+                            </tr>
+                            <tr *ngIf="invoice.buyerHasGst!='N'">
+                                <th style="text-align:right">Tax Amount:</th>
+                                <td align="right">{{invoice.transactionCurrSymbol}} {{invoice.totalTaxAmt | number}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align:right">Shipping:</th>
+                                <td align="right">
+                                    <input type="text" class="form-control" 
+                                        [(ngModel)]="invoice.shippingAmt" (change)="calculate()" placeholder="Shipping">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="text-align:right">Grand Total ({{invoice.transactionCurrSymbol}}):</th>
+                                <td align="right">{{invoice.transactionCurrSymbol}} {{invoice.finalPayableAmt | number}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align:right">Grand Total (INR):</th>
+                                <td align="right">Rs. {{invoice.invoiceWithoutExAmt | number}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      
+            <div class="modal-footer" *ngIf="invoice.id!=0">
+                <button type="button" (click)="updateInvoice()" class="btn btn-info d-none d-lg-block m-l-15"> Update Invoice</button>
+                <button type="button" class="btn btn-warning"
+                [routerLink]="['/client/invoice/view',invoice.id]">Back</button>
+            </div>
+            <div class="modal-footer" *ngIf="invoice.id==0">
+                <button type="button" (click)="createInvoice()" class="btn btn-info d-none d-lg-block m-l-15"> Create Invoice</button>
+            <button type="button" class="btn btn-warning"
+            [routerLink]="['/client/invoice']">Back</button>
+            </div>
+        
+    </div>
+</div>
+
+<style>
+    .vertical-align {
+        display: flex;
+        align-items: center;
+    }
+    .textAlign{
+        text-align: right;
+    }
+</style>

@@ -1,0 +1,43 @@
+<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+          <h4 class="text-themecolor">Notifications</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+          <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+              <li class="breadcrumb-item active">Notifications </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="table-responsive m-t-40">
+                <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                  <thead>
+                    <tr>
+                      <th data-sort-initial="true" data-toggle="true">#</th>
+                      <th data-sort-initial="true" data-toggle="true">Name</th>
+                      <th data-sort-initial="true" data-toggle="true">Code</th>
+                      <th data-sort-initial="true" data-toggle="true">Message</th>
+                      <th data-sort-initial="true" data-toggle="true">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let message of messages; let i=index">
+                    <tr>
+                      <td>{{i+1}}</td>
+                      <td>{{message.userName}}</td>
+                      <td>{{message.eventDesc}}</td>
+                      <td>{{message.notfnMessage}}</td>
+                      <td>{{message.notfnDt|date:'medium'}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

@@ -1,0 +1,198 @@
+[
+  {
+    "name": "Dashboard",
+    "state": "index",
+    "type": "link",
+    "icon": "icon-speedometer",
+    "roles": [1,2,3,4,5,6,7,9,63,66]
+  },
+  {
+    "name": "Visits",
+    "state": "visit",
+    "type": "sub",
+    "icon": "icon-location-pin",
+    "roles": [1],
+  
+    "children": [
+        {"state": "plan", "name": "Visit Plan", "type":"link", "roles": [1]},
+        {"state": "report", "name": "Visit Report", "type":"link", "roles": [1]},
+        {"state": "execution", "name": "Visit Execution", "type":"link", "roles": [1]},
+        {"state": "progress", "name": "Visit Progress", "type":"link", "roles": [1]},
+        {"state": "feedback", "name": "Visit Feedback", "type":"link", "roles": [1]}
+      ]
+  },
+  {
+    "name": "My Space",
+    "state": "my-space",
+    "type": "sub",
+    "icon": "icon-user",
+    "roles": [1,2,3,4,6,7,9,63,66],
+    
+    "children": [
+      {"state": "my-profile", "name": "My Profile", "type":"link", "roles": [1,2,3,4,6,9,63]},
+      {"state": "calendar", "name": "My Calendar", "type":"link", "roles": [1,2,3,4,6,7,9]},
+      {"state": "payslips", "name": "My Payslips", "type":"link", "roles": [1,2,3,4,6,9]},
+      {"state": "my-leave", "name": "My Leave", "type":"link", "roles": [1,2,3,4,9]},
+      {"state": "leave-approval", "name": "Leave Approvals", "type":"link", "roles": [1,2,4,9]},
+      {"state": "expense-claim", "name": "Expense Claim", "type":"link", "roles": [1,2,4]},
+      {"state": "my-tar-request", "name": "Travel Advance Request", "type":"link", "roles": [1,2,4]}
+    
+      ]
+  },
+  {
+    "name": "My Task",
+    "state": "my-task",
+    "type": "sub",
+    "icon": " icon-notebook",
+    "roles": [1,4,65,66],
+    
+    "children": [
+      {"state": "my-tar-n1", "name": "Travel Advance Request - Manager", "type":"link", "roles": [1,4]},
+      {"state": "my-tar-acc2-approve", "name": "Travel Advance Request - Account Manager", "type":"link", "roles": [1,65,66]},
+      {"state": "leave-approvel", "name": "Leave Approvel", "type":"link", "roles": [1,4]},
+      {"state": "n1-expense-approval", "name": "Manager Expense Approvel", "type":"link", "roles": [1,4]},
+      {"state": "acc-expense", "name": "Acc Manager Expense Approvel", "type":"link", "roles": [1,4,65,66]}
+      ]
+  },
+  {
+    "name": "Masters for Job Mgmt",
+    "state": "job",
+    "type": "sub",
+    "icon": "icon-wrench",
+    "roles": [1,2,4],
+  
+    "children": [
+        {"state":"job-type", "name": "Job Type Master", "type":"link", "roles": [2,4,1]},
+        {"state": "service-master", "name": "Service Master", "type":"link", "roles": [2,4,1]},
+        {"state": "service-bundle", "name": "Service Bundle", "type":"link", "roles": [2,4,1]},
+        {"state": "manufacturer", "name": "Manufacturer", "type":"link", "roles": [2,4,1]},
+        {"state": "goods-master", "name": "Goods Master", "type":"link", "roles": [2,4,1]},
+        {"state": "product-master", "name": "Product Master", "type":"link", "roles": [2,4,1]},
+        {"state": "profile-master", "name": "Profile Master", "type":"link","roles": [2,4,1]},
+        {"state": "office-master", "name": "Office Master", "type":"link","roles": [2,4,1]},
+        {"state": "user-group-master", "name": "User Group Master", "type":"link","roles": [2,4,1]},
+        {"state": "user-group-employee-mapping", "name": "User Group Employee Mapping", "type":"link","roles": [2,4,1]}
+       
+  
+      ]
+  },
+  {
+    "name": "Job Management",
+    "state": "job",
+    "type": "sub",
+    "icon": "icon-wrench",
+    "roles": [1,2,6],
+  
+    "children": [
+        {"state":"client-po", "name": "Client Purchase Orders", "type":"link", "roles": [2,1]},
+        {"state":"sale-order", "name": "Sale Order", "type":"link", "roles": [2,1]},
+        {"state":"project","name": "Project","type":"link","roles": [2,5,1]},
+        {"state":"job-plan", "name": "Job Plan", "type":"link", "roles": [2,1]},
+        {"state":"resource-scheduler","name":"Job Logistics","type":"link", "roles": [2,1,6]},
+        {"state":"track-jobs", "name": "Job Tracker", "type":"link", "roles": [1,2]},
+        {"state": "job-status", "name": "Job Status", "type":"link", "roles": [2,1]},
+        {"state": "job-report", "name": "Job Report", "type":"link", "roles": [2,1,6]},
+        {"state": "job-feedback", "name": "Job Feedback", "type":"link", "roles": [1,2,5,6]}
+      
+  
+      ]
+  },
+  {
+    "name": "Vendor Manageme.",
+    "state": "job",
+    "type": "sub",
+    "icon": "icon-user",
+    "roles": [1,2,5],
+    "children": [
+      {"state":"purchase-order", "name": "Vendor Purchase Order", "type":"link", "roles": [1,2,4,5]}
+    ]
+  },
+  {
+    "name": "Client Management",
+    "state": "client",
+    "type": "sub",
+    "icon": "icon-user",
+    "roles": [1,2,5],
+    "children": [
+      {"state": "client-profile", "name": "Client Profile", "type":"link",  "roles": [1,2,5]}
+    ]
+  },
+  {
+    "name": "Vendor",
+    "state": "vendor",
+    "type": "sub",
+    "icon": "icon-user",
+    "roles": [1,2,5],
+    "children": [
+      {"state": "vendor-profile", "name": "Vendor Profile", "type":"link", "roles": [1,2,5]}
+    ]
+  },
+  {
+    "name": "Organization Setup",
+    "state": "org-settings",
+    "type": "sub",
+    "icon": "icon-settings",
+    "roles": [1,4,6,9],
+  
+    "children": [
+      {"state": "fiscal-year", "name": "Fiscal Year", "type":"link", "roles": [6,1,4,9]},
+      {"state": "holidays", "name": "Declare Holidays", "type":"link", "roles": [6,1,4,9]},
+      {"state": "grades", "name": "Grades & Designations", "type":"link", "roles": [1,4,9]},
+      {"state": "leave-balance", "name": "Leave Balance", "type":"link", "roles": [6,1,4,9]},
+      {"state": "role-access", "name": "Role Access", "type":"link", "roles": [1,4]}
+      ]
+  },
+  {
+    "name": "CTC Setup",
+    "state": "ctc-settings",
+    "type": "sub",
+    "icon": "icon-briefcase",
+    "roles": [1,2,3,4],
+  
+    "children": [
+      {"state": "definition", "name": "Definition", "type":"link", "roles": [1,2,3,4]},
+      {"state": "compensation", "name": "Employee Compensation", "type":"link", "roles": [1,2,3,4]}
+      ]
+  },
+  {
+    "name": "Knowledge Assess.",
+    "state": "knowledge-assessment",
+    "type": "sub",
+    "icon": "icon-compass",
+    "roles": [1,2,3,4,6,9,66],
+    "children":[
+      {"state":"training-tracker","name":"Training Tracker","type":"link","roles": [1,2,3,4,6,9]},
+      {"state": "add", "name": "Question Bank", "type":"link", "roles": [1,2,3,4,6,9]},
+      {"state":"test-template","name":"Test Template","type":"link","roles": [1]},
+      {"state":"test-tracker","name":"Test Tracker","type":"link","roles": [1,2,3,4,6,9]},
+        {"state": "test", "name": "Take test", "type":"link", "roles": [1,2,3,4,6,9]},
+        {"state": "certificate-tracker", "name": "Certificate Tracker", "type":"link", "roles": [1,2,3,4,6,9]},
+        {"state": "learning-track", "name": "Learning Track", "type":"link", "roles": [1,2,4,6,9]},
+        {"state": "learning-track-pdf", "name": "Learning Track PDF", "type":"link", "roles": [1,2,4,6,9]}
+    ]
+  },
+  {
+    "name": "HR Operations",
+    "state": "operation",
+    "type": "sub",
+    "icon": "icon-badge",
+    "roles": [1,2,3,66,67,68],
+  
+    "children": [
+      
+      {"state": "employee", "name": "Employee Profiles", "type":"link", "roles": [1,3,4]},
+      {"state": "applicant", "name": "Applicant", "type":"link", "roles": [1]},
+      {"state": "process-salary", "name": "Process Salary", "type":"link", "roles": [1]},
+      {"state": "employee-payout", "name": "Employee Payslips", "type":"link", "roles": [1,2,3]},
+      {"state": "manager-swap", "name": "Manager Swap", "type":"link", "roles": [1,2,3]},
+      {"state": "hr-leave-approval", "name": "Leave Seekers", "type":"link", "roles": [1,2,3,67,68]}, 
+      {"state": "access", "name": "User Login Access", "type":"link", "roles": [1,2,3,4,5,6]},
+      {"state": "expense-approval", "name": "Expense Approval", "type":"link", "roles": [1,2,3,4,67,68]},
+      {"state": "upload-payslips", "name": "Upload Payslips", "type":"link", "roles": [1,2,3]},
+      {"state":"exit-interview","name":"Exit Interview","type":"link","roles": [1,3]},
+      {"state": "payout-process", "name": "Salary Process - Logs", "type":"link", "roles": [1]},
+      {"state": "contractor", "name": "Contractor", "type":"link", "roles": [1,4,5]},
+      {"state": "direct-attendance", "name": "Direct Attendance", "type":"link", "roles": [1,3,4]}
+      ]
+  }
+  ]

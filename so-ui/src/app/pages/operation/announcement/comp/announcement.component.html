@@ -1,0 +1,85 @@
+
+
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">Announcement</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item active">Announcement</li>
+                            </ol>
+                           
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <!-- Row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                    <div class="form-body">
+                                            <div class="row p-t-20">
+                                                   
+                                                  
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Subject</label>
+                                                            <input type="text" id="lastName" [(ngModel)]="announcement.subject" class="form-control" placeholder="Subject">
+                                                         </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Message</label>
+                                                            <textarea rows="4" type="text" [(ngModel)]="announcement.message" id="lastName" class="form-control" placeholder="Message"></textarea>
+                                                             </div>
+                                                    </div>
+                                                    </div>
+
+                                                    <div class="row p-t-20">
+                                                        
+                                                            <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Office</label>
+                                                                        <ng-multiselect-dropdown 
+                                                                        [placeholder]="'Office'"
+                                                                        [data]="offices"
+                                                                        [(ngModel)]="office.id"
+                                                                        [settings]="dropdownSettings"
+                                                                        (onSelect)="onItemSelect($event)"
+                                                                        (onSelectAll)="onSelectAll($event)"
+                                                                      >
+                                                                      </ng-multiselect-dropdown>
+                                                                     </div>
+                                                                </div>
+                                                        
+                                                        <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Announcement Category</label>
+                                                                    <select class="form-control custom-select" [(ngModel)]="announcement.announcementCategory"  data-placeholder="Announcement Category" tabindex="1">
+                                                                            <option value='All' >All</option>
+                                                                            <option value='Manager'>Manager</option>
+                                                                            <option value='SeniorManagement'>Senior Management</option>
+                                                                     </select>
+                                                                    </div>
+                                                            </div>
+                                                            </div>
+                                    </div> 
+                                    <flag-alert [message]="saveMsg"></flag-alert>
+                                    <div class="modal-footer">
+                                        <div class="form-group">
+                                            <button type="submit" (click)="send()" class="btn btn-success waves-effect waves-light m-t-10">Send</button>
+                                       </div>
+                                        </div>
+
+                                 </div>
+                               </div>
+                              </div>
+                            </div>

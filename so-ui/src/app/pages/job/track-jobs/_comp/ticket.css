@@ -1,0 +1,76 @@
+.row-skimming{
+	margin:0px -28px;
+}
+.col-skimming{
+	margin-right:-3px;
+}
+.badge{
+	margin: 0 10px 0 3px;
+} 
+.ticket-card{
+	border: 1px solid #d9d9d9;
+	border-radius: 3px;
+	margin: 10px 3px 3px 3px;
+	box-shadow: 2px 2px #d9d9d9;
+	
+}
+.ticket-title{
+	margin-bottom:0.2rem;
+}
+.droppables{
+	min-height: 200px;
+}
+.assignee{
+	margin: 0px auto;
+	width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    color: white;
+    font-weight: 500;
+}
+.assignee span{
+	margin-left:-4px;
+}
+.user-list .card-body{
+	padding:3px;
+}
+.users{
+	margin:15px 10px 25px 7px;
+}
+.users a{
+	margin: 0px auto;
+}
+.users .user{
+	font-size: 0.6rem;
+    margin: 0px auto;
+	margin-top:5px;
+}
+
+.modal-body .card-group [class*='col-'] {
+  float:none;
+}
+
+.job-sidebar {
+    position: fixed;
+    right: 0px;
+    width: 240px;
+    z-index: 1101;
+    background: #fff;
+    top: 109px;
+    padding-bottom: 15px;
+    height: 100%;
+    box-shadow: 5px 1px 40px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+.job-sidebar .rpanel-title {
+    padding: 13px 20px;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 15px;
+	font-weight: 500;
+    background: #01c0c8; 
+}
+
+.bay-list{
+	width:180px;
+}

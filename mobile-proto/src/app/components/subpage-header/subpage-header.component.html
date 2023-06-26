@@ -1,0 +1,17 @@
+<ng-container *ngIf="!showSearchBar">
+  <ion-buttons #myBackButton id="myBackButton" left inline-block float-left (click)="navigateToBack()">
+    <ion-button fill="clear" icon-only>
+        <ion-icon name="arrow-back"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <img float-left height="33px" width="33px" src="assets/imgs/logo-small.png" class="m-l-2">
+   <ion-title float-left class="m-t-4" > {{title}}  </ion-title>
+  <ion-buttons left inline-block float-right>
+    <ion-button fill="clear" (click)="(showSearchBar=!showSearchBar) && focusButton()">
+      <i class="fas fa-2x fa-search margin-vertical-auto m-r-6"> </i>
+    </ion-button>
+  </ion-buttons>
+</ng-container>
+<ng-container *ngIf="showSearchBar">
+  <ion-searchbar #searchBar (ionInput)="searchText($event)" (ionCancel)="onCancel($event)" (ionBlur)="checkBlur($event)" showCancelButton="true"></ion-searchbar>
+</ng-container>

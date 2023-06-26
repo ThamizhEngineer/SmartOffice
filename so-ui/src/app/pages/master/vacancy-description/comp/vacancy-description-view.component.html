@@ -1,0 +1,139 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Job Description</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+                                <li class="breadcrumb-item">Home</li>
+                                <li class="breadcrumb-item active">Recruitment</li >
+                                <li class="breadcrumb-item active">Job Description List</li >
+				<li class="breadcrumb-item active">Job Description</li >
+                        </ol>
+                        <div *ngIf="vacancyDesc.id==null">
+                                <button type="button" class="btn btn-info d-none d-lg-block m-l-15"(click)="addVacancyDescription()" [disabled]="!myGroup.valid">Save</button>
+                        </div>
+                        <div *ngIf="vacancyDesc.id!=null">
+                                <button type="button" class="btn btn-warning d-none d-lg-block m-l-15" (click)="updateVacancyDescription()">Update</button>
+                        </div>
+
+			<button type="button" class="btn btn-info d-none d-lg-block m-l-15" [routerLink]="['/recruitment/job-description/']">Back</button>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+                <flag-alert [message]="saveMsg"></flag-alert>
+
+		<div class="card">
+			<div class="card-body">
+				<h3 class="card-title">Job Description</h3>
+				<div class="row">
+                                        <div class="form-group col-3">
+                                               <label>Code</label><br/>
+                                               <span class="label label-default">{{vacancyDesc.vcCode}} </span>
+                                        </div>
+					<div class="form-group col-3">
+                                                <form [formGroup]="myGroup">
+						<label>Summary<font color="red">*</font></label>
+						<textarea type="text" rows="5"  class="form-control form-control-line" [(ngModel)]="vacancyDesc.summary" placeholder="Summary" formControlName="summary"></textarea>
+                                        </form>
+                                        </div>                                        
+                                               <div class="form-group col-3" [ngClass]="{'has-danger': designation.invalid && (designation.dirty || designation.touched)}">
+                                                <form [formGroup]="myGroup">
+						<label>Designation</label>
+                                                <input type="text" class="form-control form-control-line" required pattern="[a-zA-Z][a-zA-Z ]+" [(ngModel)]="vacancyDesc.designation" placeholder="Designation" formControlName="designation">
+                                                <div *ngIf="designation.invalid && (designation.dirty || designation.touched)">
+                                                        <small class="form-control-feedback" *ngIf="designation.errors.pattern">Special characters and numbers not allowed.</small>
+                                                </div>
+                                                </form>
+                                        </div>
+                                        <!-- </div> -->
+                    <div class="form-group col-3">
+                                <form [formGroup]="myGroup">
+                        <label>Years Of Experience</label>
+                        <input type="number" class="form-control form-control-line" [(ngModel)]="vacancyDesc.yearsOfExp" placeholder="Years Of Experience" formControlName="yearsOfExp">
+                </form>   
+                </div>
+                    <div class="form-group col-3">
+                                <form [formGroup]="myGroup">
+						<label>Location</label>
+						<input type="text" class="form-control form-control-line" [(ngModel)]="vacancyDesc.location" placeholder="Location" formControlName="location">
+                    </form>
+                                        </div>
+                    <div class="form-group col-4">
+                                <form [formGroup]="myGroup">
+						<label>Salary</label>
+						<textarea type="text" rows="2" class="form-control form-control-line" [(ngModel)]="vacancyDesc.salary" placeholder="Salary" formControlName="salary"></textarea>
+                   </form>
+                                        </div>	                  																
+                </div>		
+                <div class="row">
+                        <div class="form-group col-6">
+                                        <form [formGroup]="myGroup">
+                                <label>Roles</label>
+                                <textarea type="text" rows="5" class="form-control form-control-line" [(ngModel)]="vacancyDesc.role" placeholder="Roles" formControlName="role"></textarea>
+                       </form>
+                        </div>
+                        
+                        <div class="form-group col-6">
+                                        <form [formGroup]="myGroup">
+                                <label>Roles Responsibility</label>
+                                <textarea type="text" rows="5" class="form-control form-control-line" [(ngModel)]="vacancyDesc.responsibility" placeholder="Roles Responsibility" formControlName="responsibility"></textarea>
+                        </form>
+                        </div>
+                </div>	
+                	
+                <div class="row">
+                        <div class="form-group col-6">
+                                        <form [formGroup]="myGroup">
+                                <label>Qualification</label> 
+                                <textarea type="text" rows="5" class="form-control form-control-line"[(ngModel)]="vacancyDesc.qualification" placeholder="Qualification" formControlName="qualification"></textarea>
+                       </form>
+                        </div>
+                        <div class="form-group col-6">
+                                        <form [formGroup]="myGroup">
+                                <label>Experience</label>
+                                <textarea type="text" rows="5" class="form-control form-control-line" [(ngModel)]="vacancyDesc.experience" placeholder="Experience" formControlName="experience"></textarea>
+                       </form>
+                        </div>
+                </div>	
+                <div class="row">
+                        <div class="form-group col-6">
+                                <label>Functionality Skills</label>
+                                <table>
+                                        <tbody>
+                                                <tr *ngFor="let item of getFunctionalSkills; let i=index">
+                                                        <td>
+                                                                <input type="text" class="form-control form-control-line" [(ngModel)]="item.name"  [ngModelOptions]="{standalone: true}" placeholder="Functionality Skills">
+                                                        </td>
+                                                        <td>
+                                                                <a href="javascript:void(0)" (click)="addJdSkill('FUNCTIONAL')" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                                                                <a href="javascript:void(0)" (click)="deleteFunctionalRow(item.id,'FUNCTIONAL')" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a><br/>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                </table>                        </div>
+                        <div class="form-group col-6">
+                                <label>Behavioural  Skills</label>
+                                <table>
+                                        <tbody>
+                                                <tr *ngFor="let item of getBehavioralSkills; let j=index">
+                                                        <td>
+                                                                <input type="text" class="form-control form-control-line" [(ngModel)]="item.name"  [ngModelOptions]="{standalone: true}" placeholder="Behavioural Skills">
+                                                        </td>
+                                                        <td>
+                                                                <a href="javascript:void(0)" (click)="addJdSkill('BEHAVIORAL')" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-plus text-inverse m-r-10"></i> </a>
+                                                                <a href="javascript:void(0)" (click)="deleteRow(item.id,'BEHAVIORAL')" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a><br/>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                </table>
+                                                </div>
+                </div>	
+               
+        		</div>
+		</div>
+	</div>
+</div>

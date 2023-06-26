@@ -1,0 +1,132 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Fiscal Year</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item"><a [routerLink]="['/org-settings/fiscal-year']">Fiscal Year </a></li>
+				<li class="breadcrumb-item active">Detail </li>
+			</ol>
+		</div>
+	</div>
+</div>
+    
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+				<h4>{{isEdit? "Edit" : "Create"}} Fiscal Year</h4>
+				<flag-alert [message]="saveMsg"></flag-alert>
+			    
+			    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+					<ngb-panel title="Fiscal Year" id="ngb-panel-0">
+						<ng-template ngbPanelContent>
+							
+							<div class="row">
+								<div class="form-group col-md-3 col-sm-6">
+									<label>Fiscal Code</label>
+									<input type="text" class="form-control" [(ngModel)]="fy.fiscalCode" readonly/>
+								</div>
+								
+								<div class="form-group col-md-3 col-sm-6">
+									<label>Fiscal Year Prefix</label>
+									<input type="text" class="form-control" [(ngModel)]="fy.fyPrefix" readonly/>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="form-group col-md-3 col-sm-6">
+									<label class="control-label">From Date</label>
+									<div class="input-group">
+										<input type="date" class="form-control" (ngModelChange)="checkDates();isFYModified = true;" [(ngModel)]="fy.fromDt">
+										<!-- <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="fy.vfromDt" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="updateDate($event, fy, 'fromDt');isFYModified = true;">
+										<div class="input-group-append">
+											<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+										</div>			   -->
+									</div>
+								</div>
+								<div class="form-group col-md-3 col-sm-6">
+									<label class="control-label">To Date</label>
+									<div class="input-group">
+										<input type="date" class="form-control" (ngModelChange)="checkDates();isFYModified = true;" [(ngModel)]="fy.toDt">
+										<!-- <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="fy.vtoDt" ngbDatepicker #d1="ngbDatepicker" (ngModelChange)="updateDate($event, fy, 'toDt');isFYModified = true;">
+										<div class="input-group-append">
+											<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+										</div>			   -->
+									</div>
+								</div>
+							</div>
+				
+						</ng-template>
+					</ngb-panel>
+					<ngb-panel [title]="f.name" *ngFor="let f of tabs;let ind=index;">
+						<ng-template ngbPanelContent>
+							 <div class="table-responsive m-t-10">
+								<table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>From Date</th>
+											<th>To Date</th>
+											<th>Pay Date</th>
+											<th>Processing Date</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let s of payCycles[ind].companyPayCycleLines;let i = index;">
+											<td>{{(i+1)}}</td>
+											<td>
+												<div class="input-group">
+													<input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="s.vfromDt" ngbDatepicker #sd="ngbDatepicker" (ngModelChange)="updateDate($event, s, 'fromDt');">
+													<div class="input-group-append">
+														<button class="btn btn-outline-secondary" (click)="sd.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+													</div>			  
+												</div>
+											</td>
+											<td>
+												<div class="input-group">
+													<input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="s.vtoDt" ngbDatepicker #sd1="ngbDatepicker" (ngModelChange)="updateDate($event, s, 'toDt');">
+													<div class="input-group-append">
+														<button class="btn btn-outline-secondary" (click)="sd1.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+													</div>			  
+												</div>
+											</td>
+											<td>
+												<div class="input-group">
+													<input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="s.vpayDt" ngbDatepicker #sd2="ngbDatepicker" (ngModelChange)="updateDate($event, s, 'payDt');">
+													<div class="input-group-append">
+														<button class="btn btn-outline-secondary" (click)="sd2.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+													</div>			  
+												</div>
+											</td>
+											<td>
+												<div class="input-group">
+													<input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="s.vprocessedDate" ngbDatepicker #sd3="ngbDatepicker" (ngModelChange)="updateDate($event, s, 'processedDate');">
+													<div class="input-group-append">
+														<button class="btn btn-outline-secondary" (click)="sd3.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+													</div>			  
+												</div>
+											</td>
+										</tr>
+								</table>
+							</div>
+							
+				
+						</ng-template>
+					</ngb-panel>
+					
+				</ngb-accordion>
+				
+				<div class="row m-t-10">
+					<div class="form-group col-md-3 col-sm-6">
+						<button type="submit" class="btn btn-info waves-effect waves-light m-t-10" (click)="updateFY()">{{isEdit? "Update" : "Create"}} Fiscal Year</button>
+					</div>
+				</div>
+				
+				<flag-alert [message]="saveMsg1"></flag-alert>
+			</div>
+		</div>
+	</div>
+</div>

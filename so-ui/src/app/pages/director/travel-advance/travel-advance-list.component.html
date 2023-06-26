@@ -1,0 +1,38 @@
+<table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0"
+    width="100%">
+    <thead>
+        <tr>
+            <th data-sort-initial="true" data-toggle="true">#</th>
+            <th data-sort-initial="true" data-toggle="true">Travel Reg No</th>
+            <th data-sort-initial="true" data-toggle="true">Code</th>
+            <th data-sort-initial="true" data-toggle="true">Application Date</th>
+            <th data-sort-initial="true" data-toggle="true">Day Range</th>
+            <th data-sort-initial="true" data-toggle="true">Amount</th>
+            <th data-sort-initial="true" data-toggle="true">Status</th>
+        </tr>
+    </thead>
+
+<!-- | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber}; let i=index -->
+
+    <tbody *ngFor="let claim of row; let i = index">
+        <tr>
+            <td>{{i+1}}</td>
+            <td>{{claim.tarCode}}</td>
+            <td *ngIf="claim.jobOrCc=='Y'">{{claim.jobCode}}</td>
+            <td *ngIf="claim.jobOrCc=='N'">{{claim.costCenterCode}}</td>
+            <td>{{claim.tarSubmittedDt | date:'dd/MM/yyyy'}}</td>
+            <td>{{claim.dayRangeName}}</td>
+            <td>{{claim.acc2UserGroupId}}</td>
+            <td><span class="label"
+                    [ngClass]="{'label-success': claim.tarStatus=='APPROVED','label-danger': claim.tarStatus=='CANCELLED' || claim.tarStatus=='N1-REJECTED' || claim.tarStatus=='ACC2-REJECTED','label-warning': claim.tarStatus=='CREATED' || claim.tarStatus=='N1-APPROVAL-PENDING' || claim.tarStatus=='N1-APPROVED' || claim.tarStatus=='ACC2-APPROVAL-PENDING' || claim.tarStatus=='ACC2-APPROVED'  }">{{claim.tarStatus}}</span>
+            </td>
+           
+        </tr>
+    </tbody>
+</table>
+
+<!-- <td class="text-nowrap">
+    <a href="javascript:void(0)" (click)="navigateToDetailPage(claim.id)" data-toggle="tooltip"
+        data-original-title="Edit"> <i class="fa fa-eye text-info m-r-10"></i> </a>
+</td>
+            <th data-sort-initial="true" data-toggle="true">Options</th> -->

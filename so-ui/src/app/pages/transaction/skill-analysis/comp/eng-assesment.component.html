@@ -1,0 +1,275 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Engineer Assesment Analysis</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Skill Matrix List</li>
+                <li class="breadcrumb-item active">Engineer Assesment Analysis</li>                
+            </ol>
+        </div>
+    </div>
+</div>
+
+
+
+<div *ngIf="info==false" class="card">   
+    <div id="infoExample" class="card-body">
+        <div class="row">
+
+            <div class="col-md-5">
+                <h3><b> Engineers Assessed</b></h3>
+                <table class="table table-striped table-bordered center" style="width:100%;float:left">
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Employee Name</th>                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let item of employeeList | slice: (mpage-1) * upageSize : (mpage-1) * mpageSize + mpageSize;let i=index">
+                            <td>{{item.deptName}} </td>
+                            <td>{{item.employeeName}}</td>                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-5">
+                <h3> <b> Assessed Skills </b></h3>
+                <table class="table table-striped table-bordered" style="width:100%;float:left">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Service</th>                         
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of productAndService| slice: (upage-1) * upageSize : (upage-1) * upageSize + upageSize;let i=index">
+                            <td>{{item.productName}}</td>
+                            <td>{{item.serviceName}} </td>                          
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-2 ">
+                <h3>Legend</h3>
+                <table class="table table-bordered" style="width:50%;float:left">
+                    <thead>
+                        <tr>
+                            <th>Skill</th>
+                            <th>Symbol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> Expert </td>
+                            <td class="text-success">
+                                <ngb-rating readonly="true" style="font-size: medium;" [rate]="3" max=3></ngb-rating>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Intermediate</td>
+                            <td class="text-success">
+                                <ngb-rating readonly="true" style="font-size: medium;" [rate]="2" max=2></ngb-rating>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Beginner</td>
+                            <td class="text-dark">
+                                <ngb-rating readonly="true" style="font-size: medium;" [rate]="1" max=1></ngb-rating>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> No Skill </td>
+                            <td>Empty</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5">
+                <ngb-pagination [(page)]="mpage" [pageSize]="mpageSize" [collectionSize]="employeeList.length">
+                </ngb-pagination>
+                <pre>Current page: {{mpage}}</pre>
+            </div>
+            <div class="col-md-5">
+                <ngb-pagination [(page)]="upage" [pageSize]="upageSize" [collectionSize]="productAndService.length">
+                </ngb-pagination>
+                <pre>Current page: {{upage}}</pre>
+            </div>          
+        </div>
+    </div>  
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="close" aria-label="Close" >
+            <div class="row">
+                <div class="col">
+                    <font color="blue"><i class="fa fa-info-circle fa-1x" (click)="info=!info" aria-hidden="true"></i> </font>                       
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-info" [routerLink]="['/transaction/skill-analysis']" >Back</button>                            
+                </div>  
+            </div>                                
+        </div>
+        <div class="row">
+            <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic">
+                <label *ngIf="view=='vertical'" ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                    <input ngbButton type="radio" (click)="view='vertical'"> Vertical
+                </label>
+                <label *ngIf="view=='horizontal'" ngbButtonLabel class="btn btn-outline-info waves-effect waves-light">
+                    <input ngbButton type="radio" (click)="view='vertical'">Vertical
+                </label>
+                <label *ngIf="view=='vertical'" ngbButtonLabel class="btn-outline-primary">
+                    <input ngbButton type="radio" (click)="view='horizontal'"> Horizontal
+                </label>
+                <label *ngIf="view=='horizontal'" ngbButtonLabel class="btn-primary">
+                    <input ngbButton type="radio" (click)="view='horizontal'"> Horizontal
+                </label>
+            </div>
+    
+            
+        </div>
+
+       
+
+        <br />
+        <div *ngIf="view=='vertical'" class="row">
+            <div class="table-responsive">
+                <table class="table color-bordered-table steelBlueCols info-bordered-table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="4" class="center">Resources for Assessment </th>
+                            <th colspan="10" class="center">Product & Service</th>
+                        </tr>
+                        <tr>
+                            <th width='5%' rowspan="2">Department</th>
+                            <th width='5%' rowspan="2">Name</th>
+                            <th width='2%' rowspan="2"> <label ngbTooltip="Has Skill">H</label></th>
+                            <th width='2%' rowspan="2"> <label ngbTooltip="Training Required">T</label></th>                           
+                            <th width='5%' *ngFor="let item of productAndService" style="width:15%" colspan="2">{{item.productName}}-{{item.serviceName}}</th>                            
+                        </tr>        
+                        <tr>
+                            <ng-container *ngFor="let item of productAndService">
+                                <th>Has</th>
+                                <th>Train</th>
+                            </ng-container>
+                        </tr>              
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of employeeList">
+                            <td *ngIf="item.isSpanNeed=='Y'" [attr.rowspan]="item.rowSpan" >{{item.deptName}}</td>
+                            <td  >{{item.employeeName}}</td>                           
+                            <td>
+                                <span *ngIf="productAndService.length>item.hasCount" class="label label-danger"> &nbsp;&nbsp; {{item.hasCount}} &nbsp;&nbsp; </span>
+                                <span *ngIf="!(productAndService.length>item.hasCount)"  class="label label-success"> &nbsp;&nbsp; {{item.hasCount}} &nbsp;&nbsp; </span>
+                            <td ><span class="label label-warning"> &nbsp;&nbsp; {{productAndService.length-item.hasCount}} &nbsp;&nbsp; </span></td>                           
+                            
+                            <ng-container  *ngFor="let empRate of item.vertical">
+                                <td>
+                                    <ngb-rating class="text-{{rating[empRate.skillLevelCode]}}" readonly="true" style="font-size: medium;" [rate]="empRate.skillLevelCode" [max]="empRate.skillLevelCode"></ngb-rating>
+                                </td>
+                                <td>
+                                    <input type="checkbox" [hidden]="empRate.skillLevelCode==2 || empRate.skillLevelCode==3" [(ngModel)]="empRate.isTraining" name="remember" id="customCheck1" />
+                                </td>
+                            </ng-container>                                                                                 
+                        </tr>                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      
+
+        <div *ngIf="view=='horizontal'" class="row">
+            <div class="table-responsive">
+                <table class="table color-bordered-table steelBlueCols info-bordered-table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width:15%" rowspan="4"  class="center"> Product & Service</th>
+                            <th style="height:5px;" colspan="20" class="center"> Resources for Assessment </th>
+                        </tr>
+                        <tr >
+                            <th style="width:10%" *ngFor="let dept of department;let i=index" style="height:5px;" class="center" [attr.colspan]="dept.rowSpan*2">{{dept.deptName}}</th>                            
+                        </tr>
+                        <tr>
+                            <th style="width:10%" *ngFor="let userName of employeeList;let i=index" style="height:5px;" colspan="2" class="center"><b>{{userName.employeeName}}</b></th>                           
+                        </tr>   
+                        <tr>
+                            <ng-container *ngFor="let item of employeeList">
+                                <th style="width:5%">Has</th>
+                                <th style="width:5%">Train</th>
+                            </ng-container>
+                        </tr>                    
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of productAndService" style="height:5px;">
+                            <td>{{item.productName}}-{{item.serviceName}}</td>                            
+                            <ng-container *ngFor="let empRate of item.horizontal">
+                               <td>
+                                <ngb-rating class="text-{{rating[empRate.skillLevelCode]}}" readonly="true" style="font-size: medium;" [rate]="empRate.skillLevelCode" [max]="empRate.skillLevelCode"></ngb-rating>
+                               </td>
+                               <td class="text-center">
+                                <input type="checkbox" [hidden]="empRate.skillLevelCode==2 || empRate.skillLevelCode==3" [(ngModel)]="empRate.isTraining" name="remember" id="customCheck1" />
+                               </td>
+                            </ng-container>                          
+                            <!-- <td class="text-center" >  
+                                
+                                <hr>
+                               
+                            </td>                                                                   -->
+                        </tr>                        
+
+                        <tr style="height:5px;">
+                            <th >Has Skill</th>                            
+                            <th colspan="2" *ngFor="let item of employeeList"  class="center">
+
+                                <span *ngIf="productAndService.length>item.hasCount" class="label label-danger wd"> &nbsp;&nbsp; {{item.hasCount}} &nbsp;&nbsp; </span>
+                                <span *ngIf="!(productAndService.length>item.hasCount)"  class="label label-success wd"> &nbsp;&nbsp; {{item.hasCount}} &nbsp;&nbsp; </span>
+                             </th>                           
+                        </tr>
+                        <tr style="height:5px;">
+                            <th >Training Required</th>                           
+                            <th colspan="2" *ngFor="let item of employeeList" class="center"><span class="label label-warning wd">{{productAndService.length-item.hasCount}}</span></th>                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .center {
+        text-align: center;
+    }
+
+    .vertical {
+        transform: rotate(-90deg);
+    }
+
+    .wd {
+        width: 100px;
+    }
+
+    table.steelBlueCols {
+
+        height: 1px;
+        /* text-align: center; */
+        border-collapse: collapse;
+    }
+
+    table.steelBlueCols td,
+    table.steelBlueCols th {
+        padding: 5px 5px;
+    }
+</style>

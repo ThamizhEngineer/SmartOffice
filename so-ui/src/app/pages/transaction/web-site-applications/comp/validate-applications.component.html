@@ -1,0 +1,378 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Website Applications </h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Recuitment</li>
+                <li class="breadcrumb-item active">Validate Applications</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="card card-body">
+    <div class="row">
+        <div class="form-group col-md-3 col-sm-6">
+            <label class="control-label">Select Job Request</label>
+            <select class="form-control" name="source" (click)="webApplicant()" [(ngModel)]="id" id="source">
+                <option *ngFor="let item of jobRequest" [value]="item.id">{{item.jrCode}} &nbsp; {{item.summary}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group col-md-3 col-sm-6">
+            <label class="control-label">Applications received</label><br />
+            <span>{{totalApp}}</span>
+        </div>
+        <div class="form-group col-md-3 col-sm-6">
+            <label class="control-label">Validate Applications</label><br />
+            <span>{{validateApp}}</span>
+        </div>
+        <!-- <div class="form-group col-md-3 col-sm-6">
+                <label class="control-label">Display Valid Applicants</label>
+         <toggle-button (changed)="checked=$event">
+        </toggle-button>
+    </div> -->
+    <div class="form-group col-md-3 col-sm-6">
+    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+            <label *ngIf="checked=='true'" ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                <input ngbButton type="radio" (click)="changeActive('true',webApplicants)"> Valid Applicants
+              </label>
+            <label *ngIf="checked=='false'" ngbButtonLabel class="btn btn-outline-info waves-effect waves-light">
+              <input ngbButton type="radio" (click)="changeActive('true',webApplicants)"> Valid Applicants
+            </label>
+            <label *ngIf="checked=='true'" ngbButtonLabel class="btn-outline-primary">
+              <input ngbButton type="radio" (click)="changeActive('false',webApplicants)"> Invalid Applicants
+            </label>
+            <label *ngIf="checked=='false'" ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" (click)="changeActive('false',webApplicants)"> Invalid Applicants
+            </label>
+              </div>
+        </div>
+
+    </div>
+</div>
+<div class="card card-body">
+    <h3><span>{{code}} &nbsp; {{summary}}</span></h3>
+
+    <div class="row" >
+        <div class="form-group col-md-4 col-sm-6">
+            <label class="control-label">Quick Filter</label>
+            <input type="text" class="form-control form-control-line" placeholder="search" (input)="textSearch()"
+                [(ngModel)]="searchString" name="searchString">
+        </div>   
+    </div>
+   
+    <div *ngIf="checked=='true'" class="table-responsive">
+        <table class="table table-sm table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email Id</th>
+                    <th>Mobile Number</th>
+                    <th>Resume</th>
+                    <th>Is Valid?</th>
+                    <th>Action</th>
+                    <th>Messgae</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of webApplicants | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                    <td *ngIf="user.isValidate=='Y'">{{user.firstName}} </td>
+                    <td *ngIf="user.isValidate=='Y'">{{user.lastName}}</td>
+                    <td *ngIf="user.isValidate=='Y'">{{user.email}}</td>
+                    <td *ngIf="user.isValidate=='Y'">{{user.mobNum}}</td>
+                    <td *ngIf="user.resumeDocId==null && user.isValidate=='Y'"> - </td>
+                    <td *ngIf="user.resumeDocId!=null && user.isValidate=='Y'"><a class="btn btn-primary"
+                            (click)="download(user.resumeDocId,'');"><i class="fa fa-download"></i></a></td>
+                    <td *ngIf="user.isValidate=='Y'">
+                            <i *ngIf="user.isValidate=='Y'" class="fa fa-check text-success"></i>
+                            <i *ngIf="user.isValidate=='N'" class="fa fa-close text-danger"></i>
+                    </td>
+                    <td *ngIf="user.isValidate=='Y'"> 
+                            <a class="btn btn-primary"
+                            (click)="getEdit(user)"><i class="fa fa-pencil"></i></a> 
+                    </td>
+                    <td *ngIf="user.isValidate=='Y'">
+                            <div *ngIf="user.institute!='others' && user.degreeName!='others' && user.course!='others'">
+                                Clean Record
+                            </div>
+
+                    </td>
+                    <td *ngIf="user.isValidate=='Y'">
+                        <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="select[{{i}}]" [(ngModel)]="user.select">
+                                <label class="custom-control-label" for="select[{{i}}]"></label>
+                            </div>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+        <ngb-pagination 
+        [(page)]="page"
+	[pageSize]="pageSize"
+	[collectionSize]="webApplicants.length"></ngb-pagination>
+	<pre>Current page: {{page}}</pre>
+    </div>
+
+    <div *ngIf="checked=='false'" class="table-responsive">
+        <table class="table table-sm table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email Id</th>
+                    <th>Mobile Number</th>
+                    <th>Resume</th>
+                    <th>Is Valid?</th>
+                    <th>Action</th>
+                    <th>Message</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of webApplicants | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                    <td *ngIf="user.isValidate!='Y'">{{user.firstName}} </td>
+                    <td *ngIf="user.isValidate!='Y'">{{user.lastName}}</td>
+                    <td *ngIf="user.isValidate!='Y'">{{user.email}}</td>
+                    <td *ngIf="user.isValidate!='Y'">{{user.mobNum}}</td>
+                    <td *ngIf="user.resumeDocId==null && user.isValidate!='Y'"> - </td>
+                    <td *ngIf="user.resumeDocId!=null && user.isValidate!='Y'"><a class="btn btn-primary"
+                            (click)="download(user.resumeDocId,'');"><i class="fa fa-download"></i></a></td>
+                    <td *ngIf="user.isValidate!='Y'">
+                            <i *ngIf="user.isValidate=='Y'" class="fa fa-check text-success" ngbTooltip="Validated"></i>
+                            <i *ngIf="user.isValidate=='N'" class="fa fa-close text-danger" ngbTooltip="Not Validated"></i>
+                    </td>
+                    <td *ngIf="user.isValidate!='Y'">
+                            <a class="btn btn-primary"
+                            (click)="getEdit(user)"><i class="fa fa-pencil"></i></a> 
+                    </td>
+                    <td *ngIf="user.isValidate!='Y'">
+                            <div *ngIf="user.institute=='others'">InstituteName should'nt be others</div>
+                            <div *ngIf="user.degreeName=='others'">DegreeName should'nt be others</div>
+                            <div *ngIf="user.course=='others'">CourseName should'nt be others</div>
+                   </td>
+                    <td *ngIf="user.isValidate!='Y'">
+                        <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="select[{{i}}]" [(ngModel)]="user.select">
+                                <label class="custom-control-label" for="select[{{i}}]"></label>
+                            </div>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+        <ngb-pagination 
+        [(page)]="page"
+	[pageSize]="pageSize"
+	[collectionSize]="webApplicants.length"></ngb-pagination>
+	<pre>Current page: {{page}}</pre>
+    </div>
+
+    <div class="modal-footer">
+        <div class="form-group">
+            <button type="button" [routerLink]="['/recruitment/job-application/']"
+                class="btn btn-warning d-none d-lg-block m-l-15"> Back</button>
+        </div>
+        <div class="form-group">
+            <button type="button" (click)="validate()" class="btn btn-success d-none d-lg-block m-l-15">Valid</button>
+        </div>
+        <div class="form-group">
+                <button type="button" (click)="inValidate()" class="btn btn-danger d-none d-lg-block m-l-15">Invalid</button>
+            </div>
+    </div>
+</div>
+
+<ng-template #edit let-c="close">
+        <div class="modal-header">
+                <h3 class="modal-title">Applicant details</h3>
+                <pre>&#9;</pre>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <div class="custom-control custom-radio">
+                                <input type="radio" id="Fresher" value="Fresher" name="Fresher"
+                                        [(ngModel)]="user.expType" class="custom-control-input">
+                                <label class="custom-control-label" for="Fresher">Fresher</label>
+                </div>
+                        <div class="custom-control custom-radio">
+                                <input type="radio" id="Experienced" value="Experienced" name="Experienced"
+                                        [(ngModel)]="user.expType" class="custom-control-input">
+                                <label class="custom-control-label" for="Experienced">Experienced</label>
+                        </div>
+                </div>
+
+                <button type="button" class="close" (click)="c()">
+                        <span aria-hidden="true">&times;</span>
+                </button>
+        </div>
+
+        <div class="modal-header">
+                        <h4 class="modal-title"><span class="text"><b>Personal Details</b></span></h4>
+                </div>
+                <div class="modal-body">
+                        <div class="row">
+                                <div class="form-group col-md-4 col-sm-6">
+                                        <label><font color="blue">First Name</font></label>
+                                        <input type="text" class="form-control form-control-line" placeholder="First Name" [(ngModel)]="user.firstName">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-6">
+                                        <label><font color="blue">Last name</font></label>
+                                        <input type="text" class="form-control form-control-line" placeholder="Last name" [(ngModel)]="user.lastName">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-1">
+                                        <label><font color="blue">Mobile Number</font></label>
+                                        <input type="text" class="form-control form-control-line" placeholder="Mobile Number" [(ngModel)]="user.mobileNumber">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-1">
+                                        <label><font color="blue">Email</font></label>
+                                        <input type="text" class="form-control form-control-line" placeholder="Email" [(ngModel)]="user.email">
+                                </div>
+                                <div class="form-group col-md-3 col-sm-6">
+                                        <label><font color="blue">DOB</font></label>
+                                        <input type="date" class="form-control form-control-line" placeholder="DOB" [(ngModel)]="user.dob">
+                                </div>
+                                <div class="form-group col-md-3  col-sm-6">                                        
+                                <label class="control-label"><font color="blue">SEX</font></label>
+                                <div class="custom-control custom-radio">
+                                        <input type="radio" id="male" value="male" name="gender" [(ngModel)]="user.gender" class="custom-control-input">
+                                        <label class="custom-control-label" for="male">Male</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                        <input type="radio" id="female" value="female"  name="gender" [(ngModel)]="user.gender" class="custom-control-input">
+                                        <label class="custom-control-label" for="female" >Female</label>
+                                </div>
+                        
+                        </div>
+                        </div>
+                </div>
+        <div class="modal-header" *ngIf="user.expType=='fresher' || user.expType=='Fresher'">
+                <h4 class="modal-title"><span class="text"><b>College Details</b></span></h4>
+        </div>
+        <div class="modal-body"> 
+                <div *ngIf="user.expType=='fresher' || user.expType=='Fresher'">
+                <div class="row">
+
+                        <div class="form-group col-md-4 col-sm-6">
+                                <label class="control-label">College Name/Institution</label>
+                                <select class="form-control"[(ngModel)]="user.institute" [ngModelOptions]="{standalone: true}"placeholder="collegeName">
+                                <option *ngFor="let college of incidents" [value]="college.collegeName">{{college.collegeName}}</option>
+                                </select>
+                        </div>
+
+                        <div class="form-group col-md-4 col-sm-6">
+                                <label class="control-label">Degree Name</label>
+                                <select class="form-control "[(ngModel)]="user.degreeName" [ngModelOptions]="{standalone: true}" placeholder="degreeName">
+                                <option *ngFor="let degree of degrees" [value]="degree.degreeName">{{degree.degreeName}}</option>
+                                </select>
+                        </div>
+
+                        <div class="form-group col-md-3 col-sm-6">
+                                <label class="control-label">Course</label>>
+                                <select class="form-control"[(ngModel)]="user.course" [ngModelOptions]="{standalone: true}" placeholder="courseName">
+                                <option *ngFor="let course of courses" [value]="course.courseName">{{course.courseName}}</option>
+                                </select>
+                        </div>
+
+                        <div class="form-group col-md-4 col-sm-1">
+                                <label class="control-label">Passed out Year</label>
+                                <select class="form-control" [(ngModel)]="user.passoutYear " [ngModelOptions]="{standalone: true}" placeholder=" passed Out">
+                                        <option >2010</option>
+                                        <option >2011</option>    
+                                        <option >2012</option>
+                                        <option >2013</option>
+                                        <option >2014</option>
+                                        <option >2015</option>
+                                        <option >2016</option>
+                                        <option >2017</option>
+                                        <option >2018</option>
+                                        <option >2019</option>
+                                        <option >2020</option>
+                                </select>
+                            </div>
+                        <div class="form-group col-md-4 col-sm-1">
+                                <label class="control-label">History of arrears</label>
+                                <input type="number" class="form-control form-control-line" placeholder="arrears"
+                                        [(ngModel)]="user.historyOfArrears">
+                        </div>
+
+                        <div class="form-group col-md-3 col-sm-6">
+                                <label class="control-label">Marks</label>
+                                <input type="number" class="form-control form-control-line" placeholder="Marks"
+                                        [(ngModel)]="user.marks">
+                        </div>
+
+                </div>
+                <div class="row"> 
+                        <div class="modal-body">
+                    <div *ngIf="user.institute=='others'">
+                            <div class="form-group col-md-4 col-sm-6">
+                                <label class="control-label">Other College Name<font color="red">*</font></label>
+                                <input type="text" class="form-control form-control-line" placeholder="Other College Name" [(ngModel)]="user.otherCollegeName"  name="oCollege">
+                        </div> 
+                </div>
+                    <div *ngIf="user.course=='others'">
+                            <div class="form-group col-md-4 col-sm-6">
+                                <label class="control-label">Other Course Name<font color="red">*</font></label>
+                                <input type="text" class="form-control form-control-line" placeholder="Other Course Name" [(ngModel)]="user.otherCourseName"  name="oCourse">
+                         </div> 
+                    </div>
+                    <div *ngIf="user.degreeName=='others'">
+                        <div class="form-group col-md-4 col-sm-6">
+                                <label class="control-label">Other Degree Name<font color="red">*</font></label>
+                                <input type="text" class="form-control form-control-line" placeholder="Other Degree Name" [(ngModel)]="user.otherDegreeName" name="oDegree">
+                        </div> 
+                    </div>
+                    </div>
+                </div>
+                </div>
+        </div>
+        <div class="modal-header" *ngIf="user.expType=='experienced' || user.expType=='Experienced'">
+                <h4 class="modal-title"><span class="text"><b>Previous Company Details</b></span></h4>
+        </div>
+        <div class="modal-body" *ngIf="user.expType=='experienced' || user.expType=='Experienced'">
+                <div class="row">
+                        <div class="form-group col-md-4 col-sm-6">
+                                <label class="control-label">Current Company</label>
+                                <input type="text" class="form-control form-control-line" placeholder="Current Company"
+                                        [(ngModel)]="user.currCompany">
+                        </div>
+                       
+                        <div class="form-group col-md-3 col-sm-6">
+                                <label class="control-label">Current Designation</label>
+                                <input type="text" class="form-control form-control-line"
+                                        placeholder="Current Designation" [(ngModel)]="user.currDesignation">
+                        </div>
+                        
+                        <div class="form-group col-md-3 col-sm-4" >
+                                     
+                                <label class="control-label">Current Experience</label>
+                                <input type="number" class="form-control form-control-line"
+                                        placeholder="Experience in Years" [(ngModel)]="user.currExperience">
+                                </div>
+                        <div class="form-group col-md-4 col-sm-6">
+                                <label class="control-label">Current Salary</label>
+                                <input type="text" class="form-control form-control-line" placeholder="Current Salary"
+                                        [(ngModel)]="user.currSalary">
+                        </div>
+                        <div class="form-group col-md-5 col-sm-1">
+                                <label class="control-label">Cover Letter</label>
+                                <textarea type="text" class="form-control form-control-line" placeholder="Cover Letter"
+                                        [(ngModel)]="user.coverLetterNum" rows="5"></textarea>
+                        </div>
+                        
+                </div>
+
+        </div>
+
+</ng-template>
+
+<style>
+
+.toggle-button {
+      margin: 0 auto;
+    } 
+</style>

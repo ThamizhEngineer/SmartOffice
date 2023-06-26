@@ -1,0 +1,62 @@
+<div class="row">
+	<div class="form-group col-12">
+		<button type="button" class="btn btn-success waves-effect waves-light" style="padding:0;">
+		<ng-container *ngIf="fileList?.length;else elseC">
+			<div (click)="clearQueue()" style="padding:0.375rem 0.75rem;">
+				<span *ngFor="let item of queue | async">
+					<span *ngIf="item.isPending()" class="text-primary">Upload Pending</span>
+					<span *ngIf="item.isSuccess()">File Uploaded</span>
+					<span *ngIf="item.inProgress()">Uploading... {{ item.progress + ' %' }}</span>
+					<span *ngIf="item.isError()" class="text-warning"><i class="fa fa-cloud-upload"></i> Upload Error</span>
+				</span>
+			</div>
+		</ng-container>
+		<ng-template #elseC>
+			<div (click)="fileInput.click();" style="padding:0.375rem 0.75rem;"><i class="fa fa-cloud-upload"></i> Upload File</div>			
+		</ng-template>
+		</button>
+		<span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
+			<input type="file" #fileInput (change)="addToQueue()"/>
+		</span>
+	</div>
+</div>
+
+<div class="row" *ngIf="fileList?.length > 1000">			
+	<div class="col-12 table-responsive">		
+		<table class="table table-sm table-bordered table-striped">
+			<thead>
+				<tr>
+					<th class="text-left">Name</th>
+					<th class="text-right">Size</th>
+					<th class="text-left">Progress</th>
+					<th class="text-left">Status</th>
+					<th class="text-right">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let item of queue | async">
+					<td>{{ item?.file?.name }}</td>
+					<td class="text-right">{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+					<td>{{ item.progress + ' %' }}</td>
+					<td>
+						<span *ngIf="item.isPending()" class="tag tag-default"></span>
+						<span *ngIf="item.isSuccess()" class="tag tag-success"></span>
+						<span *ngIf="item.inProgress()" class="tag tag-warning"></span>
+						<span *ngIf="item.isError()" class="tag tag-danger"></span>
+					</td>
+					<td class="text-right">
+						<a tooltip="Upload file" (click)="item.upload()" *ngIf="item.isUploadable()">
+							<i class="fa fa-upload"></i>
+						</a>
+						<a tooltip="Cancel upload" (click)="item.cancel()" *ngIf="item.inProgress()">
+							<i class="fa fa-times-circle"></i>
+						</a>
+						<a tooltip="Remove from queue" (click)="item.remove()" *ngIf="!item.inProgress()">
+							<i class="fa fa-trash"></i>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>				
+	</div>
+</div>

@@ -1,0 +1,101 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-title>Travel Advance Request</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<div *ngFor="let d of data">
+		<ion-card class="d-ct" [routerLink]="['/home/tar/', d.id]">
+			<ion-card-header>
+				<ion-card-title color="danger-tint">{{d.tarCode}}</ion-card-title>
+			</ion-card-header>
+
+			<ion-card-content>
+				<ion-grid>
+					<ion-row>
+						<ion-col size="3" class="ion-align-self-start">
+							Submitted
+						</ion-col>
+						<ion-col class="ion-align-self-end">
+							<ion-text color="danger"> {{d.tarSubmittedDt  | date:'dd/MM/yyyy'}}</ion-text>
+						</ion-col>
+					</ion-row>
+
+					<ion-row>
+						<ion-col size="3" class="ion-align-self-start">
+							Day Range
+						</ion-col>
+						<ion-col class="ion-align-self-end">
+							<ion-text color="danger"> {{d.dayRangeName}}</ion-text>
+						</ion-col>
+					</ion-row>
+
+					<ion-row>
+						<ion-col size="3" class="ion-align-self-start">
+							{{d.jobOrCc === 'N' ? 'Cost' : 'Job'}}
+						</ion-col>
+						<ion-col class="ion-align-self-end">
+							<ion-text color="danger">{{d.jobOrCc === 'N' ? d.costCenterCode : d.jobCode}}</ion-text>
+						</ion-col>
+					</ion-row>
+
+					<ion-row>
+						<ion-col size="3" class="ion-align-self-start">
+							Advance
+						</ion-col>
+						<ion-col class="ion-align-self-end">
+							<ion-text color="danger"> {{d.reqAdvAmt}}</ion-text>
+						</ion-col>
+					</ion-row>
+
+					<ion-row>
+						<ion-col class="ion-align-self-start">
+							<ng-container [ngSwitch]="true">
+								<ng-container
+									*ngSwitchCase="d?.tarStatus=='CREATED' || d?.tarStatus=='APPLIED' || d?.tarStatus=='N1-APPROVAL-PENDING' || d?.tarStatus=='N1-APPROVED' || d?.tarStatus=='N2-APPROVAL-PENDING' || d?.tarStatus=='N2-APPROVED'">
+									<ion-chip outline color="warning">
+										<ion-label color="warning">{{d?.tarStatus}}</ion-label>
+									</ion-chip>
+								</ng-container>
+								<ng-container
+									*ngSwitchCase="d?.tarStatus=='N1-REJECTED' || d?.tarStatus=='N2-REJECTED'">
+									<ion-chip outline color="danger">
+										<ion-label color="danger">{{d?.tarStatus}}</ion-label>
+									</ion-chip>
+								</ng-container>
+								<ng-container *ngSwitchCase="d?.tarStatus=='SETTLED'">
+									<ion-chip outline color="tertiary">
+										<ion-label color="tertiary">{{d?.tarStatus}}</ion-label>
+									</ion-chip>
+								</ng-container>
+								<ng-container *ngSwitchCase="d?.tarStatus=='APPROVED'">
+									<ion-chip outline color="success">
+										<ion-label color="success">{{d?.tarStatus}}</ion-label>
+									</ion-chip>
+								</ng-container>
+								<ng-container *ngSwitchCase="d?.tarStatus=='CANCELLED'">
+									<ion-chip outline color="light">
+										<ion-label color="light">{{d?.tarStatus}}</ion-label>
+									</ion-chip>
+								</ng-container>
+								<ng-container *ngSwitchDefault>
+									<ion-chip outline color="primary">
+										<ion-label color="primary">{{d?.tarStatus}}</ion-label>
+									</ion-chip>
+								</ng-container>
+							</ng-container>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-card-content>
+		</ion-card>
+	</div>
+
+	<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+		<ion-fab-button [routerLink]="['/home/tar/create']">
+			<ion-icon name="add"></ion-icon>
+		</ion-fab-button>
+	</ion-fab>
+
+</ion-content>

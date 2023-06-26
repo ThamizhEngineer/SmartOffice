@@ -1,0 +1,112 @@
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Holidays List</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+				<li class="breadcrumb-item active">Holidays List </li>
+			</ol>
+			<a href="javascript:void(0);" (click)="newFY();"><button type="button" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i>  Create New</button></a>
+		</div>
+	</div>
+</div>
+    
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+			   <flag-alert [message]="saveMsg"></flag-alert>
+			   
+			   <div class="table-responsive m-t-10">
+					<table class="table table-sm table-hover table-striped table-bordered color-bordered-table theme-bordered-table">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Date</th>
+								<th>Restricted Holiday</th>
+								<!--<th>Location</th> -->
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let ho of rows">
+								<td>{{ho.holidayName}}</td>
+								<td>{{ho.holidayDt | date : 'dd-MM-yyyy'}}</td>
+								<td align="center"><i *ngIf="ho.restrictedHoliday == 'Y'" class="fa fa-check m-r-10 text-success"></i></td>
+								<!-- <td>{{ho.locationId}}</td> -->
+								<td class="text-nowrap">
+									<a href="javascript:void(0)" title="Edit" (click)="editFY(ho);"> <i class="fa fa-pencil m-r-10 text-warning"></i> </a>
+									<a href="javascript:void(0)" title="Delete" (click)="deleteFY(ho);"> <i class="fa fa-close text-danger"></i> </a>
+								</td>
+							</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+    
+<ng-template #cdelete let-c="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Are you sure want to Delete?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+ <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="confirmDelete(modalData)">OK</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #cedit let-c="close">
+	<div class="modal-header">
+		<h4 class="modal-title">{{isEdit? "Update" : "Create"}} Holiday</h4>
+		<button type="button" class="close" aria-label="Close" (click)="c()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+					<label class="control-label">Holiday Name</label>
+					<input type="text" class="form-control" [(ngModel)]="modalData.holidayName" placeholder="Holiday Name"/>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+					<label class="control-label">Date</label>
+					<div class="input-group">
+						<input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="sdate" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="updateDate($event, modalData, 'holidayDt');">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+						</div>			  
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+					<label class="control-label">Is Restricted Holiday</label>
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" name="styled_checkbox" required class="custom-control-input" id="customCheck1" [(ngModel)]="modalData.rh" (change)="modalData.restrictedHoliday = modalData.rh? 'Y': 'N';">
+						<label class="custom-control-label" for="customCheck1">Is Restricted Holiday?</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="updateFY(modalData)">{{isEdit? "Update" : "Create"}} Holiday</button>
+		<button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+	</div>
+</ng-template>

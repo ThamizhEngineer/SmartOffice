@@ -1,0 +1,132 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Certificate Tracker List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="javascript:void(0)">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Certificate Tracker List</li>
+            </ol>
+            <a href="javascript:void(0)" (click)="navigateToDetailPage()" 
+                    ><button type="button" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i>  Certificate History</button></a>
+                
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+<div class="row ">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="#">
+                    <div class="form-body">
+                        <div class="row p-t-20">
+                            <div class="form-group col-md-3">
+                                <input type="text" id="firstName" class="form-control" placeholder="Name">
+                            </div> 
+                            <div class="form-group col-md-3">
+                                <input type="text" id="lastName"  class="form-control" placeholder="Designation">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <input type="text" id="lastName"  class="form-control" placeholder="Manager">
+                            </div>
+                            <div class="form-group col-md-3" align="center">
+                                <button type="button" style="width:70%" class="btn btn-info d-block m-l-15"> Search</button>
+                            </div>
+                        </div>    
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+
+                <div class="table-responsive m-t-40">
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+
+
+
+                        <thead>
+                            <tr>
+                                <th data-sort-initial="true" data-toggle="true">#</th>
+                                <th data-sort-initial="true" data-toggle="true">Employee Name</th>
+                                <th data-sort-initial="true" data-toggle="true">Employee Code</th>
+                                <th data-sort-initial="true" data-toggle="true">Designation</th>
+                                <th data-sort-initial="true" data-toggle="true">Manager</th>
+                               
+                                <th data-sort-initial="true" data-toggle="true">Options</th>
+
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                               <td>1</td>
+                                <td>Boobalan</td>
+                                <td>1031</td>
+                                <td>Assistant Engineer</td>
+                                <td>Gaurav Chauhan</td>
+                               
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Ashwin</td>
+                                <td>1025</td>
+                                <td>Engineer</td>
+                                <td>Gaurav Chauhan</td>
+                                
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+
+
+                            </tr>
+
+                            <tr>
+                                <td>3</td>
+                                <td>Sakthivel</td>
+                                <td>1041</td>
+                                <td>Assistant Engineer</td>
+                                <td>Gaurav Chauhan</td>
+                               
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="navigateToDetailPage()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

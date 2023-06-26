@@ -1,0 +1,82 @@
+/*
+Template Name: Admin Template
+Author: Wrappixel
+
+File: scss
+*/
+@import '../../../../assets/css/variable'; 
+
+
+/*******************
+Email inbox Page
+******************/
+.inbox-panel{
+    .list-group{
+        .list-group-item{
+            border:0px;
+            border-radius: 0px;
+            border-left:3px solid transparent;
+            a{
+                color:$body-color;
+            }
+            &.active, &:hover{
+                background: $gray-200;
+                border-left:3px solid $themecolor;
+            }
+            &:hover{
+              cursor: pointer;
+            }
+        }
+         
+    }
+}
+.inbox-center{
+  .unread td{
+    font-weight:400;
+  }
+    td{
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+    .max-texts{
+       
+    }
+  a{
+    color:$body-color;
+    padding:2px 0 3px 0;
+    overflow: hidden;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+  }
+    .checkbox{
+        margin-top: -13px;
+        height: 20px;
+    }
+
+}
+
+.badge {
+	.close {
+		margin-left: .25rem;
+		color: inherit;
+		font-size: 100%;
+		text-shadow: 0 1px 0 rgba(#000, .5);
+	}
+}
+.video {
+  margin-top: 25%;
+  margin-bottom: 25%;
+  height: 50px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+}
+
+
+ngb-progressbar {
+  margin-top: 5rem;
+}

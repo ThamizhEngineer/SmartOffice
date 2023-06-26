@@ -1,0 +1,210 @@
+<ion-header>
+  <ion-toolbar color="primary">
+	<ion-buttons slot="start">
+		<ion-back-button defaultHref="/home/tar" routerDirection="forward"></ion-back-button>
+	  </ion-buttons>
+    <ion-title>Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="data?.tarStatus!='CREATED'">
+  <ion-list>
+	  <ion-item>
+		<ion-label>
+			<h2>TAR Code</h2>
+			<p>{{data?.tarCode}}</p>
+		</ion-label>
+	  </ion-item>
+	  <ion-item>
+		<ion-label>
+			<h2>Employee</h2>
+			<p>{{data?.employeeName}}</p>
+		</ion-label>
+	  </ion-item>
+	  <ion-item>
+		<ion-label>
+			<h2>Status</h2>
+			<p><ion-chip outline [color]="data?.statusColor">
+				  <ion-label [color]="data?.statusColor">{{data?.tarStatus}}</ion-label>
+				</ion-chip></p>
+		</ion-label>
+	  </ion-item>
+	  <ion-item>
+		<ion-label>
+			<h2>Application Date</h2>
+			<p>{{data?.tarSubmittedDt | date: 'dd/MM/yyyy'}}</p>
+		</ion-label>
+	  </ion-item>
+	  <ion-item [hidden]="isHidden">
+		<ion-label>
+			<h2>Job Name</h2>
+			<p>{{data?.jobCode}}</p>
+		</ion-label>
+	  </ion-item>
+	  <ion-item [hidden]="!isHidden">
+		<ion-label>
+			<h2>Center Code</h2>
+			<p>{{data?.costCenterCode}}</p>
+		</ion-label>
+	  </ion-item><ion-item>
+		<ion-label>
+			<h2>Day Range</h2>
+			<p>{{data?.dayRangeName}}</p>
+		</ion-label>
+	  </ion-item>
+	  <ion-item>
+		<ion-label>
+			<h2>Required Advance Amount</h2>
+			<p>{{data?.reqAdvAmt}}</p>
+		</ion-label>
+	  </ion-item>
+	  <ion-item>
+		<ion-label>
+			<h2>Purpose</h2>
+			<p>{{data?.empRemarks}}</p>
+		</ion-label>
+	  </ion-item>
+	  <ion-item>
+		<ion-label>
+			<h2>Travel Involved</h2>
+			<p>{{data?.isAddlTravelInvolved == 'N'? "No" : "Yes"}}</p>
+		</ion-label>
+	  </ion-item>
+
+	  <ng-container *ngIf="data?.tarStatus=='APPROVED'">
+		<!-- *ngIf="data?.tarStatus=='N1-REJECTED' || data?.tarStatus=='ACC2-REJECTED'" -->
+		<ion-item >
+			<ion-label>
+				<h2> Decision :</h2>
+				<p><ion-chip outline [color]="data?.statusColor">
+					  <ion-label [color]="data?.statusColor">{{data?.tarStatus}}</ion-label>
+					</ion-chip></p>
+			</ion-label>
+
+			<ion-label>
+				<h2> Approved by :</h2>
+				<p>{{data?.acc2EmployeeCode}} - {{data?.acc2EmployeeName}}</p>
+				<p>( Account 2 Manager )</p>
+			</ion-label>
+		  </ion-item>
+
+		  <ion-item>
+			<ion-label>
+				<h2> Remarks:</h2>
+				<p>{{data?.acc2Remarks}} </p>				
+			</ion-label>
+		  </ion-item>
+
+		  <ion-item>
+			<ion-label>
+				<h2> Net Advance Amount:</h2>
+				<p>{{data?.netAdvanceAmount}} </p>				
+			</ion-label>
+		  </ion-item>
+
+	  </ng-container>
+
+<ng-container *ngIf="data?.tarStatus=='N1-REJECTED'">
+
+	<ion-item >
+		<ion-label>
+			<h2> Decision :</h2>
+			<p><ion-chip outline [color]="data?.statusColor">
+				  <ion-label [color]="data?.statusColor">{{data?.tarStatus}}</ion-label>
+				</ion-chip></p>
+		</ion-label>
+
+		<ion-label>
+			<h2> Rejected by :</h2>
+			<p>{{data?.n1EmployeeCode}} - {{data?.n1EmployeeName}}</p>
+			<p>( N+1 Manager )</p>
+		</ion-label>
+	  </ion-item>
+
+	  <ion-item>
+		<ion-label>
+			<h2> Remarks:</h2>
+			<p>{{data?.n1Remarks}} </p>				
+		</ion-label>
+	  </ion-item>
+
+</ng-container>
+
+
+<ng-container *ngIf="data?.tarStatus=='ACC2-REJECTED'">
+
+	<ion-item >
+		<ion-label>
+			<h2> Decision :</h2>
+			<p><ion-chip outline [color]="data?.statusColor">
+				  <ion-label [color]="data?.statusColor">{{data?.tarStatus}}</ion-label>
+				</ion-chip></p>
+		</ion-label>
+
+		<ion-label>
+			<h2> Rejected by :</h2>
+			<p>{{data?.acc2EmployeeCode}} - {{data?.acc2EmployeeName}}</p>
+			<p>( Account 2 Manager )</p>
+		</ion-label>
+	  </ion-item>
+
+	  <ion-item>
+		<ion-label>
+			<h2> Remarks:</h2>
+			<p>{{data?.acc2Remarks}} </p>				
+		</ion-label>
+	  </ion-item>
+
+</ng-container>
+
+
+	</ion-list>
+</ion-content>
+
+
+<ion-content *ngIf="data?.tarStatus=='CREATED'">
+	<ion-list>
+		<ion-item>
+		  <ion-label>Has Job</ion-label>
+		  <ion-toggle slot="end" color="success" (click)="checkJob(!data.isjobCode)" [(ngModel)]="data.isjobCode"></ion-toggle>
+		</ion-item>
+		<ion-item *ngIf="data.isjobCode">
+		  <ion-label class="content" position="floating"><h2>Jobs Code</h2></ion-label>
+		  <ion-select interface="popover" class="selector" okText="Okay" cancelText="Dismiss" [(ngModel)]="data.jobId">
+			<ion-select-option *ngFor="let j of jobCodes" [value]="j.jobId"  class="option">{{j.jobName}}</ion-select-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item *ngIf="!data.isjobCode">
+		  <ion-label class="content" position="floating"><h2>Cost Center Code</h2></ion-label>
+		  <ion-select interface="popover" class="selector" okText="Okay" cancelText="Dismiss" [(ngModel)]="data.costCenterId">
+			<ion-select-option *ngFor="let j of costCenters" [value]="j.id"  class="option" >{{j.ccCode}}-{{j.ccName}}</ion-select-option>
+		  </ion-select>
+		</ion-item>
+		 <ion-item>
+		  <ion-label position="floating"><h2>Day Range</h2></ion-label>
+		  <ion-select okText="Okay" cancelText="Dismiss"  [(ngModel)]="data.dayRangeId">
+			<ion-select-option *ngFor="let j of dayRanges" [value]="j.id">{{j.dayRangeName}}</ion-select-option>
+		  </ion-select>
+		</ion-item>
+		 <ion-item>
+		  <ion-label position="floating"><h2>Required Advance Amount</h2></ion-label>
+		  <ion-input placeholder="Amount" [(ngModel)]="data.reqAdvAmt"></ion-input>
+		</ion-item>
+		<ion-item>
+		  <ion-label position="floating"><h2>Purpose</h2></ion-label>
+		  <ion-input placeholder="purpose" [(ngModel)]="data.empRemarks"></ion-input>
+		</ion-item>
+		 <ion-item>
+		  <ion-label>Travel Involved</ion-label>
+		  <ion-toggle slot="end" color="warning" [(ngModel)]="data.isTravel"></ion-toggle>
+		</ion-item>
+	  </ion-list>
+	  
+	  <ion-grid>
+		<ion-row>
+		  <ion-col>
+			  <ion-button expand="block" disabled={{isDisabled}} size="large" (click)="applyTar();">Apply</ion-button>
+		  </ion-col>
+		</ion-row>
+	</ion-grid>
+  </ion-content>

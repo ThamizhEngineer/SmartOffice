@@ -1,0 +1,116 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Travel Advance Request - Manager Approval</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Travel Advance Request - Manager Approval</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" >
+                            <label ngbButtonLabel class="btn btn-info waves-effect waves-light">
+                              <input ngbButton type="radio" (click)="changeView('true')"> Pending
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                              <input ngbButton type="radio" (click)="changeView('false')"> Complete
+                            </label>
+                          </div>
+
+                <div *ngIf="binding=='true'" class="table-responsive m-t-40">
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th data-sort-initial="true" data-toggle="true">#</th>
+                                <th data-sort-initial="true" data-toggle="true">Employee</th>
+                                <th data-sort-initial="true" data-toggle="true">Travel Reg No</th>
+                                <th data-sort-initial="true" data-toggle="true">Code</th>
+                                <th data-sort-initial="true" data-toggle="true">Application Date</th>
+                                <th data-sort-initial="true" data-toggle="true">Day Range</th>
+                                <th data-sort-initial="true" data-toggle="true">Amount</th>
+                                <th data-sort-initial="true" data-toggle="true">Status</th>
+                                <th data-sort-initial="true" data-toggle="true">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let claim of active | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber}; let i=index">
+                            <tr>
+                                <td>{{i+1}}</td>
+                                <td>{{claim.employeeName}}</td>
+                                <td>{{claim.tarCode}}</td>
+                                <td *ngIf="claim.jobOrCc=='Y'" >{{claim.jobCode}}</td>
+                                <td *ngIf="claim.jobOrCc=='N'" >{{claim.costCenterCode}}</td>
+                                <td>{{claim.tarSubmittedDt | date:'dd/MM/yyyy'}}</td>
+                                <td>{{claim.dayRangeName}}</td>
+                                <td>{{claim.reqAdvAmt}}</td>
+                                <td><span class="label label-{{statuses[claim.tarStatus]}}">{{claim.tarStatus}}</span></td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)"  (click)="navigateToDetailPage(claim.id)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-eye text-info m-r-10"></i> </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <form class="pagination-wrapper">
+                            <div class="form-group pages">
+                              <pagination-controls class="my-pagination" id="pager" (pageChange)="pageChanged($event)" maxSize="2" directionLinks="true"
+                                autoHide="true" previousLabel="Prev" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                screenReaderCurrentLabel="You're on page">
+                              </pagination-controls>
+                            </div>
+                           
+                          </form>
+                </div>
+
+
+                <div *ngIf="binding=='false'" class="table-responsive m-t-40">
+                        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th data-sort-initial="true" data-toggle="true">#</th>
+                                    <th data-sort-initial="true" data-toggle="true">Employee</th>
+                                    <th data-sort-initial="true" data-toggle="true">Travel Reg No</th>
+                                    <th data-sort-initial="true" data-toggle="true">Code</th>
+                                    <th data-sort-initial="true" data-toggle="true">Application Date</th>
+                                    <th data-sort-initial="true" data-toggle="true">Day Range</th>
+                                    <th data-sort-initial="true" data-toggle="true">Amount</th>
+                                    <th data-sort-initial="true" data-toggle="true">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let claim of inactive | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber}; let i=index">
+                                <tr>
+                                    <td>{{i+1}}</td>
+                                    <td>{{claim.employeeName}}</td>
+                                    <td>{{claim.tarCode}}</td>
+                                    <td *ngIf="claim.jobOrCc=='Y'" >{{claim.jobCode}}</td>
+                                    <td *ngIf="claim.jobOrCc=='N'" >{{claim.costCenterCode}}</td>
+                                    <td>{{claim.tarSubmittedDt | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{claim.dayRangeName}}</td>
+                                    <td>{{claim.reqAdvAmt}}</td>
+                                    <td><span class="label label-{{statuses[claim.tarStatus]}}">{{claim.tarStatus}}</span></td>                                   
+                                </tr>
+                            </tbody>
+                        </table>
+                        <form class="pagination-wrapper">
+                                <div class="form-group pages">
+                                  <pagination-controls class="my-pagination" id="pager" (pageChange)="pageChanged($event)" maxSize="2" directionLinks="true"
+                                    autoHide="true" previousLabel="Prev" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                    screenReaderCurrentLabel="You're on page">
+                                  </pagination-controls>
+                                </div>
+                               
+                              </form>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div> 

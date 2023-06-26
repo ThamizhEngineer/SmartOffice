@@ -1,0 +1,71 @@
+<html>
+
+<head>
+    <style>
+        @page {
+            size: A4;
+            margin: 1px;
+            padding-top: 1px;
+        }
+
+        body {
+            font-size: 14px;
+            font-family: "Times";
+            width: 750px;
+        }
+
+        table,
+        td,
+        th {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 15px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div style="padding: 0.1px;text-align: center;background: #efefef;color: black; font-size: 13px;">
+        <h1>Gap Analysis</h1> 
+    </div>
+    <div style="padding: 0%;">
+        <p> <b>Updated By:</b> <span th:text="${updatedBy}">Updated By</span></p>
+        <p> <b>Timestamp:</b> <span th:text="${curentdate}">Timestamp</span></p>
+    </div>
+
+    <table border="1" cellpadding="6"
+        style="border:1px solid #CCC;border-collapse:collapse;width:750px;margin-top:15px;text-align: left;">
+        <thead>
+            <tr>
+                <th style="background-color:#efefef"> Skill </th>
+                <th style="background-color:#efefef"> Market Need </th>
+                <th style="background-color:#efefef"> Inhouse capacity </th>
+                <th style="background-color:#efefef"> Gap </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${res.empty}">
+                <td colspan="4"> No Data Available </td>
+            </tr>
+            <tr th:each="r : ${res}">
+                <td><span th:text="${r.skill}">Skill</span></td>
+                <td><span th:text="${r.marketNeed}">Market Need</span></td>
+                <td><span th:text="${r.inHouseCapacity}">Inhouse capacity</span></td>
+                <td><span th:text="${r.gap}">Gap</span></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">User Type</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">User Type</li>
+            </ol>
+            <button type="button" class="btn btn-info m-l-15" (click)="createNew();">
+                <i class="fa fa-plus-circle"></i>Create</button>
+                <button type="button" class="btn btn-info d-none d-lg-block m-l-15" [routerLink]="['/authorisation/setup']">Back</button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                    <flag-alert [message]="saveMsg"></flag-alert>
+                <div class="table-responsive">
+                    <table class="table color-bordered-table info-bordered-table">
+                        <thead>
+                            <tr >
+                                <th data-sort-initial="true" data-toggle="true">Id</th>
+                                <th data-sort-initial="true" data-toggle="true">User Type Code</th>
+                                <th data-sort-initial="true" data-toggle="true">User Type Name</th>
+                                <th data-sort-initial="true" data-toggle="true">So Webapp</th>
+                                <th data-sort-initial="true" data-toggle="true">So Mobile</th>
+                                <th data-sort-initial="true" data-toggle="true">Recruitment Webapp</th>
+                                <th data-sort-initial="true" data-toggle="true">Action</th>
+                            </tr>
+                            
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let u of userType | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i=index">
+                                <td>{{u.id}}</td>
+                                <td>{{u.userTypeCode}}</td>
+                                <td>{{u.userTypeName}}</td>
+                                <td>{{u.soWebapp}}</td>
+                                <td>{{u.soMobile}}</td>
+                                <td>{{u.recruitmentWebapp}}</td>
+                                <td class="text-nowrap">
+                                    <a href="javascript:void(0)" (click)="showDetail(u.id);">
+                                        <i class="fa fa-pencil text-inverse m-r-10"></i>
+                                    </a>
+                                    <confirm-delete [type]="'icon'" (confirmed)="deleteRow(u.id)"></confirm-delete>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination 
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="userType.length"></ngb-pagination>
+            <pre>Current page: {{page}}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #popup let-c="close">
+    <div class="modal-header">
+        <h4 class="modal-title"> User-Type Detail</h4>
+        <button type="button" class="close" aria-label="Close" (click)="c()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">                              
+            <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">Feature Code<font color="red">*</font></label>
+                    <input type="text" class="form-control form-control-line" [(ngModel)]="userTypes.userTypeCode" placeholder="Feature Code"  name="featureCode"> 
+                </div>   
+                <div class="form-group col-md-4 col-sm-6">
+                    <label class="control-label">Functionality Code<font color="red">*</font></label>
+                    <input type="text" class="form-control form-control-line" [(ngModel)]="userTypes.userTypeName" placeholder="Functionality Code"  name="functionalityCode"> 
+                </div>             
+            </div>  
+            <div class="row">
+            <div class="col-4 form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="read[0]"
+                        [(ngModel)]="userTypes.soWebapp">
+                    <label class="custom-control-label" for="read[0]">So Webapp</label>
+                </div>
+            </div>  
+            <div class="col-4 form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="read[1]"
+                        [(ngModel)]="userTypes.soMobile">
+                    <label class="custom-control-label" for="read[1]">So Mobile</label>
+                </div>
+            </div>  
+            <div class="col-4 form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="read[2]"
+                        [(ngModel)]="userTypes.recruitmentWebapp">
+                    <label class="custom-control-label" for="read[2]">Recruitment Webapp</label>
+                </div>
+            </div>  
+        </div>
+            <!-- <div class="row">
+                <div class="form-group col-md-7 col-sm-15">
+                    <label class="control-label">Description<font color="red">*</font></label>
+                    <textarea type="text" class="form-control form-control-line" [(ngModel)]="userTypes.description" placeholder="Description"  name="description"></textarea>
+                </div> 
+            </div>          -->
+    </div>
+    <div class="modal-footer align-self-center">
+        <button type="button" class="btn btn-warning" (click)="save()">Save</button>
+    </div>
+</ng-template>

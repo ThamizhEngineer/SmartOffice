@@ -1,0 +1,10 @@
+<ion-grid  no-padding text-center>
+  <ion-row>
+    <ion-col col-6 no-margin no-padding *ngFor="let item of data;let i = index" (click)="onEvent('onItemClick', item, $event)" [style.background-color]="item.bgcolor" [style.color]="item.color">
+      <div class="h-v-center">
+        <h2 class="font-30"><i class="{{item.icon}}"></i></h2>
+        <h4 class="font-19" margin-top>{{item.title}}</h4>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>

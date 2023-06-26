@@ -1,0 +1,104 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Add Client</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="javascript:void(0)" [routerLink]="['/client/list']">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Add Client</li>
+            </ol>
+        </div>
+    </div>
+</div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row ">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label class="control-label">Company Name
+                                <font color="red">*</font>
+                            </label>
+                            <input type="text" class="form-control form-control-line" [(ngModel)]="partner.companyName" [ngModelOptions]="{standalone: true}" placeholder="Company Name">
+                        </div>
+                    </div>
+                    <h4 class="box-title">Primary Contact</h4>
+                    <div class="row">
+                        <div class="form-group col-12 col-md-3" >
+                            <label class="control-label">First Name
+                                <font color="red">*</font>
+                            </label>
+                            <form [formGroup]="form">
+                            <input type="text" class="form-control form-control-line" formControlName="firstName" [(ngModel)]="partner.priFirstName"  placeholder="First Name">
+                        </form>
+                        </div>
+                        <div class="form-group col-12 col-md-3" >
+                            <label class="control-label">Last Name
+                                <font color="red">*</font>
+                            </label>
+                            <form [formGroup]="form">
+                            <input type="text" class="form-control form-control-line" formControlName="lastName"  [(ngModel)]="partner.priLastName"  placeholder="Last Name">
+                            </form>
+                        </div>
+                        <div class="form-group col-12 col-md-6" [ngClass]="{'has-danger': cno.invalid && (cno.dirty || cno.touched)}">
+                            <label class="control-label">Mobile Number
+                                <font color="red">*</font>
+                            </label>
+                            <input type="text" class="form-control form-control-line" required pattern="[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}" #cno="ngModel"[(ngModel)]="partner.mobileNo" [ngModelOptions]="{standalone: true}" placeholder="Mobile Number">
+                            <div *ngIf="cno.invalid && (cno.dirty || cno.touched)">
+                                    <small class="form-control-feedback" *ngIf="cno?.errors.required">Mobile Number is required.</small>
+                                    <small class="form-control-feedback" *ngIf="cno?.errors.pattern">Mobile Number must be 10 digits.</small>
+                                </div>
+                        </div>
+                        <div class="form-group col-12 col-md-6">
+                            <label class="control-label">Landline Number</label>
+                            <input type="text" class="form-control form-control-line" [(ngModel)]="partner.number" [ngModelOptions]="{standalone: true}" placeholder="Landline Number">
+                        </div>
+                        <div class="form-group col-12 col-md-6">
+                            <label class="control-label">Email Id
+                                <font color="red">*</font>
+                            </label>
+                            <form [formGroup]="form">
+                            <input type="email" class="form-control form-control-line" formControlName="email"  [(ngModel)]="partner.emailId"  placeholder="Email Id">
+                           </form>                           
+                        </div>
+                        <div class="form-group col-12 col-md-6" >
+                                <form [formGroup]="form">
+                            <label class="control-label">Gst No
+                                <font color="red">*</font>
+                            </label>
+                            <input type="text" class="form-control form-control-line" formControlName="GstNo" [(ngModel)]="partner.gstNo"  placeholder="Gst No">
+                        </form>
+                        </div>
+                        <div class="form-group col-12 col-md-6" >
+                            <form [formGroup]="form">
+                        <label class="control-label">Reference No
+                            <font color="red">*</font>
+                        </label>
+                        <input type="text" class="form-control form-control-line" formControlName="refNo" [(ngModel)]="partner.referenceNumber"  placeholder="Reference Number">
+                    </form>
+                    </div>
+                    </div>
+                    <div class="row ">
+                        <div class="form-group col-12 col-md-6">
+                            <button type="submit" style="width:100px;" [disabled]="!form.valid" class="btn btn-info waves-effect waves-light mr-1" (click)="addClient()">Add Client</button> 
+                            <button type="submit" style="width:75px;" class="btn btn-warning waves-effect waves-light" [routerLink]="['/client/list']">Cancel</button>   
+                            <flag-alert [message]="msg"></flag-alert>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+

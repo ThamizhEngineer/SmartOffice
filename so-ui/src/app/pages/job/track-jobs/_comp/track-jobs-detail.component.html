@@ -1,0 +1,653 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Job Tracking</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Jobs</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="navigateToListPage()">Job Tracking</a></li>
+                <li class="breadcrumb-item">Detail </li>
+                <li class="breadcrumb-item active">p-ind-100</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 card card-body">
+		<ngb-tabset class="customtab">
+			<ngb-tab>
+				<ng-template ngbTabTitle><i class="ti-receipt"></i> Job Summary</ng-template>
+				<ng-template ngbTabContent>
+					<div class="row">
+
+							<div class="col-5">
+									<div class="row form-group m-t-25">
+										<div class="col-4 text-right"><label>Job # :</label></div>
+										<div class="col-8"><b>{{job.jobCode}}</b></div>
+									</div>
+									<div class="row form-group ">
+										<div class="col-4 text-right"><label>Job Type :</label></div>
+										<div class="col-8"><b>{{job.jobTypeName}}</b></div>
+									</div>
+									<div class="row form-group ">
+										<div class="col-4 text-right"><label>Sale Order :</label></div>
+										<div class="col-8"><b>{{job.saleOrderCode}}</b></div>
+									</div>
+									<div class="row form-group m-t-25">
+										<div class="col-4 text-right"><label>Client :</label></div>
+										<div class="col-8"><b>{{job.clientName}}</b></div>
+									</div>
+								</div>
+						<div class="col-5">
+				 			<div class="row form-group m-t-25">
+								<div class="col-4 text-right"><h4>Onsite Steps</h4></div>
+							</div>
+							<div class="row form-group m-t-25">
+								<div class="col-3 text-right"><label>Permit to work :</label></div>
+								<div class="col-3"><file-upload [fileDetail]="'JOB-PTW'" (change)="fileChange($event,'JOB-PTW')"></file-upload></div>
+								
+								<div class="col-3" ><a href="javascript:void(0)" *ngIf="job.ptwDocId!=null" (click)="download(job.ptwDocId);"><font  color="black">Download</font></a></div>
+								<div class="col-2">
+																	
+										<!-- <div class="custom-control custom-checkbox">
+											<input type="button" class="custom-control-input" (click)="jobPtwReceived()" />
+										
+										</div> -->
+										<button type="button" class="btn btn-info" *ngIf="job.ptwDocId!=null"  (click)="jobPtwReceived(job)">Save File</button>
+										
+									</div>
+							</div>
+							<div class="row form-group ">
+								<div class="col-3 text-right"><label>Site Survey :</label></div>
+								<div class="col-3"><file-upload [fileDetail]="'JOB-SITE-SURVEY'" (change)="fileChange($event,'JOB-SITE-SURVEY')"></file-upload></div>
+								<div class="col-3" *ngIf="job.surveyDocId!=null" ><a href="javascript:void(0)" (click)="download(job.surveyDocId);"><font  color="black">Download</font></a></div>
+								<div class="col-2">
+
+										<button type="button" class="btn btn-info" *ngIf="job.surveyDocId!=null"  (click)="jobSiteSurveyCompleted()">Save File</button>
+									<!-- <div class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input" (click)="jobSiteSurveyCompleted()" id="customCheck2"/>
+										<label class="custom-control-label" for="customCheck2">&nbsp;</label>
+									</div> -->
+									<!-- <a href="javascript:void(0)" *ngIf="job.surveyDocId!=null"  (click)="download(job.surveyDocId);">download</a> -->
+									<!-- <button type="button" class="btn btn-info" *ngIf="task.taskStatus!='COMPLETED'" (click)="completeTask(task)">survey-of-site</button> -->
+								</div>
+							</div>
+							<div class="row form-group ">
+								<div class="col-3 text-right"><label>Mom Draft Prepared:</label></div>
+								<div class="col-3"><file-upload [fileDetail]="'JOB-MOM-DRAFT-PREPARED'" (change)="fileChange($event,'JOB-MOM-DRAFT-PREPARED')"></file-upload></div>
+								<div class="col-3" *ngIf="job.momDraftPreparedDocId!=null" ><a href="javascript:void(0)" (click)="download(job.momDraftPreparedDocId);"><font  color="black">Download</font></a></div>
+								<div class="col-2">
+
+										<button type="button" class="btn btn-info" *ngIf="job.momDraftPreparedDocId!=null"  (click)="jobMomPrepared()">Save File</button>
+									<!-- <div class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input" (click)="jobMomPrepared()" id="customCheck3"/>
+										<label class="custom-control-label" for="customCheck3">&nbsp;</label>
+									</div> -->
+
+									<!-- <a href="javascript:void(0)" *ngIf="job.momDraftDocId!=null"  (click)="download(job.momDraftDocId);">download</a> -->
+								</div>
+							</div>
+
+							<div class="row form-group ">
+									<div class="col-3 text-right"><label>Mom Draft Approved:</label></div>
+									<div class="col-3"><file-upload [fileDetail]="'JOB-MOM-DRAFT-APPROVED'" (change)="fileChange($event,'JOB-MOM-DRAFT-APPROVED')" ></file-upload></div>
+									<div class="col-3" *ngIf="job.momDraftApprovedDocId!=null" ><a href="javascript:void(0)" (click)="download(job.momDraftApprovedDocId);"><font  color="black">Download</font></a></div>
+									<div class="col-2">
+										<!-- <div class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" (click)="jobMomApproved()" id="customCheck4"/>
+											<label class="custom-control-label" for="customCheck4">&nbsp;</label>
+										</div> -->
+										<button type="button" class="btn btn-info" *ngIf="job.momDraftApprovedDocId!=null"  (click)="jobMomApproved()">Save File</button>
+										<!-- <a href="javascript:void(0)" *ngIf="job.momDraftDocId!=null"  (click)="download(job.momDraftDocId);">download</a> -->
+									</div>
+								</div>
+							
+						</div>
+				
+
+					</div>
+				</ng-template>
+			</ngb-tab>
+			<!-- <ngb-tab>
+				<ng-template ngbTabTitle><i class="ti-new-window"></i> Workspace Setup</ng-template>
+				<ng-template ngbTabContent>
+					<div class="row m-t-10">
+						<div class="form-group col-3">
+							<label class="control-label">No. of Milestones</label>
+							<input type="number" [(ngModel)]="trackJob.baysCount" name="noOfMilestones" class="form-control">	
+						</div>
+						<div class="form-group col-3">
+							<button type="submit" style="width:75px;margin-top:26px;" class="btn btn-warning waves-effect waves-light" (click)="addMilestones();">Apply</button>  
+						</div>
+					</div>
+					<div class="row ">
+						<div class="col-4 card card-border" *ngFor="let b of trackJob.bays;let i=index">
+							<div class="j-close text-right text-danger" (click)="delBay(b, i);"><i class="fa fa-close"></i></div>
+							<div class="card-body">
+								<div class="align-items-center box bg-purple text-center form-group">
+									<h3 class="font-normal text-white figure">{{b.name? b.name: ('Milestone '+ (i+1))}}</h3>
+									<span class="m-l-20 text-right" (click)="b.openFlag=1;"><i class="fa fa-pencil"></i></span>
+									
+									<span class="my-tooltip-content my-tooltip-text milestone-tooltip" *ngIf="b.openFlag">
+										<span class="col-12 input-group"><input class="form-control form-control-line" [(ngModel)]="b.name"/>
+										<button class="input-group-append btn btn-info" (click)="b.openFlag=false;">Go</button></span>
+									</span>
+								</div>
+								<div class="align-items-center box form-group ">
+									<button class="col-5 btn btn-info" (click)="addTaskList(b)">Add Task List</button>
+								</div>
+								<div class="row">
+									<div class="m-l-5 m-b-5 col-3 align-items-center label bg-cyan" *ngFor="let r of b.relays;let j=index">
+										
+										<span>{{r.name? r.name: ('Task List  '+ (j+1))}}</span>
+										<span class="m-l-5 text-right" (click)="r.openFlag=1;"><i class="fa fa-pencil"></i></span>
+										<div class="my-tooltip-content my-tooltip-text"  *ngIf="r.openFlag">
+											<span class="col-12 input-group"><input class="form-control form-control-line" [(ngModel)]="r.name"/>
+												<button class="input-group-append btn btn-info" (click)="r.openFlag=false;">Go</button>
+											</span>
+										</div>
+										
+										<span class="j-close text-right text-danger" (click)="delRelay(b.relays, j);"><i class="fa fa-close"></i></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</ngb-tab> -->
+
+			<ngb-tab>
+				<ng-template ngbTabTitle><i class="ti-new-window"></i> Workspace Setup</ng-template>
+				<ng-template ngbTabContent>
+					<div class="row m-t-10">
+						<div class="form-group col-3">
+							<label class="control-label">No. of Milestones</label>
+							<input type="number" [(ngModel)]="this.jobMilestoneCount" name="noOfMilestones" class="form-control">	
+						</div>
+						<div class="form-group col-3">
+							<button type="submit" style="width:75px;margin-top:26px;" class="btn btn-warning waves-effect waves-light" (click)="addMilestones();">Apply</button>  
+							<button type="submit" style="width:75px;margin-top:26px;" class="btn btn-primary " (click)="saveMilestones();">Save</button>
+							<button type="submit" style="width:100px;margin-top:26px;" class="btn btn-info " (click)="resetTasks();">Reset Task</button>    
+						</div>
+					</div>
+					<div class="row ">
+						<div class="col-4 card card-border" *ngFor="let b of this.job.jobMilestones;let i=index">
+							<div class="j-close text-right text-danger" (click)="delJobMilestone(b, i);"><i class="fa fa-close"></i></div>
+							<div class="card-body">
+								<div class="align-items-center box bg-purple text-center form-group">
+									<h3 class="font-normal text-white figure">{{b.milestoneName}}</h3>
+									<span class="m-l-20 text-right" (click)="b.openFlag=1;"><i class="fa fa-pencil"></i></span>
+									
+									<span class="my-tooltip-content my-tooltip-text milestone-tooltip" *ngIf="b.openFlag">
+										<span class="col-12 input-group"><input class="form-control form-control-line" [(ngModel)]="b.milestoneName"/>
+										<button class="input-group-append btn btn-info" (click)="b.openFlag=false;">Go</button></span>
+									</span>
+								</div>
+								<div class="align-items-center box form-group ">
+									<button class="col-5 btn btn-info" (click)="addTaskList(b)">Add Task List</button>
+								</div>
+								<div class="row">
+									<div class="m-l-5 m-b-5 col-3 align-items-center label bg-cyan" *ngFor="let r of b.jobTaskList;let j=index">
+										
+										<span>{{r.taskListName}}</span>
+										<span class="m-l-5 text-right" (click)="r.openFlag=1;"><i class="fa fa-pencil"></i></span>
+										<div class="my-tooltip-content my-tooltip-text"  *ngIf="r.openFlag">
+											<span class="col-12 input-group"><input class="form-control form-control-line" [(ngModel)]="r.taskListName"/>
+												<button class="input-group-append btn btn-info" (click)="r.openFlag=false;">Go</button>
+											</span>
+										</div>
+										
+										<span class="j-close text-right text-danger" (click)="delJobTaskList(b.jobTaskList, j);"><i class="fa fa-close"></i></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</ngb-tab>
+			<!-- <ngb-tab>
+				<ng-template ngbTabTitle><i class="ti-panel"></i> Tasks</ng-template>
+				<ng-template ngbTabContent>
+					<div class="row card-group bg-dark">
+						<div class="col-6 card-column card-body" *ngFor="let b of trackJob.bays;let i=index">
+							<div class="card-body">
+								<div class="align-items-center box bg-purple text-center form-group">
+									<h3 class="font-normal text-white">{{b.name? b.name: ('Milestone '+ (i+1))}}</h3>
+								</div>
+								<div class="row m-t-10">
+									<div class="col-md-4" *ngFor="let r of b.relays;let j=index">
+										<div class="align-items-center box bg-info text-center">
+											<h3 class="ticket-title font-normal text-white">{{r.name? r.name: ('Task List  '+ (j+1))}}</h3>
+										</div>
+										<ng-container *ngFor="let t of r.tickets;let k=index">
+											<div class="card ticket-card m-b-5">
+												<div class="card-body">
+													<div class="row">
+														<div class="col-md-10"><a href="javascript:void(0)" (click)="ticketDetail(t);">{{t.title}}</a></div>
+														<div class="col-md-1 assignee bg-megna" *ngIf="t.assignee"><a href="javascript:void(0)" (click)="t.openFlag=true;"><span>{{t.assignee.substr(0,1) |titlecase}}</span></a></div>
+														<div class="col-md-12 m-t-5" *ngIf="t.openFlag"><select class="form-control" [(ngModel)]="t.assignee" (change)="t.openFlag=false;">
+															<option value="Karthick">Karthick</option>
+															<option value="Sarfaraz">Sarfaraz</option>
+															<option value="Dinesh">Dinesh</option>
+															<option value="Imthyaz">Imthyaz</option>
+															<option value="Unassigned">Unassigned</option>
+														</select></div>
+														
+													</div>
+												</div>
+											</div>
+										</ng-container>
+										<div class="form-group m-t-10">
+											<button type="button" class="btn btn-warning waves-effect waves-light" (click)="addTickets(b, r);">Add Ticket</button>  
+										</div>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</ngb-tab> -->
+
+			<ngb-tab>
+				<ng-template ngbTabTitle><i class="ti-panel"></i> Tasks</ng-template>
+				<ng-template ngbTabContent>
+					<div class="row card-group bg-dark">
+						<div class="col-6 card-column card-body" *ngFor="let b of this.job.jobMilestones;let i=index">
+							<div class="card-body">
+								<div class="align-items-center box bg-purple text-center form-group">
+									<h3 class="font-normal text-white">{{b.milestoneName}}</h3>
+								</div>
+								<div class="row m-t-10">
+									<div class="col-md-4" *ngFor="let r of b.jobTaskList;let j=index">
+										<div class="align-items-center box bg-info text-center">
+											<h3 class="ticket-title font-normal text-white">{{r.taskListName}}</h3>
+										</div>
+										<ng-container *ngFor="let t of r.tasks;let k=index">
+											<div class="card ticket-card m-b-5">
+												<div class="card-body">
+													<div class="row">
+														<div *ngIf="t.id==null">
+																<div class="col-md-10"><textarea class="form-control" placeholder="Add Task" rows="2" cols="8" [(ngModel)]="t.taskName" (change)="saveTask(t)"> </textarea></div>
+
+														</div>
+														<div *ngIf="t.id!=null">
+																<div class="col-md-10"><a href="javascript:void(0)" (click)="taskDetail(t);">{{t.taskName}}</a></div>
+														</div>
+														
+														<div class="col-md-1 assignee bg-megna" ><a href="javascript:void(0)" (click)="t.openFlag=true;"><span>{{(t.assignedToUserId!=null)?t.assignedToUserId.substr(0,1):'E'}}</span></a></div>
+														<div class="col-md-12 m-t-5" *ngIf="t.openFlag">
+															<!-- <select class="form-control" [(ngModel)]="t.assignedToUserId" (change)="t.openFlag=false;">
+															<option >Karthick</option>
+															<option value="Sarfaraz">Sarfaraz</option>
+															<option value="Dinesh">Dinesh</option>
+															<option value="Imthyaz">Imthyaz</option>
+															<option value="Unassigned">Unassigned</option>
+														</select> -->
+														<select class="form-control" style="width:100%" [(ngModel)]="t.assignedToUserId" (change)="t.openFlag=false;assignEmployeeToTask(t)">
+																<option *ngFor="let e of this.job.jobEmployees" [value]="e.employeeId" >
+																	{{e.employeeName}}
+																</option>
+															</select>
+													
+													
+													</div>
+														
+													</div>
+												</div>
+											</div>
+										</ng-container>
+										<div class="form-group m-t-10">
+											<button type="button" class="btn btn-warning waves-effect waves-light" (click)="addTasks(b, r);">Add Task</button>  
+										</div>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+						
+					</div>
+					<!-- <div class="form-group m-t-10">
+						<button type="button" class="btn btn-warning waves-effect waves-light" (click)="saveTasks(b, r);">Save Task</button>  
+					</div> -->
+				</ng-template>
+			</ngb-tab>
+			<ngb-tab>
+				<ng-template ngbTabTitle><i class="ti-harddrives"></i> Assets</ng-template>
+				<ng-template ngbTabContent>
+					<div class="form-group m-t-10">
+							<button class="btn btn-info " (click)="openJobAssetRows()" *ngIf="this.job.jobAssets.length==0"> Add Asset</button>
+					</div>
+						
+					<div *ngIf="this.job.jobAssets.length>0" class="table-responsive m-t-10">
+						<table class="table table-hover table-striped table-bordered">
+							<thead>
+								<tr>
+									<th>Asset Name</th>
+									<th>Holder</th>
+									<th>From Date</th>	
+									<th>To Date</th>	
+									<th>Action</th>					
+								</tr>
+							</thead>
+
+							<tbody>	
+								
+								<tr *ngFor="let e of this.job.jobAssets;let item=index">
+									<td>
+										<input type="text" class="form-control form-control-line" (keypress)="commonService.isValidName($event)" [value]="e.assetName" >
+										<!-- <select class="form-control" style="width:100%" [(ngModel)]="e.assetId" name="countryId">
+											<option *ngFor="let a of assets" [value]="a.id" >
+												{{a.assetName}}
+											</option>
+										</select> -->
+									</td>
+								
+									<td>
+										<div class="custom-control custom-checkbox">
+												<input type="text" class="form-control form-control-line" [value]="e.employeeName" >	
+											<!-- <select class="form-control" style="width:100%" [(ngModel)]="e.mEmployeeId" name="countryId">
+												<option *ngFor="let e of this.job.jobEmployees" [value]="e.employeeId" >
+													{{e.employeeName}}
+												</option>
+											</select> -->
+										</div>
+									</td>
+									<td>
+										<div class="custom-control custom-checkbox">
+												<input type="text" class="form-control form-control-line" [value]="e.fromDt | date: 'dd/MM/yyyy'" >
+											
+											<!-- <input type="date"  class="form-control form-control-line" [(ngModel)]="e.fromDt" [ngModelOptions]="{standalone: true}" > -->
+											<!-- <input type="text" class="form-control form-control-line" placeholder="mm-dd-yyyy" [(ngModel)]="e.fromDt" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="updateDate($event, employee, 'dob');isDateModified = true;" #dob="ngModel" name="dob">
+										<div class="input-group-append">
+											<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+										</div>	 -->
+										</div>
+									</td>
+									<td>
+										<div class="custom-control custom-checkbox">
+												<input type="text" class="form-control form-control-line" [value]="e.toDt | date: 'dd/MM/yyyy'" >
+											
+											<!-- <input type="date" class="form-control form-control-line" [(ngModel)]="e.toDt" [ngModelOptions]="{standalone: true}" > -->
+											
+										</div>
+									</td>
+									<td>
+										<a href="javascript:void(0)" (click)="openJobAssetRows()"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+										<a href="javascript:void(0)" (click)="openJobAssetRows(e.id)" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+										<!-- <a href="javascript:void(0)" (click)="openJobAssetRows()"><i class="fa fa-plus text-danger m-r-10"></i> </a> -->
+										<a href="javascript:void(0)" *ngIf="this.job.jobAssets.length > 1" (click)="delJobAssetRow(e.id)"><i class="fa fa-close text-danger"></i></a>
+									</td>
+							
+								</tr>
+							</tbody>
+							<!-- <tbody>
+								<tr *ngFor="let a of assets">
+									<td>{{a.name}}</td>
+									<td>{{a.owner}}</td>
+									<td>{{a.holder}}</td>
+									<td>{{a.date}}</td>
+								</tr>
+							</tbody> -->
+						</table>
+					</div>
+				
+				</ng-template>
+			</ngb-tab>
+		</ngb-tabset>
+    </div>
+</div>
+
+<ng-template #modalContent let-close="close">
+<div class="modal-header">
+	<h3 class="modal-title">
+			<textarea class="form-control font-weight-bold" style="border:none; font-size:16px" placeholder="Task Name" [(ngModel)]="task.taskName" (change)="updateTaskData(task)" rows="1"></textarea></h3>
+
+			
+	<button type="button"  (click)="closeTask()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	
+	</div>
+	<div class="modal-body">
+		<div class="card-group">
+			<div class="card col-md-8">
+				<div class="card-block">
+						<textarea class="form-control" placeholder="Task Description" [(ngModel)]="task.taskDesc" (change)="updateTaskData(task)" rows="5"></textarea>
+					<p class="card-text"></p>
+					<p class="card-text"></p>
+
+					<div class="table-responsive m-t-10" *ngIf="task.subTasks.length>0">
+							<table class="table table-hover table-striped table-bordered">
+								<tbody>
+									<tr *ngFor="let s of task.subTasks">
+										<td>
+												<input type="text" class="form-control" placeholder="Sub Task" [(ngModel)]="s.subtaskName" (change)="updateSubTaskData(task)" >
+										</td>
+										<td>
+										 <label class="toggle "><input [disabled]="s.taskStatus=='COMPLETED'" type="checkbox" class="col-md-8" [(ngModel)]="s.taskStatusFlag" (change)="completeSubTaskData(task,s)"/><span class="handle"></span></label>
+											
+										</td>
+										<td>
+												<a href="javascript:void(0)" (click)="addSubTaskRows(task)"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+												<a href="javascript:void(0)" *ngIf="task.subTasks.length > 0" (click)="deleteSubtask(task,s)"><i class="fa fa-close text-danger"></i></a>
+												
+										</td>
+
+									</tr>
+								</tbody>
+							</table>
+					</div>
+					<div *ngIf="task.subTasks.length==0">
+						<button type="button" class="btn btn-info" *ngIf="task.taskStatus!='COMPLETED'" (click)="addSubTaskRows(task)">Add Subtask</button>
+					</div>
+
+				
+					<hr />
+					<h4 class="card-title">Add Comment</h4>
+					<div class="timeline-panel">
+						<textarea class="form-control" placeholder="Add Comment" [(ngModel)]="commentDesc" rows="5"></textarea>
+						<div class="text-right"><button type="button" class="btn btn-info" (click)="saveComment(task)">Post</button></div>
+					</div> 
+					 <p class="card-text"></p>
+					<hr/>
+					<h4 class="card-title">Comments</h4>
+					<div *ngFor="let c of task.comments">
+						<div class="timeline-panel">
+							<div class="timeline-heading">
+								<h4 class="timeline-title">{{c.employeeName}}</h4>
+								<p><small class="text-muted"><i class="fa fa-clock-o"></i> {{c.modifiedDt | date: "dd-MM-yyyy" }} </small> </p>
+							</div>
+							<div class="timeline-body">
+								<p>{{c.commentDesc}}</p>
+							</div>
+						</div>
+						<hr/>
+					</div>
+					
+					
+					<p class="card-text"></p>
+				</div>
+			</div>
+			<div class="card col-md-4">
+				<div class="card-block">
+
+						<button type="button" class="btn btn-info" *ngIf="task.taskStatus!='COMPLETED'" (click)="completeTask(task)">Complete</button>
+						<button type="button" class="btn btn-danger" (click)="deleteTask(task)">Delete</button>
+						<p class="card-text"></p>
+					<hr/>
+					<label>Assigned To</label>
+
+					<select class="form-control" style="width:100%" [(ngModel)]="task.assignedToUserId" (change)="assignEmployeeToTask(task)">
+						<option *ngFor="let e of this.job.jobEmployees" [value]="e.employeeId" >
+							{{e.employeeName}}
+						</option>
+					</select>
+			
+					<p class="card-text"></p>
+					<hr/>
+				 <h6>Tags</h6>
+					<div>
+						<span class="label label-default" >{{task.jobCode}}</span>
+						<span class="label label-default" >{{task.milestoneName}}</span>
+						<span class="label label-default" >{{task.taskListName}}</span>
+					</div> 
+					 <p class="card-text"></p> 
+					
+				 <hr/> 
+					<h6>Details</h6>
+					<p class="card-text">Assigned On : {{task.assignedOnDt | date: "dd-MM-yyyy"}}</p>
+					<p class="card-text">Last Edited : {{task.modifiedDt | date: "dd-MM-yyyy"}}</p>
+					<hr/>
+					<div class="">
+						<strong class="col-md-4">Delayed</strong> <label class="toggle"><input type="checkbox" class="col-md-8 ml-auto" [(ngModel)]="task.isDelayedFlag" (change)="updateTaskDelayStatus(task)"/><span class="handle delayed"></span></label>
+					</div>
+					<div class="">
+						<strong class="col-md-4">Blocked</strong> <label class="toggle "><input type="checkbox" class="col-md-8"  [(ngModel)]="task.isBlockedFlag" (change)="updateTaskBlockStatus(task)"/><span class="handle blocked"></span></label>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<!-- <div class="modal-footer">
+		<button type="button" class="btn btn-info" (click)="complete()">Complete Stage</button>
+	</div> -->
+</ng-template>
+
+
+<ng-template #assetContent let-close="close">
+	<div class="modal-header">
+		<h3 class="modal-title">
+				Asset</h3>
+	
+				
+		<button type="button" class="close" (click)="close()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		
+		</div>
+		<div class="modal-body">
+			<div class="card-group">
+				<div class="card col-md-6">
+					<div class="card-block">
+						<div class="form-group m-t-10">
+							<label>Asset Name</label>
+							<select class="form-control" style="width:100%" [(ngModel)]="jobAsset.assetId"  name="Asset Name">
+								<option *ngFor="let a of assets" [value]="a.id" >
+									{{a.materialName}}
+								</option>
+							</select>
+							</div>
+							<div class="form-group m-t-10">
+									<label>Employee Name</label>
+							<div class="custom-control custom-checkbox">
+								
+								<select class="form-control" style="width:100%" [(ngModel)]="jobAsset.mEmployeeId">
+									<option *ngFor="let e of this.job.jobEmployees" [value]="e.employeeId" >
+										{{e.employeeName}}
+									</option>
+								</select>
+							</div>
+						</div>
+						<label><b>Before</b></label>
+						<table class="table table-borderless">
+							<tbody>
+							
+								<tr *ngFor="let s of jobAsset.jobAssetDocs">
+								
+									<td *ngIf="s.docTypeCode=='JOB-ASSET-BEFORE'"> 
+										<file-upload [fileDetail]="'JOB-ASSET-BEFORE'" (change)="fileChangeAsset($event,'JOB-ASSET-BEFORE',jobAsset,s)" ></file-upload>
+									</td>
+									<td *ngIf="s.docTypeCode=='JOB-ASSET-BEFORE'"> 
+										<a href="javascript:void(0)" *ngIf="s.docId!=null" (click)="download(s.docId);"><font  color="black">Download</font></a>
+										
+									</td>
+									<td *ngIf="s.docTypeCode=='JOB-ASSET-BEFORE'">
+											<a href="javascript:void(0)" (click)="addJobAssetDocsRows(jobAsset,'JOB-ASSET-BEFORE')"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+											<!-- <a href="javascript:void(0)" *ngIf="jobAsset.jobAssetDocs.length > 0" (click)="deleteJobAssetDocsRow(jobAsset,s)"><i class="fa fa-close text-danger"></i></a> -->
+											
+									</td>
+								
+
+								</tr>
+						
+							</tbody>
+						</table>
+					
+						<!-- <div class="form-group m-t-10">
+							
+								<file-upload- (change)="fileChangeAsset($event,'JOB-ASSET-BEFORE',jobAsset)" ></file-upload>
+								
+								<a href="javascript:void(0)" *ngIf="job.momDraftApprovedDocId!=null" (click)="download(job.momDraftApprovedDocId);"><font  color="black">Download</font></a>
+							
+							</div>  -->
+						
+					</div>
+				</div>
+				<div class="card col-md-6">
+					<div class="card-block">
+						<div class="form-group m-t-10">
+								<label>From Date</label>
+							<div class="custom-control custom-checkbox">
+								<input type="date"  class="form-control form-control-line" [(ngModel)]="jobAsset.fromDt" >
+								<!-- <input type="text" class="form-control form-control-line" placeholder="mm-dd-yyyy" [(ngModel)]="e.fromDt" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="updateDate($event, employee, 'dob');isDateModified = true;" #dob="ngModel" name="dob">
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+							</div>	 -->
+							</div>
+						</div>
+						<label>To Date</label>
+						<div class="form-group m-t-10">
+							<div class="custom-control custom-checkbox">
+								<input type="date" class="form-control form-control-line" [(ngModel)]="jobAsset.toDt"   >
+								
+							</div>
+						</div>
+
+						<!-- <div class="form-group m-t-10">					
+
+											<file-upload- (change)="fileChangeAsset($event,'JOB-ASSET-AFTER',jobAsset)" ></file-upload>
+								
+											<a href="javascript:void(0)" *ngIf="job.momDraftApprovedDocId!=null" (click)="download(job.momDraftApprovedDocId);"><font  color="black">Download</font></a>
+
+						</div>  -->
+					
+						<label><b>After</b></label>
+						<table class="table table-borderless">
+								<tbody>
+								
+									<tr *ngFor="let s of jobAsset.jobAssetDocs">
+									
+										<td *ngIf="s.docTypeCode=='JOB-ASSET-AFTER'"> 
+											<file-upload [fileDetail]="'JOB-ASSET-AFTER'" (change)="fileChangeAsset($event,'JOB-ASSET-AFTER',jobAsset,s)" ></file-upload>
+										</td>
+										<td *ngIf="s.docTypeCode=='JOB-ASSET-AFTER'"> 
+											<a href="javascript:void(0)" *ngIf="s.docId!=null" (click)="download(s.docId);"><font  color="black">Download</font></a>
+											
+										</td>
+										<td *ngIf="s.docTypeCode=='JOB-ASSET-AFTER'">
+												<a href="javascript:void(0)" (click)="addJobAssetDocsRows(jobAsset,'JOB-ASSET-AFTER')"><i class="fa fa-plus text-danger m-r-10"></i> </a>
+												<!-- <a href="javascript:void(0)" *ngIf="jobAsset.jobAssetDocs.length > 0" (click)="deleteJobAssetDocsRow(jobAsset,s)"><i class="fa fa-close text-danger"></i></a> -->
+												
+										</td>
+									
+	
+									</tr>
+							
+								</tbody>
+							</table>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+
+		<div class="modal-footer">
+		<button type="button" class="btn btn-info" (click)="saveJobAsset(jobAsset)">Save Asset</button>
+	</div>
+	</ng-template>
+

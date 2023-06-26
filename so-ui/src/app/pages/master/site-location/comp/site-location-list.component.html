@@ -1,0 +1,88 @@
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+      <h4 class="text-themecolor"> Site Location List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+      <div class="d-flex justify-content-end align-items-center">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item active"> Site Location List </li>
+        </ol>  
+        <div *ngIf="isEdit">
+            <button type="button" [routerLink]="['/job/site-location/new']"  class="btn btn-outline-info"> <i class="fa fa-plus-circle"></i> Create Site Location </button>           
+        </div>   
+        
+      </div>
+    </div>
+</div>
+
+
+<div class="card">  
+    <div class="card-body">
+
+        <div class="row">
+            <div class="form-group col-md-3 col-sm-3">   
+                <label>Site Name</label>             
+                <input type="text" class="form-control form-control-line" placeholder="Site Name" (keypress)="commonService.isValidName($event)" [(ngModel)]="siteName" />
+              </div> 
+              <div class="form-group col-md-3 col-sm-3">
+                <label>Country</label>
+                <input type="text" class="form-control form-control-line" placeholder="Country" (keypress)="commonService.isValidName($event)" [(ngModel)]="country" />
+              </div> 
+              <div class="form-group col-md-3 col-sm-3">
+                <label>End Client Name</label>
+                <input type="text" class="form-control form-control-line" placeholder="End Client Name" (keypress)="commonService.isValidName($event)" [(ngModel)]="endClientName" />
+              </div> 
+              
+              <div class="form-group col-md-3 col-sm-3">
+                <label>Contact Name</label>
+                <input type="text" class="form-control form-control-line" placeholder="Contact Name" (keypress)="commonService.isValidName($event)" [(ngModel)]="contactName" />
+              </div> 
+              <div class="form-group col-md-3 col-sm-3">
+                <label>Mobile Number</label>
+                <input type="text" class="form-control form-control-line" placeholder="Mobile Number"  [(ngModel)]="mobileNumber" />
+              </div> 
+
+              <div class="col-3">
+                 <br/>
+                <button type="button" (click)="serach()" class="btn btn-outline-success">Search</button>                   
+              </div>      
+        </div>
+
+        <br/>
+
+        <div class="table-responsive">
+            <table class="table table-sm table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Site Name</th>
+                        <th>Contact Name</th>                      
+                        <th>Mobile Number</th>
+                        <th>Country</th>
+                        <th>Location Name</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th><i class="fa fa-cog text-inverse m-r-10"></i></th>                              					
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of siteLocations;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.siteName}}</td>
+                    <td>{{item.contactName}}</td>
+                    <td>{{item.mobileNumber}}</td>
+                    <td>{{item.country}}</td>
+                    <td>{{item.mapLocationName}}</td>
+                    <td>{{item.lats}}</td>
+                    <td>{{item.longs}}</td>
+                  
+                    <td>
+                      <button type="button" (click)="navigateToDetail(item.id)" class="btn btn-outline-success"><i class="fa fa-eye"> &nbsp; View </i></button>
+                    </td>                   
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

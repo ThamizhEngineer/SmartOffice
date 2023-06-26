@@ -1,0 +1,66 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Submit Bill</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="card-background-page">
+  <ion-list>
+
+    <ion-item>
+      <ion-label stacked>Expense Category</ion-label>
+      <ion-select [(ngModel)]="expenseClaimBill.categoryId">
+        <ion-option *ngFor="let l of expCategories" [value]="l.id">{{l.categoryName}}</ion-option>
+
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Amount</ion-label>
+      <ion-input type="text" [(ngModel)]="expenseClaimBill.billAmount"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Bill Date</ion-label>
+      <ion-datetime displayFormat="DD-MMM-YY" pickerFormat="MMM-DD-YY" [(ngModel)]="expenseClaimBill.billDt"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Merchant Name</ion-label>
+      <ion-select [(ngModel)]="expenseClaimBill.merchantId">
+        <ion-option *ngFor="let l of merchant" [value]="l.id">{{l.merchantName}}</ion-option>
+
+      </ion-select>
+    </ion-item>
+
+
+
+    <ion-col text-center>
+
+      <!-- <button ion-button icon-left color="danger" (click)="presentActionSheet()"><ion-icon name="attach"></ion-icon> Attach Bill</button>  -->
+      <button ion-button icon-left color="danger" (click)="selectPhoto()">
+        <ion-icon name="cloud-upload"></ion-icon> Upload Bill</button>
+      
+   
+
+
+   
+        <button ion-button icon-left color="default" (click)="download(expenseClaimBill.docId);">
+   
+     
+     <ion-icon name="download"> </ion-icon>
+     Download Bill
+    </button>
+
+  </ion-col>
+   
+    <ion-item>
+      <button ion-button full (click)="updateExpense()" (click)="applyExpense()" (click)="expenseAppliedToast()" (click)="expenseListPage()">Submit Bill</button>
+
+
+    </ion-item>
+
+  </ion-list>
+
+
+</ion-content>
